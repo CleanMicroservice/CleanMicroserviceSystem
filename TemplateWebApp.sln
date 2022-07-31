@@ -9,6 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.WebApp", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.Contract", "src\Contracts\TemplateWebApp.Contract.csproj", "{AB06CB3D-50D3-4394-825E-8387701AA509}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{279FF300-6BB9-4253-B820-5FBF4725AC03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servers", "Servers", "{07C8A193-78F7-43E6-A50E-270B7C0D7327}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{12B8A11A-2FB9-4C01-BFB2-0A24C0F515D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +36,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F60FE33D-6083-46B5-A80D-3FDF7A939AC2} = {07C8A193-78F7-43E6-A50E-270B7C0D7327}
+		{40C063A8-B595-4C98-A5B4-2A54E8B42EAC} = {279FF300-6BB9-4253-B820-5FBF4725AC03}
+		{AB06CB3D-50D3-4394-825E-8387701AA509} = {12B8A11A-2FB9-4C01-BFB2-0A24C0F515D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}
