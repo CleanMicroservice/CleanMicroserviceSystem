@@ -1,31 +1,49 @@
-using Microsoft.AspNetCore.ResponseCompression;
+using NLog;
+using NLog.Web;
+using TemplateWebApp.Server.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+var assemblyName = typeof(Program).Assembly.GetName();
+var setupInformation = AppDomain.CurrentDomain.SetupInformation;
+logger.Info($"{assemblyName.Name} launches, TargetFrameworkName={setupInformation.TargetFrameworkName}, Version={assemblyName.Version}");
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseWebAssemblyDebugging();
+    var builder = WebApplication.CreateBuilder(args);
+    builder.ConfigurateLog();
+
+    builder.Services.AddControllersWithViews();
+    builder.Services.AddRazorPages();
+
+    var app = builder.Build();
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseWebAssemblyDebugging();
+    }
+    else
+    {
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseBlazorFrameworkFiles();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.MapRazorPages();
+    app.MapControllers();
+    app.MapFallbackToFile("index.html");
+
+    app.Run();
 }
-else
+catch (Exception ex)
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    logger.Error(ex, $"{assemblyName.Name} launches failed.");
 }
-
-app.UseHttpsRedirection();
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.MapRazorPages();
-app.MapControllers();
-app.MapFallbackToFile("index.html");
-
-app.Run();
+finally
+{
+    logger.Info($"{assemblyName.Name} shutdown, Version={assemblyName.Version}");
+    NLog.LogManager.Shutdown();
+}
