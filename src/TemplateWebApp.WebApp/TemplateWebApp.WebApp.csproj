@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\TemplateWebApp.Contract.csproj" />
+    <ProjectReference Include="..\TemplateWebApp.Contract\TemplateWebApp.Contract.csproj" />
   </ItemGroup>
 
 </Project>
