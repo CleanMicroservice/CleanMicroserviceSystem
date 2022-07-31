@@ -14,4 +14,11 @@ public static class WebApplicationBuilderExtensions
             .AddNLogWeb();
         return builder;
     }
+
+    public static TOptions? GetConfiguration<TOptions>(this WebApplicationBuilder builder, string? sectionName = null)
+    {
+        return builder.Configuration
+            .GetSection(string.IsNullOrEmpty(sectionName) ? typeof(TOptions).Name : sectionName)
+            .Get<TOptions>();
+    }
 }

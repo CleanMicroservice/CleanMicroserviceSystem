@@ -2,7 +2,7 @@ using NLog;
 using NLog.Web;
 using TemplateWebApp.Server.Extensions;
 
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 var assemblyName = typeof(Program).Assembly.GetName();
 var setupInformation = AppDomain.CurrentDomain.SetupInformation;
 logger.Info($"{assemblyName.Name} launches, TargetFrameworkName={setupInformation.TargetFrameworkName}, Version={assemblyName.Version}");
@@ -10,6 +10,9 @@ logger.Info($"{assemblyName.Name} launches, TargetFrameworkName={setupInformatio
 try
 {
     var builder = WebApplication.CreateBuilder(args);
+    var environment = builder.Environment;
+    var configuration = builder.Configuration;
+
     builder.ConfigurateLog();
 
     builder.Services.AddControllersWithViews();
