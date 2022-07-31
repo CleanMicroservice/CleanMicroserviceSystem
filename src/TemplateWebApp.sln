@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.WebAPI", "src\Servers\TemplateWebApp.WebAPI.csproj", "{F60FE33D-6083-46B5-A80D-3FDF7A939AC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.WebAPI", "TemplateWebApp.WebAPI\TemplateWebApp.WebAPI.csproj", "{F60FE33D-6083-46B5-A80D-3FDF7A939AC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.WebApp", "src\Clients\TemplateWebApp.WebApp.csproj", "{40C063A8-B595-4C98-A5B4-2A54E8B42EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.WebApp", "TemplateWebApp.WebApp\TemplateWebApp.WebApp.csproj", "{40C063A8-B595-4C98-A5B4-2A54E8B42EAC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.Contract", "src\Contracts\TemplateWebApp.Contract.csproj", "{AB06CB3D-50D3-4394-825E-8387701AA509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplateWebApp.Contract", "TemplateWebApp.Contract\TemplateWebApp.Contract.csproj", "{AB06CB3D-50D3-4394-825E-8387701AA509}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{279FF300-6BB9-4253-B820-5FBF4725AC03}"
 EndProject
