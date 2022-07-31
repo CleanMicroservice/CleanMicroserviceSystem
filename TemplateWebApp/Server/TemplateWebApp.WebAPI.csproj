@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\TemplateWebApp.Client.csproj" />
-    <ProjectReference Include="..\Shared\TemplateWebApp.Shared.csproj" />
+    <ProjectReference Include="..\Client\TemplateWebApp.WebApp.csproj" />
+    <ProjectReference Include="..\Shared\TemplateWebApp.Contract.csproj" />
   </ItemGroup>
 
 </Project>
