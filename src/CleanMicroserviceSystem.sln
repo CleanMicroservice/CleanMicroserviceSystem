@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TemplateService", "Template
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{DE964A1C-4E97-4249-8239-41FD53736B62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.TemplateService.WebAPI", "CleanMicroserviceSystem.TemplateService.WebAPI\CleanMicroserviceSystem.TemplateService.WebAPI.csproj", "{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AB06CB3D-50D3-4394-825E-8387701AA509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB06CB3D-50D3-4394-825E-8387701AA509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB06CB3D-50D3-4394-825E-8387701AA509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{F60FE33D-6083-46B5-A80D-3FDF7A939AC2} = {DE964A1C-4E97-4249-8239-41FD53736B62}
 		{40C063A8-B595-4C98-A5B4-2A54E8B42EAC} = {DE964A1C-4E97-4249-8239-41FD53736B62}
 		{AB06CB3D-50D3-4394-825E-8387701AA509} = {DE964A1C-4E97-4249-8239-41FD53736B62}
+		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680} = {AB268A40-1B21-4364-94CF-F626BD664F99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}
