@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CleanMicroserviceSystem.Service.WebAPI.Abstraction\CleanMicroserviceSystem.Service.WebAPI.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.TemplateService.Infrastructure\CleanMicroserviceSystem.TemplateService.Infrastructure.csproj" />
   </ItemGroup>
 

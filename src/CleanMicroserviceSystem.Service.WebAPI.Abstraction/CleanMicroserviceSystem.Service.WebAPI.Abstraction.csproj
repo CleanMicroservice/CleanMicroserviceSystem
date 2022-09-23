@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CleanMicroserviceSystem.Service.Domain.Abstraction\CleanMicroserviceSystem.Service.Domain.Abstraction.csproj" />
-  </ItemGroup>
-
 </Project>
