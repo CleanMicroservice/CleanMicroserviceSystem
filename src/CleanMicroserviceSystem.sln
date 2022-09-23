@@ -17,6 +17,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{DE964A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.TemplateService.WebAPI", "CleanMicroserviceSystem.TemplateService.WebAPI\CleanMicroserviceSystem.TemplateService.WebAPI.csproj", "{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.TemplateService.Domain", "CleanMicroserviceSystem.TemplateService.Domain\CleanMicroserviceSystem.TemplateService.Domain.csproj", "{B13A5BF9-E488-49EA-985F-983C8A21E263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.TemplateService.Application", "CleanMicroserviceSystem.TemplateService.Application\CleanMicroserviceSystem.TemplateService.Application.csproj", "{392C0B16-32ED-45E4-8A40-4AB613665E1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.TemplateService.Infrastructure", "CleanMicroserviceSystem.TemplateService.Infrastructure\CleanMicroserviceSystem.TemplateService.Infrastructure.csproj", "{36A18AF7-B065-4B4C-82D3-65DB91E957B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.TemplateService.Client", "CleanMicroserviceSystem.TemplateService.Client\CleanMicroserviceSystem.TemplateService.Client.csproj", "{604156FB-94FE-4CB0-A83F-5C2964FCE51F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +47,22 @@ Global
 		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13A5BF9-E488-49EA-985F-983C8A21E263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13A5BF9-E488-49EA-985F-983C8A21E263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13A5BF9-E488-49EA-985F-983C8A21E263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13A5BF9-E488-49EA-985F-983C8A21E263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{392C0B16-32ED-45E4-8A40-4AB613665E1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{392C0B16-32ED-45E4-8A40-4AB613665E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{392C0B16-32ED-45E4-8A40-4AB613665E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{392C0B16-32ED-45E4-8A40-4AB613665E1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A18AF7-B065-4B4C-82D3-65DB91E957B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A18AF7-B065-4B4C-82D3-65DB91E957B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A18AF7-B065-4B4C-82D3-65DB91E957B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A18AF7-B065-4B4C-82D3-65DB91E957B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{604156FB-94FE-4CB0-A83F-5C2964FCE51F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{604156FB-94FE-4CB0-A83F-5C2964FCE51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{604156FB-94FE-4CB0-A83F-5C2964FCE51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{604156FB-94FE-4CB0-A83F-5C2964FCE51F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +72,10 @@ Global
 		{40C063A8-B595-4C98-A5B4-2A54E8B42EAC} = {DE964A1C-4E97-4249-8239-41FD53736B62}
 		{AB06CB3D-50D3-4394-825E-8387701AA509} = {DE964A1C-4E97-4249-8239-41FD53736B62}
 		{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680} = {AB268A40-1B21-4364-94CF-F626BD664F99}
+		{B13A5BF9-E488-49EA-985F-983C8A21E263} = {AB268A40-1B21-4364-94CF-F626BD664F99}
+		{392C0B16-32ED-45E4-8A40-4AB613665E1D} = {AB268A40-1B21-4364-94CF-F626BD664F99}
+		{36A18AF7-B065-4B4C-82D3-65DB91E957B3} = {AB268A40-1B21-4364-94CF-F626BD664F99}
+		{604156FB-94FE-4CB0-A83F-5C2964FCE51F} = {AB268A40-1B21-4364-94CF-F626BD664F99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}
