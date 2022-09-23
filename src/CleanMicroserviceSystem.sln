@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.WebAppHost", "CleanMicroserviceSystem.WebAppHost\CleanMicroserviceSystem.WebAppHost.csproj", "{F60FE33D-6083-46B5-A80D-3FDF7A939AC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.WebApp.Host", "CleanMicroserviceSystem.WebApp.Host\CleanMicroserviceSystem.WebApp.Host.csproj", "{F60FE33D-6083-46B5-A80D-3FDF7A939AC2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.WebApp", "CleanMicroserviceSystem.WebApp\CleanMicroserviceSystem.WebApp.csproj", "{40C063A8-B595-4C98-A5B4-2A54E8B42EAC}"
 EndProject
