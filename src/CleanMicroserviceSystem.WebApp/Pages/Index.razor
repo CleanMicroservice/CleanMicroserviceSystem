@@ -1,8 +1,8 @@
 ﻿@page "/"
 
 <h1>Hello, world!</h1>
-<button @onclick="@Button_Click">Test</button>
-@this.Value.ToString()
+<Button Type="@ButtonType.Primary" @onclick="this.Button_Click">Hello World!</Button>
+<h1>@this.Value</h1>
 
 @code {
     public int Value { get; set; } = 0;
