@@ -1,3 +1,13 @@
 ﻿@page "/"
 
 <h1>Hello, world!</h1>
+<button @onclick="@Button_Click">Test</button>
+@this.Value.ToString()
+
+@code {
+    public int Value { get; set; } = 0;
+    public async Task Button_Click()
+    {
+        this.Value++;
+    }
+}
