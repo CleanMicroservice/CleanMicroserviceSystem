@@ -1,6 +1,6 @@
 using NLog;
 using NLog.Web;
-using TemplateWebApp.Server.Extensions;
+using CleanMicroserviceSystem.WebAppHost.Extensions;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 var assemblyName = typeof(Program).Assembly.GetName();

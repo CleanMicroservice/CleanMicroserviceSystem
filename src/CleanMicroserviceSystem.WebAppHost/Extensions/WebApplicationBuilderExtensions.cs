@@ -1,6 +1,6 @@
 ﻿using NLog.Web;
 
-namespace TemplateWebApp.Server.Extensions;
+namespace CleanMicroserviceSystem.WebAppHost.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
