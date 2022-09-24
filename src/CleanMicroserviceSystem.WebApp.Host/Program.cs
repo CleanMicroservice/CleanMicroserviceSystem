@@ -2,9 +2,9 @@ using NLog;
 using NLog.Web;
 using CleanMicroserviceSystem.WebAppHost.Extensions;
 
-var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 var assemblyName = typeof(Program).Assembly.GetName();
 var setupInformation = AppDomain.CurrentDomain.SetupInformation;
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Info($"{assemblyName.Name} launches, TargetFrameworkName={setupInformation.TargetFrameworkName}, Version={assemblyName.Version}");
 
 try
@@ -48,5 +48,5 @@ catch (Exception ex)
 finally
 {
     logger.Info($"{assemblyName.Name} shutdown, Version={assemblyName.Version}");
-    NLog.LogManager.Shutdown();
+    LogManager.Shutdown();
 }
