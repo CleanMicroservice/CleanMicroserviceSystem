@@ -84,8 +84,8 @@ This layer is a single page application based on Angular 13 and ASP.NET Core 6. 
 
 ## Book list
 
-- [Microservices[en-us]|https://learn.microsoft.com/en-us/dotnet/architecture/microservices/]
-- [microservices[zn-cn]|https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/]
+- [Microservices [EN-US]](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/)
+- [microservices [ZH-CN]](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/)
 
 ## Overview
 
