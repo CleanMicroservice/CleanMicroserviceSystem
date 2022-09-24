@@ -82,6 +82,11 @@ This layer contains classes for accessing external resources such as file system
 
 This layer is a single page application based on Angular 13 and ASP.NET Core 6. This layer depends on both the Application and Infrastructure layers, however, the dependency on Infrastructure is only to support dependency injection. Therefore only *Startup.cs* should reference Infrastructure.
 
+## Book list
+
+- [Microservices[en-us]|https://learn.microsoft.com/en-us/dotnet/architecture/microservices/]
+- [microservices[zn-cn]|https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/]
+
 ## Overview
 
 - Domain
