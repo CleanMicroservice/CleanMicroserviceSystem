@@ -138,3 +138,10 @@ This layer is a single page application based on Angular 13 and ASP.NET Core 6. 
       - EventHandlers
   - ConfigureServices.cs
 - Web UI/API
+
+## TODO List
+
+- [ ] Oceanus - TemplateService
+- [ ] Uranus - Gateway
+- [ ] Prometheus - LogService
+- [ ] Themis - IdentityServer
