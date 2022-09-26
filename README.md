@@ -89,17 +89,7 @@ This layer is a single page application based on Angular 13 and ASP.NET Core 6. 
 
 ## Overview
 
-- Domain
-  - Common
-    - BaseAuditableEntity.cs
-    - BaseEntity.cs
-    - BaseEvent.cs
-    - ValueObject.cs
-  - Entities
-  - Enums
-  - Events
-  - Exceptions
-  - ValueObjects
+- Web UI/API
 - Infrastructure
   - Common
   - Extension
@@ -137,7 +127,17 @@ This layer is a single page application based on Angular 13 and ASP.NET Core 6. 
           - QueryValidator.cs
       - EventHandlers
   - ConfigureServices.cs
-- Web UI/API
+- Domain
+  - Common
+    - BaseAuditableEntity.cs
+    - BaseEntity.cs
+    - BaseEvent.cs
+    - ValueObject.cs
+  - Entities
+  - Enums
+  - Events
+  - Exceptions
+  - ValueObjects
 
 ## TODO List
 
