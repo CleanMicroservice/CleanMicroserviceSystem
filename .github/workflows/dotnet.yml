@@ -34,7 +34,7 @@ jobs:
       run: dotnet restore ./src/
 
     - name: Build
-      run: dotnet build /p:Configuration=$env:Configuration --no-restore ./src/
+      run: dotnet build /p:Configuration=$env:Configuration /p:Platform="Any CPU" --no-restore ./src/
       env:
         Configuration: ${{ matrix.configuration }}
 
