@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        platform: ["Any CPU"]
+        platform: ["\"Any CPU\""]
         os: [ubuntu-latest, macOS-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
