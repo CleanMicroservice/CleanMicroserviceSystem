@@ -20,9 +20,13 @@ jobs:
       with:
         dotnet-version: 7.0.x
         include-prerelease: true
+      
     - name: Restore dependencies
       run: dotnet restore ./src/
+      
     - name: Build
-      run: dotnet build --no-restore ./src/
+      run: dotnet build /p:Configuration=Debug /p:Platform="Any CPU" --no-restore ./src/
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/
+    
