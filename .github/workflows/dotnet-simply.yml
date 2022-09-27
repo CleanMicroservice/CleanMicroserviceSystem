@@ -8,11 +8,13 @@ on:
 
 jobs:
   build:
+  strategy:
+    matrix:
+      configuration: [Debug, Release]
+      os: [ubuntu-latest, macOS-latest, windows-latest]
 
-    runs-on: ubuntu-latest
-    env:
-      Solution_Name: CleanMicroserviceSystem.sln
-
+    runs-on: ${{ matrix.os }}
+    
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -25,7 +27,7 @@ jobs:
       run: dotnet restore ./src/
       
     - name: Build
-      run: dotnet build /p:Configuration=Debug /p:Platform="Any CPU" --no-restore ./src/
+      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform="Any CPU" --no-restore ./src/
       
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/
