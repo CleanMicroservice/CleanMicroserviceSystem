@@ -32,10 +32,10 @@ jobs:
         include-prerelease: true
 
     - name: Install dependencies
-      run: dotnet restore $Source_Path
+      run: dotnet restore ${{ env.Source_Path }}
 
     - name: Build
       run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore ${{ env.Source_Path }}
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal $Source_Path
+      run: dotnet test --no-build --verbosity normal ${{ env.Source_Path }}
