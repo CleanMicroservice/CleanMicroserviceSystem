@@ -11,12 +11,10 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
+        platform: ["Any CPU"]
         os: [ubuntu-latest, macOS-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
-
-    env:
-      Solution_Name: CleanMicroserviceSystem.sln
 
     steps:
     - name: Checkout
@@ -34,9 +32,7 @@ jobs:
       run: dotnet restore ./src/
 
     - name: Build
-      run: dotnet build /p:Configuration=$env:Configuration /p:Platform="Any CPU" --no-restore ./src/
-      env:
-        Configuration: ${{ matrix.configuration }}
+      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore ./src/
 
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/
