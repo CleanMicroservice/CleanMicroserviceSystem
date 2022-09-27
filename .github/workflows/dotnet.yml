@@ -1,4 +1,4 @@
-name: ".Net Build"
+name: .Net Build
 
 on:
   push:
@@ -11,9 +11,10 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        platform: ["Any CPU"]
+        platform: ["\"Any CPU\""]
         os: [ubuntu-latest, macOS-latest, windows-latest]
-
+    env:
+      source: ./src/
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -29,10 +30,10 @@ jobs:
         include-prerelease: true
 
     - name: Install dependencies
-      run: dotnet restore ./src/
+      run: dotnet restore $source
 
     - name: Build
-      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore ./src/
+      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore $source
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal ./src/
+      run: dotnet test --no-build --verbosity normal $source
