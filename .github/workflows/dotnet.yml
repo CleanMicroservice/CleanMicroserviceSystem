@@ -11,8 +11,9 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
-    runs-on: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
 
     env:
       Solution_Name: CleanMicroserviceSystem.sln
