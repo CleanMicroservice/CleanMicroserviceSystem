@@ -1,0 +1,41 @@
+name: .Net Build
+
+on:
+  push:
+    branches: []
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        platform: ["\"Any CPU\""]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    env:
+      Source_Path: "./src/"
+      Solution_Name: CleanMicroserviceSystem.sln
+      
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.x
+        include-prerelease: true
+
+    - name: Install dependencies
+      run: dotnet restore ${{ env.Source_Path }}
+
+    - name: Build
+      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore ${{ env.Source_Path }}
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal ${{ env.Source_Path }}
