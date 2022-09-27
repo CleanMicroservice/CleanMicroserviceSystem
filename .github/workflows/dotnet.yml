@@ -14,7 +14,9 @@ jobs:
         platform: ["\"Any CPU\""]
         os: [ubuntu-latest, macOS-latest, windows-latest]
     env:
-      source: ./src/
+      Source_Path: ./src/
+      Solution_Name: CleanMicroserviceSystem.sln
+      
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -30,10 +32,10 @@ jobs:
         include-prerelease: true
 
     - name: Install dependencies
-      run: dotnet restore $source
+      run: dotnet restore $Source_Path
 
     - name: Build
-      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore $source
+      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore $Source_Path
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal $source
+      run: dotnet test --no-build --verbosity normal $Source_Path
