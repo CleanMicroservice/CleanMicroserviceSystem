@@ -14,7 +14,7 @@ jobs:
         platform: ["\"Any CPU\""]
         os: [ubuntu-latest, macOS-latest, windows-latest]
     env:
-      Source_Path: src
+      Source_Path: "./src/"
       Solution_Name: CleanMicroserviceSystem.sln
       
     runs-on: ${{ matrix.os }}
