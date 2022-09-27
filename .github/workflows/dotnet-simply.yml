@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
+        platform: ["Any CPU"]
         os: [ubuntu-latest, macOS-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
@@ -27,7 +28,7 @@ jobs:
       run: dotnet restore ./src/
       
     - name: Build
-      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform="Any CPU" --no-restore ./src/
+      run: dotnet build /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} --no-restore ./src/
       
     - name: Test
       run: dotnet test --no-build --verbosity normal ./src/
