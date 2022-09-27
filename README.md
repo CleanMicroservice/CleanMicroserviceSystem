@@ -9,7 +9,7 @@
 ## Status
 
 <p align="center">
-   <a href="https://github.com/FinancialMarketSimulator/CleanMicroserviceSystem/actions/workflows/dotnet-core.yml">
+   <a href="https://github.com/FinancialMarketSimulator/CleanMicroserviceSystem/actions/workflows/dotnet.yml">
       <img border="0" src="https://github.com/FinancialMarketSimulator/CleanMicroserviceSystem/workflows/.Net%20Build/badge.svg" />
    </a>
    <a href="https://github.com/FinancialMarketSimulator/CleanMicroserviceSystem/blob/master/LICENSE">
