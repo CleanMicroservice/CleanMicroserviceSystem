@@ -8,10 +8,10 @@ on:
 
 jobs:
   build:
-  strategy:
-    matrix:
-      configuration: [Debug, Release]
-      os: [ubuntu-latest, macOS-latest, windows-latest]
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
     runs-on: ${{ matrix.os }}
     
