@@ -1,3 +1,5 @@
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
+using CleanMicroserviceSystem.Tethys.Infrastructure;
 using NLog;
 using NLog.Web;
 
@@ -14,6 +16,8 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
+    // TODO: Read from configuration file
+    builder.Services.AddInfrastructure(new OceanusDBConfiguration());
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
