@@ -141,7 +141,9 @@ This will contain all entities, enums, exceptions, interfaces, types and logic s
 
 ## TODO List
 
-- [ ] Oceanus - TemplateService
+- [ ] Tethys - TemplateService
+- [ ] Oceanus - CommonLibrary
 - [ ] Uranus - Gateway
 - [ ] Prometheus - LogService
 - [ ] Themis - IdentityServer
+- [ ] Aphrodite - WebUI

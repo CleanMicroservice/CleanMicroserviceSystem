@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\CleanMicroserviceSystem.Tethys.Domain\CleanMicroserviceSystem.Tethys.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
