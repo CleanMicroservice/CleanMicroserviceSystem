@@ -63,6 +63,35 @@
       <img border="0" src="https://img.shields.io/nuget/vpre/CleanMicroserviceSystem.PlaceHolder?label=CleanMicroserviceSystem.PlaceHolder&style=flat-square" />
    </a>
 </p>
+## Generate Database Migrations code file
+
+1. Select `CleanMicroserviceSystem.Tethys.WebAPI` or your specified project as Startup project;
+2. Open `Package Manager Console` in Visual Studio;
+3. Select `CleanMicroserviceSystem.Tethys.Infrastructure` as Default project in Package Manager Console;
+4. Input below commands and execute;
+
+### Commands
+
+| Command                  | Description                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| Get-Help entityframework | Displays information about entity framework commands.        |
+| Add-Migration            | Creates a migration by adding a migration snapshot.          |
+| Remove-Migration         | Removes the last migration snapshot.                         |
+| Update-Database          | Updates the database schema based on the last migration snapshot. |
+| Script-Migration         | Generates a SQL script using all the migration snapshots.    |
+| Scaffold-DbContext       | Generates a DbContext and entity type classes for a specified database. This is called reverse engineering. |
+| Get-DbContext            | Gets information about a DbContext type.                     |
+| Drop-Database            | Drops the database.                                          |
+
+    For examples:
+
+```
+-- To generate database migration code files automatically
+Add-Migration AddGenericOption_WebAPILog
+-- To execute database migration code files 
+-- and apply modifications to current connected database file
+Update-Database
+```
 
 ## Layouts
 
@@ -81,11 +110,6 @@ This layer contains all application logic. It is dependent on the domain layer, 
 ### Domain
 
 This will contain all entities, enums, exceptions, interfaces, types and logic specific to the domain layer.
-
-## Book list
-
-- [Microservices [EN-US]](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/)
-- [microservices [ZH-CN]](https://learn.microsoft.com/zh-cn/dotnet/architecture/microservices/)
 
 ## Overview
 

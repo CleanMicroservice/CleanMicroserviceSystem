@@ -13,11 +13,13 @@ try
     AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
     AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
     Console.CancelKeyPress += Console_CancelKeyPress;
-
     var builder = WebApplication.CreateBuilder(args);
+    var config = builder.Configuration;
 
-    // TODO: Read from configuration file
-    builder.Services.AddInfrastructure(new OceanusDBConfiguration());
+    builder.Services.AddInfrastructure(new OceanusDBConfiguration()
+    {
+        ConnectionString = config.GetConnectionString("ServiceDB")!
+    });
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

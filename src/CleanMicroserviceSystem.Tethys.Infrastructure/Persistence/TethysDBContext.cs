@@ -5,6 +5,8 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Persistence;
 
 public class TethysDBContext : OceanusDBContext
 {
+    public TethysDBContext() : base() { }
+
     public TethysDBContext(DbContextOptions options) : base(options)
     {
     }

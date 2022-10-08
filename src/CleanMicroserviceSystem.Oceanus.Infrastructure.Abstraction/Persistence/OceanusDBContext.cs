@@ -8,6 +8,8 @@ namespace CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Persistence
 
 public class OceanusDBContext : IdentityDbContext<OceanusUser, OceanusRole, int>
 {
+    public OceanusDBContext() : base() { }
+
     public OceanusDBContext(DbContextOptions options) : base(options)
     {
     }
