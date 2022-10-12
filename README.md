@@ -83,13 +83,12 @@
 | Get-DbContext            | Gets information about a DbContext type.                     |
 | Drop-Database            | Drops the database.                                          |
 
-    For examples:
+For examples:
 
 ```
--- To generate database migration code files automatically
+## To generate database migration code files automatically
 Add-Migration AddGenericOption_WebAPILog
--- To execute database migration code files 
--- and apply modifications to current connected database file
+## To execute database migration code files and apply modifications to current connected database file
 Update-Database
 ```
 
