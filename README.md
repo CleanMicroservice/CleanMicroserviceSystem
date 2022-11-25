@@ -165,8 +165,14 @@ This will contain all entities, enums, exceptions, interfaces, types and logic s
 ## TODO List
 
 - [ ] Tethys - TemplateService
+  - [ ] 泰西斯，Oceanus的妻子。是[希腊神话](https://baike.baidu.com/item/希腊神话/63444?fromModule=lemma_inlink)中的海之女神。她是希腊第一位、最初的海洋女神，因此在[希腊语](https://baike.baidu.com/item/希腊语/675775?fromModule=lemma_inlink)中，泰西斯也是“祖母”的意思，在早期神话中，她是一位[创世女神](https://baike.baidu.com/item/创世女神/12853246?fromModule=lemma_inlink)。她与大洋神俄刻阿诺斯生下的众多子女里，每一个孩子都代表着小溪、河流或者大海。
 - [ ] Oceanus - CommonLibrary
+  - [ ] 俄刻阿诺斯，Tethys 的丈夫。[十二提坦](https://baike.baidu.com/item/十二提坦/6074612?fromModule=lemma_inlink)神，水神大洋神，他是那条环绕着宇宙转动的河流腰带，故而他的结尾也是开端：这条宇宙之河自我组成一个圆圈在转动。
 - [ ] Uranus - Gateway
+  - [ ] [乌拉诺斯](https://baike.baidu.com/item/乌拉诺斯/3398955?fromModule=lemma_inlink)，第一代神王、天空之神。从大地之神[盖亚](https://baike.baidu.com/item/盖亚/33005?fromModule=lemma_inlink)的指端诞生，最初作为宇宙统治者的第一代众神之王、即天空的神格化。象征希望与未来，并代表天空。十二泰坦巨神。
 - [ ] Prometheus - LogService
+  - [ ] 普罗米修斯曾与智慧女神[雅典娜](https://baike.baidu.com/item/雅典娜/26005?fromModule=lemma_inlink)共同创造了人类，普罗米修斯负责用泥土雕塑出人的形状，[雅典娜](https://baike.baidu.com/item/雅典娜/26005?fromModule=lemma_inlink)则为泥人灌注灵魂，并教会了人类很多知识。普罗米修斯还反抗宙斯，将火种带到人间。
 - [ ] Themis - IdentityServer
+  - [ ] 忒弥斯（Θεμις / Themis，“法律”）是[法律](https://baike.baidu.com/item/法律/84813?fromModule=lemma_inlink)和正义的象征。忒弥斯是宙斯最尊重最信任的妻子。是秩序的创造者、守护者。
 - [ ] Aphrodite - WebUI
+  - [ ] 阿佛洛狄忒，是[古希腊神话](https://baike.baidu.com/item/古希腊神话/1962436?fromModule=lemma_inlink)中爱情与美丽的女神，同时也是性欲女神，[奥林匹斯十二主神](https://baike.baidu.com/item/奥林匹斯十二主神/34825?fromModule=lemma_inlink)之一。因其诞生于海洋，所以有时还被奉为航海的庇护神。阿佛洛狄忒生于海中浪花，拥有白瓷般的肌肤、金发碧眼和古希腊女性完美的身材和相貌，象征女性的美丽，被认为是女性身体美的最高象征。
