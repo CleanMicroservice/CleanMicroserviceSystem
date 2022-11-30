@@ -54,6 +54,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.The
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.WebAPI", "CleanMicroserviceSystem.Themis.WebAPI\CleanMicroserviceSystem.Themis.WebAPI.csproj", "{562C672F-F879-4AE0-9543-CBDBF02E48F2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{6D78C1E7-4668-411B-8718-0762B00690E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{5818860A-FF2A-4DA7-9F85-6219C3345685}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,6 +163,7 @@ Global
 		{FB76C665-5092-488D-8771-19987CC4E29E} = {65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}
 		{551452D5-C15B-4C3C-9332-FC0E4FB4AB04} = {65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}
 		{562C672F-F879-4AE0-9543-CBDBF02E48F2} = {65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}
+		{5818860A-FF2A-4DA7-9F85-6219C3345685} = {6D78C1E7-4668-411B-8718-0762B00690E3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}
