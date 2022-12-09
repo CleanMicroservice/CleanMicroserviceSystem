@@ -1,5 +1,5 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
-using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Identity;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Persistence;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

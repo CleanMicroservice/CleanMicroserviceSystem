@@ -12,6 +12,11 @@ public static class DependencyInjection
         OceanusDBConfiguration dbConfiguration)
     {
         return services
+            .AddCors(options => options
+                .AddDefaultPolicy(builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()))
             .AddDbContext<DbContext, TethysDBContext>(
                 options => options
                     .UseSqlite(dbConfiguration.ConnectionString)
