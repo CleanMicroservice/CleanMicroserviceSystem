@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 {
     [DbContext(typeof(ThemisDBContext))]
-    [Migration("20221008123333_AddGenericOption_WebAPILog")]
+    [Migration("20221209133334_AddGenericOption_WebAPILog")]
     partial class AddGenericOptionWebAPILog
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc.1.22426.7")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
