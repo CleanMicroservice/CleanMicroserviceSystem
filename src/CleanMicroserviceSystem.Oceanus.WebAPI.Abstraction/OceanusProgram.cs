@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -65,7 +66,9 @@ public class OceanusProgram
 
     public virtual void Run()
     {
-        _webApplication.Run();
+        _webApplication
+            .InitializeDatabase()
+            .Run();
     }
 
     public virtual void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
