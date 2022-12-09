@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
+using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +37,7 @@ public class OceanusProgram
         _webApplicationBuilder.Services.AddControllers();
         _webApplicationBuilder.Services.AddEndpointsApiExplorer();
         _webApplicationBuilder.Services.AddSwaggerGen();
+        _webApplicationBuilder.Services.AddOceanusRepositoryServices();
 
         _webApplication = _webApplicationBuilder.Build();
         var lifetime = _webApplication.Services.GetRequiredService<IHostApplicationLifetime>();
@@ -50,6 +53,8 @@ public class OceanusProgram
             _webApplication.UseSwagger();
             _webApplication.UseSwaggerUI();
         }
+
+        _webApplication.UseWebAPILogging();
 
         _webApplication.UseHttpsRedirection();
 
