@@ -1,24 +1,25 @@
 ﻿using System.Reflection;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
-using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NLog;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
+using MSLoggingLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 
 public class OceanusProgram
 {
-    protected ILogger _logger;
+    protected NLog.ILogger _logger;
     protected WebApplicationBuilder _webApplicationBuilder;
     protected WebApplication _webApplication;
     protected ConfigurationManager _configurationManager;
     protected AssemblyName _assemblyName;
 
-    public OceanusProgram(ILogger logger)
+    public OceanusProgram(NLog.ILogger logger)
     {
         _logger = logger;
     }
@@ -30,6 +31,12 @@ public class OceanusProgram
         Console.CancelKeyPress += Console_CancelKeyPress;
         _webApplicationBuilder = WebApplication.CreateBuilder(args);
         _configurationManager = _webApplicationBuilder.Configuration;
+        _webApplicationBuilder.Logging
+            .ClearProviders()
+            .AddConsole()
+            .AddDebug()
+            .SetMinimumLevel(MSLoggingLevel.Trace)
+            .AddNLogWeb();
     }
 
     public virtual void ConfigureServices()
