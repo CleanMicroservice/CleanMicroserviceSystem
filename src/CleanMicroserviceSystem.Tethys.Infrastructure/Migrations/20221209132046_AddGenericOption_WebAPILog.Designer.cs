@@ -3,6 +3,7 @@ using System;
 using CleanMicroserviceSystem.Tethys.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 {
     [DbContext(typeof(TethysDBContext))]
-    partial class TethysDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221209132046_AddGenericOption_WebAPILog")]
+    partial class AddGenericOptionWebAPILog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
