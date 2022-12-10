@@ -11,11 +11,12 @@ public class IntermediaryPipelineBehavior<TRequest, TResponse> : IPipelineBehavi
         this.logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         logger.LogDebug($"Handling request of type {request.GetType().FullName}...");
         var response = await next.Invoke();
         logger.LogDebug($"Handled with response of type {response.GetType().FullName}...");
         return response;
     }
+
 }

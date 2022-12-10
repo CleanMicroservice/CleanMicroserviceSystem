@@ -12,14 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="MediatR" Version="10.0.1" />
-	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />	
+	<PackageReference Include="MediatR" Version="11.1.0" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />	
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="MediatR" />
     <Using Include="Microsoft.Extensions.DependencyInjection" />
-	<Using Include="CleanMicroserviceSystem.Intermediary.Abstraction.Domain"/>
+	<Using Include="CleanMicroserviceSystem.Intermediary.Abstraction.Domain" />
   </ItemGroup>
 
 </Project>
