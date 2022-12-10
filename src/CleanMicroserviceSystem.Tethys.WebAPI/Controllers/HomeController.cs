@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanMicroserviceSystem.Tethys.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]/[action]")]
+[Route("[controller]/[action]")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> logger;

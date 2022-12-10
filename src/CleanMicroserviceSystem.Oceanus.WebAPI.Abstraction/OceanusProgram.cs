@@ -35,7 +35,7 @@ public class OceanusProgram
             .ClearProviders()
             .AddConsole()
             .AddDebug()
-            .SetMinimumLevel(MSLoggingLevel.Trace)
+            .SetMinimumLevel(MSLoggingLevel.Debug)
             .AddNLogWeb();
     }
 
