@@ -1,6 +1,7 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Persistence;
+using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,5 +27,7 @@ public class ThemisDBContext : IdentityDbContext<OceanusUser, OceanusRole, int>,
     {
         (this as IOceanusDBContext).OnCommonModelCreating(builder);
         base.OnModelCreating(builder);
+
+        builder.InitializeIdentityData();
     }
 }

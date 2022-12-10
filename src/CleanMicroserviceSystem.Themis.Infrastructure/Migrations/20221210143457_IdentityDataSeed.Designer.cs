@@ -3,6 +3,7 @@ using System;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 {
     [DbContext(typeof(ThemisDBContext))]
-    partial class ThemisDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221210143457_IdentityDataSeed")]
+    partial class IdentityDataSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
