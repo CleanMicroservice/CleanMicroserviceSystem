@@ -15,7 +15,7 @@ public class IntermediaryPipelineBehavior<TRequest, TResponse> : IPipelineBehavi
     {
         logger.LogDebug($"Handling request of type {request.GetType().FullName}...");
         var response = await next.Invoke();
-        logger.LogDebug($"Handled with response of type {response.GetType().FullName}...");
+        logger.LogDebug($"Handled with response of type {response?.GetType()?.FullName ?? "[null]"}...");
         return response;
     }
 
