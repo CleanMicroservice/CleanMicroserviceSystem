@@ -13,14 +13,14 @@ public static class IdentityDatabaseInitializer
         {
             new OceanusRole() {
                 Id = 1,
-                Name = Identity.AdministratorRole,
-                NormalizedName = Identity.AdministratorRole.ToUpper(),
+                Name = IdentityContract.AdministratorRole,
+                NormalizedName = IdentityContract.AdministratorRole.ToUpper(),
                 ConcurrencyStamp = "8ef3768d-cdd3-43a4-9338-c549cec56942"
             },
             new OceanusRole() {
                 Id = 2,
-                Name = Identity.OperatorRole,
-                NormalizedName = Identity.OperatorRole.ToUpper(),
+                Name = IdentityContract.OperatorRole,
+                NormalizedName = IdentityContract.OperatorRole.ToUpper(),
                 ConcurrencyStamp = "43daf209-df6b-499c-83e5-94ea05cf8997"
             }
         });

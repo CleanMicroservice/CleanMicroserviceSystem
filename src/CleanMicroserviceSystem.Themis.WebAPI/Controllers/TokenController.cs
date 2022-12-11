@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanMicroserviceSystem.Themis.WebAPI.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
 [Authorize]
+[ApiController]
+[Route("api/[controller]")]
 public class TokenController : ControllerBase
 {
     private readonly ILogger<TokenController> logger;

@@ -1,4 +1,5 @@
-﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
+﻿using CleanMicroserviceSystem.Common.Contracts;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ public static class DependencyInjection
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()))
+            .AddAuthorizationCore(options =>
+            {
+                options.AddPolicy(IdentityContract.AccessUsersPolicy, policy => policy.RequireRole(IdentityContract.AdministratorRole));
+                options.AddPolicy(IdentityContract.AccessRolesPolicy, policy => policy.RequireRole(IdentityContract.AdministratorRole));
+            })
             .AddDbContext<DbContext, ThemisDBContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseLazyLoadingProxies())
