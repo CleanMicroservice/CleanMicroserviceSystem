@@ -1,4 +1,5 @@
-﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
+﻿using CleanMicroserviceSystem.Common.Contracts;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,14 +13,14 @@ public static class IdentityDatabaseInitializer
         {
             new OceanusRole() {
                 Id = 1,
-                Name = "Administrator",
-                NormalizedName = "ADMINISTRATOR",
+                Name = Identity.AdministratorRole,
+                NormalizedName = Identity.AdministratorRole.ToUpper(),
                 ConcurrencyStamp = "8ef3768d-cdd3-43a4-9338-c549cec56942"
             },
             new OceanusRole() {
                 Id = 2,
-                Name = "Operator",
-                NormalizedName = "OPERATOR",
+                Name = Identity.OperatorRole,
+                NormalizedName = Identity.OperatorRole.ToUpper(),
                 ConcurrencyStamp = "43daf209-df6b-499c-83e5-94ea05cf8997"
             }
         });

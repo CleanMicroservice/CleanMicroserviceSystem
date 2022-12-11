@@ -3,11 +3,13 @@ using CleanMicroserviceSystem.Authentication.Configurations;
 using CleanMicroserviceSystem.Authentication.Extensions;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using NLog.Web;
 using MSLoggingLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -53,7 +55,31 @@ public class OceanusProgram
         _webApplicationBuilder.Services.AddHttpContextAccessor();
         _webApplicationBuilder.Services.AddControllers();
         _webApplicationBuilder.Services.AddEndpointsApiExplorer();
-        _webApplicationBuilder.Services.AddSwaggerGen();
+        _webApplicationBuilder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition(
+                JwtBearerDefaults.AuthenticationScheme,
+                new OpenApiSecurityScheme()
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please input token",
+                    BearerFormat = "Jwt",
+                    Name = "Authorization",
+                    Scheme = JwtBearerDefaults.AuthenticationScheme.ToLowerInvariant(),
+                    Type = SecuritySchemeType.Http
+                });
+            options.AddSecurityRequirement(
+                new OpenApiSecurityRequirement() {
+                    {
+                        new OpenApiSecurityScheme() { Reference = new OpenApiReference()
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = JwtBearerDefaults.AuthenticationScheme
+                        } },
+                        Array.Empty<string>()
+                    }
+                });
+        });
         _webApplicationBuilder.Services.AddOceanusRepositoryServices();
 
         _webApplication = _webApplicationBuilder.Build();
@@ -68,7 +94,7 @@ public class OceanusProgram
         if (_webApplication.Environment.IsDevelopment())
         {
             _webApplication.UseSwagger();
-            _webApplication.UseSwaggerUI();
+            _webApplication.UseSwaggerUI(options => options.EnablePersistAuthorization());
         }
 
         _webApplication.UseWebAPILogging();
