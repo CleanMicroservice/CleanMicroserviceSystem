@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddGenericOptionWebAPILog : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,8 +91,6 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                     RequestBody = table.Column<string>(type: "TEXT", nullable: true),
                     ResponseBody = table.Column<string>(type: "TEXT", nullable: true),
                     StatusCode = table.Column<int>(type: "INTEGER", nullable: false),
-                    StartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    FinishDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ElapsedTime = table.Column<long>(type: "INTEGER", nullable: false),
                     Exception = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false),
@@ -209,6 +209,48 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1, "8ef3768d-cdd3-43a4-9338-c549cec56942", "Administrator", "ADMINISTRATOR" },
+                    { 2, "43daf209-df6b-499c-83e5-94ea05cf8997", "Operator", "OPERATOR" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { 1, 0, "baeb86b5-116c-43ae-ade7-489dabd07012", "leon@icann.com", true, true, null, "LEON@ICANN.COM", "LEON", "AQAAAAEAACcQAAAAEBpsyxgzjSNJvSIm6y3I1jqvKN4iV/IkvwmMrrYR5X8a6pEXza2RwA9xxSXidOiGkQ==", "100001", true, "SU6NODNYTSGYJ5NXXYIA7I2M542MLV2V", false, "Leon" },
+                    { 2, 0, "93cdc1b8-0c84-4f52-9245-d6ae4bbe5f59", "mathilda@icann.com", true, true, null, "MATHILDA@ICANN.COM", "MATHILDA", "AQAAAAEAACcQAAAAEDjIsjVamUxv4OQ06Ur/7YnsqddYfO2eQP7UK/Adjs38RIkmBpgTldrfCXZ5QHP1vQ==", "100002", true, "2NGFUDFGMLPCBN5U67CHXJEYIDBWQPO3", false, "Mathilda" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoleClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
+                values: new object[,]
+                {
+                    { 1, "AdminAccess", "ReadWrite", 1 },
+                    { 2, "AdminAccess", "Read", 2 },
+                    { 3, "OperatorAccess", "ReadWrite", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
+                values: new object[] { 1, "LeonAccess", "ReadWrite", 1 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -253,9 +295,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_WebAPILogs_RequestURI_SourceHost_IdentityName_StartDateTime",
+                name: "IX_WebAPILogs_RequestURI_SourceHost_IdentityName_CreatedOn",
                 table: "WebAPILogs",
-                columns: new[] { "RequestURI", "SourceHost", "IdentityName", "StartDateTime" });
+                columns: new[] { "RequestURI", "SourceHost", "IdentityName", "CreatedOn" });
         }
 
         /// <inheritdoc />

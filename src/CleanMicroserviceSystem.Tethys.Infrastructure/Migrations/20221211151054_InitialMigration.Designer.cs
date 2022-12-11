@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 {
     [DbContext(typeof(TethysDBContext))]
-    [Migration("20221209132046_AddGenericOption_WebAPILog")]
-    partial class AddGenericOptionWebAPILog
+    [Migration("20221211151054_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,9 +84,6 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
                     b.Property<string>("Exception")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("FinishDateTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("IdentityName")
                         .HasColumnType("TEXT");
 
@@ -121,9 +118,6 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("StatusCode")
                         .HasColumnType("INTEGER");
 
@@ -136,7 +130,7 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RequestURI", "SourceHost", "IdentityName", "StartDateTime");
+                    b.HasIndex("RequestURI", "SourceHost", "IdentityName", "CreatedOn");
 
                     b.ToTable("WebAPILogs");
                 });

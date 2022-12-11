@@ -13,7 +13,7 @@ internal static class WebAPILogConfiguration
                 nameof(WebAPILog.RequestURI),
                 nameof(WebAPILog.SourceHost),
                 nameof(WebAPILog.IdentityName),
-                nameof(WebAPILog.StartDateTime));
+                nameof(WebAPILog.CreatedOn));
         return modelBuilder;
     }
 }

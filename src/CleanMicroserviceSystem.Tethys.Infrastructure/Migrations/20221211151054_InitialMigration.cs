@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddGenericOptionWebAPILog : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,8 +48,6 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
                     RequestBody = table.Column<string>(type: "TEXT", nullable: true),
                     ResponseBody = table.Column<string>(type: "TEXT", nullable: true),
                     StatusCode = table.Column<int>(type: "INTEGER", nullable: false),
-                    StartDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    FinishDateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ElapsedTime = table.Column<long>(type: "INTEGER", nullable: false),
                     Exception = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedBy = table.Column<int>(type: "INTEGER", nullable: false),
@@ -69,9 +67,9 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_WebAPILogs_RequestURI_SourceHost_IdentityName_StartDateTime",
+                name: "IX_WebAPILogs_RequestURI_SourceHost_IdentityName_CreatedOn",
                 table: "WebAPILogs",
-                columns: new[] { "RequestURI", "SourceHost", "IdentityName", "StartDateTime" });
+                columns: new[] { "RequestURI", "SourceHost", "IdentityName", "CreatedOn" });
         }
 
         /// <inheritdoc />

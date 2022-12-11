@@ -40,7 +40,7 @@ public class WebAPILoggingMiddleware
             SourceHost = $"{context.Connection.RemoteIpAddress}:{context.Connection.RemotePort}",
             UserAgent = context.Request.Headers.TryGetValue("User-Agent", out var userAgent) ? userAgent : string.Empty,
             TraceIdentifier = context.TraceIdentifier,
-            StartDateTime = DateTime.Now,
+            CreatedOn = DateTime.Now
         };
 
         try
@@ -94,7 +94,7 @@ public class WebAPILoggingMiddleware
         finally
         {
             watcher.Stop();
-            webAPILog.FinishDateTime = DateTime.Now;
+            webAPILog.LastModifiedOn = DateTime.Now;
             webAPILog.ElapsedTime = watcher.ElapsedMilliseconds;
 
             try

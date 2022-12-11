@@ -26,10 +26,6 @@ public class WebAPILog : AuditableEntity<int>
 
     public int StatusCode { get; set; }
 
-    public DateTime StartDateTime { get; set; }
-
-    public DateTime FinishDateTime { get; set; }
-
     public long ElapsedTime { get; set; }
 
     public string? Exception { get; set; }

@@ -81,9 +81,6 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
                     b.Property<string>("Exception")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("FinishDateTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("IdentityName")
                         .HasColumnType("TEXT");
 
@@ -118,9 +115,6 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartDateTime")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("StatusCode")
                         .HasColumnType("INTEGER");
 
@@ -133,7 +127,7 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RequestURI", "SourceHost", "IdentityName", "StartDateTime");
+                    b.HasIndex("RequestURI", "SourceHost", "IdentityName", "CreatedOn");
 
                     b.ToTable("WebAPILogs");
                 });
