@@ -257,7 +257,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                             NormalizedEmail = "LEON@ICANN.COM",
                             NormalizedUserName = "LEON",
                             PasswordHash = "AQAAAAEAACcQAAAAEBpsyxgzjSNJvSIm6y3I1jqvKN4iV/IkvwmMrrYR5X8a6pEXza2RwA9xxSXidOiGkQ==",
-                            PhoneNumberConfirmed = false,
+                            PhoneNumber = "100001",
+                            PhoneNumberConfirmed = true,
                             SecurityStamp = "SU6NODNYTSGYJ5NXXYIA7I2M542MLV2V",
                             TwoFactorEnabled = false,
                             UserName = "Leon"
@@ -273,7 +274,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                             NormalizedEmail = "MATHILDA@ICANN.COM",
                             NormalizedUserName = "MATHILDA",
                             PasswordHash = "AQAAAAEAACcQAAAAEDjIsjVamUxv4OQ06Ur/7YnsqddYfO2eQP7UK/Adjs38RIkmBpgTldrfCXZ5QHP1vQ==",
-                            PhoneNumberConfirmed = false,
+                            PhoneNumber = "100002",
+                            PhoneNumberConfirmed = true,
                             SecurityStamp = "2NGFUDFGMLPCBN5U67CHXJEYIDBWQPO3",
                             TwoFactorEnabled = false,
                             UserName = "Mathilda"
@@ -300,6 +302,29 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "AdminAccess",
+                            ClaimValue = "ReadWrite",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "AdminAccess",
+                            ClaimValue = "Read",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "OperatorAccess",
+                            ClaimValue = "ReadWrite",
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -327,7 +352,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ClaimType = "Access",
+                            ClaimType = "LeonAccess",
                             ClaimValue = "ReadWrite",
                             UserId = 1
                         });
