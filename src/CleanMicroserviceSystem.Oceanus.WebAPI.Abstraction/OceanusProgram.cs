@@ -43,8 +43,13 @@ public class OceanusProgram
 
     public virtual void ConfigureServices()
     {
-        var jwtConfiguration = _configurationManager.GetSection("JwtConfiguration").Get<JwtBearerConfiguration>();
-        _webApplicationBuilder.Services.AddJwtBearerAuthentication(jwtConfiguration!);
+        /* JwtBearerConfiguration was stored in user secrets file
+         * Right click on WebAPI project in Solution Explorer window
+         * Click Manage User Secrets (User secrets id was specified in <UserSecretsId> of project file)
+         * Configurations in user secrets file will be imported into _configurationManager automatically when startup
+         */
+        var jwtBearerConfiguration = _configurationManager.GetSection("JwtBearerConfiguration").Get<JwtBearerConfiguration>();
+        _webApplicationBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
         _webApplicationBuilder.Services.AddHttpContextAccessor();
         _webApplicationBuilder.Services.AddControllers();
         _webApplicationBuilder.Services.AddEndpointsApiExplorer();
