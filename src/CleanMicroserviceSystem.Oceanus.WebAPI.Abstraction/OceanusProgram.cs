@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using CleanMicroserviceSystem.Authentication.Configurations;
+using CleanMicroserviceSystem.Authentication.Extensions;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +43,8 @@ public class OceanusProgram
 
     public virtual void ConfigureServices()
     {
+        var jwtConfiguration = _configurationManager.GetSection("JwtConfiguration").Get<JwtBearerConfiguration>();
+        _webApplicationBuilder.Services.AddJwtBearerAuthentication(jwtConfiguration!);
         _webApplicationBuilder.Services.AddHttpContextAccessor();
         _webApplicationBuilder.Services.AddControllers();
         _webApplicationBuilder.Services.AddEndpointsApiExplorer();
