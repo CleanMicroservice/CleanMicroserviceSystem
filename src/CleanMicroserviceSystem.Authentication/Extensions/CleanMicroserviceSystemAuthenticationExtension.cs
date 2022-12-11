@@ -46,6 +46,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                     ValidAudience = configuration.JwtAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JwtSecurityKey))
                 };
+                options.Validate();
             });
 
         return services;
