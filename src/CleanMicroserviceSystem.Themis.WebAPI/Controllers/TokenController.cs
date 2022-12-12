@@ -51,15 +51,12 @@ public class TokenController : ControllerBase
 
         var roleNames = await this.userManager.GetRolesAsync(user);
         claims.AddRange(roleNames.Select(role => new Claim(ClaimTypes.Role, role)));
-        foreach (var roleName in roleNames)
-        {
-            var role = await roleManager.FindByNameAsync(roleName);
-            if (role is not null)
-            {
-                var roleClaims = await roleManager.GetClaimsAsync(role);
-                claims.AddRange(roleClaims);
-            }
-        }
+        var roleClaims = roleNames
+            .Select(roleName => this.roleManager.FindByNameAsync(roleName).Result)
+            .OfType<OceanusRole>()
+            .SelectMany(role => this.roleManager.GetClaimsAsync(role).Result)
+            .DistinctBy(claim => (claim.Type, claim.Value));
+        claims.AddRange(roleClaims);
 
         return claims;
     }

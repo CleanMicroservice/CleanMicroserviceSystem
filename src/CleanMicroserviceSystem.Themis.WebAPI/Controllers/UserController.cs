@@ -159,15 +159,28 @@ public class UserController : ControllerBase
 
         if (!string.IsNullOrEmpty(request.UserName))
         {
+            var existedUser = await this.userManager.FindByNameAsync(request.UserName);
+            if (existedUser is not null &&
+                existedUser.Id != user.Id)
+            {
+                return this.BadRequest();
+            }
             user.UserName = request.UserName;
-        }
-        if (!string.IsNullOrEmpty(request.PhoneNumber))
-        {
-            user.PhoneNumber = request.PhoneNumber;
         }
         if (!string.IsNullOrEmpty(request.Email))
         {
+            var existedUser = await this.userManager.FindByEmailAsync(request.Email);
+            if (existedUser is not null &&
+                existedUser.Id != user.Id)
+            {
+                return this.BadRequest();
+            }
             user.Email = request.Email;
+        }
+        if (!string.IsNullOrEmpty(request.PhoneNumber))
+        {
+            userManager.FindByEmailAsync(request.PhoneNumber).Wait();
+            user.PhoneNumber = request.PhoneNumber;
         }
 
         var result = await this.userManager.UpdateAsync(user);
