@@ -1,6 +1,7 @@
 ﻿using CleanMicroserviceSystem.Common.Contracts;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
+using CleanMicroserviceSystem.Themis.Application.Repository;
+using CleanMicroserviceSystem.Themis.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,15 +16,18 @@ public class UserController : ControllerBase
     private readonly ILogger<UserController> logger;
     private readonly UserManager<OceanusUser> userManager;
     private readonly RoleManager<OceanusRole> roleManager;
+    private readonly IOceanusUserRepository oceanusUserRepository;
 
     public UserController(
         ILogger<UserController> logger,
         UserManager<OceanusUser> userManager,
-        RoleManager<OceanusRole> roleManager)
+        RoleManager<OceanusRole> roleManager,
+        IOceanusUserRepository oceanusUserRepository)
     {
         this.logger = logger;
         this.userManager = userManager;
         this.roleManager = roleManager;
+        this.oceanusUserRepository = oceanusUserRepository;
     }
 
     #region UserSelf
@@ -106,7 +110,7 @@ public class UserController : ControllerBase
     {
         var user = await this.userManager.FindByIdAsync(id);
         return user is null
-            ? this.NotFound("Can not find user by user name.")
+            ? this.NotFound()
             : this.Ok(new UserInformationResponse()
             {
                 Id = user.Id,
@@ -114,6 +118,37 @@ public class UserController : ControllerBase
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber
             });
+    }
+
+    /// <summary>
+    /// Search users information
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="userName"></param>
+    /// <param name="email"></param>
+    /// <param name="phoneNumber"></param>
+    /// <param name="start"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    [HttpGet(nameof(Search))]
+    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    public async Task<IActionResult> Search(
+        int? id,
+        string? userName = null,
+        string? email = null,
+        string? phoneNumber = null,
+        int start = 0,
+        int count = 10)
+    {
+        var result = await this.oceanusUserRepository.Search(id, userName, email, phoneNumber, start, count);
+        var users = result.Select(user => new UserInformationResponse()
+        {
+            Id = user.Id,
+            UserName = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber
+        });
+        return this.Ok(users);
     }
 
     /// <summary>

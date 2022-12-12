@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Services;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Tokens;
+using CleanMicroserviceSystem.Themis.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
