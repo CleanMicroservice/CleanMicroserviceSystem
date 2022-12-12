@@ -10,11 +10,4 @@ public class UserUpdateRequest
 
     [Phone(ErrorMessage = "User Phone number should match phone number format")]
     public string? PhoneNumber { get; set; }
-
-    [DataType(DataType.Password)]
-    public string? Password { get; set; }
-
-    [DataType(DataType.Password)]
-    [Compare(nameof(Password), ErrorMessage = "Confirm password does not match with Password.")]
-    public string? ConfirmPassword { get; set; }
 }
