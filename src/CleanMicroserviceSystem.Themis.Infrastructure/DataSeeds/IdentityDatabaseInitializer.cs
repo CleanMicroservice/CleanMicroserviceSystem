@@ -1,5 +1,5 @@
 ﻿using CleanMicroserviceSystem.Common.Contracts;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
+using CleanMicroserviceSystem.Themis.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
