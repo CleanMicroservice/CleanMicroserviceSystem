@@ -1,7 +1,9 @@
 ﻿using CleanMicroserviceSystem.Common.Contracts;
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity;
+using CleanMicroserviceSystem.Themis.Application.Repository;
+using CleanMicroserviceSystem.Themis.Domain.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
+using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +26,8 @@ public static class DependencyInjection
                 options.AddPolicy(IdentityContract.AccessUsersPolicy, policy => policy.RequireRole(IdentityContract.AdministratorRole));
                 options.AddPolicy(IdentityContract.AccessRolesPolicy, policy => policy.RequireRole(IdentityContract.AdministratorRole));
             })
+            .AddScoped<IOceanusUserRepository, OceanusUserRepository>()
+            .AddScoped<IOceanusRoleRepository, OceanusRoleRepository>()
             .AddDbContext<DbContext, ThemisDBContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseLazyLoadingProxies())
