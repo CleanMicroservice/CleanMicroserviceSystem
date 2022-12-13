@@ -353,7 +353,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> PostClaim(int id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
+    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id.ToString());
         if (user is null)
@@ -383,16 +383,18 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> DeleteClaim(int id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
+    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id.ToString());
         if (user is null)
             return this.NotFound();
 
         var existingClaims = await this.userManager.GetClaimsAsync(user);
-        var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
-
-        var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
+        var existingClaimMap = existingClaims.ToDictionary(claim => (claim.Type, claim.Value), claim => claim);
+        var claimsToRemove = requests
+            .Select(claim => existingClaimMap.TryGetValue((claim.Type, claim.Value), out var existingClaim) ? existingClaim : null)
+            .OfType<Claim>()
+            .ToArray();
         if (claimsToRemove.Any())
         {
             var result = await this.userManager.RemoveClaimsAsync(user, claimsToRemove);
@@ -405,5 +407,113 @@ public class UserController : ControllerBase
 
     #region UserRoles
 
+    /// <summary>
+    /// Get user roles
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/Roles")]
+    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    public async Task<IActionResult> GetRoles(string id)
+    {
+        var user = await this.userManager.FindByIdAsync(id);
+        if (user is null)
+            return this.NotFound();
+
+        var roles = await this.userManager.GetRolesAsync(user);
+        return this.Ok(roles);
+    }
+
+    /// <summary>
+    /// Update user roles
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPut("{id}/Roles")]
+    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    public async Task<IActionResult> PutRoles(string id, [FromBody] IEnumerable<string> requests)
+    {
+        var user = await this.userManager.FindByIdAsync(id);
+        if (user is null)
+            return this.NotFound();
+
+        var existingRoles = await this.userManager.GetRolesAsync(user);
+        var existingRoleSet = existingRoles.ToHashSet();
+        var requestRoleSet = requests.ToHashSet();
+
+        {
+            var rolesToRemove = existingRoleSet.Except(requestRoleSet).ToArray();
+            if (rolesToRemove.Any())
+            {
+                var result = await this.userManager.RemoveFromRolesAsync(user, rolesToRemove);
+                if (!result.Succeeded)
+                {
+                    return this.BadRequest(result);
+                }
+            }
+        }
+
+        {
+            var rolesToAdd = requestRoleSet
+                .Except(existingRoleSet)
+                .Where(role => this.roleManager.RoleExistsAsync(role).Result)
+                .ToArray();
+            if (rolesToAdd.Any())
+            {
+                var result = await this.userManager.AddToRolesAsync(user, rolesToAdd);
+                if (!result.Succeeded)
+                {
+                    return this.BadRequest(result);
+                }
+            }
+        }
+
+        existingRoles = await this.userManager.GetRolesAsync(user);
+        return this.Ok(existingRoles);
+    }
+
+    /// <summary>
+    /// Add user roles
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPost("{id}/Roles")]
+    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    public async Task<IActionResult> PostRoles(int id, [FromBody] IEnumerable<string> requests)
+    {
+        var user = await this.userManager.FindByIdAsync(id.ToString());
+        if (user is null)
+            return this.NotFound();
+
+        requests = requests.Where(role => this.roleManager.RoleExistsAsync(role).Result).ToArray();
+        if (!requests.Any())
+            return this.NoContent();
+
+        var result = await this.userManager.AddToRolesAsync(user, requests);
+        return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+    }
+
+    /// <summary>
+    /// Delete user roles
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}/Roles")]
+    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    public async Task<IActionResult> DeleteRoles(int id, [FromBody] IEnumerable<string> requests)
+    {
+        if (!requests.Any())
+            return this.NoContent();
+
+        var user = await this.userManager.FindByIdAsync(id.ToString());
+        if (user is null)
+            return this.NotFound();
+
+        var result = await this.userManager.RemoveFromRolesAsync(user, requests);
+        return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+    }
     #endregion
 }
