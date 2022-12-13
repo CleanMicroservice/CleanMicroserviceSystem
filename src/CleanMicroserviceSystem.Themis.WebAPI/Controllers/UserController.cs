@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Common.Contracts;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
@@ -283,7 +283,7 @@ public class UserController : ControllerBase
             return this.NotFound();
 
         var result = await this.userManager.GetClaimsAsync(user);
-        var claims = result.Select(claim => new UserClaimInformationResponse()
+        var claims = result.Select(claim => new ClaimInformationResponse()
         {
             Type = claim.Type,
             Value = claim.Value
@@ -299,7 +299,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
+    public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
@@ -337,7 +337,7 @@ public class UserController : ControllerBase
         }
 
         existingClaims = await this.userManager.GetClaimsAsync(user);
-        var claims = existingClaims.Select(claim => new UserClaimInformationResponse()
+        var claims = existingClaims.Select(claim => new ClaimInformationResponse()
         {
             Type = claim.Type,
             Value = claim.Value
@@ -353,7 +353,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
+    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id.ToString());
         if (user is null)
@@ -383,7 +383,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<UserClaimsUpdateRequest> requests)
+    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id.ToString());
         if (user is null)

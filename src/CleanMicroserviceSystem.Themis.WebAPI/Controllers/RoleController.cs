@@ -1,4 +1,6 @@
-﻿using CleanMicroserviceSystem.Common.Contracts;
+﻿using System.Security.Claims;
+using CleanMicroserviceSystem.Common.Contracts;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Roles;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
@@ -151,5 +153,155 @@ public class RoleController : ControllerBase
 
     #region RoleClaims
 
+    /// <summary>
+    /// Get role claims
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/Claims")]
+    public async Task<IActionResult> GetClaims(string id)
+    {
+        var role = await this.roleManager.FindByIdAsync(id);
+        if (role is null)
+            return this.NotFound();
+
+        var result = await this.roleManager.GetClaimsAsync(role);
+        var claims = result.Select(claim => new ClaimInformationResponse()
+        {
+            Type = claim.Type,
+            Value = claim.Value
+        });
+        return this.Ok(claims);
+    }
+
+    /// <summary>
+    /// Update role claims
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPut("{id}/Claims")]
+    public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var role = await this.roleManager.FindByIdAsync(id);
+        if (role is null)
+            return this.NotFound();
+
+        var existingClaims = await this.roleManager.GetClaimsAsync(role);
+        var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+
+        {
+            var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
+            if (claimsToRemove.Any())
+            {
+                foreach (var claimToRemove in claimsToRemove)
+                {
+                    var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
+                    if (!result.Succeeded)
+                    {
+                        return this.BadRequest(result);
+                    }
+                }
+            }
+        }
+
+        {
+            var claimsToAdd = requests
+                .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
+                .Select(claim => new Claim(claim.Type, claim.Value))
+                .ToArray();
+            if (claimsToAdd.Any())
+            {
+                foreach (var claimToAdd in claimsToAdd)
+                {
+                    var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
+                    if (!result.Succeeded)
+                    {
+                        return this.BadRequest(result);
+                    }
+                }
+            }
+        }
+
+        existingClaims = await this.roleManager.GetClaimsAsync(role);
+        var claims = existingClaims.Select(claim => new ClaimInformationResponse()
+        {
+            Type = claim.Type,
+            Value = claim.Value
+        });
+        return this.Ok(claims);
+    }
+
+    /// <summary>
+    /// Add role claims
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPost("{id}/Claims")]
+    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var role = await this.roleManager.FindByIdAsync(id.ToString());
+        if (role is null)
+            return this.NotFound();
+
+        var existingClaims = await this.roleManager.GetClaimsAsync(role);
+        var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+
+        var claimsToAdd = requests
+            .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
+            .Select(claim => new Claim(claim.Type, claim.Value))
+            .ToArray();
+        if (claimsToAdd.Any())
+        {
+            foreach (var claimToAdd in claimsToAdd)
+            {
+                var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
+                if (!result.Succeeded)
+                {
+                    return this.BadRequest(result);
+                }
+            }
+            return this.Ok(true);
+        }
+
+        return this.NoContent();
+    }
+
+    /// <summary>
+    /// Delete role claims
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}/Claims")]
+    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var role = await this.roleManager.FindByIdAsync(id.ToString());
+        if (role is null)
+            return this.NotFound();
+
+        var existingClaims = await this.roleManager.GetClaimsAsync(role);
+        var existingClaimMap = existingClaims.ToDictionary(claim => (claim.Type, claim.Value), claim => claim);
+        var claimsToRemove = requests
+            .Select(claim => existingClaimMap.TryGetValue((claim.Type, claim.Value), out var existingClaim) ? existingClaim : null)
+            .OfType<Claim>()
+            .ToArray();
+        if (claimsToRemove.Any())
+        {
+            foreach (var claimToRemove in claimsToRemove)
+            {
+                var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
+                if (!result.Succeeded)
+                {
+                    return this.BadRequest(result);
+                }
+            }
+            return this.Ok(true);
+        }
+
+        return this.NoContent();
+    }
     #endregion
 }
