@@ -11,8 +11,4 @@
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Domain\CleanMicroserviceSystem.Themis.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataTransferObjects\Roles\" />
-  </ItemGroup>
-
 </Project>

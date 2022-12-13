@@ -202,7 +202,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
     public async Task<IActionResult> Put(string id, [FromBody] UserUpdateRequest request)
     {
-        var user = await this.userManager.FindByIdAsync(id.ToString());
+        var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
 

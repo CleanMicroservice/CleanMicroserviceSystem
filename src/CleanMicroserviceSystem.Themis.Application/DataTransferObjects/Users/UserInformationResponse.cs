@@ -1,4 +1,5 @@
 ﻿namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
+
 public class UserInformationResponse
 {
     public int Id { get; set; }
