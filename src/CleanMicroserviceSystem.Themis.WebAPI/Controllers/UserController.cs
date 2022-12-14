@@ -443,7 +443,10 @@ public class UserController : ControllerBase
         var requestRoleSet = requests.ToHashSet();
 
         {
-            var rolesToRemove = existingRoleSet.Except(requestRoleSet).ToArray();
+            var rolesToRemove = existingRoleSet
+                .Except(requestRoleSet)
+                .Where(role => this.userManager.IsInRoleAsync(user, role).Result)
+                .ToArray();
             if (rolesToRemove.Any())
             {
                 var result = await this.userManager.RemoveFromRolesAsync(user, rolesToRemove);
@@ -457,7 +460,9 @@ public class UserController : ControllerBase
         {
             var rolesToAdd = requestRoleSet
                 .Except(existingRoleSet)
-                .Where(role => this.roleManager.RoleExistsAsync(role).Result)
+                .Where(role =>
+                    this.roleManager.RoleExistsAsync(role).Result &&
+                    !this.userManager.IsInRoleAsync(user, role).Result)
                 .ToArray();
             if (rolesToAdd.Any())
             {
@@ -487,7 +492,12 @@ public class UserController : ControllerBase
         if (user is null)
             return this.NotFound();
 
-        requests = requests.Where(role => this.roleManager.RoleExistsAsync(role).Result).ToArray();
+        requests = requests
+            .Where(role =>
+                this.roleManager.RoleExistsAsync(role).Result &&
+                !this.userManager.IsInRoleAsync(user, role).Result)
+            .ToArray();
+
         if (!requests.Any())
             return this.NoContent();
 
@@ -505,12 +515,16 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
     public async Task<IActionResult> DeleteRoles(int id, [FromBody] IEnumerable<string> requests)
     {
-        if (!requests.Any())
-            return this.NoContent();
-
         var user = await this.userManager.FindByIdAsync(id.ToString());
         if (user is null)
             return this.NotFound();
+
+        requests = requests
+            .Where(role => this.userManager.IsInRoleAsync(user, role).Result)
+            .ToArray();
+
+        if (!requests.Any())
+            return this.NoContent();
 
         var result = await this.userManager.RemoveFromRolesAsync(user, requests);
         return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
