@@ -73,7 +73,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication", "CleanMicroserviceSystem.Authentication\CleanMicroserviceSystem.Authentication.csproj", "{318BFCFC-578C-4FF6-9387-D6A837A4D722}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Common", "CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj", "{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Common", "CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj", "{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0FAEDF1E-C15C-49B8-B579-7E3D59D500A8}"
+	ProjectSection(SolutionItems) = preProject
+		..\test\CleanMicroserviceSystem_APITests.yaml = ..\test\CleanMicroserviceSystem_APITests.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
