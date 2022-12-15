@@ -75,7 +75,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Common", "CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj", "{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0FAEDF1E-C15C-49B8-B579-7E3D59D500A8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".test", ".test", "{0FAEDF1E-C15C-49B8-B579-7E3D59D500A8}"
 	ProjectSection(SolutionItems) = preProject
 		..\test\CleanMicroserviceSystem_APITests.yaml = ..\test\CleanMicroserviceSystem_APITests.yaml
 	EndProjectSection
