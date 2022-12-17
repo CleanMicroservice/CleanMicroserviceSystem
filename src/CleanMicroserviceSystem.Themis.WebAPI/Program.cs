@@ -13,6 +13,7 @@ try
     program.ConfigureHostBuilder(args);
     program.ConfigureServices();
     program.ConfigurePipelines();
+    program.ConfigureWebApp();
     program.Run();
 }
 catch (Exception ex)

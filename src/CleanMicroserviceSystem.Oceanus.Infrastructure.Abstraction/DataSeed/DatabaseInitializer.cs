@@ -1,29 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
+
 public static class DatabaseInitializer
 {
-    public static IHost InitializeDatabase(this IHost host)
+    public async static Task InitializeDatabaseAsync(this IServiceProvider services)
+        => await services.InitializeDatabaseAsync<DbContext>();
+
+    public async static Task InitializeDatabaseAsync<TDbContext>(this IServiceProvider services)
+        where TDbContext : DbContext
     {
-        if (host == null)
-        {
-            throw new ArgumentNullException(nameof(host));
-        }
-
-        InitializeDatabaseAsync(host).ConfigureAwait(false);
-
-        return host;
-    }
-
-    private async static Task InitializeDatabaseAsync(IHost host)
-    {
-        using var scope = host.Services.CreateScope();
-        var services = scope.ServiceProvider;
-        var logger = services.GetRequiredService<ILogger<IHost>>();
-        var dbContext = services.GetRequiredService<DbContext>();
+        using var scope = services.CreateScope();
+        var serviceProvider = scope.ServiceProvider;
+        var logger = serviceProvider.GetRequiredService<ILogger<TDbContext>>();
+        var dbContext = serviceProvider.GetRequiredService<TDbContext>();
 
         logger.LogInformation("Start to validate database...");
         try

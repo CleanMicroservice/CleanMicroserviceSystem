@@ -1,15 +1,27 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Tethys.Infrastructure.Persistence;
 
 public class TethysDBContext : DbContext, IOceanusDBContext
 {
-    public TethysDBContext() : base() { }
+    private readonly ILogger<TethysDBContext> logger;
 
-    public TethysDBContext(DbContextOptions options) : base(options)
+    public TethysDBContext(
+        ILogger<TethysDBContext> logger)
+        : base()
     {
+        this.logger = logger;
+    }
+
+    public TethysDBContext(
+        ILogger<TethysDBContext> logger,
+        DbContextOptions<TethysDBContext> options)
+        : base(options)
+    {
+        this.logger = logger;
     }
 
     public DbSet<WebAPILog> WebAPILogs { get; set; }

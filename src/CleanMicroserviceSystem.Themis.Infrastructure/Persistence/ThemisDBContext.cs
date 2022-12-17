@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Persistence;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
@@ -22,7 +21,7 @@ public class ThemisDBContext : IdentityDbContext<OceanusUser, OceanusRole, int>,
 
     public ThemisDBContext(
         ILogger<ThemisDBContext> logger,
-        DbContextOptions options)
+        DbContextOptions<ThemisDBContext> options)
         : base(options)
     {
         this.logger = logger;
