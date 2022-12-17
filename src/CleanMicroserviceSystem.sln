@@ -63,24 +63,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceTemplate.Abstraction", "ServiceTemplate.Abstraction", "{057AEB14-2D18-4B84-A707-982A405600A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Intermediary", "CleanMicroserviceSystem.Intermediary\CleanMicroserviceSystem.Intermediary.csproj", "{3114693C-BFCB-46C2-BA0E-2A848BDBEB9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Intermediary", "CommonLibrary\Intermediary\CleanMicroserviceSystem.Intermediary\CleanMicroserviceSystem.Intermediary.csproj", "{3114693C-BFCB-46C2-BA0E-2A848BDBEB9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Intermediary.Abstraction", "CleanMicroserviceSystem.Intermediary.Abstraction\CleanMicroserviceSystem.Intermediary.Abstraction.csproj", "{1FB36A1A-C67F-4487-A8A9-9E61F2C4B72F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Intermediary.Abstraction", "CommonLibrary\Intermediary\CleanMicroserviceSystem.Intermediary.Abstraction\CleanMicroserviceSystem.Intermediary.Abstraction.csproj", "{1FB36A1A-C67F-4487-A8A9-9E61F2C4B72F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Intermediary", "Intermediary", "{DB29E381-ED65-4DED-98D4-D2080BC9D19E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{0943193A-7D5C-4464-9AA2-DBB4ADB9CB0E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication", "CleanMicroserviceSystem.Authentication\CleanMicroserviceSystem.Authentication.csproj", "{318BFCFC-578C-4FF6-9387-D6A837A4D722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication", "CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication\CleanMicroserviceSystem.Authentication.csproj", "{318BFCFC-578C-4FF6-9387-D6A837A4D722}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Common", "CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj", "{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Common", "CommonLibrary\CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj", "{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".test", ".test", "{0FAEDF1E-C15C-49B8-B579-7E3D59D500A8}"
 	ProjectSection(SolutionItems) = preProject
 		..\test\CleanMicroserviceSystem_APITests.yaml = ..\test\CleanMicroserviceSystem_APITests.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Common.Domain", "CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj", "{DF95994C-78D6-4376-8747-9076E6B1DD28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Common.Domain", "CommonLibrary\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj", "{DF95994C-78D6-4376-8747-9076E6B1DD28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

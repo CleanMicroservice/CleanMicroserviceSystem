@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj" />
+    <ProjectReference Include="..\..\..\CommonLibrary\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj" />
+    <ProjectReference Include="..\..\..\CommonLibrary\CleanMicroserviceSystem.Common\CleanMicroserviceSystem.Common.csproj" />
     <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
     <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj" />
     <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj" />
