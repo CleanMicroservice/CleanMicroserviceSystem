@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Infrastructure\CleanMicroserviceSystem.Themis.Infrastructure.csproj" />
   </ItemGroup>
 

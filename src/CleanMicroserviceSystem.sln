@@ -44,15 +44,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{50E998F8-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Application", "CleanMicroserviceSystem.Themis.Application\CleanMicroserviceSystem.Themis.Application.csproj", "{723C9C97-EE0E-4D57-AE93-A732B191DB98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Application", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Application\CleanMicroserviceSystem.Themis.Application.csproj", "{723C9C97-EE0E-4D57-AE93-A732B191DB98}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Client", "CleanMicroserviceSystem.Themis.Client\CleanMicroserviceSystem.Themis.Client.csproj", "{C72E7768-28CD-403C-AA4C-C7B8889F53B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Client", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Client\CleanMicroserviceSystem.Themis.Client.csproj", "{C72E7768-28CD-403C-AA4C-C7B8889F53B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Domain", "CleanMicroserviceSystem.Themis.Domain\CleanMicroserviceSystem.Themis.Domain.csproj", "{FB76C665-5092-488D-8771-19987CC4E29E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Domain", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Domain\CleanMicroserviceSystem.Themis.Domain.csproj", "{FB76C665-5092-488D-8771-19987CC4E29E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Infrastructure", "CleanMicroserviceSystem.Themis.Infrastructure\CleanMicroserviceSystem.Themis.Infrastructure.csproj", "{551452D5-C15B-4C3C-9332-FC0E4FB4AB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Infrastructure", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Infrastructure\CleanMicroserviceSystem.Themis.Infrastructure.csproj", "{551452D5-C15B-4C3C-9332-FC0E4FB4AB04}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.WebAPI", "CleanMicroserviceSystem.Themis.WebAPI\CleanMicroserviceSystem.Themis.WebAPI.csproj", "{562C672F-F879-4AE0-9543-CBDBF02E48F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.WebAPI", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.WebAPI\CleanMicroserviceSystem.Themis.WebAPI.csproj", "{562C672F-F879-4AE0-9543-CBDBF02E48F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{6D78C1E7-4668-411B-8718-0762B00690E3}"
 EndProject
