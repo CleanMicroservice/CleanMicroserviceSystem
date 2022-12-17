@@ -15,25 +15,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceTemplate", "ServiceT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUI", "WebUI", "{DE964A1C-4E97-4249-8239-41FD53736B62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.WebAPI", "CleanMicroserviceSystem.Tethys.WebAPI\CleanMicroserviceSystem.Tethys.WebAPI.csproj", "{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.WebAPI", "ServiceTemplate\CleanMicroserviceSystem.Tethys.WebAPI\CleanMicroserviceSystem.Tethys.WebAPI.csproj", "{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Domain", "CleanMicroserviceSystem.Tethys.Domain\CleanMicroserviceSystem.Tethys.Domain.csproj", "{B13A5BF9-E488-49EA-985F-983C8A21E263}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Domain", "ServiceTemplate\CleanMicroserviceSystem.Tethys.Domain\CleanMicroserviceSystem.Tethys.Domain.csproj", "{B13A5BF9-E488-49EA-985F-983C8A21E263}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Application", "CleanMicroserviceSystem.Tethys.Application\CleanMicroserviceSystem.Tethys.Application.csproj", "{392C0B16-32ED-45E4-8A40-4AB613665E1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Application", "ServiceTemplate\CleanMicroserviceSystem.Tethys.Application\CleanMicroserviceSystem.Tethys.Application.csproj", "{392C0B16-32ED-45E4-8A40-4AB613665E1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Infrastructure", "CleanMicroserviceSystem.Tethys.Infrastructure\CleanMicroserviceSystem.Tethys.Infrastructure.csproj", "{36A18AF7-B065-4B4C-82D3-65DB91E957B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Infrastructure", "ServiceTemplate\CleanMicroserviceSystem.Tethys.Infrastructure\CleanMicroserviceSystem.Tethys.Infrastructure.csproj", "{36A18AF7-B065-4B4C-82D3-65DB91E957B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Client", "CleanMicroserviceSystem.Tethys.Client\CleanMicroserviceSystem.Tethys.Client.csproj", "{604156FB-94FE-4CB0-A83F-5C2964FCE51F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Client", "ServiceTemplate\CleanMicroserviceSystem.Tethys.Client\CleanMicroserviceSystem.Tethys.Client.csproj", "{604156FB-94FE-4CB0-A83F-5C2964FCE51F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Application.Abstraction", "CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj", "{6B4DFF64-AE40-450B-A6DA-D77FE7421ECF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Application.Abstraction", "ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj", "{6B4DFF64-AE40-450B-A6DA-D77FE7421ECF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Client.Abstraction", "CleanMicroserviceSystem.Oceanus.Client.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction.csproj", "{5E2E7EEC-6635-44DE-B154-733AE8BAB35F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Client.Abstraction", "ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction.csproj", "{5E2E7EEC-6635-44DE-B154-733AE8BAB35F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Domain.Abstraction", "CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj", "{476703E8-8162-440F-AED5-B0BF5F1A97DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Domain.Abstraction", "ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj", "{476703E8-8162-440F-AED5-B0BF5F1A97DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction", "CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj", "{127CF9DE-33D1-4CCB-9943-5DE7ADD86587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction", "ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj", "{127CF9DE-33D1-4CCB-9943-5DE7ADD86587}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction", "CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj", "{CAE0E9BE-6E5B-4FB3-B996-25BBC63D499C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction", "ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj", "{CAE0E9BE-6E5B-4FB3-B996-25BBC63D499C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MicroserviceComponents", "MicroserviceComponents", "{5B1F846E-EADB-49F2-9B23-12A25E4EC17D}"
 EndProject
