@@ -10,9 +10,9 @@ public class ThemisProgram : OceanusProgram
 
     public override void ConfigureServices()
     {
-        _webApplicationBuilder.Services.AddInfrastructure(new OceanusDBConfiguration()
+        webAppBuilder.Services.AddInfrastructure(new OceanusDBConfiguration()
         {
-            ConnectionString = _configurationManager.GetConnectionString("ServiceDB")!
+            ConnectionString = configManager.GetConnectionString("ServiceDB")!
         });
         base.ConfigureServices();
     }
