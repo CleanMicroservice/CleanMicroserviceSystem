@@ -132,7 +132,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                     b.ToTable("WebAPILogs");
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusRole", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -175,7 +175,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusUser", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -421,7 +421,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusRole", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -430,7 +430,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -439,7 +439,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -448,13 +448,13 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusRole", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -463,7 +463,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
