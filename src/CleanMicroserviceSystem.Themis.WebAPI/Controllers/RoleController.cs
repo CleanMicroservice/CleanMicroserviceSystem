@@ -2,6 +2,7 @@
 using CleanMicroserviceSystem.Common.Contracts;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Roles;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -55,19 +56,13 @@ public class RoleController : ControllerBase
     /// <summary>
     /// Search roles information
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="roleName"></param>
-    /// <param name="start"></param>
-    /// <param name="count"></param>
+    /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet(nameof(Search))]
-    public async Task<IActionResult> Search(
-        int? id,
-        string? roleName = null,
-        int start = 0,
-        int count = 10)
+    public async Task<IActionResult> Search([FromQuery] RoleSearchRequest request)
     {
-        var result = await this.oceanusRoleRepository.Search(id, roleName, start, count);
+        var result = await this.oceanusRoleRepository.Search(
+            request.Id, request.RoleName, request.Start, request.Count);
         var roles = result.Select(role => new RoleInformationResponse()
         {
             Id = role.Id,
@@ -83,11 +78,11 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Post([FromBody] string request)
+    public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
     {
         var newRole = new OceanusRole()
         {
-            Name = request
+            Name = request.RoleName
         };
         var result = await this.roleManager.CreateAsync(newRole);
         if (!result.Succeeded)
@@ -96,7 +91,7 @@ public class RoleController : ControllerBase
         }
         else
         {
-            newRole = await this.roleManager.FindByNameAsync(request);
+            newRole = await this.roleManager.FindByNameAsync(newRole.Name);
             return this.Ok(new RoleInformationResponse()
             {
                 Id = newRole!.Id,
@@ -112,13 +107,13 @@ public class RoleController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(string id, [FromBody] string request)
+    public async Task<IActionResult> Put(string id, [FromBody] RoleUpdateRequest request)
     {
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
             return this.NotFound();
 
-        role.Name = request;
+        role.Name = request.RoleName;
         var result = await this.roleManager.UpdateAsync(role);
         if (!result.Succeeded)
         {
@@ -302,6 +297,88 @@ public class RoleController : ControllerBase
         }
 
         return this.NoContent();
+    }
+    #endregion
+
+    #region RoleUsers
+
+    /// <summary>
+    /// Get role users
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}/Users")]
+    public async Task<IActionResult> GetUsers(int id, [FromQuery] UserSearchRequest request)
+    {
+        var users = await this.oceanusRoleRepository.SearchUsers(
+            new[] { id }, request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
+        return this.Ok(users);
+    }
+
+    /// <summary>
+    /// Add role users
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPost("{id}/Users")]
+    public async Task<IActionResult> PostUsers(string id, [FromBody] IEnumerable<string> requests)
+    {
+        if (!requests.Any())
+            return this.NoContent();
+
+        var role = await this.roleManager.FindByIdAsync(id);
+        if (role is null)
+            return this.NotFound();
+
+        IdentityResult? result = default;
+        foreach (var userId in requests)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+            if (user is null ||
+                await this.userManager.IsInRoleAsync(user, role!.Name!)) continue;
+
+            result = await this.userManager.AddToRoleAsync(user, role!.Name!);
+            if (!result.Succeeded)
+            {
+                return this.BadRequest(result);
+            }
+        }
+
+        return this.Ok(result ?? default);
+    }
+
+    /// <summary>
+    /// Delete role users
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}/Users")]
+    public async Task<IActionResult> DeleteUsers(string id, [FromBody] IEnumerable<string> requests)
+    {
+        if (!requests.Any())
+            return this.NoContent();
+
+        var role = await this.roleManager.FindByIdAsync(id);
+        if (role is null)
+            return this.NotFound();
+
+        IdentityResult? result = default;
+        foreach (var userId in requests)
+        {
+            var user = await this.userManager.FindByIdAsync(userId);
+            if (user is null ||
+                !await this.userManager.IsInRoleAsync(user, role!.Name!)) continue;
+
+            result = await this.userManager.RemoveFromRoleAsync(user, role!.Name!);
+            if (!result.Succeeded)
+            {
+                return this.BadRequest(result);
+            }
+        }
+
+        return this.Ok(result ?? default);
     }
     #endregion
 }

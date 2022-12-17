@@ -131,24 +131,14 @@ public class UserController : ControllerBase
     /// <summary>
     /// Search users information
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="userName"></param>
-    /// <param name="email"></param>
-    /// <param name="phoneNumber"></param>
-    /// <param name="start"></param>
-    /// <param name="count"></param>
+    /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet(nameof(Search))]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> Search(
-        int? id,
-        string? userName = null,
-        string? email = null,
-        string? phoneNumber = null,
-        int start = 0,
-        int count = 10)
+    public async Task<IActionResult> Search([FromQuery] UserSearchRequest request)
     {
-        var result = await this.oceanusUserRepository.Search(id, userName, email, phoneNumber, start, count);
+        var result = await this.oceanusUserRepository.Search(
+            request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
         var users = result.Select(user => new UserInformationResponse()
         {
             Id = user.Id,
@@ -353,9 +343,9 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<IActionResult> PostClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
-        var user = await this.userManager.FindByIdAsync(id.ToString());
+        var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
 
@@ -383,9 +373,9 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<IActionResult> DeleteClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
-        var user = await this.userManager.FindByIdAsync(id.ToString());
+        var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
 
@@ -486,9 +476,9 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Roles")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> PostRoles(int id, [FromBody] IEnumerable<string> requests)
+    public async Task<IActionResult> PostRoles(string id, [FromBody] IEnumerable<string> requests)
     {
-        var user = await this.userManager.FindByIdAsync(id.ToString());
+        var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
 
@@ -513,9 +503,9 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Roles")]
     [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
-    public async Task<IActionResult> DeleteRoles(int id, [FromBody] IEnumerable<string> requests)
+    public async Task<IActionResult> DeleteRoles(string id, [FromBody] IEnumerable<string> requests)
     {
-        var user = await this.userManager.FindByIdAsync(id.ToString());
+        var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
 
