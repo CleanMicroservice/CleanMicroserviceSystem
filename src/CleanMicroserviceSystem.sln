@@ -80,6 +80,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".test", ".test", "{0FAEDF1E
 		..\test\CleanMicroserviceSystem_APITests.yaml = ..\test\CleanMicroserviceSystem_APITests.yaml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Common.Domain", "CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj", "{DF95994C-78D6-4376-8747-9076E6B1DD28}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +176,10 @@ Global
 		{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3C0A617-94E6-49C6-A6CD-A131300A1FB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF95994C-78D6-4376-8747-9076E6B1DD28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF95994C-78D6-4376-8747-9076E6B1DD28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF95994C-78D6-4376-8747-9076E6B1DD28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF95994C-78D6-4376-8747-9076E6B1DD28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,6 +212,7 @@ Global
 		{0943193A-7D5C-4464-9AA2-DBB4ADB9CB0E} = {ADEF00F4-7359-4188-AC22-108E3C82205D}
 		{318BFCFC-578C-4FF6-9387-D6A837A4D722} = {0943193A-7D5C-4464-9AA2-DBB4ADB9CB0E}
 		{B3C0A617-94E6-49C6-A6CD-A131300A1FB7} = {ADEF00F4-7359-4188-AC22-108E3C82205D}
+		{DF95994C-78D6-4376-8747-9076E6B1DD28} = {ADEF00F4-7359-4188-AC22-108E3C82205D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}
