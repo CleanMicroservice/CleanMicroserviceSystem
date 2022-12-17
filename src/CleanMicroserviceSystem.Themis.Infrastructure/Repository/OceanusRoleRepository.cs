@@ -1,6 +1,8 @@
-﻿using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
+﻿using CleanMicroserviceSystem.Common.Domain.Entities;
+using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -15,14 +17,43 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
     {
     }
 
-    public async Task<IEnumerable<OceanusRole>> Search(int? id, string? roleName, int start, int count)
+    public async Task<PaginatedEnumerable<OceanusRole>> Search(int? id, string? roleName, int start, int count)
     {
-        var roles = this.AsQueryable();
+        var roles = this.AsQueryable().AsNoTracking();
         if (id.HasValue)
             roles = roles.Where(role => role.Id == id);
         if (!string.IsNullOrEmpty(roleName))
             roles = roles.Where(role => EF.Functions.Like(role.Name, $"%{roleName}%"));
+        var originCounts = await roles.CountAsync();
         roles = roles.Skip(start).Take(count);
-        return roles.AsEnumerable();
+        return new PaginatedEnumerable<OceanusRole>(roles.ToArray(), start, count, originCounts);
+    }
+
+    public async Task<PaginatedEnumerable<OceanusUser>> SearchUsers(
+        IEnumerable<int> roleIds,
+        int? id,
+        string? userName,
+        string? email,
+        string? phoneNumber,
+        int start,
+        int count)
+    {
+        var users = this.AsQueryable().AsNoTracking()
+            .Where(role => roleIds.Contains(role.Id))
+            .Join(this.dbContext.Set<IdentityUserRole<int>>().AsNoTracking(), role => role.Id, map => map.RoleId, (role, map) => new { Role = role, UserId = map.UserId })
+            .Join(this.dbContext.Set<OceanusUser>().AsNoTracking(), tuple => tuple.UserId, user => user.Id, (map, user) => user);
+
+        if (id.HasValue)
+            users = users.Where(user => user.Id == id);
+        if (!string.IsNullOrEmpty(userName))
+            users = users.Where(user => EF.Functions.Like(user.UserName, $"%{userName}%"));
+        if (!string.IsNullOrEmpty(email))
+            users = users.Where(user => EF.Functions.Like(user.Email, $"%{email}%"));
+        if (!string.IsNullOrEmpty(phoneNumber))
+            users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
+
+        var originCounts = await users.CountAsync();
+        users = users.OrderBy(user => user.Id).Skip(start).Take(count);
+        return new PaginatedEnumerable<OceanusUser>(users.ToArray(), start, count, originCounts);
     }
 }

@@ -1,4 +1,6 @@
-﻿using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
+﻿using System.Data;
+using CleanMicroserviceSystem.Common.Domain.Entities;
+using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
     {
     }
 
-    public async Task<IEnumerable<OceanusUser>> Search(
+    public async Task<PaginatedEnumerable<OceanusUser>> Search(
         int? id,
         string? userName,
         string? email,
@@ -23,7 +25,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         int start,
         int count)
     {
-        var users = this.AsQueryable();
+        var users = this.AsQueryable().AsNoTracking();
         if (id.HasValue)
             users = users.Where(user => user.Id == id);
         if (!string.IsNullOrEmpty(userName))
@@ -32,7 +34,9 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
             users = users.Where(user => EF.Functions.Like(user.Email, $"%{email}%"));
         if (!string.IsNullOrEmpty(phoneNumber))
             users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
-        users = users.Skip(start).Take(count);
-        return users.AsEnumerable();
+
+        var originCounts = await users.CountAsync();
+        users = users.OrderBy(user => user.Id).Skip(start).Take(count);
+        return new PaginatedEnumerable<OceanusUser>(users.ToArray(), start, count, originCounts);
     }
 }

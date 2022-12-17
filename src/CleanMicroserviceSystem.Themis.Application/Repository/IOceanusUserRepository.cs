@@ -1,10 +1,11 @@
-﻿using CleanMicroserviceSystem.Themis.Domain.Identity;
+﻿using CleanMicroserviceSystem.Common.Domain.Entities;
+using CleanMicroserviceSystem.Themis.Domain.Identity;
 
 namespace CleanMicroserviceSystem.Themis.Application.Repository;
 
 public interface IOceanusUserRepository
 {
-    Task<IEnumerable<OceanusUser>> Search(
+    Task<PaginatedEnumerable<OceanusUser>> Search(
         int? id,
         string? userName,
         string? email,
