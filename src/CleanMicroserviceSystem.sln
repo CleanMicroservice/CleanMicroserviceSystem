@@ -43,6 +43,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".doc", ".doc", "{50E998F8-8
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityService", "IdentityService", "{65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}"
+	ProjectSection(SolutionItems) = preProject
+		MicroserviceComponents\IdentityService\README.md = MicroserviceComponents\IdentityService\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Application", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Application\CleanMicroserviceSystem.Themis.Application.csproj", "{723C9C97-EE0E-4D57-AE93-A732B191DB98}"
 EndProject
@@ -80,7 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".test", ".test", "{0FAEDF1E
 		..\test\CleanMicroserviceSystem_APITests.yaml = ..\test\CleanMicroserviceSystem_APITests.yaml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Common.Domain", "CommonLibrary\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj", "{DF95994C-78D6-4376-8747-9076E6B1DD28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Common.Domain", "CommonLibrary\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj", "{DF95994C-78D6-4376-8747-9076E6B1DD28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

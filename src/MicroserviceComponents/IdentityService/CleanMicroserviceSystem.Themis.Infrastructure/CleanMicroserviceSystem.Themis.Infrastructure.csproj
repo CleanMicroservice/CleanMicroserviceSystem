@@ -9,7 +9,7 @@
   <ItemGroup>
 	<PackageReference Include="Duende.IdentityServer" Version="6.2.0" />
 	<PackageReference Include="Duende.IdentityServer.EntityFramework" Version="6.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
