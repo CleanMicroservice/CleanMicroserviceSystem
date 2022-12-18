@@ -31,5 +31,8 @@ add-migration MigrateConfigurationDbContext -Context ConfigurationDbContext
 add-migration MigratePersistedGrantDbContext -Context PersistedGrantDbContext
 
 ## To execute database migration code files and apply modifications to current connected database file
-Update-Database
+Update-Database -Context PersistedGrantDbContext
+Update-Database -Context ConfigurationDbContext
+Update-Database -Context IdentityDbContext
+Update-Database -Context ThemisDBContext
 ```
