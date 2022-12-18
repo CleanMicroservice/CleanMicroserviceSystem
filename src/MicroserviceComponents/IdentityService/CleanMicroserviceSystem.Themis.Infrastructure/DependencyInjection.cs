@@ -17,9 +17,6 @@ public static class DependencyInjection
         this IServiceCollection services,
         OceanusDBConfiguration dbConfiguration)
     {
-        /* TODO: https://docs.duendesoftware.com/identityserver/v6/overview/
-         * API Scope to protect CLients and API
-         */
         services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
@@ -55,6 +52,9 @@ public static class DependencyInjection
             })
             .AddEntityFrameworkStores<IdentityDbContext>();
 
+        /* TODO: https://docs.duendesoftware.com/identityserver/v6/overview/
+         * API Scope to protect CLients and API
+         */
         var migrationsAssembly = typeof(ThemisDbContext).Assembly.GetName().Name;
         services
             .AddIdentityServer()
