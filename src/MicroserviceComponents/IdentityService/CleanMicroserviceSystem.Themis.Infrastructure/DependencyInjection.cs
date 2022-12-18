@@ -33,7 +33,11 @@ public static class DependencyInjection
             })
             .AddScoped<IOceanusUserRepository, OceanusUserRepository>()
             .AddScoped<IOceanusRoleRepository, OceanusRoleRepository>()
-            .AddDbContext<DbContext, ThemisDbContext>(options => options
+            .AddDbContext<ThemisDbContext>(options => options
+                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
+                .UseLazyLoadingProxies())
+            .AddDbContext<IdentityDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .UseLazyLoadingProxies())

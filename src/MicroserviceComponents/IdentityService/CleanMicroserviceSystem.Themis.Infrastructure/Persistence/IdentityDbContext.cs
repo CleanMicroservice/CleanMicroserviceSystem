@@ -1,4 +1,5 @@
 ﻿using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@ public class IdentityDbContext : IdentityDbContext<OceanusUser, OceanusRole, int
 
     public IdentityDbContext(
         ILogger<IdentityDbContext> logger,
-        DbContextOptions options)
+        DbContextOptions<IdentityDbContext> options)
         : base(options)
     {
         this.logger = logger;
@@ -28,5 +29,12 @@ public class IdentityDbContext : IdentityDbContext<OceanusUser, OceanusRole, int
     {
         optionsBuilder.LogTo(log => this.logger.LogDebug(log));
         base.OnConfiguring(optionsBuilder);
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.InitializeIdentityData();
     }
 }

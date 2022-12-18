@@ -23,11 +23,4 @@ public class ThemisDbContext : OceanusDbContext
     {
         this.logger = logger;
     }
-
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-
-        builder.InitializeIdentityData();
-    }
 }
