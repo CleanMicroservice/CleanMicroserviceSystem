@@ -31,7 +31,7 @@ public static class DependencyInjection
             })
             .AddScoped<IOceanusUserRepository, OceanusUserRepository>()
             .AddScoped<IOceanusRoleRepository, OceanusRoleRepository>()
-            .AddDbContext<DbContext, ThemisDBContext>(options => options
+            .AddDbContext<DbContext, ThemisDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .UseLazyLoadingProxies())
@@ -47,7 +47,7 @@ public static class DependencyInjection
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<ThemisDBContext>();
+            .AddEntityFrameworkStores<IdentityDbContext>();
         return services;
     }
 }

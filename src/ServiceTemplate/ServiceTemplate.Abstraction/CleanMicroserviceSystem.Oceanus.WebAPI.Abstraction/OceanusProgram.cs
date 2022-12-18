@@ -117,20 +117,20 @@ public class OceanusProgram
     }
 
     public virtual void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
-        => logger.Info($"{nameof(Console_CancelKeyPress)} => {(e.Cancel ? "Cancel" : "Not Cancel")}, {e.SpecialKey}");
+        => logger?.Info($"{nameof(Console_CancelKeyPress)} => {(e.Cancel ? "Cancel" : "Not Cancel")}, {e.SpecialKey}");
 
     public virtual void CurrentDomain_ProcessExit(object? sender, EventArgs e)
-        => logger.Info($"{nameof(CurrentDomain_ProcessExit)}");
+        => logger?.Info($"{nameof(CurrentDomain_ProcessExit)}");
 
     public virtual void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        => logger.Error($"{nameof(CurrentDomain_UnhandledException)} => {(e.IsTerminating ? "Terminating" : "Not Terminating")}, {e.ExceptionObject}");
+        => logger?.Error($"{nameof(CurrentDomain_UnhandledException)} => {(e.IsTerminating ? "Terminating" : "Not Terminating")}, {e.ExceptionObject}");
 
     public virtual void ApplicationLifetime_ApplicationStarted()
-        => logger.Info($"{nameof(ApplicationLifetime_ApplicationStarted)}");
+        => logger?.Info($"{nameof(ApplicationLifetime_ApplicationStarted)}");
 
     public virtual void ApplicationLifetime_ApplicationStopping()
-        => logger.Info($"{nameof(ApplicationLifetime_ApplicationStopping)}");
+        => logger?.Info($"{nameof(ApplicationLifetime_ApplicationStopping)}");
 
     public virtual void ApplicationLifetime_ApplicationStopped()
-        => logger.Info($"{nameof(ApplicationLifetime_ApplicationStopped)}");
+        => logger?.Info($"{nameof(ApplicationLifetime_ApplicationStopped)}");
 }

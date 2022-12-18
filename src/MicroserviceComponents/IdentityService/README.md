@@ -11,20 +11,25 @@
 
 ## DbContexts
 
-- Identity
+- Business
   - ThemisDBContext
+
+- Identity
+  - IdentityDbContext
 - IdentityServer
   - ConfigurationDbContext
   - PersistedGrantDbContext
 
-```
+```powershell
 ## To remove existed mrigration ode files
+remove-migration -Context IdentityDbContext
 remove-migration -Context PersistedGrantDbContext
 remove-migration -Context ConfigurationDbContext
-remove-migration -Context ThemisDBContext
+remove-migration -Context ThemisDbContext
 
 ## To generate database migration code files automatically
-add-migration InitialMigration -Context ThemisDBContext
+add-migration InitialMigration -Context ThemisDbContext
+add-migration MigrateIdentityDbContext -Context IdentityDbContext
 add-migration MigrateConfigurationDbContext -Context ConfigurationDbContext
 add-migration MigratePersistedGrantDbContext -Context PersistedGrantDbContext
 

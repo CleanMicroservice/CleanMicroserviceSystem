@@ -3,6 +3,7 @@ using CleanMicroserviceSystem.Common.Domain.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +13,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
 {
     public OceanusUserRepository(
         ILogger<OceanusUserRepository> logger,
-        DbContext dbContext)
+        IdentityDbContext dbContext)
         : base(logger, dbContext)
     {
     }

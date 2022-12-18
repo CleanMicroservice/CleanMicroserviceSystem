@@ -2,6 +2,7 @@
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
 {
     public OceanusRoleRepository(
         ILogger<OceanusRoleRepository> logger,
-        DbContext dbContext)
+        IdentityDbContext dbContext)
         : base(logger, dbContext)
     {
     }
