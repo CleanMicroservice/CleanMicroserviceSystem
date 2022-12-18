@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 {
-    [DbContext(typeof(TethysDBContext))]
-    [Migration("20221211151054_InitialMigration")]
+    [DbContext(typeof(TethysDbContext))]
+    [Migration("20221218084209_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
 {
-    [DbContext(typeof(TethysDBContext))]
-    partial class TethysDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TethysDbContext))]
+    partial class TethysDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

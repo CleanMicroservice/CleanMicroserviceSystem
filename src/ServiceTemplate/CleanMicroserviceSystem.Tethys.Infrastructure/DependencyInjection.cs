@@ -17,7 +17,7 @@ public static class DependencyInjection
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()))
-            .AddDbContext<DbContext, TethysDBContext>(
+            .AddDbContext<DbContext, TethysDbContext>(
                 options => options
                     .UseSqlite(dbConfiguration.ConnectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
