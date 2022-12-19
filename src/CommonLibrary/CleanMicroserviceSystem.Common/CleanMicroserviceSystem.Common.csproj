@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj" />
   </ItemGroup>
 
