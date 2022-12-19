@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj" />
+  </ItemGroup>
+
+</Project>
