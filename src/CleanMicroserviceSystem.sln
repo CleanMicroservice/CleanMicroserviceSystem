@@ -87,7 +87,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{B89C6B87-07AD-4241-B424-231947297DFD}"
 	ProjectSection(SolutionItems) = preProject
-		MicroserviceComponents\Gateway\CleanMicroserviceSystem.Uranus.WebAPI\README.md = MicroserviceComponents\Gateway\CleanMicroserviceSystem.Uranus.WebAPI\README.md
+		MicroserviceComponents\Gateway\README.md = MicroserviceComponents\Gateway\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Uranus.WebAPI", "MicroserviceComponents\Gateway\CleanMicroserviceSystem.Uranus.WebAPI\CleanMicroserviceSystem.Uranus.WebAPI.csproj", "{BCB9C72E-F7F6-409D-8D05-954E53D576AA}"
