@@ -15,7 +15,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        OceanusDBConfiguration dbConfiguration)
+        OceanusDbConfiguration dbConfiguration)
     {
         services
             .AddCors(options => options

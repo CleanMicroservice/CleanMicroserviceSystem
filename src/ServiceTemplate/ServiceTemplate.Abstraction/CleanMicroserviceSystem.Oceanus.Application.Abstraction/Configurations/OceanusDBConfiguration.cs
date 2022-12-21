@@ -1,6 +1,6 @@
 ﻿namespace CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 
-public class OceanusDBConfiguration
+public class OceanusDbConfiguration
 {
     public string ConnectionString { get; set; }
 }
