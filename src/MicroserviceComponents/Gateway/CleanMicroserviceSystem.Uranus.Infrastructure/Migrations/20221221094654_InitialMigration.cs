@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CleanMicroserviceSystem.Tethys.Infrastructure.Migrations
+namespace CleanMicroserviceSystem.Uranus.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialMigration : Migration
