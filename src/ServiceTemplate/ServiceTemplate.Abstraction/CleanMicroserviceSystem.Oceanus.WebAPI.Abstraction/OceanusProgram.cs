@@ -50,7 +50,7 @@ public class OceanusProgram
          * Click Manage User Secrets (User secrets id was specified in <UserSecretsId> of project file)
          * Configurations in user secrets file will be imported into _configurationManager automatically when startup
          */
-        var jwtBearerConfiguration = configManager.GetSection("JwtBearerConfiguration").Get<JwtBearerConfiguration>();
+        var jwtBearerConfiguration = configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
         webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
         webAppBuilder.Services.AddHttpContextAccessor();
         webAppBuilder.Services.AddControllers();
