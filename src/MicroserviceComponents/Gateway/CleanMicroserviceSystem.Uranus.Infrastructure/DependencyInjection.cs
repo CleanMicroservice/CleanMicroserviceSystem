@@ -2,6 +2,8 @@
 using CleanMicroserviceSystem.Uranus.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ocelot.DependencyInjection;
+using Ocelot.Provider.Consul;
 
 namespace CleanMicroserviceSystem.Uranus.Infrastructure;
 
@@ -11,7 +13,7 @@ public static class DependencyInjection
         this IServiceCollection services,
         OceanusDbConfiguration dbConfiguration)
     {
-        return services
+        services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
                     .AllowAnyOrigin()
@@ -21,6 +23,10 @@ public static class DependencyInjection
                 options => options
                     .UseSqlite(dbConfiguration.ConnectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
-                    .UseLazyLoadingProxies());
+                    .UseLazyLoadingProxies())
+            .AddOcelot()
+            .AddConsul();
+
+        return services;
     }
 }
