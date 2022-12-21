@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\CommonLibrary\Gateway\CleanMicroserviceSystem.Gateway\CleanMicroserviceSystem.Gateway.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj" />
   </ItemGroup>
