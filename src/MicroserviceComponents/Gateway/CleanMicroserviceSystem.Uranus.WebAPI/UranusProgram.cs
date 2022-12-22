@@ -12,7 +12,9 @@ public class UranusProgram : OceanusProgram
     public override void ConfigurePipelines()
     {
         base.ConfigurePipelines();
-        webApp.UseOcelot().Wait();
+        webApp.UseWhen(
+            context => context.Request.Path.StartsWithSegments("/Ocelot"),
+            builder => builder.UseOcelot());
     }
 
     public override void ConfigureServices()
