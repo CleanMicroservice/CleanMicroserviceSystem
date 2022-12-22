@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using CleanMicroserviceSystem.Authentication.Configurations;
 using CleanMicroserviceSystem.Authentication.Extensions;
+using CleanMicroserviceSystem.Gateway.Configurations;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -51,6 +52,7 @@ public class OceanusProgram
          * Configurations in user secrets file will be imported into _configurationManager automatically when startup
          */
         var jwtBearerConfiguration = configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
+        var agentServiceRegistrationConfiguration = configManager.GetRequiredSection("AgentServiceRegistrationConfiguration")!.Get<AgentServiceRegistrationConfiguration>()!;
         webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
         webAppBuilder.Services.AddHttpContextAccessor();
         webAppBuilder.Services.AddControllers();
@@ -80,7 +82,7 @@ public class OceanusProgram
                     }
                 });
         });
-        webAppBuilder.Services.AddOceanusRepositoryServices();
+        webAppBuilder.Services.AddOceanusServices(agentServiceRegistrationConfiguration);
         webApp = webAppBuilder.Build();
     }
 
@@ -92,7 +94,7 @@ public class OceanusProgram
             webApp.UseSwaggerUI(options => options.EnablePersistAuthorization());
         }
 
-        webApp.UseWebAPILogging();
+        webApp.UseOceanusPipelines();
 
         webApp.UseHttpsRedirection();
 

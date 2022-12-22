@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Builder;
 
 namespace CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 
-public static class WebAPILoggingExtension
+public static class OceanusPipelinesExtension
 {
-    public static IApplicationBuilder UseWebAPILogging(this IApplicationBuilder app)
+    public static IApplicationBuilder UseOceanusPipelines(this IApplicationBuilder app)
     {
         app.UseMiddleware<WebAPILoggingMiddleware>();
         return app;
