@@ -1,20 +1,32 @@
 ﻿using CleanMicroserviceSystem.Gateway.Configurations;
+using Consul;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanMicroserviceSystem.Gateway.Extensions
 {
     public static class CleanMicroserviceSystemGatewayExtension
     {
-        public static IServiceCollection AddJwtBearerAuthentication(
+        public static IServiceCollection AddGatewayServiceRegister(
             this IServiceCollection services,
-            ConsulConfiguration configuration)
+            AgentServiceRegistrationConfiguration configuration)
         {
-            services
-                .Configure(new Action<ConsulConfiguration>(options =>
+            var registration = new AgentServiceRegistration()
+            {
+                ID = configuration.ServiceInstanceId,
+                Name = configuration.ServiceName,
+                Address = configuration.SelfHost,
+                Port = configuration.SelfPort,
+                Check = new AgentServiceCheck()
                 {
-                    options.Address = configuration.Address;
-                }));
-
+                    Interval = TimeSpan.FromSeconds(60),
+                    Timeout = TimeSpan.FromSeconds(10),
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(10),
+                    HTTP = configuration.HealthCheckUrl
+                }
+            };
+            var consulClient = new ConsulClient();
+            consulClient.Agent.ServiceRegister(registration);
+            services.AddSingleton(consulClient);
             return services;
         }
     }
