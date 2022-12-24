@@ -19,8 +19,8 @@ namespace CleanMicroserviceSystem.Gateway.Extensions
                 Check = new AgentServiceCheck()
                 {
                     Interval = TimeSpan.FromSeconds(60),
-                    Timeout = TimeSpan.FromSeconds(10),
-                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(10),
+                    Timeout = TimeSpan.FromSeconds(30),
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(30),
                     HTTP = configuration.HealthCheckUrl
                 }
             };

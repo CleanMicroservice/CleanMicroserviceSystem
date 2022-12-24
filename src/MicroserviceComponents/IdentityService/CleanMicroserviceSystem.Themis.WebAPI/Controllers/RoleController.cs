@@ -77,7 +77,6 @@ public class RoleController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
-    [AllowAnonymous]
     public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
     {
         var newRole = new OceanusRole()
