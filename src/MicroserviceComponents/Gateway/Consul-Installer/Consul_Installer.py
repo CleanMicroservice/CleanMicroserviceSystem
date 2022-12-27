@@ -1,15 +1,6 @@
 import requests
+import platform
 import re
-
-class Resource:
-    def __init__(self, os:str, arch:str, link:str, name:str):
-        self.os = os
-        self.arch = arch
-        self.link = link
-        self.name = name
-
-    def __str__(self) -> str:
-        return f"{self.name} \t\t[{self.os} - {self.arch}] \t\t{self.link}"
 
 GitHubReleaseUrl = "https://github.com/hashicorp/consul/releases/latest"
 print(f"Navigating to: {GitHubReleaseUrl}")
@@ -18,7 +9,7 @@ response = requests.get(GitHubReleaseUrl)
 tempRedirect = response.url
 print(f"Consul redirected url: {tempRedirect}")
 
-tagMatch = re.search(r'v(?P<Tag>[\.\d]+)$', tempRedirect)
+tagMatch = re.search(r"v(?P<Tag>[\.\d]+)$", tempRedirect)
 if not tagMatch:
     raise RuntimeError("Can not find latest version number in redirect url")
 
@@ -30,9 +21,28 @@ print(f"Navigating to: {ResourceUrl}")
 response = requests.get(ResourceUrl)
 
 resourceMatches = re.findall(
-    r"<a.*?data-os=""(\S+)""\sdata-arch=""(\S+)""\shref=""(\S+)"">(.*)</a>", 
-    response.text)
+    r"<a.*?data-os=" "(\S+)" "\sdata-arch=" "(\S+)" "\shref=" "(\S+)" ">(.*)</a>",
+    response.text,
+)
 
-resources = [Resource(match[0], match[1], match[2], match[3]) for match in resourceMatches]
-for index in range(len(resources)):
-    print(f"[{index}]\t{resources[index]}")
+
+"""
+consul_1.14.3_darwin_amd64.zip             "darwin" - "amd64"
+consul_1.14.3_darwin_arm64.zip             "darwin" - "arm64"
+consul_1.14.3_freebsd_386.zip             "freebsd" - "386"
+consul_1.14.3_freebsd_amd64.zip           "freebsd" - "amd64"
+consul_1.14.3_linux_386.zip                 "linux" - "386"
+consul_1.14.3_linux_amd64.zip               "linux" - "amd64"
+consul_1.14.3_linux_arm.zip                 "linux" - "arm"
+consul_1.14.3_linux_arm64.zip               "linux" - "arm64"
+consul_1.14.3_solaris_amd64.zip           "solaris" - "amd64"
+consul_1.14.3_windows_386.zip             "windows" - "386"
+consul_1.14.3_windows_amd64.zip           "windows" - "amd64"
+"""
+resources = {(match[0], match[1]): (match[2], match[3]) for match in resourceMatches}
+for (os, arch), (link, name) in resources.items():
+    print(f"{name.ljust(40)} {os.rjust(10)} - {arch.ljust(10)}\t{link}")
+
+systemName = platform.system().lower()
+systemArch = platform.architecture()[0]
+print(f"System info: {systemName} - {systemArch}")
