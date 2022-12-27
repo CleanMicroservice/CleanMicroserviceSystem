@@ -7,12 +7,13 @@
 3. Select `CleanMicroserviceSystem.Themis.Infrastructure` as Default project in Package Manager Console;
 4. Input below commands and execute;
 
-### 
-
 ## DbContexts
 
-- Identity
+- Application
   - ThemisDBContext
+
+- Identity
+  - IdentityDbContext
 - IdentityServer
   - ConfigurationDbContext
   - PersistedGrantDbContext
