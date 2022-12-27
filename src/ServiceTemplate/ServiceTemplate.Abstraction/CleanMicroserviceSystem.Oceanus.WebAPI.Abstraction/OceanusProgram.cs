@@ -4,13 +4,11 @@ using CleanMicroserviceSystem.Authentication.Extensions;
 using CleanMicroserviceSystem.Gateway.Configurations;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using NLog.Web;
 using MSLoggingLevel = Microsoft.Extensions.Logging.LogLevel;
 
@@ -46,7 +44,7 @@ public class OceanusProgram
 
     public virtual void ConfigureServices()
     {
-        /* JwtBearerConfiguration was stored in user secrets file
+        /* JwtBearerConfiguration was stored in user secrets file, to make multiple applications reuse this part of section by same Secret Id
          * Right click on WebAPI project in Solution Explorer window
          * Click Manage User Secrets (User secrets id was specified in <UserSecretsId> of project file)
          * Configurations in user secrets file will be imported into _configurationManager automatically when startup
@@ -57,31 +55,7 @@ public class OceanusProgram
         webAppBuilder.Services.AddHttpContextAccessor();
         webAppBuilder.Services.AddControllers();
         webAppBuilder.Services.AddEndpointsApiExplorer();
-        webAppBuilder.Services.AddSwaggerGen(options =>
-        {
-            options.AddSecurityDefinition(
-                JwtBearerDefaults.AuthenticationScheme,
-                new OpenApiSecurityScheme()
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please input token",
-                    BearerFormat = "Jwt",
-                    Name = "Authorization",
-                    Scheme = JwtBearerDefaults.AuthenticationScheme.ToLowerInvariant(),
-                    Type = SecuritySchemeType.Http
-                });
-            options.AddSecurityRequirement(
-                new OpenApiSecurityRequirement() {
-                    {
-                        new OpenApiSecurityScheme() { Reference = new OpenApiReference()
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = JwtBearerDefaults.AuthenticationScheme
-                        } },
-                        Array.Empty<string>()
-                    }
-                });
-        });
+        webAppBuilder.Services.AddOceanusSwaggerGen();
         webAppBuilder.Services.AddOceanusServices(agentServiceRegistrationConfiguration);
         webApp = webAppBuilder.Build();
     }
@@ -95,11 +69,8 @@ public class OceanusProgram
         }
 
         webApp.UseOceanusPipelines();
-
         webApp.UseHttpsRedirection();
-
         webApp.UseAuthorization();
-
         webApp.MapControllers();
     }
 
