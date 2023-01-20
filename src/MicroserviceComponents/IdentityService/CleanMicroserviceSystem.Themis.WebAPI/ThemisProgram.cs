@@ -8,23 +8,29 @@ namespace CleanMicroserviceSystem.Themis.WebAPI;
 
 public class ThemisProgram : OceanusProgram
 {
-    public ThemisProgram(NLog.ILogger logger) : base(logger) { }
+	public ThemisProgram(NLog.ILogger logger) : base(logger) { }
 
-    public override void ConfigureServices()
-    {
-        webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
-        {
-            ConnectionString = configManager.GetConnectionString("ServiceDB")!
-        });
-        base.ConfigureServices();
-    }
+	public override void ConfigureServices()
+	{
+		webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
+		{
+			ConnectionString = configManager.GetConnectionString("ServiceDB")!
+		});
+		base.ConfigureServices();
+	}
 
-    public override void ConfigureWebApp()
-    {
-        base.ConfigureWebApp();
+	public override void ConfigurePipelinesBeforeAuthorization()
+	{
+		webApp.UseIdentityServer();
+		base.ConfigurePipelinesBeforeAuthorization();
+	}
 
-        var servicesProvider = webApp.Services;
-        servicesProvider.InitializeDatabaseAsync<PersistedGrantDbContext>().ConfigureAwait(false);
-        servicesProvider.InitializeDatabaseAsync<ConfigurationDbContext>().ConfigureAwait(false);
-    }
+	public override void ConfigureWebApp()
+	{
+		base.ConfigureWebApp();
+
+		var servicesProvider = webApp.Services;
+		servicesProvider.InitializeDatabaseAsync<PersistedGrantDbContext>().ConfigureAwait(false);
+		servicesProvider.InitializeDatabaseAsync<ConfigurationDbContext>().ConfigureAwait(false);
+	}
 }
