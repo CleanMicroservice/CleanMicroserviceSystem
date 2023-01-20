@@ -70,7 +70,7 @@ public static class DependencyInjection
             });
         services
             .AddAuthentication()
-            .AddOpenIdConnect("oidc", "CleanMicroserviceSystem.Themis (IdentityServer)", options =>
+            .AddOpenIdConnect("oidc_interactive", "CleanMicroserviceSystem.Themis (IdentityServer)", options =>
             {
                 options.SignInScheme = IdentityServerConstants.JwtRequestClientKey;
                 options.SignOutScheme = IdentityServerConstants.SignoutScheme;
