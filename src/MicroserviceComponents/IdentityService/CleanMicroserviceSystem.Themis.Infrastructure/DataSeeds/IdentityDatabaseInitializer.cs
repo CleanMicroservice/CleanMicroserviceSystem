@@ -1,5 +1,6 @@
 ﻿using CleanMicroserviceSystem.Common.Contracts;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -79,6 +80,21 @@ public static class IdentityDatabaseInitializer
             new IdentityRoleClaim<int> { Id = 1, RoleId = 1, ClaimType = "AdminAccess", ClaimValue = "ReadWrite" },
             new IdentityRoleClaim<int> { Id = 2, RoleId = 2, ClaimType = "AdminAccess", ClaimValue = "Read" },
             new IdentityRoleClaim<int> { Id = 3, RoleId = 2, ClaimType = "OperatorAccess", ClaimValue = "ReadWrite" }
+        });
+
+        builder.Entity<ApiScope>().HasData(new[]
+        {
+            new ApiScope() { Name = "ThemisAPI", DisplayName = "Themis - IdentityService"  }
+        });
+        builder.Entity<Client>().HasData(new[]
+        {
+            new Client()
+            {
+                ClientId="Tethys",
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = { new Secret("TethysSecret".Sha256()) },
+                AllowedScopes = { "ThemisAPI" }
+            }
         });
 
         return builder;
