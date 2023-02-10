@@ -25,8 +25,8 @@ public static class DependencyInjection
                     .AllowAnyHeader()))
             .AddAuthorizationCore(options =>
             {
-                options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.AdministratorRolePolicyBuilder.Build());
-                options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.AdministratorRolePolicyBuilder.Build());
+                options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
+                options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
             })
             .AddScoped<IOceanusUserRepository, OceanusUserRepository>()
             .AddScoped<IOceanusRoleRepository, OceanusRoleRepository>()

@@ -82,21 +82,6 @@ public static class IdentityDatabaseInitializer
             new IdentityRoleClaim<int> { Id = 3, RoleId = 2, ClaimType = "OperatorAccess", ClaimValue = "ReadWrite" }
         });
 
-        builder.Entity<ApiScope>().HasData(new[]
-        {
-            new ApiScope() { Name = "ThemisAPI", DisplayName = "Themis - IdentityService"  }
-        });
-        builder.Entity<Client>().HasData(new[]
-        {
-            new Client()
-            {
-                ClientId="Tethys",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = { new Secret("TethysSecret".Sha256()) },
-                AllowedScopes = { "ThemisAPI" }
-            }
-        });
-
         return builder;
     }
 }
