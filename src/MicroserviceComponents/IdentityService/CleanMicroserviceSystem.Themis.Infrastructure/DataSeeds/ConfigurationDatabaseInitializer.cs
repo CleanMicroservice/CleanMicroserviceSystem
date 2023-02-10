@@ -34,6 +34,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                             AllowedScopes = { "ThemisAPI" }
                         }.ToEntity());
                 }
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
