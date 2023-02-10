@@ -23,7 +23,7 @@ public static class DependencyInjection
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()))
-            .AddAuthorizationCore(options =>
+            .AddAuthorization(options =>
             {
                 options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
                 options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());

@@ -20,10 +20,10 @@ public class ThemisProgram : OceanusProgram
         base.ConfigureServices();
     }
 
-    public override void ConfigurePipelinesBeforeAuthorization()
+    public override void ConfigurePipelinesBeforeAuth()
     {
         webApp.UseIdentityServer();
-        base.ConfigurePipelinesBeforeAuthorization();
+        base.ConfigurePipelinesBeforeAuth();
     }
 
     public override void ConfigureWebApp()
