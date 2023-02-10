@@ -13,6 +13,8 @@ public static class CleanMicroserviceSystemAuthenticationExtension
         this IServiceCollection services,
         JwtBearerConfiguration configuration)
     {
+        const string UserJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_User";
+        const string ApiJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_Api";
         services
             .Configure(new Action<JwtBearerConfiguration>(options =>
             {
@@ -24,10 +26,10 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             .AddScoped<IJwtBearerTokenGenerator, JwtBearerTokenGenerator>()
             .AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = UserJwtBearerKey;
+                options.DefaultChallengeScheme = ApiJwtBearerKey;
             })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, "CleanMicroserviceSystem Bearer (IdentityServer)", options =>
+            .AddJwtBearer(UserJwtBearerKey, "CleanMicroserviceSystem Bearer for User (IdentityServer)", options =>
             {
                 options.Events = new JwtBearerEvents()
                 {
@@ -50,19 +52,13 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 };
                 options.Validate();
             })
-            .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, "CleanMicroserviceSystem OpenIdConnect (IdentityServer)", options =>
+            .AddJwtBearer(ApiJwtBearerKey, "CleanMicroserviceSystem Bearer for Api (IdentityServer)", options =>
             {
-                options.Authority = "https://localhost:5001";
-                options.ClientId = "web";
-                options.ClientSecret = "secret";
-                options.ResponseType = "code";
-                options.SaveTokens = true;
-                options.Scope.Clear();
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
-                options.Scope.Add("offline_access");
-                options.Scope.Add("api1");
-                options.GetClaimsFromUserInfoEndpoint = true;
+                options.Authority = "https://localhost:11002";
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateAudience = false,
+                };
             });
 
         return services;
