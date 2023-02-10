@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanMicroserviceSystem.Oceanus.Client.Abstraction
 {
-    public class OceanusHttpClient : HttpClient
+    public class OceanusHttpClientBase : HttpClient
     {
     }
 }
