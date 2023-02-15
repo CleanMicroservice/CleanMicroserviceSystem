@@ -1,6 +1,5 @@
 ﻿using CleanMicroserviceSystem.Common.Contracts;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
-using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

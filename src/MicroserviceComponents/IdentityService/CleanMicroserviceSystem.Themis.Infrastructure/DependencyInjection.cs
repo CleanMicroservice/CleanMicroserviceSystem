@@ -4,10 +4,8 @@ using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
-using Duende.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure;
 
@@ -52,9 +50,6 @@ public static class DependencyInjection
             })
             .AddEntityFrameworkStores<IdentityDbContext>();
 
-        /* TODO: https://docs.duendesoftware.com/identityserver/v6/overview/
-         * API Scope to protect CLients and API
-         */
         var migrationsAssembly = typeof(ThemisDbContext).Assembly.GetName().Name;
         services
             .AddIdentityServer()
@@ -68,26 +63,6 @@ public static class DependencyInjection
                 options.ConfigureDbContext = builder => builder
                     .UseSqlite(dbConfiguration.ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
             });
-        services
-            .AddAuthentication()
-            .AddOpenIdConnect("oidc_interactive", "CleanMicroserviceSystem.Themis (IdentityServer)", options =>
-            {
-                options.SignInScheme = IdentityServerConstants.JwtRequestClientKey;
-                options.SignOutScheme = IdentityServerConstants.SignoutScheme;
-                options.SaveTokens = true;
-
-                options.Authority = "https://demo.duendesoftware.com";
-                options.ClientId = "interactive.confidential";
-                options.ClientSecret = "secret";
-                options.ResponseType = "code";
-
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    NameClaimType = "name",
-                    RoleClaimType = "role"
-                };
-            });
-
         return services;
     }
 }

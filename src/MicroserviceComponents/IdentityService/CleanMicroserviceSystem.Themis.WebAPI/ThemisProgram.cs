@@ -3,7 +3,7 @@ using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 using CleanMicroserviceSystem.Themis.Infrastructure;
 using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
-using Duende.IdentityServer.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.DbContexts;
 
 namespace CleanMicroserviceSystem.Themis.WebAPI;
 

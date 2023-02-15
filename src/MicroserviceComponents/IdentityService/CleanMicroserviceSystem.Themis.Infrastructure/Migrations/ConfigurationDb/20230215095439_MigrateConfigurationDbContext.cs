@@ -23,7 +23,6 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                     Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
                     AllowedAccessTokenSigningAlgorithms = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "INTEGER", nullable: false),
-                    RequireResourceIndicator = table.Column<bool>(type: "INTEGER", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Updated = table.Column<DateTime>(type: "TEXT", nullable: true),
                     LastAccessed = table.Column<DateTime>(type: "TEXT", nullable: true),
@@ -46,11 +45,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                     Description = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: true),
                     Required = table.Column<bool>(type: "INTEGER", nullable: false),
                     Emphasize = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ShowInDiscoveryDocument = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Updated = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    NonEditable = table.Column<bool>(type: "INTEGER", nullable: false)
+                    ShowInDiscoveryDocument = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,41 +94,17 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                     AlwaysSendClientClaims = table.Column<bool>(type: "INTEGER", nullable: false),
                     ClientClaimsPrefix = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
                     PairWiseSubjectSalt = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
-                    UserSsoLifetime = table.Column<int>(type: "INTEGER", nullable: true),
-                    UserCodeType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    DeviceCodeLifetime = table.Column<int>(type: "INTEGER", nullable: false),
-                    CibaLifetime = table.Column<int>(type: "INTEGER", nullable: true),
-                    PollingInterval = table.Column<int>(type: "INTEGER", nullable: true),
-                    CoordinateLifetimeWithUserSession = table.Column<bool>(type: "INTEGER", nullable: true),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Updated = table.Column<DateTime>(type: "TEXT", nullable: true),
                     LastAccessed = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    UserSsoLifetime = table.Column<int>(type: "INTEGER", nullable: true),
+                    UserCodeType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
+                    DeviceCodeLifetime = table.Column<int>(type: "INTEGER", nullable: false),
                     NonEditable = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IdentityProviders",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Scheme = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    DisplayName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true),
-                    Enabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    Properties = table.Column<string>(type: "TEXT", nullable: true),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Updated = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    NonEditable = table.Column<bool>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityProviders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -371,7 +342,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    PostLogoutRedirectUri = table.Column<string>(type: "TEXT", maxLength: 400, nullable: false),
+                    PostLogoutRedirectUri = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
                     ClientId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -412,7 +383,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RedirectUri = table.Column<string>(type: "TEXT", maxLength: 400, nullable: false),
+                    RedirectUri = table.Column<string>(type: "TEXT", maxLength: 2000, nullable: false),
                     ClientId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -512,16 +483,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApiResourceClaims_ApiResourceId_Type",
+                name: "IX_ApiResourceClaims_ApiResourceId",
                 table: "ApiResourceClaims",
-                columns: new[] { "ApiResourceId", "Type" },
-                unique: true);
+                column: "ApiResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApiResourceProperties_ApiResourceId_Key",
+                name: "IX_ApiResourceProperties_ApiResourceId",
                 table: "ApiResourceProperties",
-                columns: new[] { "ApiResourceId", "Key" },
-                unique: true);
+                column: "ApiResourceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApiResources_Name",
@@ -530,10 +499,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApiResourceScopes_ApiResourceId_Scope",
+                name: "IX_ApiResourceScopes_ApiResourceId",
                 table: "ApiResourceScopes",
-                columns: new[] { "ApiResourceId", "Scope" },
-                unique: true);
+                column: "ApiResourceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApiResourceSecrets_ApiResourceId",
@@ -541,16 +509,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 column: "ApiResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApiScopeClaims_ScopeId_Type",
+                name: "IX_ApiScopeClaims_ScopeId",
                 table: "ApiScopeClaims",
-                columns: new[] { "ScopeId", "Type" },
-                unique: true);
+                column: "ScopeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApiScopeProperties_ScopeId_Key",
+                name: "IX_ApiScopeProperties_ScopeId",
                 table: "ApiScopeProperties",
-                columns: new[] { "ScopeId", "Key" },
-                unique: true);
+                column: "ScopeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApiScopes_Name",
@@ -559,46 +525,39 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientClaims_ClientId_Type_Value",
+                name: "IX_ClientClaims_ClientId",
                 table: "ClientClaims",
-                columns: new[] { "ClientId", "Type", "Value" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientCorsOrigins_ClientId_Origin",
+                name: "IX_ClientCorsOrigins_ClientId",
                 table: "ClientCorsOrigins",
-                columns: new[] { "ClientId", "Origin" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientGrantTypes_ClientId_GrantType",
+                name: "IX_ClientGrantTypes_ClientId",
                 table: "ClientGrantTypes",
-                columns: new[] { "ClientId", "GrantType" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientIdPRestrictions_ClientId_Provider",
+                name: "IX_ClientIdPRestrictions_ClientId",
                 table: "ClientIdPRestrictions",
-                columns: new[] { "ClientId", "Provider" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientPostLogoutRedirectUris_ClientId_PostLogoutRedirectUri",
+                name: "IX_ClientPostLogoutRedirectUris_ClientId",
                 table: "ClientPostLogoutRedirectUris",
-                columns: new[] { "ClientId", "PostLogoutRedirectUri" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientProperties_ClientId_Key",
+                name: "IX_ClientProperties_ClientId",
                 table: "ClientProperties",
-                columns: new[] { "ClientId", "Key" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientRedirectUris_ClientId_RedirectUri",
+                name: "IX_ClientRedirectUris_ClientId",
                 table: "ClientRedirectUris",
-                columns: new[] { "ClientId", "RedirectUri" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_ClientId",
@@ -607,10 +566,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientScopes_ClientId_Scope",
+                name: "IX_ClientScopes_ClientId",
                 table: "ClientScopes",
-                columns: new[] { "ClientId", "Scope" },
-                unique: true);
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClientSecrets_ClientId",
@@ -618,22 +576,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IdentityProviders_Scheme",
-                table: "IdentityProviders",
-                column: "Scheme",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_IdentityResourceClaims_IdentityResourceId_Type",
+                name: "IX_IdentityResourceClaims_IdentityResourceId",
                 table: "IdentityResourceClaims",
-                columns: new[] { "IdentityResourceId", "Type" },
-                unique: true);
+                column: "IdentityResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IdentityResourceProperties_IdentityResourceId_Key",
+                name: "IX_IdentityResourceProperties_IdentityResourceId",
                 table: "IdentityResourceProperties",
-                columns: new[] { "IdentityResourceId", "Key" },
-                unique: true);
+                column: "IdentityResourceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdentityResources_Name",
@@ -689,9 +639,6 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
 
             migrationBuilder.DropTable(
                 name: "ClientSecrets");
-
-            migrationBuilder.DropTable(
-                name: "IdentityProviders");
 
             migrationBuilder.DropTable(
                 name: "IdentityResourceClaims");
