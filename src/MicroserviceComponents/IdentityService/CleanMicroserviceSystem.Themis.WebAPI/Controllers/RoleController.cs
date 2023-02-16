@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using CleanMicroserviceSystem.Common.Contracts;
+using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Roles;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;

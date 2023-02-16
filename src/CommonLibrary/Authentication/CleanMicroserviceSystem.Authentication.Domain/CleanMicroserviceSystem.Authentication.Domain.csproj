@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -9,9 +9,4 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.2" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Common.Contracts;
+﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Identity;

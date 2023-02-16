@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Common.Contracts;
+﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

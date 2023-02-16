@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace CleanMicroserviceSystem.Common.Contracts;
+namespace CleanMicroserviceSystem.Authentication.Domain;
 
 public static class IdentityContract
 {

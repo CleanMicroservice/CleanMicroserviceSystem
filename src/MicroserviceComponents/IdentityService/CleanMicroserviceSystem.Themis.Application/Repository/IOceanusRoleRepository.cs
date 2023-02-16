@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Common.Domain.Entities;
+﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Themis.Domain.Identity;
 
 namespace CleanMicroserviceSystem.Themis.Application.Repository;

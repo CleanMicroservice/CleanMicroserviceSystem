@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CommonLibrary\CleanMicroserviceSystem.Common.Domain\CleanMicroserviceSystem.Common.Domain.csproj" />
     <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Domain\CleanMicroserviceSystem.Themis.Domain.csproj" />
   </ItemGroup>
