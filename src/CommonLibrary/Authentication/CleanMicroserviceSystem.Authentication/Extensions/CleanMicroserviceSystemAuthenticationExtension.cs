@@ -1,9 +1,8 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 using CleanMicroserviceSystem.Authentication.Configurations;
 using CleanMicroserviceSystem.Authentication.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanMicroserviceSystem.Authentication.Extensions;
@@ -23,11 +22,11 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 options.JwtIssuer = configuration.JwtIssuer;
                 options.JwtSecurityKey = configuration.JwtSecurityKey;
             }))
+            .AddSingleton<IAuthenticationSchemeProvider, HybridAuthenticationSchemeProvider>()
             .AddScoped<IJwtBearerTokenGenerator, JwtBearerTokenGenerator>()
             .AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = UserJwtBearerKey;
-                options.DefaultChallengeScheme = ApiJwtBearerKey;
             })
             .AddJwtBearer(UserJwtBearerKey, "CleanMicroserviceSystem Bearer for User (IdentityServer)", options =>
             {
@@ -55,6 +54,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             .AddJwtBearer(ApiJwtBearerKey, "CleanMicroserviceSystem Bearer for Api (IdentityServer)", options =>
             {
                 options.Authority = "https://localhost:11002";
+                options.MetadataAddress = "https://localhost:11002/.well-known/openid-configuration";
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = false,
