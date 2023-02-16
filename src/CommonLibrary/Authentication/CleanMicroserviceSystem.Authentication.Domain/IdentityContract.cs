@@ -21,6 +21,6 @@ public static class IdentityContract
     #region PolicyBuilders
 
     public static AuthorizationPolicyBuilder IsAdministratorRolePolicyBuilder = new AuthorizationPolicyBuilder()
-        .RequireRole(IdentityContract.AdministratorRole);
+        .RequireRole(AdministratorRole);
     #endregion
 }
