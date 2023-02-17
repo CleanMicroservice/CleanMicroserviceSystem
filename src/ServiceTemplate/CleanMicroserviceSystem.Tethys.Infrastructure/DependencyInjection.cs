@@ -20,7 +20,6 @@ public static class DependencyInjection
             .AddDbContext<DbContext, TethysDbContext>(
                 options => options
                     .UseSqlite(dbConfiguration.ConnectionString)
-                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                     .UseLazyLoadingProxies());
     }
 }

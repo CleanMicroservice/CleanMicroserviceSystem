@@ -37,15 +37,12 @@ public static class DependencyInjection
             .AddScoped<IClientRepository, ClientRepository>()
             .AddDbContext<DbContext, ThemisDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .UseLazyLoadingProxies())
             .AddDbContext<IdentityDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .UseLazyLoadingProxies())
             .AddDbContext<ConfigurationDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .UseLazyLoadingProxies())
             .AddIdentity<OceanusUser, OceanusRole>(options =>
             {
