@@ -21,7 +21,7 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
         this.signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
     }
 
-    public string GenerateSecurityToken(IEnumerable<Claim> claims)
+    public string GenerateUserSecurityToken(IEnumerable<Claim> claims)
     {
         var expiry = DateTime.Now.AddMinutes(this.options.Value.JwtExpiryInMinutes);
 
@@ -31,6 +31,18 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
             claims,
             expires: expiry,
             signingCredentials: this.signingCredentials);
+
+        return this.jwtSecurityTokenHandler.WriteToken(token);
+    }
+
+    public string GenerateClientSecurityToken(IEnumerable<Claim> claims)
+    {
+        var token = new JwtSecurityToken(
+            this.options.Value.JwtIssuer,
+            this.options.Value.JwtAudience,
+            claims,
+            expires: null,
+            signingCredentials: null);
 
         return this.jwtSecurityTokenHandler.WriteToken(token);
     }

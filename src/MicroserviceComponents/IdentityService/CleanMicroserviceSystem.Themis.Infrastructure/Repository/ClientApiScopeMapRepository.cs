@@ -17,12 +17,19 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
 
         public async Task<IEnumerable<ClientApiScopeMap>> GetClientApiResourceScopeMaps(int clientId, int resourceId)
         {
-            return this.AsQueryable().Where(x => x.ClientID == clientId && x.ApiScope.ApiResourceID == resourceId);
+            return this.AsQueryable().Where(x =>
+                x.ClientID == clientId &&
+                x.ApiScope.ApiResourceID == resourceId &&
+                x.ApiScope.ApiResource.Enabled &&
+                x.ApiScope.Enabled);
         }
 
         public async Task<IEnumerable<ClientApiScopeMap>> GetClientApiScopeMaps(int clientId)
         {
-            return this.AsQueryable().Where(x => x.ClientID == clientId);
+            return this.AsQueryable().Where(x =>
+                x.ClientID == clientId &&
+                x.ApiScope.ApiResource.Enabled &&
+                x.ApiScope.Enabled);
         }
     }
 }

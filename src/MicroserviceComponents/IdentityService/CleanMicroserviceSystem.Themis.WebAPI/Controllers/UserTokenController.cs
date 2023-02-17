@@ -86,7 +86,7 @@ public class UserTokenController : ControllerBase
 
         var user = await this.userManager.FindByNameAsync(request.UserName);
         var claims = await this.GetClaimsAsync(user!);
-        var token = this.jwtBearerTokenGenerator.GenerateSecurityToken(claims);
+        var token = this.jwtBearerTokenGenerator.GenerateUserSecurityToken(claims);
         return this.Ok(token);
     }
 
@@ -102,7 +102,7 @@ public class UserTokenController : ControllerBase
 
         var user = await this.userManager.FindByNameAsync(userName);
         var claims = await this.GetClaimsAsync(user!);
-        var token = this.jwtBearerTokenGenerator.GenerateSecurityToken(claims);
+        var token = this.jwtBearerTokenGenerator.GenerateUserSecurityToken(claims);
         return this.Ok(token);
     }
 
