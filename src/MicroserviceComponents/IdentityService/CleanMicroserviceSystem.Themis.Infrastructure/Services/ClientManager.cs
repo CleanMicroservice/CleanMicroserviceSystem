@@ -50,11 +50,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
         }
 
         public async Task<PaginatedEnumerable<Client>> SearchAsync(
-            int? id,
-            string? name,
-            bool? enabled,
-            int start,
-            int count)
+            int? id, string? name, bool? enabled, int start, int count)
         {
             return await this.clientRepository.SearchAsync(id, name, enabled, start, count);
         }

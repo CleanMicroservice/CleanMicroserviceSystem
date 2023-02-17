@@ -8,7 +8,8 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
     {
         Task<IEnumerable<ApiScope>?> GetClientScopesAsync(int clientId);
 
-        Task<PaginatedEnumerable<Client>> SearchAsync(int? id, string? name, bool? enabled, int start, int count);
+        Task<PaginatedEnumerable<Client>> SearchAsync(
+            int? id, string? name, bool? enabled, int start, int count);
 
         Task<ClientResult> SignInAsync(string clientName, string clientSecret);
 
