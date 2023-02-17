@@ -1,5 +1,6 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 
 namespace CleanMicroserviceSystem.Themis.Application.Services
@@ -20,5 +21,9 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
         Task<ApiResourceResult> DeleteAsync(ApiResource resource);
 
         Task<ApiScope?> FindScopeByIdAsync(int scopeId);
+
+        Task<ApiScopeResult> CreateScopeAsync(ApiScope scope);
+
+        Task<ApiScopeResult?> DeleteScopeAsync(ApiScope scope);
     }
 }

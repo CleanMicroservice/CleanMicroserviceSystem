@@ -29,11 +29,13 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
             int start,
             int count)
         {
-            var scopes = this.AsQueryable().AsNoTracking();
+            var scopes = this.AsQueryable();
             if (id.HasValue)
                 scopes = scopes.Where(scope => scope.ID == id);
             if (!string.IsNullOrEmpty(name))
                 scopes = scopes.Where(scope => EF.Functions.Like(scope.Name, $"%{name}%"));
+            if (enabled.HasValue)
+                scopes = scopes.Where(scope => scope.Enabled == enabled.Value);
             var originCounts = await scopes.CountAsync();
             scopes = scopes.Skip(start).Take(count);
             return new PaginatedEnumerable<ApiScope>(scopes.ToArray(), start, count, originCounts);

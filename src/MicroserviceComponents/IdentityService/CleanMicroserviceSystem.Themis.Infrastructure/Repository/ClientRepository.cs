@@ -29,11 +29,13 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
             int start,
             int count)
         {
-            var clients = this.AsQueryable().AsNoTracking();
+            var clients = this.AsQueryable();
             if (id.HasValue)
                 clients = clients.Where(client => client.ID == id);
             if (!string.IsNullOrEmpty(name))
                 clients = clients.Where(client => EF.Functions.Like(client.Name, $"%{name}%"));
+            if (enabled.HasValue)
+                clients = clients.Where(client => client.Enabled == enabled.Value);
             var originCounts = await clients.CountAsync();
             clients = clients.Skip(start).Take(count);
             return new PaginatedEnumerable<Client>(clients.ToArray(), start, count, originCounts);

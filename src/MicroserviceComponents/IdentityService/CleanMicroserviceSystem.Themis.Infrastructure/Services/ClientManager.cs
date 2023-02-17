@@ -106,6 +106,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
                 CreatedBy = IdentityContract.SuperUserId,
                 CreatedOn = DateTime.UtcNow,
             });
+            await this.clientApiScopeMapRepository.SaveChangesAsync();
             return map;
         }
 

@@ -1,5 +1,6 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
@@ -13,18 +14,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
         private readonly ILogger<ApiResourceManager> logger;
         private readonly IApiResourceRepository apiResourceRepository;
         private readonly IApiScopeRepository apiScopeRepository;
-        private readonly IClientApiScopeMapRepository clientApiScopeMapRepository;
 
         public ApiResourceManager(
             ILogger<ApiResourceManager> logger,
             IApiResourceRepository apiResourceRepository,
-            IApiScopeRepository apiScopeRepository,
-            IClientApiScopeMapRepository clientApiScopeMapRepository)
+            IApiScopeRepository apiScopeRepository)
         {
             this.logger = logger;
             this.apiResourceRepository = apiResourceRepository;
             this.apiScopeRepository = apiScopeRepository;
-            this.clientApiScopeMapRepository = clientApiScopeMapRepository;
         }
 
         public async Task<PaginatedEnumerable<ApiResource>> SearchAsync(
@@ -72,6 +70,20 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
 
             var scopes = await this.apiScopeRepository.GetResourceScopes(resourceId);
             return scopes;
+        }
+
+        public async Task<ApiScopeResult> CreateScopeAsync(ApiScope scope)
+        {
+            scope = await this.apiScopeRepository.AddAsync(scope);
+            await this.apiResourceRepository.SaveChangesAsync();
+            return new ApiScopeResult() { ApiScope = scope };
+        }
+
+        public async Task<ApiScopeResult?> DeleteScopeAsync(ApiScope scope)
+        {
+            scope = await this.apiScopeRepository.RemoveAsync(scope);
+            await this.apiResourceRepository.SaveChangesAsync();
+            return new ApiScopeResult() { ApiScope = scope };
         }
     }
 }

@@ -24,11 +24,13 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
             int start,
             int count)
         {
-            var resources = this.AsQueryable().AsNoTracking();
+            var resources = this.AsQueryable();
             if (id.HasValue)
                 resources = resources.Where(resource => resource.ID == id);
             if (!string.IsNullOrEmpty(name))
                 resources = resources.Where(resource => EF.Functions.Like(resource.Name, $"%{name}%"));
+            if (enabled.HasValue)
+                resources = resources.Where(resource => resource.Enabled == enabled.Value);
             var originCounts = await resources.CountAsync();
             resources = resources.Skip(start).Take(count);
             return new PaginatedEnumerable<ApiResource>(resources.ToArray(), start, count, originCounts);
