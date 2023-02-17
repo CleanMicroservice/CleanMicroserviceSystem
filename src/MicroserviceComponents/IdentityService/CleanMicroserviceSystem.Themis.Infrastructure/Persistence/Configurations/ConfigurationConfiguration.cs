@@ -19,7 +19,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
         {
             var apiScopeBuilder = modelBuilder.Entity<ApiScope>();
             apiScopeBuilder.HasKey(nameof(ApiScope.ID));
-            apiScopeBuilder.HasIndex(nameof(ApiScope.ApiResourceID), nameof(ApiScope.Name)).IsUnique();
+            apiScopeBuilder.HasIndex(nameof(ApiScope.ApiResourceID));
+            apiScopeBuilder.HasIndex(nameof(ApiScope.Name)).IsUnique();
             apiScopeBuilder.Property(nameof(ApiScope.Name)).UseCollation("NOCASE");
             return modelBuilder;
         }

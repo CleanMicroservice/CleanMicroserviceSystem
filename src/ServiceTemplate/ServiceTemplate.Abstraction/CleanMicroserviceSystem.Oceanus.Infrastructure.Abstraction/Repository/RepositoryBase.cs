@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using static CleanMicroserviceSystem.Oceanus.Application.Abstraction.Repository.IRepositoryBase;
 
 namespace CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 

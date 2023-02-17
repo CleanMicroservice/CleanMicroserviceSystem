@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.UserTokens;
+namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
 
 public class UserTokenLoginRequest
 {

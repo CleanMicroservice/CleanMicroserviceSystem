@@ -1,9 +1,10 @@
-﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Repository;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 
 namespace CleanMicroserviceSystem.Themis.Application.Repository;
 
-public interface IOceanusRoleRepository
+public interface IOceanusRoleRepository : IRepositoryBase<OceanusRole>
 {
     Task<PaginatedEnumerable<OceanusRole>> Search(
         int? id,
