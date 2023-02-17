@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Services;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Tokens;
-using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.UserTokens;
+using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +11,16 @@ namespace CleanMicroserviceSystem.Themis.WebAPI.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class TokenController : ControllerBase
+public class UserTokenController : ControllerBase
 {
-    private readonly ILogger<TokenController> logger;
+    private readonly ILogger<UserTokenController> logger;
     private readonly IJwtBearerTokenGenerator jwtBearerTokenGenerator;
     private readonly UserManager<OceanusUser> userManager;
     private readonly RoleManager<OceanusRole> roleManager;
     private readonly SignInManager<OceanusUser> signInManager;
 
-    public TokenController(
-        ILogger<TokenController> logger,
+    public UserTokenController(
+        ILogger<UserTokenController> logger,
         IJwtBearerTokenGenerator jwtBearerTokenGenerator,
         UserManager<OceanusUser> userManager,
         RoleManager<OceanusRole> roleManager,
@@ -68,7 +68,7 @@ public class TokenController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Post([FromBody] TokenLoginRequest request)
+    public async Task<IActionResult> Post([FromBody] UserTokenLoginRequest request)
     {
         var result = await this.signInManager.PasswordSignInAsync(request.UserName, request.Password, true, false);
         if (!result.Succeeded)

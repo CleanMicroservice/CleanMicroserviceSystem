@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Tokens;
-public class TokenLoginRequest
+namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.UserTokens;
+
+public class UserTokenLoginRequest
 {
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }

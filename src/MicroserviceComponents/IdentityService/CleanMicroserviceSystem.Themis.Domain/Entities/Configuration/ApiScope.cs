@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Contracts;
 
-namespace CleanMicroserviceSystem.Themis.Domain.Configuration
+namespace CleanMicroserviceSystem.Themis.Domain.Entities.Configuration
 {
-    public class ApiResource : AuditableEntity<int>
+    public class ApiScope : AuditableEntity<int>
     {
         [Required]
         public string Name { get; set; }
@@ -14,6 +14,10 @@ namespace CleanMicroserviceSystem.Themis.Domain.Configuration
 
         public string? Description { get; set; }
 
-        public virtual IEnumerable<ApiScope>? ApiScopes { get; set; }
+        public int ApiResourceID { get; set; }
+
+        public virtual ApiResource ApiResource { get; set; }
+
+        public virtual IEnumerable<ClientApiScopeMap>? ClientMaps { get; set; }
     }
 }

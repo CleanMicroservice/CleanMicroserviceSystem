@@ -2,7 +2,7 @@
 using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
-using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

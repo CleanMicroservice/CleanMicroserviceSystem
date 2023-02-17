@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace CleanMicroserviceSystem.Themis.Domain.Identity;
+namespace CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 
 public class OceanusRole : IdentityRole<int>
 {

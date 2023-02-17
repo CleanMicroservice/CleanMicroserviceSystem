@@ -1,5 +1,5 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

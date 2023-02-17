@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
-using CleanMicroserviceSystem.Themis.Domain.Configuration;
+using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds

@@ -1,7 +1,7 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Themis.Application.Repository;
-using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;

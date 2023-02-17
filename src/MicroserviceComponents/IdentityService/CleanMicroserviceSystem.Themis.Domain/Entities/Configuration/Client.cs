@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Contracts;
 
-namespace CleanMicroserviceSystem.Themis.Domain.Configuration
+namespace CleanMicroserviceSystem.Themis.Domain.Entities.Configuration
 {
     public class Client : AuditableEntity<int>
     {

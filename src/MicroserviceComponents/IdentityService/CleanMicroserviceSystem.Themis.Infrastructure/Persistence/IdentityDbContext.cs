@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Themis.Domain.Identity;
+﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

@@ -4,7 +4,7 @@ using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Roles;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
 using CleanMicroserviceSystem.Themis.Application.Repository;
-using CleanMicroserviceSystem.Themis.Domain.Identity;
+using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

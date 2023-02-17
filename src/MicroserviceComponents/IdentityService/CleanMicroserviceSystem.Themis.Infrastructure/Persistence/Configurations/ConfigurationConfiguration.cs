@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Themis.Domain.Configuration;
+﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configurations
