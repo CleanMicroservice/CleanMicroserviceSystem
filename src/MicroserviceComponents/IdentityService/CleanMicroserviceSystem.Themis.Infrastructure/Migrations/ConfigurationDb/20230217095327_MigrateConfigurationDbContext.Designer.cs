@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20230217065334_MigrateConfigurationDbContext")]
+    [Migration("20230217095327_MigrateConfigurationDbContext")]
     partial class MigrateConfigurationDbContext
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiResource", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiResource", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -65,14 +65,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             ID = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4760),
+                            CreatedOn = new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8749),
                             Description = "ThemisAPI",
-                            Enabled = false,
+                            Enabled = true,
                             Name = "ThemisAPI"
                         });
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiScope", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiScope", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -106,7 +106,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ApiResourceID", "Name")
+                    b.HasIndex("ApiResourceID");
+
+                    b.HasIndex("Name")
                         .IsUnique();
 
                     b.ToTable("ApiScopes");
@@ -117,9 +119,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                             ID = 1,
                             ApiResourceID = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4836),
+                            CreatedOn = new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8819),
                             Description = "ThemisAPI.Read",
-                            Enabled = false,
+                            Enabled = true,
                             Name = "ThemisAPI.Read"
                         },
                         new
@@ -127,14 +129,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                             ID = 2,
                             ApiResourceID = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4838),
+                            CreatedOn = new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8821),
                             Description = "ThemisAPI.Write",
-                            Enabled = false,
+                            Enabled = true,
                             Name = "ThemisAPI.Write"
                         });
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.Client", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.Client", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -178,15 +180,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             ID = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4866),
+                            CreatedOn = new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8829),
                             Description = "Tethys",
-                            Enabled = false,
+                            Enabled = true,
                             Name = "Tethys",
                             Secret = "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8="
                         });
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ClientApiScopeMap", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ClientApiScopeMap", b =>
                 {
                     b.Property<int>("ClientID")
                         .HasColumnType("INTEGER");
@@ -218,20 +220,20 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                             ClientID = 1,
                             ApiScopeID = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(5151)
+                            CreatedOn = new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(9146)
                         },
                         new
                         {
                             ClientID = 1,
                             ApiScopeID = 2,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(5152)
+                            CreatedOn = new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(9147)
                         });
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiScope", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiScope", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiResource", "ApiResource")
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiResource", "ApiResource")
                         .WithMany("ApiScopes")
                         .HasForeignKey("ApiResourceID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -240,15 +242,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                     b.Navigation("ApiResource");
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ClientApiScopeMap", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ClientApiScopeMap", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiScope", "ApiScope")
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiScope", "ApiScope")
                         .WithMany("ClientMaps")
                         .HasForeignKey("ApiScopeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Configuration.Client", "Client")
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.Client", "Client")
                         .WithMany("ApiScopesMaps")
                         .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -259,17 +261,17 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiResource", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiResource", b =>
                 {
                     b.Navigation("ApiScopes");
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.ApiScope", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.ApiScope", b =>
                 {
                     b.Navigation("ClientMaps");
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Configuration.Client", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Configuration.Client", b =>
                 {
                     b.Navigation("ApiScopesMaps");
                 });

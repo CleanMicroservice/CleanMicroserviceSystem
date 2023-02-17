@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20230217065158_MigrateIdentityDbContext")]
+    [Migration("20230217095336_MigrateIdentityDbContext")]
     partial class MigrateIdentityDbContext
     {
         /// <inheritdoc />
@@ -24,7 +24,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusRole", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,7 +67,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         });
                 });
 
-            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -318,7 +318,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusRole", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -327,7 +327,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -336,7 +336,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -345,13 +345,13 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusRole", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -360,7 +360,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Identity.OceanusUser", null)
+                    b.HasOne("CleanMicroserviceSystem.Themis.Domain.Entities.Identity.OceanusUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

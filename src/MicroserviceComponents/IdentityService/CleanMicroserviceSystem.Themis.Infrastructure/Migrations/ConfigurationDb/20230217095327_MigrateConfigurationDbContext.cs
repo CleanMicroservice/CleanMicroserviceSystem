@@ -109,20 +109,20 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
             migrationBuilder.InsertData(
                 table: "ApiResources",
                 columns: new[] { "ID", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name" },
-                values: new object[] { 1, 1, new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4760), "ThemisAPI", false, null, null, "ThemisAPI" });
+                values: new object[] { 1, 1, new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8749), "ThemisAPI", true, null, null, "ThemisAPI" });
 
             migrationBuilder.InsertData(
                 table: "Clients",
                 columns: new[] { "ID", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name", "Secret" },
-                values: new object[] { 1, 1, new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4866), "Tethys", false, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
+                values: new object[] { 1, 1, new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8829), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
 
             migrationBuilder.InsertData(
                 table: "ApiScopes",
                 columns: new[] { "ID", "ApiResourceID", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4836), "ThemisAPI.Read", false, null, null, "ThemisAPI.Read" },
-                    { 2, 1, 1, new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(4838), "ThemisAPI.Write", false, null, null, "ThemisAPI.Write" }
+                    { 1, 1, 1, new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8819), "ThemisAPI.Read", true, null, null, "ThemisAPI.Read" },
+                    { 2, 1, 1, new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(8821), "ThemisAPI.Write", true, null, null, "ThemisAPI.Write" }
                 });
 
             migrationBuilder.InsertData(
@@ -130,8 +130,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 columns: new[] { "ApiScopeID", "ClientID", "CreatedBy", "CreatedOn", "LastModifiedBy", "LastModifiedOn" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(5151), null, null },
-                    { 2, 1, 1, new DateTime(2023, 2, 17, 6, 53, 34, 254, DateTimeKind.Utc).AddTicks(5152), null, null }
+                    { 1, 1, 1, new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(9146), null, null },
+                    { 2, 1, 1, new DateTime(2023, 2, 17, 9, 53, 27, 593, DateTimeKind.Utc).AddTicks(9147), null, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -141,9 +141,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ApiScopes_ApiResourceID_Name",
+                name: "IX_ApiScopes_ApiResourceID",
                 table: "ApiScopes",
-                columns: new[] { "ApiResourceID", "Name" },
+                column: "ApiResourceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApiScopes_Name",
+                table: "ApiScopes",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(

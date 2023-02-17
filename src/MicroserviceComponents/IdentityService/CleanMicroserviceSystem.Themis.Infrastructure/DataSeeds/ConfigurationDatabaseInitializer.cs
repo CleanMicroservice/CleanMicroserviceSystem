@@ -13,6 +13,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                 new ApiResource()
                 {
                     ID = 1,
+                    Enabled = true,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
                     Name = ConfigurationContract.ThemisAPIResource,
@@ -22,6 +23,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                 new ApiScope()
                 {
                     ID = 1,
+                    Enabled = true,
                     ApiResourceID = 1,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
@@ -31,6 +33,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                 new ApiScope()
                 {
                     ID = 2,
+                    Enabled = true,
                     ApiResourceID = 1,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
@@ -41,6 +44,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                 new Client()
                 {
                     ID = 1,
+                    Enabled = true,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
                     Name = ConfigurationContract.TethysClient,
