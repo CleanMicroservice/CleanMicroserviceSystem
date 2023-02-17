@@ -24,7 +24,6 @@
 
 ```
 ## To remove existed mrigration ode files
-remove-migration -Context PersistedGrantDbContext
 remove-migration -Context ConfigurationDbContext
 remove-migration -Context IdentityDbContext
 remove-migration -Context ThemisDBContext
@@ -33,7 +32,6 @@ remove-migration -Context ThemisDBContext
 add-migration InitialMigration -Context ThemisDBContext
 add-migration MigrateIdentityDbContext -Context IdentityDbContext
 add-migration MigrateConfigurationDbContext -Context ConfigurationDbContext
-add-migration MigratePersistedGrantDbContext -Context PersistedGrantDbContext
 
 ## To execute database migration code files and apply modifications to current connected database file
 Update-Database -Context PersistedGrantDbContext

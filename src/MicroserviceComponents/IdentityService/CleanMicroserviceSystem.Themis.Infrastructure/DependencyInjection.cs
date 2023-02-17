@@ -36,6 +36,10 @@ public static class DependencyInjection
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .UseLazyLoadingProxies())
+            .AddDbContext<ConfigurationDbContext>(options => options
+                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
+                .UseLazyLoadingProxies())
             .AddIdentity<OceanusUser, OceanusRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -49,20 +53,6 @@ public static class DependencyInjection
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<IdentityDbContext>();
-
-        var migrationsAssembly = typeof(ThemisDbContext).Assembly.GetName().Name;
-        services
-            .AddIdentityServer()
-            .AddConfigurationStore(options =>
-            {
-                options.ConfigureDbContext = builder => builder
-                    .UseSqlite(dbConfiguration.ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
-            })
-            .AddOperationalStore(options =>
-            {
-                options.ConfigureDbContext = builder => builder
-                    .UseSqlite(dbConfiguration.ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
-            });
         return services;
     }
 }

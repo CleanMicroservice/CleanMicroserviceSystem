@@ -199,6 +199,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 values: new object[,]
                 {
                     { 1, 1 },
+                    { 2, 1 },
                     { 2, 2 }
                 });
 

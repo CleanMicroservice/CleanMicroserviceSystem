@@ -1,77 +1,70 @@
-﻿using IdentityServer4.EntityFramework.DbContexts;
-using Entities = IdentityServer4.EntityFramework.Entities;
-using IdentityServer4.Models;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using CleanMicroserviceSystem.Authentication.Domain;
+﻿using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
+using CleanMicroserviceSystem.Themis.Domain.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
 {
     public static class ConfigurationDatabaseInitializer
     {
-        public async static Task InitializeConfigurationDataAsync(this IServiceProvider services)
+        public static ModelBuilder InitializeConfigurationDataAsync(this ModelBuilder builder)
         {
-            using var scope = services.CreateScope();
-            var serviceProvider = scope.ServiceProvider;
-            var logger = serviceProvider.GetRequiredService<ILogger<ConfigurationDbContext>>();
-            var dbContext = serviceProvider.GetRequiredService<ConfigurationDbContext>();
-
-            logger.LogInformation("Start to initialize Configuration database...");
-            try
-            {
-                if (!dbContext.ApiScopes.Any())
+            builder.Entity<ApiResource>().HasData(new[] {
+                new ApiResource()
                 {
-                    await dbContext.ApiScopes.AddRangeAsync(
-                        new Entities.ApiScope()
-                        {
-                            Name = ConfigurationContract.ThemisAPIReadScope,
-                            DisplayName = ConfigurationContract.ThemisAPIReadScope
-                        },
-                        new Entities.ApiScope()
-                        {
-                            Name = ConfigurationContract.ThemisAPIWriteScope,
-                            DisplayName = ConfigurationContract.ThemisAPIWriteScope
-                        });
-                }
-                if (!dbContext.ApiResources.Any())
+                    ID = 1,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = IdentityContract.SuperUserId,
+                    Name = ConfigurationContract.ThemisAPIResource,
+                    Description = ConfigurationContract.ThemisAPIResource
+                }});
+            builder.Entity<ApiScope>().HasData(new[] {
+                new ApiScope()
                 {
-                    await dbContext.ApiResources.AddRangeAsync(
-                        new Entities.ApiResource()
-                        {
-                            Name = ConfigurationContract.ThemisAPIResource,
-                            DisplayName = ConfigurationContract.ThemisAPIResource,
-                            Scopes = new List<Entities.ApiResourceScope> {
-                                new Entities.ApiResourceScope() { Scope = ConfigurationContract.ThemisAPIReadScope },
-                                new Entities.ApiResourceScope() { Scope = ConfigurationContract.ThemisAPIWriteScope }
-                            }
-                        });
-                }
-                if (!dbContext.Clients.Any())
+                    ID = 1,
+                    ApiResourceID = 1,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = IdentityContract.SuperUserId,
+                    Name = ConfigurationContract.ThemisAPIReadScope,
+                    Description = ConfigurationContract.ThemisAPIReadScope,
+                },
+                new ApiScope()
                 {
-                    await dbContext.Clients.AddRangeAsync(
-                        new Entities.Client()
-                        {
-                            ClientId = ConfigurationContract.TethysClient,
-                            AllowedGrantTypes = GrantTypes.ClientCredentials.Select(type => new Entities.ClientGrantType() { GrantType = type }).ToList(),
-                            ClientSecrets = new List<Entities.ClientSecret>() {
-                                new Entities.ClientSecret() { Value = "TethysSecret".Sha256() }
-                            },
-                            AllowedScopes = new List<Entities.ClientScope>() {
-                                new Entities.ClientScope() { Scope = ConfigurationContract.ThemisAPIReadScope },
-                                new Entities.ClientScope() { Scope = ConfigurationContract.ThemisAPIWriteScope }
-                            }
-                        });
+                    ID = 2,
+                    ApiResourceID = 1,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = IdentityContract.SuperUserId,
+                    Name = ConfigurationContract.ThemisAPIWriteScope,
+                    Description = ConfigurationContract.ThemisAPIWriteScope,
+                }});
+            builder.Entity<Client>().HasData(new[] {
+                new Client()
+                {
+                    ID = 1,
+                    CreatedOn = DateTime.UtcNow,
+                    CreatedBy = IdentityContract.SuperUserId,
+                    Name = ConfigurationContract.TethysClient,
+                    Description = ConfigurationContract.TethysClient,
+                    Secret = "TethysSecret".Sha256(),
+                }});
+            builder.Entity<ClientApiScopeMap>().HasData(new[]
+            {
+                new ClientApiScopeMap()
+                {
+                    ClientID = 1,
+                    ApiScopeID = 1,
+                    CreatedBy = IdentityContract.SuperUserId,
+                    CreatedOn = DateTime.UtcNow,
+                },
+                new ClientApiScopeMap()
+                {
+                    ClientID = 1,
+                    ApiScopeID = 2,
+                    CreatedBy = IdentityContract.SuperUserId,
+                    CreatedOn = DateTime.UtcNow,
                 }
-                await dbContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"Database initialize failed.");
-            }
-            finally
-            {
-                logger.LogInformation($"Database initialize finished.");
-            }
+            });
+            return builder;
         }
     }
 }

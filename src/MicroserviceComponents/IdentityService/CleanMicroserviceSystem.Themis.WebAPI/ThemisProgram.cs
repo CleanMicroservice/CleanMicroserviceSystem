@@ -2,8 +2,7 @@
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 using CleanMicroserviceSystem.Themis.Infrastructure;
-using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
-using IdentityServer4.EntityFramework.DbContexts;
+using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 
 namespace CleanMicroserviceSystem.Themis.WebAPI;
 
@@ -22,7 +21,6 @@ public class ThemisProgram : OceanusProgram
 
     public override void ConfigurePipelinesBeforeAuth()
     {
-        webApp.UseIdentityServer();
         base.ConfigurePipelinesBeforeAuth();
     }
 
@@ -31,8 +29,7 @@ public class ThemisProgram : OceanusProgram
         base.ConfigureWebApp();
 
         var servicesProvider = webApp.Services;
-        servicesProvider.InitializeDatabaseAsync<PersistedGrantDbContext>().ConfigureAwait(false);
+        servicesProvider.InitializeDatabaseAsync<IdentityDbContext>().ConfigureAwait(false);
         servicesProvider.InitializeDatabaseAsync<ConfigurationDbContext>().ConfigureAwait(false);
-        servicesProvider.InitializeConfigurationDataAsync().ConfigureAwait(false);
     }
 }

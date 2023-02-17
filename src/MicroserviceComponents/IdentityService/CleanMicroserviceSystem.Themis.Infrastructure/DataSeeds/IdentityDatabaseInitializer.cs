@@ -12,13 +12,13 @@ public static class IdentityDatabaseInitializer
         builder.Entity<OceanusRole>().HasData(new[]
         {
             new OceanusRole() {
-                Id = 1,
+                Id = IdentityContract.AdministratorRoleId,
                 Name = IdentityContract.AdministratorRole,
                 NormalizedName = IdentityContract.AdministratorRole.ToUpper(),
                 ConcurrencyStamp = "8ef3768d-cdd3-43a4-9338-c549cec56942"
             },
             new OceanusRole() {
-                Id = 2,
+                Id = IdentityContract.OperatorRoleId,
                 Name = IdentityContract.OperatorRole,
                 NormalizedName = IdentityContract.OperatorRole.ToUpper(),
                 ConcurrencyStamp = "43daf209-df6b-499c-83e5-94ea05cf8997"
@@ -28,9 +28,9 @@ public static class IdentityDatabaseInitializer
         builder.Entity<OceanusUser>().HasData(new[]
         {
             new OceanusUser() {
-                Id = 1,
-                UserName = "Leon",
-                NormalizedUserName = "LEON",
+                Id = IdentityContract.SuperUserId,
+                UserName = IdentityContract.SuperUser,
+                NormalizedUserName = IdentityContract.SuperUser.ToUpper(),
                 Email = "leon@icann.com",
                 NormalizedEmail = "LEON@ICANN.COM",
                 EmailConfirmed = true,
@@ -45,9 +45,9 @@ public static class IdentityDatabaseInitializer
                 AccessFailedCount = 0
             },
             new OceanusUser() {
-                Id = 2,
-                UserName = "Mathilda",
-                NormalizedUserName = "MATHILDA",
+                Id = IdentityContract.CommonUserId,
+                UserName = IdentityContract.CommonUser,
+                NormalizedUserName = IdentityContract.CommonUser.ToUpper(),
                 Email = "mathilda@icann.com",
                 NormalizedEmail = "MATHILDA@ICANN.COM",
                 EmailConfirmed = true,
@@ -65,20 +65,21 @@ public static class IdentityDatabaseInitializer
 
         builder.Entity<IdentityUserRole<int>>().HasData(new[]
         {
-            new IdentityUserRole<int>() { UserId = 1, RoleId = 1 },
-            new IdentityUserRole<int>() { UserId = 2, RoleId = 2 }
+            new IdentityUserRole<int>() { UserId = IdentityContract.SuperUserId, RoleId = IdentityContract.AdministratorRoleId },
+            new IdentityUserRole<int>() { UserId = IdentityContract.SuperUserId, RoleId = IdentityContract.OperatorRoleId },
+            new IdentityUserRole<int>() { UserId = IdentityContract.CommonUserId, RoleId = IdentityContract.OperatorRoleId },
         });
 
         builder.Entity<IdentityUserClaim<int>>().HasData(new[]
         {
-            new IdentityUserClaim<int> { Id = 1, UserId = 1, ClaimType = "LeonAccess", ClaimValue = "ReadWrite" }
+            new IdentityUserClaim<int> { Id = 1, UserId = IdentityContract.SuperUserId, ClaimType = "LeonAccess", ClaimValue = "ReadWrite" }
         });
 
         builder.Entity<IdentityRoleClaim<int>>().HasData(new[]
         {
-            new IdentityRoleClaim<int> { Id = 1, RoleId = 1, ClaimType = "AdminAccess", ClaimValue = "ReadWrite" },
-            new IdentityRoleClaim<int> { Id = 2, RoleId = 2, ClaimType = "AdminAccess", ClaimValue = "Read" },
-            new IdentityRoleClaim<int> { Id = 3, RoleId = 2, ClaimType = "OperatorAccess", ClaimValue = "ReadWrite" }
+            new IdentityRoleClaim<int> { Id = 1, RoleId = IdentityContract.AdministratorRoleId, ClaimType = "AdminAccess", ClaimValue = "ReadWrite" },
+            new IdentityRoleClaim<int> { Id = 2, RoleId = IdentityContract.OperatorRoleId, ClaimType = "AdminAccess", ClaimValue = "Read" },
+            new IdentityRoleClaim<int> { Id = 3, RoleId = IdentityContract.OperatorRoleId, ClaimType = "OperatorAccess", ClaimValue = "ReadWrite" }
         });
 
         return builder;

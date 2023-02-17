@@ -1,4 +1,5 @@
 ﻿namespace CleanMicroserviceSystem.Authentication.Configurations;
+
 public class JwtBearerConfiguration
 {
     public string JwtSecurityKey { get; set; }
