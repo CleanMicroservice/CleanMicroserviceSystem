@@ -13,7 +13,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
         JwtBearerConfiguration configuration)
     {
         const string UserJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_User";
-        const string ApiJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_Api";
+        const string ClientJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_Client";
         services
             .Configure(new Action<JwtBearerConfiguration>(options =>
             {
@@ -51,10 +51,9 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 };
                 options.Validate();
             })
-            .AddJwtBearer(ApiJwtBearerKey, "CleanMicroserviceSystem Bearer for Api (IdentityServer)", options =>
+            .AddJwtBearer(ClientJwtBearerKey, "CleanMicroserviceSystem Bearer for Client (IdentityServer)", options =>
             {
                 options.Authority = "https://localhost:11002";
-                options.MetadataAddress = "https://localhost:11002/.well-known/openid-configuration";
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = false,
