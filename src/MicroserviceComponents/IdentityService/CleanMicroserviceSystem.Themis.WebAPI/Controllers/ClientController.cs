@@ -1,8 +1,6 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Authentication.Services;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
-using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.AspNetCore.Authorization;
@@ -16,18 +14,15 @@ namespace CleanMicroserviceSystem.Themis.WebAPI.Controllers;
 public class ClientController : ControllerBase
 {
     private readonly ILogger<ClientController> logger;
-    private readonly IJwtBearerTokenGenerator jwtBearerTokenGenerator;
     private readonly IApiResourceManager apiResourceManager;
     private readonly IClientManager clientManager;
 
     public ClientController(
         ILogger<ClientController> logger,
-        IJwtBearerTokenGenerator jwtBearerTokenGenerator,
         IApiResourceManager apiResourceManager,
         IClientManager clientManager)
     {
         this.logger = logger;
-        this.jwtBearerTokenGenerator = jwtBearerTokenGenerator;
         this.apiResourceManager = apiResourceManager;
         this.clientManager = clientManager;
     }
