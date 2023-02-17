@@ -6,6 +6,8 @@ namespace CleanMicroserviceSystem.Themis.Application.Repository
 {
     public interface IApiScopeRepository : IRepositoryBase<ApiScope>
     {
+        Task<IEnumerable<ApiScope>> GetResourceScopes(int resourceId);
+
         Task<PaginatedEnumerable<ApiScope>> SearchAsync(
             int? id,
             string? name,

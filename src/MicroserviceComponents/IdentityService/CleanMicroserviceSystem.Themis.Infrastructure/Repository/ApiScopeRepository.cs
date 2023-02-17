@@ -17,6 +17,11 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
         {
         }
 
+        public async Task<IEnumerable<ApiScope>> GetResourceScopes(int resourceId)
+        {
+            return this.AsQueryable().Where(x => x.ApiResourceID == resourceId);
+        }
+
         public async Task<PaginatedEnumerable<ApiScope>> SearchAsync(
             int? id,
             string? name,
