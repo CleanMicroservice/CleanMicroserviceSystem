@@ -1,9 +1,11 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Themis.Application.Repository;
+using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
+using CleanMicroserviceSystem.Themis.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,8 +28,13 @@ public static class DependencyInjection
                 options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
                 options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
             })
+            .AddScoped<IClientManager, ClientManager>()
             .AddScoped<IOceanusUserRepository, OceanusUserRepository>()
             .AddScoped<IOceanusRoleRepository, OceanusRoleRepository>()
+            .AddScoped<IApiResourceRepository, ApiResourceRepository>()
+            .AddScoped<IApiScopeRepository, ApiScopeRepository>()
+            .AddScoped<IClientApiScopeMapRepository, ClientApiScopeMapRepository>()
+            .AddScoped<IClientRepository, ClientRepository>()
             .AddDbContext<DbContext, ThemisDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
