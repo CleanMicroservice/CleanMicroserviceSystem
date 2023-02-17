@@ -53,7 +53,6 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             })
             .AddJwtBearer(ClientJwtBearerKey, "CleanMicroserviceSystem Bearer for Client (IdentityServer)", options =>
             {
-                options.Authority = "https://localhost:11002";
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateAudience = false,

@@ -6,6 +6,7 @@ using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
 using CleanMicroserviceSystem.Themis.Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,7 @@ public static class DependencyInjection
                 options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
                 options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
                 options.AddPolicy(IdentityContract.AccessClientsPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
+                options.AddPolicy("TestPolicy", new AuthorizationPolicyBuilder().RequireClaim(ConfigurationContract.ThemisAPIWriteScope, "true").Build());
             })
             .AddScoped<IClientManager, ClientManager>()
             .AddScoped<IApiResourceManager, ApiResourceManager>()
