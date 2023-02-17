@@ -1,7 +1,6 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
@@ -13,21 +12,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
     public class ClientManager : IClientManager
     {
         private readonly ILogger<ClientManager> logger;
-        private readonly IApiResourceRepository apiResourceRepository;
-        private readonly IApiScopeRepository apiScopeRepository;
         private readonly IClientRepository clientRepository;
         private readonly IClientApiScopeMapRepository clientApiScopeMapRepository;
 
         public ClientManager(
             ILogger<ClientManager> logger,
-            IApiResourceRepository apiResourceRepository,
-            IApiScopeRepository apiScopeRepository,
             IClientRepository clientRepository,
             IClientApiScopeMapRepository clientApiScopeMapRepository)
         {
             this.logger = logger;
-            this.apiResourceRepository = apiResourceRepository;
-            this.apiScopeRepository = apiScopeRepository;
             this.clientRepository = clientRepository;
             this.clientApiScopeMapRepository = clientApiScopeMapRepository;
         }
@@ -56,20 +49,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
             return result;
         }
 
-        public async Task<IEnumerable<ApiScopeInformationResponse>?> GetClientScopesAsync(int clientId)
+        public async Task<PaginatedEnumerable<Client>> SearchAsync(
+            int? id,
+            string? name,
+            bool? enabled,
+            int start,
+            int count)
         {
-            var client = await this.clientRepository.FindAsync(clientId);
-            if (client is null) return null;
-
-            var maps = await this.clientApiScopeMapRepository.GetClientApiScopeMaps(clientId);
-            var scopes = maps.Select(map => new ApiScopeInformationResponse()
-            {
-                ID = map.ApiScopeID,
-                Description = map.ApiScope.Description,
-                Name = map.ApiScope.Name,
-                Enabled = map.ApiScope.Enabled
-            });
-            return scopes;
+            return await this.clientRepository.SearchAsync(id, name, enabled, start, count);
         }
 
         public async Task<Client?> FindByIdAsync(int clientId)
@@ -102,6 +89,16 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
         {
             var map = await this.clientApiScopeMapRepository.FindAsync(clientId, scopeId);
             return map is not null;
+        }
+
+        public async Task<IEnumerable<ApiScope>?> GetClientScopesAsync(int clientId)
+        {
+            var client = await this.clientRepository.FindAsync(clientId);
+            if (client is null) return null;
+
+            var maps = await this.clientApiScopeMapRepository.GetClientApiScopeMaps(clientId);
+            var scopes = maps.Select(map => map.ApiScope);
+            return scopes;
         }
 
         public async Task<ClientApiScopeMap> CreateScopeAsync(int clientId, int scopeId)

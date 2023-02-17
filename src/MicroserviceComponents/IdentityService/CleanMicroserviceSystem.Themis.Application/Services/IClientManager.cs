@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
+﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 
@@ -6,11 +6,13 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
 {
     public interface IClientManager
     {
-        Task<IEnumerable<ApiScopeInformationResponse>?> GetClientScopesAsync(int clientId);
+        Task<IEnumerable<ApiScope>?> GetClientScopesAsync(int clientId);
+
+        Task<PaginatedEnumerable<Client>> SearchAsync(int? id, string? name, bool? enabled, int start, int count);
 
         Task<ClientResult> SignInAsync(string clientName, string clientSecret);
 
-        Task<Client> FindByIdAsync(int clientId);
+        Task<Client?> FindByIdAsync(int clientId);
 
         Task<ClientResult> CreateAsync(Client client);
 
@@ -22,6 +24,6 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
 
         Task<ClientApiScopeMap> CreateScopeAsync(int clientId, int scopeId);
 
-        Task<ClientApiScopeMap> DeleteScopeAsync(int clientId, int scopeId);
+        Task<ClientApiScopeMap?> DeleteScopeAsync(int clientId, int scopeId);
     }
 }

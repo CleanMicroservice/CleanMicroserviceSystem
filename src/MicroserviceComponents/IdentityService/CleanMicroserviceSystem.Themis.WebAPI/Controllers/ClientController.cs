@@ -1,5 +1,6 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Authentication.Services;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
@@ -16,18 +17,18 @@ public class ClientController : ControllerBase
 {
     private readonly ILogger<ClientController> logger;
     private readonly IJwtBearerTokenGenerator jwtBearerTokenGenerator;
-    private readonly IClientRepository clientRepository;
+    private readonly IApiResourceManager apiResourceManager;
     private readonly IClientManager clientManager;
 
     public ClientController(
         ILogger<ClientController> logger,
         IJwtBearerTokenGenerator jwtBearerTokenGenerator,
-        IClientRepository clientRepository,
+        IApiResourceManager apiResourceManager,
         IClientManager clientManager)
     {
         this.logger = logger;
         this.jwtBearerTokenGenerator = jwtBearerTokenGenerator;
-        this.clientRepository = clientRepository;
+        this.apiResourceManager = apiResourceManager;
         this.clientManager = clientManager;
     }
 
@@ -61,7 +62,7 @@ public class ClientController : ControllerBase
     [HttpGet(nameof(Search))]
     public async Task<IActionResult> Search([FromQuery] ClientSearchRequest request)
     {
-        var result = await this.clientRepository.SearchAsync(
+        var result = await this.clientManager.SearchAsync(
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
         var clients = result.Select(client => new ClientInformationResponse()
         {
@@ -179,7 +180,14 @@ public class ClientController : ControllerBase
     public async Task<IActionResult> GetScopes(int id)
     {
         var scopes = await this.clientManager.GetClientScopesAsync(id);
-        return this.Ok(scopes);
+        var scopeDtos = scopes?.Select(scope => new ApiScopeInformationResponse()
+        {
+            ID = scope.ID,
+            Description = scope.Description,
+            Name = scope.Name,
+            Enabled = scope.Enabled
+        })?.ToArray();
+        return this.Ok(scopeDtos);
     }
 
     /// <summary>
@@ -202,6 +210,9 @@ public class ClientController : ControllerBase
         {
             var mapped = await this.clientManager.CheckScopeAsync(id, scopeId);
             if (mapped) continue;
+
+            var scope = await apiResourceManager.FindScopeByIdAsync(scopeId);
+            if (scope is null) continue;
 
             await this.clientManager.CreateScopeAsync(id, scopeId);
         }
@@ -227,7 +238,7 @@ public class ClientController : ControllerBase
         foreach (var scopeId in requests)
         {
             var mapped = await this.clientManager.CheckScopeAsync(id, scopeId);
-            if (mapped) continue;
+            if (!mapped) continue;
 
             await this.clientManager.DeleteScopeAsync(id, scopeId);
         }
