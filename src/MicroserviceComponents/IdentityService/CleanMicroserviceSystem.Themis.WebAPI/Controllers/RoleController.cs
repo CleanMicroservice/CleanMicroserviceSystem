@@ -61,7 +61,7 @@ public class RoleController : ControllerBase
     [HttpGet(nameof(Search))]
     public async Task<IActionResult> Search([FromQuery] RoleSearchRequest request)
     {
-        var result = await this.oceanusRoleRepository.Search(
+        var result = await this.oceanusRoleRepository.SearchAsync(
             request.Id, request.RoleName, request.Start, request.Count);
         var roles = result.Select(role => new RoleInformationResponse()
         {
@@ -309,7 +309,7 @@ public class RoleController : ControllerBase
     [HttpGet("{id}/Users")]
     public async Task<IActionResult> GetUsers(int id, [FromQuery] UserSearchRequest request)
     {
-        var users = await this.oceanusRoleRepository.SearchUsers(
+        var users = await this.oceanusRoleRepository.SearchUsersAsync(
             new[] { id }, request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
         return this.Ok(users);
     }

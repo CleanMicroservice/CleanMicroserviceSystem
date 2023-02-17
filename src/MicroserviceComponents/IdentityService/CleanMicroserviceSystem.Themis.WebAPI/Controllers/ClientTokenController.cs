@@ -31,12 +31,12 @@ public class ClientTokenController : ControllerBase
     public async Task<IActionResult> Post([FromBody] ClientTokenLoginRequest request)
     {
         var result = await this.clientManager.SignInAsync(request.Name, request.Secret);
-        if (!result.Success)
+        if (!result.Succeeded)
         {
             return this.BadRequest(result.Error);
         }
         var client = result.Client!;
-        var clientScopes = await this.clientManager.GetClientApiScopes(client.ID);
+        var clientScopes = await this.clientManager.GetClientScopesAsync(client.ID);
         var claims = new List<Claim>() { new Claim(ClaimTypes.Name, client.Name) };
         claims.AddRange(clientScopes?.Select(scope => new Claim(scope.Name, "true"))?.ToArray() ?? Enumerable.Empty<Claim>());
         var token = this.jwtBearerTokenGenerator.GenerateClientSecurityToken(claims);

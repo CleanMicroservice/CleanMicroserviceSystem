@@ -14,7 +14,7 @@ public class GenericOptionRepository : RepositoryBase<GenericOption>, IGenericOp
     {
     }
 
-    public async Task<GenericOption?> QueryGenericOption(string optionName, string? owner = null, string? category = null)
+    public async Task<GenericOption?> QueryGenericOptionAsync(string optionName, string? owner = null, string? category = null)
         => await this
             .AsQueryable()
             .Where(

@@ -17,7 +17,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
         {
         }
 
-        public async Task<Client?> FindClientAsync(string name)
+        public async Task<Client?> FindClientByNameAsync(string name)
         {
             return await this.FirstOrDefaultAsync(x => x.Name == name);
         }

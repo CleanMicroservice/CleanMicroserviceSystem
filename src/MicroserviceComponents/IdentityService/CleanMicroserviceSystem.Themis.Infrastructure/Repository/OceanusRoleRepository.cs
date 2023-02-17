@@ -18,7 +18,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
     {
     }
 
-    public async Task<PaginatedEnumerable<OceanusRole>> Search(int? id, string? roleName, int start, int count)
+    public async Task<PaginatedEnumerable<OceanusRole>> SearchAsync(int? id, string? roleName, int start, int count)
     {
         var roles = this.AsQueryable().AsNoTracking();
         if (id.HasValue)
@@ -30,7 +30,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         return new PaginatedEnumerable<OceanusRole>(roles.ToArray(), start, count, originCounts);
     }
 
-    public async Task<PaginatedEnumerable<OceanusUser>> SearchUsers(
+    public async Task<PaginatedEnumerable<OceanusUser>> SearchUsersAsync(
         IEnumerable<int> roleIds,
         int? id,
         string? userName,

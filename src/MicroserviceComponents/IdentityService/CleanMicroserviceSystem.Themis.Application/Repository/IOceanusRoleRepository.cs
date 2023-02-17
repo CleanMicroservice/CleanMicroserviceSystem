@@ -6,13 +6,13 @@ namespace CleanMicroserviceSystem.Themis.Application.Repository;
 
 public interface IOceanusRoleRepository : IRepositoryBase<OceanusRole>
 {
-    Task<PaginatedEnumerable<OceanusRole>> Search(
+    Task<PaginatedEnumerable<OceanusRole>> SearchAsync(
         int? id,
         string? roleName,
         int start,
         int count);
 
-    Task<PaginatedEnumerable<OceanusUser>> SearchUsers(
+    Task<PaginatedEnumerable<OceanusUser>> SearchUsersAsync(
         IEnumerable<int> roleIds,
         int? id,
         string? userName,

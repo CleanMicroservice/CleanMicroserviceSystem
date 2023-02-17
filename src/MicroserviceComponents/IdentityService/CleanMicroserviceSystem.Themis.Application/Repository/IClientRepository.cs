@@ -6,7 +6,7 @@ namespace CleanMicroserviceSystem.Themis.Application.Repository
 {
     public interface IClientRepository : IRepositoryBase<Client>
     {
-        Task<Client?> FindClientAsync(string name);
+        Task<Client?> FindClientByNameAsync(string name);
 
         Task<PaginatedEnumerable<Client>> SearchAsync(
             int? id,

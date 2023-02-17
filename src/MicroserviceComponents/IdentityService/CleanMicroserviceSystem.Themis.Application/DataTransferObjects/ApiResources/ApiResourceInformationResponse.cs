@@ -4,6 +4,8 @@ namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiReso
 {
     public class ApiResourceInformationResponse
     {
+        public int ID { get; set; }
+
         public string Name { get; set; }
 
         public bool Enabled { get; set; }
