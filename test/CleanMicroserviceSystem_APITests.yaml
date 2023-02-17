@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-02-17T10:15:55.203Z
+__export_date: 2023-02-17T14:43:46.159Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_99d6d8440874404c8aa191bd8e08df69
@@ -1257,6 +1257,287 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
+  - _id: req_0f8651ab96624832b2faf767edf8cfaa
+    parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
+    modified: 1676642502081
+    created: 1676642432843
+    url: "{{ _.ThemisAddress }}api/Client/Search"
+    name: SearchClient
+    description: ""
+    method: GET
+    body: {}
+    parameters:
+      - id: pair_80dc85360b1544138963c594d222558d
+        name: id
+        value: "1"
+        description: ""
+        disabled: true
+      - id: pair_5c87b386343a4c208539cc9decdf00f5
+        name: name
+        value: t
+        description: ""
+        disabled: false
+      - id: pair_e5c232f3a11442c4858a20c647adddf9
+        name: start
+        value: "0"
+        description: ""
+      - id: pair_ecec6b531a4b48aa9ea9ea1946c6fdd0
+        name: count
+        value: "10"
+        description: ""
+    headers: []
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019581001
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_8050b06bf95f4689ae45cab7ce3311d4
+    parentId: fld_2bee811412fb48d89b7ebf83a69eb791
+    modified: 1676642435403
+    created: 1676642432838
+    name: Client
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1671019580619.75
+    _type: request_group
+  - _id: req_6ab607e116074129a9b5addc01291141
+    parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
+    modified: 1676643047320
+    created: 1676642432839
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}"
+    name: GetClient
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019580951
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_51c12fcfd05b4b379b44fb0a2a8fdf52
+    parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
+    modified: 1676642603492
+    created: 1676642432841
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}"
+    name: UpdateClient
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "TestNewClient"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      disabled: false
+      prefix: bearer
+    metaSortKey: -1671019580926
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_a4cdb215d8c746d68473df4405782831
+    parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
+    modified: 1676642676866
+    created: 1676642432844
+    url: "{{ _.ThemisAddress }}api/Client"
+    name: CreateClient
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "TestClient_{% uuid 'v4' %}",
+          "enabled": true,
+          "description": "Test Client Description",
+          "secret": "TestClientSecret"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019580913.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_41fe895635eb48b085de55d288371058
+    parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
+    modified: 1676642824908
+    created: 1676642432842
+    url: "{{ _.ThemisAddress }}api/Client/{% response 'body',
+      'req_a4cdb215d8c746d68473df4405782831', 'b64::JC5pZA==::46b', 'always', 60
+      %}"
+    name: DeleteClient
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      disabled: false
+      prefix: bearer
+    metaSortKey: -1671019580907.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7a86cd4b04fc496cab5c608b48c3fcdb
+    parentId: fld_485582b2f58c4739801d1640f8b4a3cc
+    modified: 1676642927203
+    created: 1676642905332
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Scopes"
+    name: GetClientScopes
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019580938.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_485582b2f58c4739801d1640f8b4a3cc
+    parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
+    modified: 1676642856815
+    created: 1676642847886
+    name: Scope
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1671019580857.25
+    _type: request_group
+  - _id: req_feec1e1992674e7690a1756281fc9571
+    parentId: fld_485582b2f58c4739801d1640f8b4a3cc
+    modified: 1676643129665
+    created: 1676642915194
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Scopes"
+    name: CreateClientScopes
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        [
+        	1,
+        	2,
+        	3
+        ]
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019580888.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_325719792ed74332ab67e43854355101
+    parentId: fld_485582b2f58c4739801d1640f8b4a3cc
+    modified: 1676644716332
+    created: 1676642921573
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Scopes"
+    name: DeleteClientScopes
+    description: ""
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: |-
+        [
+        	1
+        ]
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      disabled: false
+      prefix: bearer
+    metaSortKey: -1671019580838.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
     modified: 1670678666304
@@ -1270,13 +1551,13 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1676626444223
+    modified: 1676644379877
     created: 1670678556534
     name: Default Jar
     cookies:
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8ODuDWgnciBDip_aNidIWrI6zFusRUpNPYzQigALuojhMa0cyue_yOvXuil7Zf0M4Fxls2g0czh-Yqm3BuvZLdQDNlba5sObmCiRtICH-hRs1ipMWtcvVVgqtLjIPJqGJ1JdGDUkT7VXImrjK7AF3Z5RUUX4YO2TEQ7tQt6NnGQ947G2oVOLmOkpZNXWU9afPXgGSEPSNPwB2Syn-QxkR5SgjmpsAt3tiz5PY2W2yz724S3qAl-84m6cG3u4OXbWA7rOOzGk2BxKOSAtjuNsYyCSJYmorO1zTDlwuoyOBEDzz2lQ5Ipom_4uE9mPQZp3owFpPaOyQ_J3dXTi6dT66AbJkM9Os-a6K8syRT97bYllejE4UAqY6jxFPl_TeKOtbkxmk1smLRquY9DuAPJq814N3zEqDVqs9FKGgdnLX0usxFD-nsUnXIvyMQUoSSrfNXgdeKqfConj-SyTUBx6rVfCOeJtaaw_4sCmrr8tdMsG4H-KWmbCMLo-Zj9gpgQ9WZiojHi5XYySu6LpdCFxuKIetnsRo8ThsBEFnHfU0eXZKVRvi-tS4-8_22GSDrxXggoLP2ru_yN0KjxVgHl1x78EuH08UR5dv6JlhPulGk0Gf0Hli3Cts-wlTxqy-NLDirsrxAoGNIghWT82EwETOJkXXL-Grok9x89opXXqprHOWZxmMSU2MV_X6Yo6NHrB2XCie2iFfdif3DRo5Q-FY__cYu7fuG3v7Lqid8bRmjQ2805SMZ_KHxKfMKcg3LvclGJjQemCUdyItwpZIObRKLTzsBkKznL-hj99utAoHoUg8dYMG6sZeZ-HgUdVqmzaZ-lRIMMjm7AjO5IQlnmrB0F4Q_t8KbuKrU2mHO51bHJq9UHdIHVgwCFBhcQVk0HA1nRHgxjj8FTX-dm9MxWbMa7S_5F2rG_S2AoVUNrwSLPFiva53oLxGlplPA7EDjQ246TLmxiPgq8jOR1PFBCoH2RrNQiNnpHLk3QutxkRXSjDd00d9Mepl4YVQ0Iky7O-1UBiQ-V8rhqAfcI25-mwvyEx1qIurFSRsr8KT4naQ_NtCEtVRBxKrSXUSZW9YiHjUQ
-        expires: 2023-03-03T09:34:04.000Z
+        value: CfDJ8ODuDWgnciBDip_aNidIWrKECGzGR50mndm38MSiOb4_Ltqhj4ZOj6In4g3Pa7gXivcnL1-_adP5UKE1Sv4YPamV52FK0uXhvmAKpyoa9p_mLWZqq9sM0uvW0qM_CicgP0_Fa3aAJ9LrnGGBtAjIhJNnPtMVRPqnYLLCgCWSS_WDXrSWWIqP0wOCTSNLrdRGzwxF33cbdm-FxzZJfnb6OfLEesP6YA2zlm0BEQgIHQtpRBFlJM4bX6dP8ZgzruNdwf8MBgAUpWIBaWh65hKy-xSrJB62JC7bXF4F13SP6P80-kb9Zueh9QW0fMXw6Z1t0HxmnJwB6DCbAXyOf78qOhBIzEgpUX3Qj_NwWJuV-sLHk4ONPBViGXlMaQyUa6Sm8vD2G3xJ93xhxY5gj90l_-1lldpWjVtPMyQujUmyoYIrsdXm-AYB4z1quiYXD4Kb9Dh688ZLAwfUcJ1s3Ktv1J2STvh8GGfWP12fEOSl0EyYVa6HslY9aZGj4XtWm-fRlnLnzkS0f3S-FS6mGPsZyfSMMHb3uHZ_qcyYGntF52VMjV7p0jaq7Ny5FWKDqtc4vj07MDyD9LdweLbHdHmM6I6n5Gz4hZU4uPefOM9jKsSeleNCqBJneV3pqVGikCak-eLVrzkChDHBDachQAaI7lGFSf_De0WLS2W23lAfC2ugXYuQanX40hQc-YNO_CRj246wtYc9zBuSOISVE-JWFX3EOD1O0tqTvQE1xlC0B2GI2ir72ic2VieKDRvcBTw5kvTAeeQLiZ1dQ_txeekFI1BoBYciaIEEI5USKSc5gAwdG3YUcueOVqLWuQACjjE2Y_iOHX4EsdMdShLOYhaNiZjn24xxwI1dSEjOqEXlNLp9m600zMXiQNUb2tnHbxjqwkIwYPkqFDRBZpnEvDCuUQaC1Hp0C_mE6u6u3K5ndEdyOH-NXTSC51U_v80KLIIeaIXTagk3zskShnR4kb_Hgix7QvqKSKpHJPnI5oJzJMrRfHCa3ik7LgplwFXr8-PDyeFx6N1_rQwGYUGa-hm43nATpgDZSyUxP4wT6_2-xjK9gpK5djElYGZHRELnbitkog
+        expires: 2023-03-03T14:32:59.000Z
         domain: localhost
         path: /
         secure: true
@@ -1285,8 +1566,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2022-12-14T12:10:39.695Z
-        lastAccessed: 2023-02-17T09:34:04.223Z
-        id: "3479190441808857"
+        lastAccessed: 2023-02-17T14:32:59.877Z
+        id: "018210407348081326"
       - key: Identity.External
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -1298,7 +1579,7 @@ resources:
         hostOnly: true
         creation: 2022-12-14T12:15:23.646Z
         lastAccessed: 2023-02-17T09:32:44.304Z
-        id: "12522092076544666"
+        id: "726368612467001"
       - key: Identity.TwoFactorUserId
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -1310,7 +1591,7 @@ resources:
         hostOnly: true
         creation: 2022-12-14T12:15:23.647Z
         lastAccessed: 2023-02-17T09:32:44.304Z
-        id: "15543822889903414"
+        id: "15025467946075355"
       - key: .AspNetCore.Identity.Application
         value: CfDJ8Hif3UnsXc5En-1DD0iWHIH378gYePXBoEoWdewW8PVoLGkrCwscST879Q-uUVMaTJo1qvpuaplnzuGzxn2tZ-9UjfJJ3d-WXPjvQhBV_RmcOa43XoGWWdWwkSsOdNdu7EJ7Zt8uL6giZwS1v0zpsT4wsbEINYDbiFWo0hgl9aOhoJYzhbYNYm7ykhiQEvVAEzM9UfA1BARnJUWmOyFSICTU50ABjVa1erN-sxEC8TlUJ7Lsg_zLFD6r8WxtVjtLn3a9CgU-aezw2hUnTAjjWHPGkBZ0yKWbB7WXRHETrFKd6sK9w8DLSKiId9hCJbQbtiFfAtE66u3FvoaCBlY-nFVs0AdaH9OiLMPIh3-k38zwb1vPkby_ClH58W_YkTlmECUO-tAUZ6Zy5NcIzhCZExCmBFiB5_YM4F96tBG8uDbQ35o4aiE6ZQJHi9B38-EaDVSdzNUVQpMSwHei7Ck8lg8yYDWPFinqQX0BPh2kMSNzgQYbhqLdn3Ny8AGBcfg0ikR5zx0BtNRvlTAJdpkd4LKc-Fb1ryVcfmsfP7RkmLk0P9b4WkgRl4LpI1HF8a4SHLaJESR60ta1z5hJX_dDmGoWvmyfZHsfzh7_n0qiWtfH1H3VmW4NMkxwM6kvsTGcl5TwevOQmt5lW2WAbS8kivG8P8VSZWvNot254ijDARVqbeEIR0tGFho26XzlYu_yUI_8u4gyayD8WMQ90pnCJZY-V51wf4Y7R1v7JS6gAg1HhoApHBoorWatBlwrFrvMF2JazgUFL-lqDx-iOJTFRG-PMSaLjuFKLcBaVY0tEbHHh29vbjo8JPlPxRTjeKr_HgY-qQencTkhKIb2BqHvFw8MR7Mh8Puka-JVNt_eLhEnqAR-tDHAUW4b2uV0W51Z6g
         expires: 2023-01-05T18:49:02.000Z
@@ -1323,7 +1604,7 @@ resources:
         hostOnly: true
         creation: 2022-12-22T18:48:51.964Z
         lastAccessed: 2022-12-22T18:49:02.479Z
-        id: "4261001845885908"
+        id: "30058453393400164"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
@@ -1335,7 +1616,7 @@ resources:
     _type: api_spec
   - _id: env_bd78d43cb4934b1f8297ad93f0265fbf
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1676626527946
+    modified: 1676643080649
     created: 1670678668397
     name: LocalHost
     data:
@@ -1344,7 +1625,8 @@ resources:
       RoleId: "1"
       UserName: Leon
       Password: 12345@Qq
-      ClientId: Tethys
+      ClientId: "1"
+      ClientName: Tethys
       ClientSecret: TethysSecret
     dataPropertyOrder:
       "&":
@@ -1354,6 +1636,7 @@ resources:
         - UserName
         - Password
         - ClientId
+        - ClientName
         - ClientSecret
     color: null
     isPrivate: false
