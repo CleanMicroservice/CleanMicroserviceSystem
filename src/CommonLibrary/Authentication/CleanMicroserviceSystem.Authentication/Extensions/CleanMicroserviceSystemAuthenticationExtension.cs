@@ -27,6 +27,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             .AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = UserJwtBearerKey;
+                options.DefaultChallengeScheme = ClientJwtBearerKey;
             })
             .AddJwtBearer(UserJwtBearerKey, "CleanMicroserviceSystem Bearer for User (IdentityServer)", options =>
             {
