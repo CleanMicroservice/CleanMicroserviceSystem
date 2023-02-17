@@ -27,6 +27,7 @@ public static class DependencyInjection
             {
                 options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
                 options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
+                options.AddPolicy(IdentityContract.AccessClientsPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
             })
             .AddScoped<IClientManager, ClientManager>()
             .AddScoped<IOceanusUserRepository, OceanusUserRepository>()

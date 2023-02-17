@@ -24,6 +24,7 @@ public static class IdentityContract
 
     public const string AccessUsersPolicy = "AccessUsersPolicy";
     public const string AccessRolesPolicy = "AccessRolesPolicy";
+    public const string AccessClientsPolicy = "AccessClientsPolicy";
     #endregion
 
     #region PolicyBuilders
