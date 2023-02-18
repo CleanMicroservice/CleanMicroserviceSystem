@@ -28,7 +28,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
         {
             var clientClaimBuilder = modelBuilder.Entity<ClientClaim>();
             clientClaimBuilder.HasKey(nameof(ClientClaim.Id));
-            clientClaimBuilder.HasIndex(nameof(ClientClaim.ClientId), nameof(ClientClaim.ClaimType)).IsUnique();
+            clientClaimBuilder.HasIndex(nameof(ClientClaim.ClientId), nameof(ClientClaim.ClaimType));
             return modelBuilder;
         }
     }

@@ -62,7 +62,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 18, 9, 13, 47, 65, DateTimeKind.Utc).AddTicks(3500),
+                            CreatedOn = new DateTime(2023, 2, 18, 9, 47, 55, 571, DateTimeKind.Utc).AddTicks(2633),
                             Description = "ThemisAPI",
                             Enabled = true,
                             Name = "ThemisAPI"
@@ -113,7 +113,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 18, 9, 13, 47, 65, DateTimeKind.Utc).AddTicks(3585),
+                            CreatedOn = new DateTime(2023, 2, 18, 9, 47, 55, 571, DateTimeKind.Utc).AddTicks(2700),
                             Description = "Tethys",
                             Enabled = true,
                             Name = "Tethys",
@@ -139,8 +139,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId", "ClaimType")
-                        .IsUnique();
+                    b.HasIndex("ClientId", "ClaimType");
 
                     b.ToTable("ClientClaims");
 
@@ -148,15 +147,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         new
                         {
                             Id = 1,
-                            ClaimType = "ThemisAPI.Read",
-                            ClaimValue = "ThemisAPI.Read",
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Read",
                             ClientId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClaimType = "ThemisAPI.Write",
-                            ClaimValue = "ThemisAPI.Write",
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Write",
                             ClientId = 1
                         });
                 });
