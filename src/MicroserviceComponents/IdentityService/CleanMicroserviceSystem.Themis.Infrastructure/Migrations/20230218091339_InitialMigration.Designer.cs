@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 {
     [DbContext(typeof(ThemisDbContext))]
-    [Migration("20230217095322_InitialMigration")]
+    [Migration("20230218091339_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities.GenericOption", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -58,7 +58,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                         .HasColumnType("TEXT")
                         .UseCollation("NOCASE");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("OptionName", "Category", "OwnerLevel")
                         .IsUnique();
@@ -68,7 +68,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 
             modelBuilder.Entity("CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities.WebAPILog", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -128,7 +128,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                     b.Property<string>("UserAgent")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("RequestURI", "SourceHost", "IdentityName", "CreatedOn");
 

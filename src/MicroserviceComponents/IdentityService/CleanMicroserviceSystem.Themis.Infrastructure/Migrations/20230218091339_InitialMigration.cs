@@ -15,7 +15,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                 name: "GenericOptions",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     OptionName = table.Column<string>(type: "TEXT", nullable: false, collation: "NOCASE"),
                     OptionValue = table.Column<string>(type: "TEXT", nullable: true),
@@ -28,14 +28,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GenericOptions", x => x.ID);
+                    table.PrimaryKey("PK_GenericOptions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "WebAPILogs",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     RequestURI = table.Column<string>(type: "TEXT", nullable: false),
                     QueryString = table.Column<string>(type: "TEXT", nullable: false),
@@ -57,7 +57,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WebAPILogs", x => x.ID);
+                    table.PrimaryKey("PK_WebAPILogs", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
