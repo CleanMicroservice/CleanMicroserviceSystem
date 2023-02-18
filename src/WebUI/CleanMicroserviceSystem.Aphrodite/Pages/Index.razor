@@ -1,13 +1,6 @@
 ﻿@page "/"
 
 <h1>Hello, world!</h1>
-<Button Type="@ButtonType.Primary" @onclick="this.Button_Click">Hello World!</Button>
-<h1>@this.Value</h1>
 
 @code {
-    public int Value { get; set; } = 0;
-    public async Task Button_Click()
-    {
-        this.Value++;
-    }
 }
