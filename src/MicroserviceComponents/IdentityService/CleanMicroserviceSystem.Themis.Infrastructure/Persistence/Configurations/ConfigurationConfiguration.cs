@@ -8,7 +8,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
         public static ModelBuilder ConfigureApiResource(this ModelBuilder modelBuilder)
         {
             var apiResourceBuilder = modelBuilder.Entity<ApiResource>();
-            apiResourceBuilder.HasKey(nameof(ApiResource.ID));
+            apiResourceBuilder.HasKey(nameof(ApiResource.Id));
             apiResourceBuilder.HasIndex(nameof(ApiResource.Name)).IsUnique();
             apiResourceBuilder.Property(nameof(ApiResource.Name)).UseCollation("NOCASE");
             apiResourceBuilder.HasMany(r => r.ApiScopes).WithOne(s => s.ApiResource).HasForeignKey(s => s.ApiResourceID).IsRequired();
@@ -28,7 +28,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
         public static ModelBuilder ConfigureClient(this ModelBuilder modelBuilder)
         {
             var clientBuilder = modelBuilder.Entity<Client>();
-            clientBuilder.HasKey(nameof(Client.ID));
+            clientBuilder.HasKey(nameof(Client.Id));
             clientBuilder.HasIndex(nameof(Client.Name)).IsUnique();
             clientBuilder.Property(nameof(Client.Name)).UseCollation("NOCASE");
             return modelBuilder;

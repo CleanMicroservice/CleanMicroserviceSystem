@@ -31,7 +31,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
         {
             var clients = this.AsQueryable();
             if (id.HasValue)
-                clients = clients.Where(client => client.ID == id);
+                clients = clients.Where(client => client.Id == id);
             if (!string.IsNullOrEmpty(name))
                 clients = clients.Where(client => EF.Functions.Like(client.Name, $"%{name}%"));
             if (enabled.HasValue)

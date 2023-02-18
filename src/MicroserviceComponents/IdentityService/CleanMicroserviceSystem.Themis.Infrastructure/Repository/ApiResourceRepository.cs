@@ -26,7 +26,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
         {
             var resources = this.AsQueryable();
             if (id.HasValue)
-                resources = resources.Where(resource => resource.ID == id);
+                resources = resources.Where(resource => resource.Id == id);
             if (!string.IsNullOrEmpty(name))
                 resources = resources.Where(resource => EF.Functions.Like(resource.Name, $"%{name}%"));
             if (enabled.HasValue)

@@ -8,7 +8,7 @@ internal static class WebAPILogConfiguration
     public static ModelBuilder ConfigureWebAPILog(this ModelBuilder modelBuilder)
     {
         var entityBuilder = modelBuilder.Entity<WebAPILog>();
-        entityBuilder.HasKey(nameof(WebAPILog.ID));
+        entityBuilder.HasKey(nameof(WebAPILog.Id));
         entityBuilder.HasIndex(
                 nameof(WebAPILog.RequestURI),
                 nameof(WebAPILog.SourceHost),

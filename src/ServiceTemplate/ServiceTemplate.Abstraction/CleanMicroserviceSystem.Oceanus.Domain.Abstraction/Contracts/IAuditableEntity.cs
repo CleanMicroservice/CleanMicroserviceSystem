@@ -1,10 +1,6 @@
 ﻿namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Contracts;
 
-public interface IAuditableEntity<TID> : IAuditableEntity, IEntity<TID>
-{
-}
-
-public interface IAuditableEntity : IEntity
+public interface IAuditableEntity<TKey> : IEntity<TKey>
 {
     int CreatedBy { get; set; }
 

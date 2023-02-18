@@ -42,7 +42,7 @@ public class ClientController : ControllerBase
             ? this.NotFound()
             : this.Ok(new ClientInformationResponse()
             {
-                ID = client.ID,
+                Id = client.Id,
                 Name = client.Name,
                 Enabled = client.Enabled,
                 Description = client.Description,
@@ -61,7 +61,7 @@ public class ClientController : ControllerBase
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
         var clients = result.Select(client => new ClientInformationResponse()
         {
-            ID = client.ID,
+            Id = client.Id,
             Name = client.Name,
             Enabled = client.Enabled,
             Description = client.Description,
@@ -90,10 +90,10 @@ public class ClientController : ControllerBase
         }
         else
         {
-            newClient = await this.clientManager.FindByIdAsync(newClient.ID);
+            newClient = await this.clientManager.FindByIdAsync(newClient.Id);
             return this.Ok(new ClientInformationResponse()
             {
-                ID = newClient.ID,
+                Id = newClient.Id,
                 Name = newClient.Name,
                 Enabled = newClient.Enabled,
                 Description = newClient.Description,
@@ -138,10 +138,10 @@ public class ClientController : ControllerBase
         }
         else
         {
-            client = await this.clientManager.FindByIdAsync(client.ID);
+            client = await this.clientManager.FindByIdAsync(client.Id);
             return this.Ok(new ClientInformationResponse()
             {
-                ID = client.ID,
+                Id = client.Id,
                 Name = client.Name,
                 Enabled = client.Enabled,
                 Description = client.Description,

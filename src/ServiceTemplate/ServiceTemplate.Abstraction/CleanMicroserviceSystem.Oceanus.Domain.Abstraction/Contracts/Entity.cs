@@ -1,10 +1,10 @@
 ﻿namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Contracts;
 
-public interface IEntity<TKey> : IEntity
+public class Entity<TKey> : Entity, IEntity<TKey>
 {
     public TKey Id { get; set; }
 }
 
-public interface IEntity
+public class Entity : IEntity
 {
 }

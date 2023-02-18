@@ -8,7 +8,7 @@ internal static class GenericOptionConfiguration
     public static ModelBuilder ConfigureGenericOption(this ModelBuilder modelBuilder)
     {
         var entityBuilder = modelBuilder.Entity<GenericOption>();
-        entityBuilder.HasKey(nameof(WebAPILog.ID));
+        entityBuilder.HasKey(nameof(WebAPILog.Id));
         entityBuilder
             .HasIndex(
                 nameof(GenericOption.OptionName),

@@ -1,13 +1,9 @@
 ﻿namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Contracts;
 
-public abstract class AuditableEntity<TID> : AuditableEntity, IAuditableEntity<TID>
+public abstract class AuditableEntity<TKey> : Entity<TKey>, IAuditableEntity<TKey>
 {
-    public TID ID { get; set; }
+    public TKey Id { get; set; }
 
-}
-
-public abstract class AuditableEntity : IAuditableEntity
-{
     public int CreatedBy { get; set; }
 
     public DateTime CreatedOn { get; set; }

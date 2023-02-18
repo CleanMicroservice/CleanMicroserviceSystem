@@ -12,7 +12,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
             builder.Entity<ApiResource>().HasData(new[] {
                 new ApiResource()
                 {
-                    ID = 1,
+                    Id = 1,
                     Enabled = true,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
@@ -43,7 +43,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
             builder.Entity<Client>().HasData(new[] {
                 new Client()
                 {
-                    ID = 1,
+                    Id = 1,
                     Enabled = true,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
