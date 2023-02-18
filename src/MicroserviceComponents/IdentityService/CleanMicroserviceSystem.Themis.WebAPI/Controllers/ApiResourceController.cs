@@ -11,7 +11,7 @@ namespace CleanMicroserviceSystem.Themis.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Policy = IdentityContract.AccessRolesPolicy)]
+[Authorize]
 public class ApiResourceController : ControllerBase
 {
     private readonly ILogger<ApiResourceController> logger;
@@ -33,6 +33,7 @@ public class ApiResourceController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(int id)
     {
         var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
@@ -60,6 +61,7 @@ public class ApiResourceController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet(nameof(Search))]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] ApiResourceSearchRequest request)
     {
         var result = await this.apiResourceManager.SearchAsync(
@@ -87,6 +89,7 @@ public class ApiResourceController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Post([FromBody] ApiResourceCreateRequest request)
     {
         var newResource = new ApiResource()
@@ -120,6 +123,7 @@ public class ApiResourceController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(int id, [FromBody] ApiResourceUpdateRequest request)
     {
         var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
@@ -163,6 +167,7 @@ public class ApiResourceController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(int id)
     {
         var resource = await this.apiResourceManager.FindResourceByIdAsync(id);

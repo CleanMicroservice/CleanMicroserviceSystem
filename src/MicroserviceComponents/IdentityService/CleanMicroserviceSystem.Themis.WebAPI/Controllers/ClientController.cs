@@ -10,7 +10,7 @@ namespace CleanMicroserviceSystem.Themis.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Policy = IdentityContract.AccessRolesPolicy)]
+[Authorize]
 public class ClientController : ControllerBase
 {
     private readonly ILogger<ClientController> logger;
@@ -35,6 +35,7 @@ public class ClientController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(int id)
     {
         var client = await this.clientManager.FindByIdAsync(id);
@@ -55,6 +56,7 @@ public class ClientController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet(nameof(Search))]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] ClientSearchRequest request)
     {
         var result = await this.clientManager.SearchAsync(
@@ -75,6 +77,7 @@ public class ClientController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Post([FromBody] ClientCreateRequest request)
     {
         var newClient = new Client()
@@ -108,6 +111,7 @@ public class ClientController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(int id, [FromBody] ClientUpdateRequest request)
     {
         var client = await this.clientManager.FindByIdAsync(id);
@@ -155,6 +159,7 @@ public class ClientController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(int id)
     {
         var client = await this.clientManager.FindByIdAsync(id);

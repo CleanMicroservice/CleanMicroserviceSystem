@@ -39,6 +39,7 @@ public class UserController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
@@ -63,6 +64,7 @@ public class UserController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put([FromBody] UserUpdateRequest request)
     {
         var userName = this.HttpContext.User?.Identity?.Name;
@@ -113,7 +115,7 @@ public class UserController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(string id)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -134,7 +136,7 @@ public class UserController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet(nameof(Search))]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] UserSearchRequest request)
     {
         var result = await this.oceanusUserRepository.Search(
@@ -189,7 +191,7 @@ public class UserController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(string id, [FromBody] UserUpdateRequest request)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -246,7 +248,7 @@ public class UserController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(string id)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -265,7 +267,7 @@ public class UserController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/Claims")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetClaims(string id)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -288,7 +290,7 @@ public class UserController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -342,7 +344,7 @@ public class UserController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -372,7 +374,7 @@ public class UserController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -403,7 +405,7 @@ public class UserController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/Roles")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetRoles(string id)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -421,7 +423,7 @@ public class UserController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPut("{id}/Roles")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutRoles(string id, [FromBody] IEnumerable<string> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -475,7 +477,7 @@ public class UserController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPost("{id}/Roles")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostRoles(string id, [FromBody] IEnumerable<string> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);
@@ -502,7 +504,7 @@ public class UserController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpDelete("{id}/Roles")]
-    [Authorize(Policy = IdentityContract.AccessUsersPolicy)]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteRoles(string id, [FromBody] IEnumerable<string> requests)
     {
         var user = await this.userManager.FindByIdAsync(id);

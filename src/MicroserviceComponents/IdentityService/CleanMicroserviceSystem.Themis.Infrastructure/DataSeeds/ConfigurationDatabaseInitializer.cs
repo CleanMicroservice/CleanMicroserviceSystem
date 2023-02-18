@@ -16,8 +16,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                     Enabled = true,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
-                    Name = ConfigurationContract.ThemisAPIResource,
-                    Description = ConfigurationContract.ThemisAPIResource
+                    Name = IdentityContract.ThemisAPIResource,
+                    Description = IdentityContract.ThemisAPIResource
                 }});
             builder.Entity<Client>().HasData(new[] {
                 new Client()
@@ -26,8 +26,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                     Enabled = true,
                     CreatedOn = DateTime.UtcNow,
                     CreatedBy = IdentityContract.SuperUserId,
-                    Name = ConfigurationContract.TethysClient,
-                    Description = ConfigurationContract.TethysClient,
+                    Name = IdentityContract.TethysClient,
+                    Description = IdentityContract.TethysClient,
                     Secret = "TethysSecret".Sha256(),
                 }});
             builder.Entity<ClientClaim>().HasData(new[] {
@@ -35,15 +35,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                 {
                     Id = 1,
                     ClientId = 1,
-                    ClaimType= ConfigurationContract.ThemisAPIReadScope,
-                    ClaimValue= ConfigurationContract.ThemisAPIReadScope,
+                    ClaimType= IdentityContract.ThemisAPIResource,
+                    ClaimValue= IdentityContract.Read,
                 },
                 new ClientClaim()
                 {
                     Id = 2,
                     ClientId = 1,
-                    ClaimType= ConfigurationContract.ThemisAPIWriteScope,
-                    ClaimValue= ConfigurationContract.ThemisAPIWriteScope,
+                    ClaimType= IdentityContract.ThemisAPIResource,
+                    ClaimValue= IdentityContract.Write,
                 }});
             return builder;
         }

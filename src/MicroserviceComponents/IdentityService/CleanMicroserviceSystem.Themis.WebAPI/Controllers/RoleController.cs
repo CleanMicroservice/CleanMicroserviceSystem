@@ -13,7 +13,7 @@ namespace CleanMicroserviceSystem.Themis.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Policy = IdentityContract.AccessRolesPolicy)]
+[Authorize]
 public class RoleController : ControllerBase
 {
     private readonly ILogger<RoleController> logger;
@@ -41,6 +41,7 @@ public class RoleController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(string id)
     {
         var role = await this.roleManager.FindByIdAsync(id);
@@ -59,6 +60,7 @@ public class RoleController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet(nameof(Search))]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] RoleSearchRequest request)
     {
         var result = await this.oceanusRoleRepository.SearchAsync(
@@ -77,6 +79,7 @@ public class RoleController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
     {
         var newRole = new OceanusRole()
@@ -106,6 +109,7 @@ public class RoleController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(string id, [FromBody] RoleUpdateRequest request)
     {
         var role = await this.roleManager.FindByIdAsync(id);
@@ -135,6 +139,7 @@ public class RoleController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(string id)
     {
         var role = await this.roleManager.FindByIdAsync(id);
@@ -153,6 +158,7 @@ public class RoleController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetClaims(string id)
     {
         var role = await this.roleManager.FindByIdAsync(id);
@@ -175,6 +181,7 @@ public class RoleController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var role = await this.roleManager.FindByIdAsync(id);
@@ -234,6 +241,7 @@ public class RoleController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var role = await this.roleManager.FindByIdAsync(id.ToString());
@@ -270,6 +278,7 @@ public class RoleController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         var role = await this.roleManager.FindByIdAsync(id.ToString());
@@ -307,6 +316,7 @@ public class RoleController : ControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/Users")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetUsers(int id, [FromQuery] UserSearchRequest request)
     {
         var users = await this.oceanusRoleRepository.SearchUsersAsync(
@@ -321,6 +331,7 @@ public class RoleController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpPost("{id}/Users")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostUsers(string id, [FromBody] IEnumerable<string> requests)
     {
         if (!requests.Any())
@@ -354,6 +365,7 @@ public class RoleController : ControllerBase
     /// <param name="requests"></param>
     /// <returns></returns>
     [HttpDelete("{id}/Users")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteUsers(string id, [FromBody] IEnumerable<string> requests)
     {
         if (!requests.Any())

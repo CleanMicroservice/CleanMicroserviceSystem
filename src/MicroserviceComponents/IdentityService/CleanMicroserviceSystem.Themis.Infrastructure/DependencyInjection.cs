@@ -25,9 +25,8 @@ public static class DependencyInjection
                     .AllowAnyHeader()))
             .AddAuthorization(options =>
             {
-                options.AddPolicy(IdentityContract.AccessUsersPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
-                options.AddPolicy(IdentityContract.AccessRolesPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
-                options.AddPolicy(IdentityContract.AccessClientsPolicy, IdentityContract.IsAdministratorRolePolicyBuilder.Build());
+                options.AddPolicy(IdentityContract.ThemisAPIReadPolicyName, IdentityContract.ThemisAPIReadPolicy);
+                options.AddPolicy(IdentityContract.ThemisAPIWritePolicyName, IdentityContract.ThemisAPIWritePolicy);
             })
             .AddScoped<IClientManager, ClientManager>()
             .AddScoped<IApiResourceManager, ApiResourceManager>()

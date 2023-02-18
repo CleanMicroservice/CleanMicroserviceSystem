@@ -28,8 +28,8 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 new AuthenticationSchemeConfiguration(
                     ClientJwtBearerKey,
                     context =>
-                        context.Request.Headers.TryGetValue(ConfigurationContract.AuthenticationSchemeHeaderName, out var headerValue) &&
-                        ConfigurationContract.ClientAuthenticationSchemeHeaderValue.Equals(headerValue, StringComparison.OrdinalIgnoreCase)),
+                        context.Request.Headers.TryGetValue(IdentityContract.AuthenticationSchemeHeaderName, out var headerValue) &&
+                        IdentityContract.ClientAuthenticationSchemeHeaderValue.Equals(headerValue, StringComparison.OrdinalIgnoreCase)),
             })
             .AddScoped<IJwtBearerTokenGenerator, JwtBearerTokenGenerator>()
             .AddAuthentication(options =>
