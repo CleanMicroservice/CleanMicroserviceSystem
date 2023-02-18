@@ -16,6 +16,6 @@ namespace CleanMicroserviceSystem.Themis.Domain.Entities.Configuration
 
         public string? Secret { get; set; }
 
-        public virtual IEnumerable<ClientApiScopeMap>? ApiScopesMaps { get; set; }
+        public virtual IEnumerable<ClientClaim>? Claims { get; set; }
     }
 }

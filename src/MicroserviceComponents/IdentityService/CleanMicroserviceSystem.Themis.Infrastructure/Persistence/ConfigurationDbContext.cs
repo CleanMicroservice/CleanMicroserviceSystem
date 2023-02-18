@@ -27,11 +27,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence
 
         public DbSet<ApiResource> ApiResources { get; set; }
 
-        public DbSet<ApiScope> ApiScopes { get; set; }
-
         public DbSet<Client> Clients { get; set; }
 
-        public DbSet<ClientApiScopeMap> ClientApiScopeMaps { get; set; }
+        public DbSet<ClientClaim> ClientClaims { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,9 +42,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence
             base.OnModelCreating(builder);
             builder
                 .ConfigureApiResource()
-                .ConfigureApiScope()
                 .ConfigureClient()
-                .ConfigureClientApiScopeMap()
+                .ConfigureClientClaim()
                 .InitializeConfigurationDataAsync();
         }
     }

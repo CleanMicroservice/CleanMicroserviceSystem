@@ -11,17 +11,6 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
             apiResourceBuilder.HasKey(nameof(ApiResource.Id));
             apiResourceBuilder.HasIndex(nameof(ApiResource.Name)).IsUnique();
             apiResourceBuilder.Property(nameof(ApiResource.Name)).UseCollation("NOCASE");
-            apiResourceBuilder.HasMany(r => r.ApiScopes).WithOne(s => s.ApiResource).HasForeignKey(s => s.ApiResourceID).IsRequired();
-            return modelBuilder;
-        }
-
-        public static ModelBuilder ConfigureApiScope(this ModelBuilder modelBuilder)
-        {
-            var apiScopeBuilder = modelBuilder.Entity<ApiScope>();
-            apiScopeBuilder.HasKey(nameof(ApiScope.ID));
-            apiScopeBuilder.HasIndex(nameof(ApiScope.ApiResourceID));
-            apiScopeBuilder.HasIndex(nameof(ApiScope.Name)).IsUnique();
-            apiScopeBuilder.Property(nameof(ApiScope.Name)).UseCollation("NOCASE");
             return modelBuilder;
         }
 
@@ -31,15 +20,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
             clientBuilder.HasKey(nameof(Client.Id));
             clientBuilder.HasIndex(nameof(Client.Name)).IsUnique();
             clientBuilder.Property(nameof(Client.Name)).UseCollation("NOCASE");
+            clientBuilder.HasMany(client => client.Claims).WithOne(claim => claim.Client).HasForeignKey(claim => claim.ClientId).OnDelete(DeleteBehavior.Cascade);
             return modelBuilder;
         }
 
-        public static ModelBuilder ConfigureClientApiScopeMap(this ModelBuilder modelBuilder)
+        public static ModelBuilder ConfigureClientClaim(this ModelBuilder modelBuilder)
         {
-            var clientApiScopeMapBuilder = modelBuilder.Entity<ClientApiScopeMap>();
-            clientApiScopeMapBuilder.HasKey(nameof(ClientApiScopeMap.ClientID), nameof(ClientApiScopeMap.ApiScopeID));
-            clientApiScopeMapBuilder.HasOne(map => map.Client).WithMany(client => client.ApiScopesMaps).HasForeignKey(map => map.ClientID).OnDelete(DeleteBehavior.Cascade);
-            clientApiScopeMapBuilder.HasOne(map => map.ApiScope).WithMany(client => client.ClientMaps).HasForeignKey(map => map.ApiScopeID).OnDelete(DeleteBehavior.Cascade);
+            var clientClaimBuilder = modelBuilder.Entity<ClientClaim>();
+            clientClaimBuilder.HasKey(nameof(ClientClaim.Id));
+            clientClaimBuilder.HasIndex(nameof(ClientClaim.ClientId), nameof(ClientClaim.ClaimType)).IsUnique();
             return modelBuilder;
         }
     }

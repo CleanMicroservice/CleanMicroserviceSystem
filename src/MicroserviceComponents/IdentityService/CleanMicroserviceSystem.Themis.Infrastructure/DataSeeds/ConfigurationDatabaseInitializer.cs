@@ -19,27 +19,6 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                     Name = ConfigurationContract.ThemisAPIResource,
                     Description = ConfigurationContract.ThemisAPIResource
                 }});
-            builder.Entity<ApiScope>().HasData(new[] {
-                new ApiScope()
-                {
-                    ID = 1,
-                    Enabled = true,
-                    ApiResourceID = 1,
-                    CreatedOn = DateTime.UtcNow,
-                    CreatedBy = IdentityContract.SuperUserId,
-                    Name = ConfigurationContract.ThemisAPIReadScope,
-                    Description = ConfigurationContract.ThemisAPIReadScope,
-                },
-                new ApiScope()
-                {
-                    ID = 2,
-                    Enabled = true,
-                    ApiResourceID = 1,
-                    CreatedOn = DateTime.UtcNow,
-                    CreatedBy = IdentityContract.SuperUserId,
-                    Name = ConfigurationContract.ThemisAPIWriteScope,
-                    Description = ConfigurationContract.ThemisAPIWriteScope,
-                }});
             builder.Entity<Client>().HasData(new[] {
                 new Client()
                 {
@@ -51,23 +30,21 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds
                     Description = ConfigurationContract.TethysClient,
                     Secret = "TethysSecret".Sha256(),
                 }});
-            builder.Entity<ClientApiScopeMap>().HasData(new[]
-            {
-                new ClientApiScopeMap()
+            builder.Entity<ClientClaim>().HasData(new[] {
+                new ClientClaim()
                 {
-                    ClientID = 1,
-                    ApiScopeID = 1,
-                    CreatedBy = IdentityContract.SuperUserId,
-                    CreatedOn = DateTime.UtcNow,
+                    Id = 1,
+                    ClientId = 1,
+                    ClaimType= ConfigurationContract.ThemisAPIReadScope,
+                    ClaimValue= ConfigurationContract.ThemisAPIReadScope,
                 },
-                new ClientApiScopeMap()
+                new ClientClaim()
                 {
-                    ClientID = 1,
-                    ApiScopeID = 2,
-                    CreatedBy = IdentityContract.SuperUserId,
-                    CreatedOn = DateTime.UtcNow,
-                }
-            });
+                    Id = 2,
+                    ClientId = 1,
+                    ClaimType= ConfigurationContract.ThemisAPIWriteScope,
+                    ClaimValue= ConfigurationContract.ThemisAPIWriteScope,
+                }});
             return builder;
         }
     }

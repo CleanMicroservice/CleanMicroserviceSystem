@@ -2,14 +2,15 @@
 
 namespace CleanMicroserviceSystem.Themis.Domain.Entities.Configuration
 {
-    public class ClientApiScopeMap : AuditableEntity
+    public class ClientClaim : Entity<int>
     {
-        public int ClientID { get; set; }
+        public int ClientId { get; set; }
 
         public virtual Client Client { get; set; }
 
-        public int ApiScopeID { get; set; }
+        public string ClaimType { get; set; }
 
-        public virtual ApiScope ApiScope { get; set; }
+        public string? ClaimValue { get; set; }
+
     }
 }

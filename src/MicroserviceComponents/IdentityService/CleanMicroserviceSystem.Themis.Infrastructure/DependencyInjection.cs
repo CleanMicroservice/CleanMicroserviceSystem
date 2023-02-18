@@ -34,8 +34,7 @@ public static class DependencyInjection
             .AddScoped<IOceanusUserRepository, OceanusUserRepository>()
             .AddScoped<IOceanusRoleRepository, OceanusRoleRepository>()
             .AddScoped<IApiResourceRepository, ApiResourceRepository>()
-            .AddScoped<IApiScopeRepository, ApiScopeRepository>()
-            .AddScoped<IClientApiScopeMapRepository, ClientApiScopeMapRepository>()
+            .AddScoped<IClientClaimRepository, ClientClaimRepository>()
             .AddScoped<IClientRepository, ClientRepository>()
             .AddDbContext<DbContext, ThemisDbContext>(options => options
                 .UseSqlite(dbConfiguration.ConnectionString)

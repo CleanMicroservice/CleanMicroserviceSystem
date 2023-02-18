@@ -1,6 +1,4 @@
-﻿using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
-
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources
+﻿namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources
 {
     public class ApiResourceInformationResponse
     {
@@ -11,7 +9,5 @@ namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiReso
         public bool Enabled { get; set; }
 
         public string? Description { get; set; }
-
-        public virtual IEnumerable<ApiScopeInformationResponse>? ApiScopes { get; set; }
     }
 }
