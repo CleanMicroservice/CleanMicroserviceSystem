@@ -190,22 +190,22 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         new
                         {
                             Id = 1,
-                            ClaimType = "AdminAccess",
-                            ClaimValue = "ReadWrite",
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Read",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClaimType = "AdminAccess",
-                            ClaimValue = "Read",
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Write",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 3,
-                            ClaimType = "OperatorAccess",
-                            ClaimValue = "ReadWrite",
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Read",
                             RoleId = 2
                         });
                 });
@@ -235,8 +235,15 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         new
                         {
                             Id = 1,
-                            ClaimType = "LeonAccess",
-                            ClaimValue = "ReadWrite",
+                            ClaimType = "Leon",
+                            ClaimValue = "Read",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClaimType = "Leon",
+                            ClaimValue = "Write",
                             UserId = 1
                         });
                 });

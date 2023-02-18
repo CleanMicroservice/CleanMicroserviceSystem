@@ -183,15 +183,19 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[,]
                 {
-                    { 1, "AdminAccess", "ReadWrite", 1 },
-                    { 2, "AdminAccess", "Read", 2 },
-                    { 3, "OperatorAccess", "ReadWrite", 2 }
+                    { 1, "ThemisAPI", "Read", 1 },
+                    { 2, "ThemisAPI", "Write", 2 },
+                    { 3, "ThemisAPI", "Read", 2 }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
-                values: new object[] { 1, "LeonAccess", "ReadWrite", 1 });
+                values: new object[,]
+                {
+                    { 1, "Leon", "Read", 1 },
+                    { 2, "Leon", "Write", 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
