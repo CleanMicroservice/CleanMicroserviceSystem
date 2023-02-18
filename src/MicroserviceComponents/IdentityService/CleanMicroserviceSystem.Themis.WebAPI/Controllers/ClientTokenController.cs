@@ -37,7 +37,11 @@ public class ClientTokenController : ControllerBase
         }
         var client = result.Client!;
         var clientScopes = await this.clientManager.GetClientScopesAsync(client.ID);
-        var claims = new List<Claim>() { new Claim(ClaimTypes.Name, client.Name) };
+        var claims = new List<Claim>()
+        {
+            new Claim(ClaimTypes.Name, client.Name),
+            new Claim(nameof(DateTime.UtcNow), DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.ffffff"))
+        };
         claims.AddRange(clientScopes?.Select(scope => new Claim(scope.Name, "true"))?.ToArray() ?? Enumerable.Empty<Claim>());
         var token = this.jwtBearerTokenGenerator.GenerateClientSecurityToken(claims);
         return this.Ok(token);

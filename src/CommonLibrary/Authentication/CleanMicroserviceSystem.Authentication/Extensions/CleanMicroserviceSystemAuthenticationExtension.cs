@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using CleanMicroserviceSystem.Authentication.Configurations;
+using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Authentication.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +23,14 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 options.JwtIssuer = configuration.JwtIssuer;
                 options.JwtSecurityKey = configuration.JwtSecurityKey;
             }))
-            .AddSingleton<IAuthenticationSchemeProvider, HybridAuthenticationSchemeProvider>()
+            .AddHybridAuthenticationSchemeProvider(new AuthenticationSchemeConfiguration[]
+            {
+                new AuthenticationSchemeConfiguration(
+                    ClientJwtBearerKey,
+                    context =>
+                        context.Request.Headers.TryGetValue(ConfigurationContract.AuthenticationSchemeHeaderName, out var headerValue) &&
+                        ConfigurationContract.ClientAuthenticationSchemeHeaderValue.Equals(headerValue, StringComparison.OrdinalIgnoreCase)),
+            })
             .AddScoped<IJwtBearerTokenGenerator, JwtBearerTokenGenerator>()
             .AddAuthentication(options =>
             {
@@ -68,6 +76,18 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 };
             });
 
+        return services;
+    }
+
+    public static IServiceCollection AddHybridAuthenticationSchemeProvider(
+        this IServiceCollection services,
+        IEnumerable<AuthenticationSchemeConfiguration> configurations)
+    {
+        services.AddSingleton<IAuthenticationSchemeProvider, HybridAuthenticationSchemeProvider>();
+        services.Configure<AuthenticationSchemeConfigurations>(options =>
+        {
+            options.SchemeConfigurations = configurations;
+        });
         return services;
     }
 }
