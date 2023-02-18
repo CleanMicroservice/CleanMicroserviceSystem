@@ -1,11 +1,11 @@
 _type: export
 __export_format: 4
-__export_date: 2023-02-17T15:37:09.361Z
+__export_date: 2023-02-18T10:46:16.720Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_99d6d8440874404c8aa191bd8e08df69
     parentId: fld_1d15cb0708244848bbed034ababbe711
-    modified: 1676626545495
+    modified: 1676699058323
     created: 1676626437247
     url: "{{ _.ThemisAddress }}api/ClientToken"
     name: Login
@@ -15,7 +15,7 @@ resources:
       mimeType: application/json
       text: |-
         {
-          "name": "{{ _.ClientId }}",
+          "name": "{{ _.ClientName }}",
           "secret": "{{ _.ClientSecret }}"
         }
     parameters: []
@@ -111,7 +111,7 @@ resources:
     _type: request_group
   - _id: req_ad860fa2fe6a47b58829b3ea5da33c9f
     parentId: fld_c2d69352e09e409a918395ea93313e96
-    modified: 1676626360055
+    modified: 1676706126898
     created: 1671019895653
     url: "{{ _.ThemisAddress }}api/UserToken"
     name: Refresh
@@ -1436,10 +1436,10 @@ resources:
     _type: request
   - _id: req_7a86cd4b04fc496cab5c608b48c3fcdb
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676642927203
+    modified: 1676709682057
     created: 1676642905332
-    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Scopes"
-    name: GetClientScopes
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
+    name: GetClientClaims
     description: ""
     method: GET
     body: {}
@@ -1462,9 +1462,9 @@ resources:
     _type: request
   - _id: fld_485582b2f58c4739801d1640f8b4a3cc
     parentId: fld_8050b06bf95f4689ae45cab7ce3311d4
-    modified: 1676642856815
+    modified: 1676709663113
     created: 1676642847886
-    name: Scope
+    name: Claim
     description: ""
     environment: {}
     environmentPropertyOrder: null
@@ -1472,19 +1472,32 @@ resources:
     _type: request_group
   - _id: req_feec1e1992674e7690a1756281fc9571
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676643129665
+    modified: 1676716473280
     created: 1676642915194
-    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Scopes"
-    name: CreateClientScopes
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
+    name: CreateClientClaims
     description: ""
     method: POST
     body:
       mimeType: application/json
       text: |-
         [
-        	1,
-        	2,
-        	3
+          {
+            "type": "Claim_OS.ARCH",
+            "value": "{% os 'arch', '' %}"
+          },
+        	{
+            "type": "Claim_OS.HOSTNAME",
+            "value": "{% os 'hostname', '' %}"
+          },
+        	{
+            "type": "Claim_OS.PLATFORM",
+            "value": "{% os 'platform', '' %}"
+          },
+        	{
+            "type": "Claim_OS.RELEASE",
+            "value": "{% os 'release', '' %}"
+          }
         ]
     parameters: []
     headers:
@@ -1505,19 +1518,86 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
+  - _id: req_6a89843bcfae496a96b594870360339c
+    parentId: fld_485582b2f58c4739801d1640f8b4a3cc
+    modified: 1676709735278
+    created: 1676709710700
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
+    name: UpdateClientClaims
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        [
+        	{
+        		"type": "LeonAccess",
+        		"value": "ReadWrite"
+        	},
+          {
+            "type": "Claim_OS.ARCH",
+            "value": "{% os 'arch', '' %}"
+          },
+        	{
+            "type": "Claim_OS.HOSTNAME",
+            "value": "{% os 'hostname', '' %}"
+          },
+        	{
+            "type": "Claim_OS.PLATFORM",
+            "value": "{% os 'platform', '' %}"
+          },
+        	{
+            "type": "Claim_OS.RELEASE",
+            "value": "{% os 'release', '' %}"
+          }
+        ]
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+        'when-expired', 1500 %}"
+      disabled: false
+      prefix: bearer
+    metaSortKey: -1671019580863.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: req_325719792ed74332ab67e43854355101
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676644716332
+    modified: 1676716532076
     created: 1676642921573
-    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Scopes"
-    name: DeleteClientScopes
+    url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
+    name: DeleteClientClaims
     description: ""
     method: DELETE
     body:
       mimeType: application/json
       text: |-
         [
-        	1
+          {
+            "type": "Claim_OS.ARCH",
+            "value": "{% os 'arch', '' %}"
+          },
+        	{
+            "type": "Claim_OS.HOSTNAME",
+            "value": "{% os 'hostname', '' %}"
+          },
+        	{
+            "type": "Claim_OS.PLATFORM",
+            "value": "{% os 'platform', '' %}"
+          },
+        	{
+            "type": "Claim_OS.RELEASE",
+            "value": "{% os 'release', '' %}"
+          }
         ]
     parameters: []
     headers:
@@ -1540,7 +1620,7 @@ resources:
     _type: request
   - _id: req_5a09787a177f407db5e6faee5b6d15ea
     parentId: fld_7dde368eac704ecb800554dfa1b7ca5e
-    modified: 1676647537632
+    modified: 1676714494199
     created: 1676645062191
     url: "{{ _.ThemisAddress }}api/ApiResource/Search"
     name: SearchApiResource
@@ -1594,7 +1674,7 @@ resources:
     _type: request_group
   - _id: req_0247cc55bc644fe29b6873d4a316352b
     parentId: fld_7dde368eac704ecb800554dfa1b7ca5e
-    modified: 1676647413055
+    modified: 1676714372213
     created: 1676645062188
     url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}"
     name: GetApiResource
@@ -1620,7 +1700,7 @@ resources:
     _type: request
   - _id: req_08addebe42264ba9b740350160b33e7c
     parentId: fld_7dde368eac704ecb800554dfa1b7ca5e
-    modified: 1676647467690
+    modified: 1676714500351
     created: 1676645062189
     url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}"
     name: UpdateApiResource
@@ -1653,7 +1733,7 @@ resources:
     _type: request
   - _id: req_7ee74f60980c4cc5944fcc416594068e
     parentId: fld_7dde368eac704ecb800554dfa1b7ca5e
-    modified: 1676647526882
+    modified: 1676714505509
     created: 1676645062193
     url: "{{ _.ThemisAddress }}api/ApiResource"
     name: CreateApiResource
@@ -1689,7 +1769,7 @@ resources:
     _type: request
   - _id: req_138ad3f3dcf4443197bcb22265061535
     parentId: fld_7dde368eac704ecb800554dfa1b7ca5e
-    modified: 1676647554397
+    modified: 1676714508453
     created: 1676645062190
     url: "{{ _.ThemisAddress }}api/ApiResource/{% response 'body',
       'req_7ee74f60980c4cc5944fcc416594068e', 'b64::JC5pZA==::46b', 'always', 60
@@ -1715,105 +1795,6 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
-  - _id: req_0905e89366c049688309c4128c4fc0a6
-    parentId: fld_3de8b621f3e5454d85e7dfe19a00fb17
-    modified: 1676647565275
-    created: 1676645062184
-    url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}/Scopes"
-    name: GetApiResourceScopes
-    description: ""
-    method: GET
-    body: {}
-    parameters: []
-    headers: []
-    authentication:
-      type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
-      prefix: bearer
-      disabled: false
-    metaSortKey: -1671019580938.5
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
-  - _id: fld_3de8b621f3e5454d85e7dfe19a00fb17
-    parentId: fld_7dde368eac704ecb800554dfa1b7ca5e
-    modified: 1676645062183
-    created: 1676645062183
-    name: Scope
-    description: ""
-    environment: {}
-    environmentPropertyOrder: null
-    metaSortKey: -1671019580857.25
-    _type: request_group
-  - _id: req_23618b8d2c57400092d122097ccdd544
-    parentId: fld_3de8b621f3e5454d85e7dfe19a00fb17
-    modified: 1676647676829
-    created: 1676645062185
-    url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}/Scopes"
-    name: CreateApiResourceScope
-    description: ""
-    method: POST
-    body:
-      mimeType: application/json
-      text: |-
-        {
-          "name": "NewApiScope_{% uuid 'v4' %}",
-          "enabled": true,
-          "description": "New API Scope"
-        }
-    parameters: []
-    headers:
-      - name: Content-Type
-        value: application/json
-    authentication:
-      type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
-      prefix: bearer
-      disabled: false
-    metaSortKey: -1671019580888.5
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
-  - _id: req_fbe9b929aad24d598843cc4bbc11055e
-    parentId: fld_3de8b621f3e5454d85e7dfe19a00fb17
-    modified: 1676647879154
-    created: 1676645062186
-    url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}/Scopes/{%
-      response 'body', 'req_23618b8d2c57400092d122097ccdd544',
-      'b64::JC5pZA==::46b', 'always', 60 %}"
-    name: DeleteApiResourceScope
-    description: ""
-    method: DELETE
-    body: {}
-    parameters: []
-    headers: []
-    authentication:
-      type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
-      disabled: false
-      prefix: bearer
-    metaSortKey: -1671019580838.5
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
   - _id: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
     modified: 1670678666304
@@ -1827,13 +1808,13 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1676646957538
+    modified: 1676716413223
     created: 1670678556534
     name: Default Jar
     cookies:
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8ODuDWgnciBDip_aNidIWrJdbrMBnDxV68flBDcT2VHJzvTCNEG35Hyg-Ob8urZkMUnwZtS4HXgJ7MkX_o2bZVK_bqeER5byeTmvYoqol1sMwbzV3DNrY6GuV_B2suQb7BhJGrPJgGMAZBGJ6YIvHE6J9PA4fnuNS1DXkqAo8cbv6OE63y1u1eriItlNqHMsVaWh7okxGxnTqV8uijLcPUjmur_hmZ4t0cXmkBdD5St6Hkpg2gVtq_uPq1IsILoFMz3BeOcEVy_t5frbe7G_8zBZjiQEHOSn7rG-K_7N9pw74YXRlcAApLg3WHERay6Gc0fSyTUFqUcfEZbRskGluE4boRZqfAyznevwHuuGB553ItYG7vgfxWtLXFRIIk2WhpSPuLuiVTUzfW61YMQat4thyCS0hSI1s9cr2sgI1KUEUtRGfpvQ8bNvYzJuUiyS76Q-ikbpx2wfzj-wS6dQ_w0PsjygWdgmMxD0piOd-v0ArcIoX2IaAX5TwvGOhmXkNDRXBf11mm4VaEY2V-myBJqkxPU6WCqGdg-X81XUiNARCubFOwdXbDW59bj9KGG-Bimmc1pmRDbcDxQiqd-ACGdE4awAqIRiMC423ooLrN3lxPG-xcWqe62fKE9K6XvlIQAgO7Pgo159YOpegXuwQHnJUZXUR8JMPxA4Naa86BfvVHTzyorKFnX1L7X35z47ND1J3xW37gKnjGBq6io58c_v5m_i2K_S5aXnKjT5w5mt68BHGWn-4HuwYdQmRKxd24qtazkTrwwtzdhI-gjQp8w3XMnBWmbdDnvtMEJk7bSvF16NElOYQizVoBaIQyUPaw0egT6a5eGbWW9EW7Cj-B-nCDRKnycAPK_rZT9rsUucA1sYO2x_QvFl6aLsEtWitl7y5PAikQWqRuVX0qpqTtwz00uwI_KVIM4qZrbLUiqZz9YuIf3XUB9XnIXgqScn_AYsA_aU8NdE80M_V9lE5dmS2G18jvLsH3viv3VvPrJMnifn92Io1gRifVpl9jCzZ9qBp9FqXSpgTluhWmi9XUxhVmb7mrNgxleV96cRLb7uiergIVUUfmLopxKwliUeIQ
-        expires: 2023-03-03T15:15:57.000Z
+        value: CfDJ8ODuDWgnciBDip_aNidIWrKNHyMayRPPLUq0VUia-4keK1WT1zTL4EeK9lOmFJC-ZCSshuP2iNNvujTH537J9HIbw7Im53Owb0qS4rngLG_d00T9PE01dCG8DW-EGA7BierE54JDOtxeMObef5dREca2Nk0WTMTs3kiK-5per2P6x1xfj_DtohdCC4rP445cq-Oimbjh2vM8N_OJv9m7AeeVsJdnFfuWjBIYsW5WZlCm18lZczK6EBgJeNrCxuQb6Y7-guJvFAkl5ngh8s8bV5UboQoLLD_RNqQ_qc8PKwcA4yfNowt4thMUmoU98hp2ydxTKNjXmUIt6YeKJhdW0jAt3Vy6DSFZsbeF2P689U_c5Ravhutj9c_nqtjclTZ4yEHLwr45BmB-9bkPSoX3Opo5As5CFEqf0mqCcIG0NBNxlZgy5IjBb7fhnwRPEtqxkruJYEJec0CLRcAJCwT8nqL6TYV-94cawS-u7wcNfno-YNB3uECjKnX-yEMNcTv7DTYTZX6wcdtzsW_i6If9XmS8xF-Kc1mibPPcKe49ELmdUBjBZVJmNwBWSnncnzmJ6yg7eAMMbcyDoOlIuCdTNuTpoPql76wtQQtmKmNfDTAgvvwz-JSqFO7CwZC9HTeiartZmkz_utMkzare55ncDpWAGGkkzw8DGDsPHdzy61FEOh-a1JZEZKzRllen15PkkbiwTbL_tKUaor9dqIz7LBEBNs5zztwG2ylOqncfU8zNkOCPUYtLBHJmva8UW181QWXvDiBpL15yDLTKm2UoiXnEjIhK-bD0D8bZ07agJCVT2VHMQMeDj0ASUDutyhcmzSo-J-4WIRNQ1z2RF_Ee4wmGYQmGWJVKqyIM_fWAbfS3b1hqGWCsF6Ys6Vfsq-ZGTWAhMYJv2vaYsts1c98R8SYVD7tmWWxwAd5evpNP5OEiz_7wBVZTgxH9OVIqQNTSM3WCIJ9OedBDZBKnnVuibVKfekjhhNzCvVd5nl8QTf7Sn8ROH2Xg3CTXTYDpwe0TmGnCEmlYb6aet1lcffqsDHGN2dnTsd6z-35KUD0lWBnLzLfjop77j2i1UM2hczHjbg
+        expires: 2023-03-04T10:33:33.000Z
         domain: localhost
         path: /
         secure: true
@@ -1841,9 +1822,9 @@ resources:
         extensions:
           - samesite=lax
         hostOnly: true
-        creation: 2022-12-14T12:10:39.695Z
-        lastAccessed: 2023-02-17T15:15:57.538Z
-        id: "8077033333644277"
+        creation: 2023-02-17T16:40:01.153Z
+        lastAccessed: 2023-02-18T10:33:33.223Z
+        id: "9693621098277085"
       - key: Identity.External
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -1853,9 +1834,9 @@ resources:
         extensions:
           - samesite=lax
         hostOnly: true
-        creation: 2022-12-14T12:15:23.646Z
-        lastAccessed: 2023-02-17T09:32:44.304Z
-        id: "45892659182599327"
+        creation: 2023-02-18T07:41:59.228Z
+        lastAccessed: 2023-02-18T07:41:59.228Z
+        id: "01756668309021614"
       - key: Identity.TwoFactorUserId
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -1865,22 +1846,9 @@ resources:
         extensions:
           - samesite=lax
         hostOnly: true
-        creation: 2022-12-14T12:15:23.647Z
-        lastAccessed: 2023-02-17T09:32:44.304Z
-        id: "34987853567950644"
-      - key: .AspNetCore.Identity.Application
-        value: CfDJ8Hif3UnsXc5En-1DD0iWHIH378gYePXBoEoWdewW8PVoLGkrCwscST879Q-uUVMaTJo1qvpuaplnzuGzxn2tZ-9UjfJJ3d-WXPjvQhBV_RmcOa43XoGWWdWwkSsOdNdu7EJ7Zt8uL6giZwS1v0zpsT4wsbEINYDbiFWo0hgl9aOhoJYzhbYNYm7ykhiQEvVAEzM9UfA1BARnJUWmOyFSICTU50ABjVa1erN-sxEC8TlUJ7Lsg_zLFD6r8WxtVjtLn3a9CgU-aezw2hUnTAjjWHPGkBZ0yKWbB7WXRHETrFKd6sK9w8DLSKiId9hCJbQbtiFfAtE66u3FvoaCBlY-nFVs0AdaH9OiLMPIh3-k38zwb1vPkby_ClH58W_YkTlmECUO-tAUZ6Zy5NcIzhCZExCmBFiB5_YM4F96tBG8uDbQ35o4aiE6ZQJHi9B38-EaDVSdzNUVQpMSwHei7Ck8lg8yYDWPFinqQX0BPh2kMSNzgQYbhqLdn3Ny8AGBcfg0ikR5zx0BtNRvlTAJdpkd4LKc-Fb1ryVcfmsfP7RkmLk0P9b4WkgRl4LpI1HF8a4SHLaJESR60ta1z5hJX_dDmGoWvmyfZHsfzh7_n0qiWtfH1H3VmW4NMkxwM6kvsTGcl5TwevOQmt5lW2WAbS8kivG8P8VSZWvNot254ijDARVqbeEIR0tGFho26XzlYu_yUI_8u4gyayD8WMQ90pnCJZY-V51wf4Y7R1v7JS6gAg1HhoApHBoorWatBlwrFrvMF2JazgUFL-lqDx-iOJTFRG-PMSaLjuFKLcBaVY0tEbHHh29vbjo8JPlPxRTjeKr_HgY-qQencTkhKIb2BqHvFw8MR7Mh8Puka-JVNt_eLhEnqAR-tDHAUW4b2uV0W51Z6g
-        expires: 2023-01-05T18:49:02.000Z
-        domain: localhost.
-        path: /
-        secure: true
-        httpOnly: true
-        extensions:
-          - samesite=lax
-        hostOnly: true
-        creation: 2022-12-22T18:48:51.964Z
-        lastAccessed: 2022-12-22T18:49:02.479Z
-        id: "5677789140981297"
+        creation: 2023-02-18T07:41:59.228Z
+        lastAccessed: 2023-02-18T07:41:59.228Z
+        id: "5283294982299656"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
