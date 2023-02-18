@@ -6,8 +6,6 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
 {
     public interface IClientManager
     {
-        Task<IEnumerable<ApiScope>?> GetClientScopesAsync(int clientId);
-
         Task<PaginatedEnumerable<Client>> SearchAsync(
             int? id, string? name, bool? enabled, int start, int count);
 
@@ -21,10 +19,10 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
 
         Task<ClientResult> DeleteAsync(Client client);
 
-        Task<bool> CheckScopeAsync(int clientId, int scopeId);
+        Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId);
 
-        Task<ClientApiScopeMap> CreateScopeAsync(int clientId, int scopeId);
+        Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims);
 
-        Task<ClientApiScopeMap?> DeleteScopeAsync(int clientId, int scopeId);
+        Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds);
     }
 }

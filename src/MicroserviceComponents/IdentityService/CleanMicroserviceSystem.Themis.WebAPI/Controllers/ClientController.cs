@@ -1,5 +1,6 @@
-﻿using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
+﻿using System.Security.Claims;
+using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
@@ -170,79 +171,142 @@ public class ClientController : ControllerBase
     }
     #endregion
 
-    #region ClientScopes
+
+    #region ClientClaims
 
     /// <summary>
-    /// Get client scopes
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("{id}/Scopes")]
-    public async Task<IActionResult> GetScopes(int id)
-    {
-        var scopes = await this.clientManager.GetClientScopesAsync(id);
-        var scopeDtos = scopes?.Select(scope => new ApiScopeInformationResponse()
-        {
-            ID = scope.ID,
-            Description = scope.Description,
-            Name = scope.Name,
-            Enabled = scope.Enabled
-        })?.ToArray();
-        return this.Ok(scopeDtos);
-    }
-
-    /// <summary>
-    /// Add client scopes
+    /// Get client claims
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="requests"></param>
     /// <returns></returns>
-    [HttpPost("{id}/Scopes")]
-    public async Task<IActionResult> PostScopes(int id, [FromBody] IEnumerable<int> requests)
+    [HttpGet("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
+    public async Task<IActionResult> GetClaims(int id)
     {
-        if (!requests.Any())
-            return this.NoContent();
-
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
 
-        foreach (var scopeId in requests)
+        var result = await this.clientManager.GetClaimsAsync(client.Id);
+        var claims = result.Select(claim => new ClaimInformationResponse()
         {
-            var mapped = await this.clientManager.CheckScopeAsync(id, scopeId);
-            if (mapped) continue;
-
-            var scope = await apiResourceManager.FindScopeByIdAsync(scopeId);
-            if (scope is null) continue;
-
-            await this.clientManager.CreateScopeAsync(id, scopeId);
-        }
-        return this.Ok();
+            Type = claim.ClaimType,
+            Value = claim.ClaimValue
+        });
+        return this.Ok(claims);
     }
 
     /// <summary>
-    /// Delete client scopes
+    /// Update client claims
     /// </summary>
     /// <param name="id"></param>
     /// <param name="requests"></param>
     /// <returns></returns>
-    [HttpDelete("{id}/Scopes")]
-    public async Task<IActionResult> DeleteScopes(int id, [FromBody] IEnumerable<int> requests)
+    [HttpPut("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+    public async Task<IActionResult> PutClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
-        if (!requests.Any())
-            return this.NoContent();
-
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
 
-        foreach (var scopeId in requests)
-        {
-            var mapped = await this.clientManager.CheckScopeAsync(id, scopeId);
-            if (!mapped) continue;
+        var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
+        var existingClaimSet = existingClaims.Select(claim => (claim.ClaimType, claim.ClaimValue)).ToHashSet();
+        var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
 
-            await this.clientManager.DeleteScopeAsync(id, scopeId);
+        var claimsToRemove = existingClaims
+            .Where(claim => !requestClaimSet.Contains((claim.ClaimType, claim.ClaimValue)))
+            .Select(claim => claim.Id)
+            .ToArray();
+        if (claimsToRemove.Any())
+        {
+            _ = await this.clientManager.RemoveClaimsAsync(claimsToRemove);
         }
-        return this.Ok();
+
+        var claimsToAdd = requests
+            .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
+            .Select(claim => new ClientClaim() { ClientId = client.Id, ClaimType = claim.Type, ClaimValue = claim.Value })
+            .ToArray();
+        if (claimsToAdd.Any())
+        {
+            _ = await this.clientManager.AddClaimsAsync(claimsToAdd);
+        }
+
+        existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
+        var claims = existingClaims.Select(claim => new ClaimInformationResponse()
+        {
+            Type = claim.ClaimType,
+            Value = claim.ClaimValue
+        });
+        return this.Ok(claims);
+    }
+
+    /// <summary>
+    /// Add client claims
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPost("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var client = await this.clientManager.FindByIdAsync(id);
+        if (client is null)
+            return this.NotFound();
+
+        var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
+        var existingClaimSet = existingClaims.Select(claim => (claim.ClaimType, claim.ClaimValue)).ToHashSet();
+        var claimsToAdd = requests
+            .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
+            .Select(claim => new ClientClaim() { ClientId = client.Id, ClaimType = claim.Type, ClaimValue = claim.Value })
+            .ToArray();
+        if (claimsToAdd.Any())
+        {
+            _ = await this.clientManager.AddClaimsAsync(claimsToAdd);
+            var claims = claimsToAdd.Select(claim => new ClaimInformationResponse()
+            {
+                Type = claim.ClaimType,
+                Value = claim.ClaimValue
+            });
+            return this.Ok(claims);
+        }
+
+        return this.NoContent();
+    }
+
+    /// <summary>
+    /// Delete client claims
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpDelete("{id}/Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var client = await this.clientManager.FindByIdAsync(id);
+        if (client is null)
+            return this.NotFound();
+
+        var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
+        var claimsToRemoveSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var claimsToRemove = existingClaims
+            .Where(claim => claimsToRemoveSet.Contains((claim.ClaimType, claim.ClaimValue)))
+            .ToArray();
+        if (claimsToRemove.Any())
+        {
+            var claimToRemoveIds = claimsToRemove.Select(claim => claim.Id);
+            _ = await this.clientManager.RemoveClaimsAsync(claimToRemoveIds);
+            var claims = claimsToRemove.Select(claim => new ClaimInformationResponse()
+            {
+                Type = claim.ClaimType,
+                Value = claim.ClaimValue
+            });
+            return this.Ok(claims);
+        }
+
+        return this.NoContent();
     }
     #endregion
 }

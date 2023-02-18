@@ -1,5 +1,4 @@
-﻿using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Application.Repository;
@@ -13,16 +12,16 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
     {
         private readonly ILogger<ClientManager> logger;
         private readonly IClientRepository clientRepository;
-        private readonly IClientApiScopeMapRepository clientApiScopeMapRepository;
+        private readonly IClientClaimRepository clientClaimRepository;
 
         public ClientManager(
             ILogger<ClientManager> logger,
             IClientRepository clientRepository,
-            IClientApiScopeMapRepository clientApiScopeMapRepository)
+            IClientClaimRepository clientClaimRepository)
         {
             this.logger = logger;
             this.clientRepository = clientRepository;
-            this.clientApiScopeMapRepository = clientApiScopeMapRepository;
+            this.clientClaimRepository = clientClaimRepository;
         }
 
         public async Task<ClientResult> SignInAsync(string clientName, string clientSecret)
@@ -81,42 +80,27 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
             return new ClientResult() { Client = client };
         }
 
-        public async Task<bool> CheckScopeAsync(int clientId, int scopeId)
+        public async Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId)
         {
-            var map = await this.clientApiScopeMapRepository.FindAsync(clientId, scopeId);
-            return map is not null;
+            return this.clientClaimRepository.AsQueryable().Where(claim => claim.ClientId == clientId);
         }
 
-        public async Task<IEnumerable<ApiScope>?> GetClientScopesAsync(int clientId)
+        public async Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims)
         {
-            var client = await this.clientRepository.FindAsync(clientId);
-            if (client is null) return null;
-
-            var maps = await this.clientApiScopeMapRepository.GetClientApiScopeMaps(clientId);
-            var scopes = maps.Select(map => map.ApiScope);
-            return scopes;
+            var result = await this.clientClaimRepository.AddRangeAsync(claims);
+            await this.clientClaimRepository.SaveChangesAsync();
+            return result;
         }
 
-        public async Task<ClientApiScopeMap> CreateScopeAsync(int clientId, int scopeId)
+        public async Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds)
         {
-            var map = await this.clientApiScopeMapRepository.AddAsync(new ClientApiScopeMap()
+            foreach (var claimId in claimIds)
             {
-                ClientID = clientId,
-                ApiScopeID = scopeId,
-                CreatedBy = IdentityContract.SuperUserId,
-                CreatedOn = DateTime.UtcNow,
-            });
-            await this.clientApiScopeMapRepository.SaveChangesAsync();
-            return map;
-        }
-
-        public async Task<ClientApiScopeMap?> DeleteScopeAsync(int clientId, int scopeId)
-        {
-            var map = await this.clientApiScopeMapRepository.FindAsync(clientId, scopeId);
-            if (map is null) return null;
-            map = await this.clientApiScopeMapRepository.RemoveAsync(map!);
-            await this.clientApiScopeMapRepository.SaveChangesAsync();
-            return map;
+                var claim = await this.clientClaimRepository.FindAsync(claimId);
+                await this.clientClaimRepository.RemoveAsync(claim);
+            }
+            var result = await this.clientClaimRepository.SaveChangesAsync();
+            return result;
         }
     }
 }

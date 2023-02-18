@@ -36,13 +36,13 @@ public class ClientTokenController : ControllerBase
             return this.BadRequest(result.Error);
         }
         var client = result.Client!;
-        var clientScopes = await this.clientManager.GetClientScopesAsync(client.ID);
+        var clientClaims = await this.clientManager.GetClaimsAsync(client.Id);
         var claims = new List<Claim>()
         {
             new Claim(ClaimTypes.Name, client.Name),
             new Claim(nameof(DateTime.UtcNow), DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.ffffff"))
         };
-        claims.AddRange(clientScopes?.Select(scope => new Claim(scope.Name, "true"))?.ToArray() ?? Enumerable.Empty<Claim>());
+        claims.AddRange(clientClaims?.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue))?.ToArray() ?? Enumerable.Empty<Claim>());
         var token = this.jwtBearerTokenGenerator.GenerateClientSecurityToken(claims);
         return this.Ok(token);
     }
