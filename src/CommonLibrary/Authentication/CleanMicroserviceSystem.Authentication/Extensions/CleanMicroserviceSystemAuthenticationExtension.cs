@@ -64,6 +64,9 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
+                    /* Add header in request to call api from client:
+                     * IdentityContract.AuthenticationSchemeHeaderName : IdentityContract.ClientAuthenticationSchemeHeaderValue
+                     */
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateIssuerSigningKey = true,
