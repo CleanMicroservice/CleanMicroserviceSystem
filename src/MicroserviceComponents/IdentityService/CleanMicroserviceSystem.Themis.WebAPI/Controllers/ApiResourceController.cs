@@ -1,6 +1,5 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiScopes;
 using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
@@ -36,22 +35,15 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(int id)
     {
-        var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
+        var resource = await this.apiResourceManager.FindByIdAsync(id);
         return resource is null
             ? this.NotFound()
             : this.Ok(new ApiResourceInformationResponse()
             {
-                ID = resource.ID,
+                Id = resource.Id,
                 Name = resource.Name,
                 Enabled = resource.Enabled,
                 Description = resource.Description,
-                ApiScopes = resource.ApiScopes?.Select(x => new ApiScopeInformationResponse()
-                {
-                    ID = x.ID,
-                    Name = x.Name,
-                    Enabled = x.Enabled,
-                    Description = x.Description,
-                }),
             });
     }
 
@@ -68,17 +60,10 @@ public class ApiResourceController : ControllerBase
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
         var resources = result.Select(resource => new ApiResourceInformationResponse()
         {
-            ID = resource.ID,
+            Id = resource.Id,
             Name = resource.Name,
             Enabled = resource.Enabled,
             Description = resource.Description,
-            ApiScopes = resource.ApiScopes?.Select(x => new ApiScopeInformationResponse()
-            {
-                ID = x.ID,
-                Name = x.Name,
-                Enabled = x.Enabled,
-                Description = x.Description,
-            }),
         }).ToArray();
         return this.Ok(resources);
     }
@@ -105,10 +90,10 @@ public class ApiResourceController : ControllerBase
         }
         else
         {
-            newResource = await this.apiResourceManager.FindResourceByIdAsync(newResource.ID);
+            newResource = await this.apiResourceManager.FindByIdAsync(newResource.Id);
             return this.Ok(new ApiResourceInformationResponse()
             {
-                ID = newResource.ID,
+                Id = newResource.Id,
                 Name = newResource.Name,
                 Enabled = newResource.Enabled,
                 Description = newResource.Description,
@@ -126,7 +111,7 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(int id, [FromBody] ApiResourceUpdateRequest request)
     {
-        var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
+        var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
             return this.NotFound();
 
@@ -150,10 +135,10 @@ public class ApiResourceController : ControllerBase
         }
         else
         {
-            resource = await this.apiResourceManager.FindResourceByIdAsync(resource.ID);
+            resource = await this.apiResourceManager.FindByIdAsync(resource.Id);
             return this.Ok(new ApiResourceInformationResponse()
             {
-                ID = resource.ID,
+                Id = resource.Id,
                 Name = resource.Name,
                 Enabled = resource.Enabled,
                 Description = resource.Description,
@@ -170,88 +155,10 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(int id)
     {
-        var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
+        var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
             return this.NotFound();
         await this.apiResourceManager.DeleteAsync(resource);
-        return this.Ok(true);
-    }
-    #endregion
-
-    #region ApiResourceScopes
-
-    /// <summary>
-    /// Get api resource scopes
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("{id}/Scopes")]
-    public async Task<IActionResult> GetScopes(int id)
-    {
-        var scopes = await this.apiResourceManager.GetResourceScopesAsync(id);
-        var scopeDtos = scopes?.Select(scope => new ApiScopeInformationResponse()
-        {
-            ID = scope.ID,
-            Description = scope.Description,
-            Name = scope.Name,
-            Enabled = scope.Enabled
-        })?.ToArray();
-        return this.Ok(scopeDtos);
-    }
-
-    /// <summary>
-    /// Add api resource scope
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    [HttpPost("{id}/Scopes")]
-    public async Task<IActionResult> PostScope(int id, [FromBody] ApiScopeCreateRequest request)
-    {
-        var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
-        if (resource is null)
-            return this.NotFound();
-
-        var newScope = new ApiScope()
-        {
-            ApiResourceID = resource.ID,
-            Name = request.Name,
-            Enabled = request.Enabled,
-            Description = request.Description,
-        };
-        var result = await this.apiResourceManager.CreateScopeAsync(newScope);
-        if (!result.Succeeded)
-        {
-            return this.BadRequest(result);
-        }
-        else
-        {
-            newScope = await this.apiResourceManager.FindScopeByIdAsync(newScope.ID);
-            return this.Ok(new ApiScopeInformationResponse()
-            {
-                ID = newScope.ID,
-                Name = newScope.Name,
-                Enabled = newScope.Enabled,
-                Description = newScope.Description,
-            });
-        }
-    }
-
-    /// <summary>
-    /// Delete api resource scope
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="scopeId"></param>
-    /// <returns></returns>
-    [HttpDelete("{id}/Scopes/{scopeId}")]
-    public async Task<IActionResult> DeleteScope(int id, int scopeId)
-    {
-        var resource = await this.apiResourceManager.FindResourceByIdAsync(id);
-        if (resource is null)
-            return this.NotFound();
-        var scope = await this.apiResourceManager.FindScopeByIdAsync(scopeId);
-        if (scope is null)
-            return this.NotFound();
-        await this.apiResourceManager.DeleteScopeAsync(scope);
         return this.Ok(true);
     }
     #endregion

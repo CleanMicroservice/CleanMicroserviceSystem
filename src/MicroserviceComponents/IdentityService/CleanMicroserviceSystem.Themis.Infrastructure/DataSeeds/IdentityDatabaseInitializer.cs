@@ -72,14 +72,15 @@ public static class IdentityDatabaseInitializer
 
         builder.Entity<IdentityUserClaim<int>>().HasData(new[]
         {
-            new IdentityUserClaim<int> { Id = 1, UserId = IdentityContract.SuperUserId, ClaimType = "LeonAccess", ClaimValue = "ReadWrite" }
+            new IdentityUserClaim<int> { Id = 1, UserId = IdentityContract.SuperUserId, ClaimType = IdentityContract.SuperUser, ClaimValue = IdentityContract.Read },
+            new IdentityUserClaim<int> { Id = 2, UserId = IdentityContract.SuperUserId, ClaimType = IdentityContract.SuperUser, ClaimValue = IdentityContract.Write }
         });
 
         builder.Entity<IdentityRoleClaim<int>>().HasData(new[]
         {
-            new IdentityRoleClaim<int> { Id = 1, RoleId = IdentityContract.AdministratorRoleId, ClaimType = "AdminAccess", ClaimValue = "ReadWrite" },
-            new IdentityRoleClaim<int> { Id = 2, RoleId = IdentityContract.OperatorRoleId, ClaimType = "AdminAccess", ClaimValue = "Read" },
-            new IdentityRoleClaim<int> { Id = 3, RoleId = IdentityContract.OperatorRoleId, ClaimType = "OperatorAccess", ClaimValue = "ReadWrite" }
+            new IdentityRoleClaim<int> { Id = 1, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
+            new IdentityRoleClaim<int> { Id = 2, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Write },
+            new IdentityRoleClaim<int> { Id = 3, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read }
         });
 
         return builder;
