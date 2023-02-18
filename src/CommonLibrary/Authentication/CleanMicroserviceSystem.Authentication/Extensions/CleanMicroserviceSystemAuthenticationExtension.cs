@@ -56,12 +56,15 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = false,
-                    RequireSignedTokens = false,
-                    RequireAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    RequireSignedTokens = true,
+                    RequireAudience = true,
                     RequireExpirationTime = false,
+                    ValidIssuer = configuration.JwtIssuer,
+                    ValidAudience = configuration.JwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JwtSecurityKey)),
                 };
             });
 

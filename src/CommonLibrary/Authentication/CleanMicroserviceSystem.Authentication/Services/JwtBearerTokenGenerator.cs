@@ -32,7 +32,7 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
             expires: expiry,
             signingCredentials: this.signingCredentials);
 
-        return this.jwtSecurityTokenHandler.WriteToken(token);
+        return this.GenerateSecurityToken(token);
     }
 
     public string GenerateClientSecurityToken(IEnumerable<Claim> claims)
@@ -42,8 +42,13 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
             this.options.Value.JwtAudience,
             claims,
             expires: null,
-            signingCredentials: null);
+            signingCredentials: this.signingCredentials);
 
+        return this.GenerateSecurityToken(token);
+    }
+
+    protected string GenerateSecurityToken(JwtSecurityToken token)
+    {
         return this.jwtSecurityTokenHandler.WriteToken(token);
     }
 }
