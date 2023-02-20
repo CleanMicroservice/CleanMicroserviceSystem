@@ -2,6 +2,8 @@
 {
     public static class ApiContract
     {
-        public const string AphroditeHTTPServiceName = "CleanMicroserviceSystem.Aphrodite";
+        public const string AphroditeHttpClientName = "AphroditeClient";
+
+        public const string GatewayHttpClientName = "UranusClient";
     }
 }
