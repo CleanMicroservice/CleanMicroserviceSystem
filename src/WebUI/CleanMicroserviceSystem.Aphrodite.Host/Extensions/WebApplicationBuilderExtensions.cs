@@ -1,4 +1,5 @@
 ﻿using NLog.Web;
+using Microsoft.AspNetCore.HttpLogging;
 
 namespace CleanMicroserviceSystem.Aphrodite.Host.Extensions;
 
@@ -12,13 +13,12 @@ public static class WebApplicationBuilderExtensions
             .AddDebug()
             .SetMinimumLevel(LogLevel.Trace)
             .AddNLogWeb();
+        builder.Services
+            .AddLogging()
+            .AddHttpLogging(options =>
+            {
+                options.LoggingFields = HttpLoggingFields.All;
+            });
         return builder;
-    }
-
-    public static TOptions? GetConfiguration<TOptions>(this WebApplicationBuilder builder, string? sectionName = null)
-    {
-        return builder.Configuration
-            .GetSection(string.IsNullOrEmpty(sectionName) ? typeof(TOptions).Name : sectionName)
-            .Get<TOptions>();
     }
 }
