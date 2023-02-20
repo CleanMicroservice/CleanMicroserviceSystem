@@ -19,11 +19,6 @@ public class ThemisProgram : OceanusProgram
         base.ConfigureServices();
     }
 
-    public override void ConfigurePipelinesBeforeAuth()
-    {
-        base.ConfigurePipelinesBeforeAuth();
-    }
-
     public override void ConfigureWebApp()
     {
         base.ConfigureWebApp();

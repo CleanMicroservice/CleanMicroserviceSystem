@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanMicroserviceSystem.Aphrodite.Contract\CleanMicroserviceSystem.Aphrodite.Contract.csproj" />
+    <ProjectReference Include="..\CleanMicroserviceSystem.Aphrodite.Domain\CleanMicroserviceSystem.Aphrodite.Domain.csproj" />
   </ItemGroup>
 
 </Project>
