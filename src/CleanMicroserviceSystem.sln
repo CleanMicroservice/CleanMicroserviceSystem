@@ -109,9 +109,9 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Consul-Installer", "Microse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication.Domain", "CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj", "{DEED0639-182D-4D0C-824C-678B5D11D336}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aphrodite.Application", "CleanMicroserviceSystem.Aphrodite.Application\CleanMicroserviceSystem.Aphrodite.Application.csproj", "{6B663956-0DE0-46EC-A8E1-BC669BA416BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aphrodite.Application", "WebUI\CleanMicroserviceSystem.Aphrodite.Application\CleanMicroserviceSystem.Aphrodite.Application.csproj", "{6B663956-0DE0-46EC-A8E1-BC669BA416BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Aphrodite.Infrastructure", "CleanMicroserviceSystem.Aphrodite.Infrastructure\CleanMicroserviceSystem.Aphrodite.Infrastructure.csproj", "{812FB5C9-0782-4D6B-9175-82F473571B64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Aphrodite.Infrastructure", "WebUI\CleanMicroserviceSystem.Aphrodite.Infrastructure\CleanMicroserviceSystem.Aphrodite.Infrastructure.csproj", "{812FB5C9-0782-4D6B-9175-82F473571B64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
