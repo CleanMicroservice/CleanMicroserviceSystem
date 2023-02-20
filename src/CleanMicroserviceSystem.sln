@@ -14,6 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceTemplate", "ServiceTemplate", "{AB268A40-1B21-4364-94CF-F626BD664F99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUI", "WebUI", "{DE964A1C-4E97-4249-8239-41FD53736B62}"
+	ProjectSection(SolutionItems) = preProject
+		WebUI\README.md = WebUI\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.WebAPI", "ServiceTemplate\CleanMicroserviceSystem.Tethys.WebAPI\CleanMicroserviceSystem.Tethys.WebAPI.csproj", "{6EC37AD0-18D2-4E56-ACCD-7A4E819B9680}"
 EndProject
@@ -104,7 +107,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consul", "consul", "{491F83
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Consul-Installer", "MicroserviceComponents\Gateway\Consul-Installer\Consul-Installer.pyproj", "{0B289C6D-A077-4382-909A-E3074C9244C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Authentication.Domain", "CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj", "{DEED0639-182D-4D0C-824C-678B5D11D336}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication.Domain", "CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj", "{DEED0639-182D-4D0C-824C-678B5D11D336}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
