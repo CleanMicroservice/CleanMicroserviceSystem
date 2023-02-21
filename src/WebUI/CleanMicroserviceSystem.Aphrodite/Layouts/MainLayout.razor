@@ -1,0 +1,17 @@
+﻿@inherits LayoutComponentBase
+@inject ILogger<MainLayout> logger
+
+<MApp Class="">
+    <MAppBar App>Aphrodite</MAppBar>
+    <MMain>
+        @Body
+    </MMain>
+</MApp>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        this.logger.LogInformation("Initialize Main Layout ...");
+        await base.OnInitializedAsync();
+    }
+}

@@ -1,0 +1,20 @@
+﻿@page "/Pages/SystemPages/NotFound"
+
+<MContainer Class="mt-10">
+    <MRow Justify="@JustifyTypes.Center"
+          NoGutters>
+        <MSpacer></MSpacer>
+        <MCol Cols="@("auto")">
+            <MImage Src="/img/status/404.png" Width="350" Height="200"></MImage>
+            <MButton Outlined Block Color="primary" OnClick="()=>Navigation.NavigateTo(DefaultUrl)">Home</MButton>
+        </MCol>
+        <MSpacer></MSpacer>
+    </MRow>
+</MContainer>
+
+@code {
+    private const string DefaultUrl = "/";
+
+    [Inject]
+    public NavigationManager Navigation { get; set; } = default!;
+}

@@ -1,14 +1,13 @@
 ﻿@inject ILogger<App> logger
+@using CleanMicroserviceSystem.Aphrodite.Pages.SystemPages;
 
-<Router AppAssembly="@typeof(App).Assembly">
+<Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="this.OnNavigateAsync">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
+            <NotFoundPage />
         </LayoutView>
     </NotFound>
 </Router>

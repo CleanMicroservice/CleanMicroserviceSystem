@@ -111,7 +111,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aphrodite.Application", "WebUI\CleanMicroserviceSystem.Aphrodite.Application\CleanMicroserviceSystem.Aphrodite.Application.csproj", "{6B663956-0DE0-46EC-A8E1-BC669BA416BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Aphrodite.Infrastructure", "WebUI\CleanMicroserviceSystem.Aphrodite.Infrastructure\CleanMicroserviceSystem.Aphrodite.Infrastructure.csproj", "{812FB5C9-0782-4D6B-9175-82F473571B64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aphrodite.Infrastructure", "WebUI\CleanMicroserviceSystem.Aphrodite.Infrastructure\CleanMicroserviceSystem.Aphrodite.Infrastructure.csproj", "{812FB5C9-0782-4D6B-9175-82F473571B64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
