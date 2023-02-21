@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager navigationManager
+@inject MasaBlazor Masa
 
 <MNavigationDrawer @bind-Value="Visible"
                    Class="navigation rounded-r-xl"
@@ -86,11 +87,14 @@
     </MList>
 </MNavigationDrawer>
 
-<MButton Small Fab Color="primary" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position: fixed;left:{ExpandButtonLeft}px;")">
-    <MIcon Class="white--text">
-        @(Visible is false || NavigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
-    </MIcon>
-</MButton>
+@if (!(Masa.Breakpoint.Mobile && Visible is true))
+{
+    <MButton Small Fab Color="primary" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position: fixed;left:{ExpandButtonLeft}px;")">
+        <MIcon Class="white--text">
+            @(Visible is false || NavigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
+        </MIcon>
+    </MButton>
+}
 
 @code
 {
