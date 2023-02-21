@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Aphrodite.Application\CleanMicroserviceSystem.Aphrodite.Application.csproj" />
   </ItemGroup>
 
