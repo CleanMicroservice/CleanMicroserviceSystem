@@ -1,0 +1,115 @@
+﻿@inject NavigationManager navigationManager
+
+<MNavigationDrawer @bind-Value="Visible"
+                   Class="navigation rounded-r-xl"
+                   Width=NavigationWidth MiniVariantWidth=NavigationMinWidth
+                   ExpandOnHover="ExpandOnHover" @bind-MiniVariant="NavigationMini"
+                   Fixed App Permanent>
+    <MRow Justify="@JustifyTypes.Center" NoGutters Class="mt-10 mb-5">
+        <MSpacer></MSpacer>
+        <MCol Align="@("center")">
+            <MImage Src="/img/Logo.png"
+                    MinWidth=LogoMinSize MaxWidth=LogoMaxSize MinHeight=LogoMinSize MaxHeight=LogoMaxSize
+                    @onclick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)" />
+        </MCol>
+        <MSpacer></MSpacer>
+    </MRow>
+    @if (!NavigationMini)
+    {
+        <MRow Justify="@JustifyTypes.Center" NoGutters>
+            <MSpacer></MSpacer>
+            <MCol Align="@("center")">
+                <span class="text-h5 font-weight-black text-no-wrap indigo--text">Clean Microservice</span>
+            </MCol>
+            <MSpacer></MSpacer>
+        </MRow>
+    }
+
+    <MList Nav Linkage Dense Class="@($"pa-0 {(NavigationMini?"mini-navigation":"")}")">
+        @*
+        @foreach (var nav in NavHelper.Navs)
+        {
+        if (nav.Children is null)
+        {
+        <MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
+        <MListItem Ripple=false Class="mb-4" ActiveClass="fill-lighten-1" Href="@nav.Href">
+        <ItemContent>
+        <MListItemIcon>
+        <MIcon Color="@(context.Active?"primary":"neutral-lighten-2")" Size=20>@nav.Icon</MIcon>
+        </MListItemIcon>
+        <MListItemContent>
+        <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap @(context.Active?"text-subtitle":"text-body neutral-lighten-2--text")">@T(nav.Title)</div>
+        </MListItemContent>
+        </ItemContent>
+        </MListItem>
+        </MBorder>
+        }
+        else
+        {
+        <MListGroup Group="@nav.Children.Select(n => n.Href).ToList()" Class="mb-4" PrependIcon="@nav.Icon" NoAction ActiveClass="primaryText" AppendIcon="M8.33398 10.3335L12.5007 14.5002L16.6673 10.3335H8.33398Z">
+        <ActivatorContent>
+        <MListItemContent>
+        <div style="margin-left:6.5px;" class="text-truncate white-space:nowrap">@T(nav.Title)</div>
+        </MListItemContent>
+        </ActivatorContent>
+        <ChildContent>
+        @foreach (var navChild in nav.Children)
+        {
+        @if (NavHelper.CurrentUri.EndsWith(navChild.Href))
+        {
+        <MBorder Value=false Width=4 Class="rounded-r-1" Border="Borders.Right">
+        <MListItem Ripple=false ActiveClass="fill-lighten-1" Link Href="@navChild.Href">
+        <ItemContent>
+        <MListItemContent>
+        <div class="text-truncate white-space:nowrap @(context.Active?"text-subtitle2":"text-btn neutral-lighten-2--text")">@T(navChild.Title)</div>
+        </MListItemContent>
+        </ItemContent>
+        </MListItem>
+        </MBorder>
+        }
+        else
+        {
+        <MListItem Ripple=false ActiveClass="fill-lighten-1" Link Href="@navChild.Href">
+        <ItemContent>
+        <MListItemContent>
+        <div class="text-truncate white-space:nowrap @(context.Active?"text-subtitle2":"text-btn neutral-lighten-2--text")">@T(navChild.Title)</div>
+        </MListItemContent>
+        </ItemContent>
+        </MListItem>
+        }
+        }
+        </ChildContent>
+        </MListGroup>
+        }
+        }
+        *@
+    </MList>
+</MNavigationDrawer>
+
+<MButton Small Fab Color="primary" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position: fixed;left:{ExpandButtonLeft}px;")">
+    <MIcon Class="white--text">
+        @(Visible is false || NavigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
+    </MIcon>
+</MButton>
+
+@code
+{
+    private const int NavigationWidth = 280;
+    private const int NavigationMinWidth = 80;
+    private const int LogoMinSize = 48;
+    private const int LogoMaxSize = 128;
+    private const int ExpandButtonBottom = 60;
+    private const int ExpandButtonOffset = -14;
+    private int ExpandButtonLeft => !Visible ? ExpandButtonOffset :
+        NavigationMini ? NavigationMinWidth + ExpandButtonOffset : NavigationWidth + ExpandButtonOffset;
+    public bool ExpandOnHover { get; set; } = false;
+    public bool NavigationMini { get; set; } = false;
+    public bool Visible { get; set; } = true;
+    public void SwitchNavigation()
+    {
+        if (Visible)
+            ExpandOnHover = !ExpandOnHover;
+        else
+            Visible = true;
+    }
+}
