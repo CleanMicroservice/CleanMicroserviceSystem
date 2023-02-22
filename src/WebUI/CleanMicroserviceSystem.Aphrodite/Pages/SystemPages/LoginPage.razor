@@ -1,0 +1,81 @@
+﻿@page "/systempages/login"
+@layout EmptyLayout
+@inject ILogger<LoginPage> logger
+@inject IHttpClientFactory httpClientFactory
+
+<MRow Class="ma-0" Style="height:100%">
+    <MCol Class="d-flex align-center" Cols="@("auto")">
+        <MImage LazySrc="/img/LoginImage.jpg" Src="/img/LoginImage.jpg" Height=480 Width=667>
+        </MImage>
+    </MCol>
+    <MCol Class="d-flex indigo lighten-5">
+        <MCard Class="rounded-xl mx-auto my-auto" Width=360 Elevation=0 Loading=CardLoggingIn>
+            <ProgressContent>
+                <MProgressLinear Color="primary" Height="10" Indeterminate />
+            </ProgressContent>
+            <ChildContent>
+                <MRow Justify="@JustifyTypes.Center">
+                    <MAvatar Size="64" Color="primary" Class="mx-auto my-auto">
+                        <MImage Src="/img/Avatar.png"></MImage>
+                    </MAvatar>
+                </MRow>
+                <MCardTitle>
+                    <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Login</p>
+                </MCardTitle>
+
+                <MCardText>
+                    <MTextField @bind-Value="UserName"
+                                Label="UserName">
+                    </MTextField>
+                    <MTextField @bind-Value="Password"
+                                AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
+                                Type="@(ShowPassword ? "text" : "password")"
+                                Label="Password"
+                                OnAppendClick="() => ShowPassword = !ShowPassword">
+                    </MTextField>
+                </MCardText>
+
+                <MCardActions>
+                    <MButton Color="primary" Loading="ButtonLoggingIn" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
+                </MCardActions>
+            </ChildContent>
+        </MCard>
+    </MCol>
+</MRow>
+
+@code {
+    private StringBoolean CardLoggingIn { get; set; }
+    private bool ButtonLoggingIn { get; set; }
+    private bool ButtonDisabled { get; set; }
+    private string UserName { get; set; }
+    private string Password { get; set; }
+    private bool ShowPassword { get; set; }
+
+    private async Task Login()
+    {
+        CardLoggingIn = true;
+        ButtonLoggingIn = true;
+        ButtonDisabled = true;
+
+        try
+        {
+            var httpClient = this.httpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
+            var loginUri = $"{ApiContract.ThemisServiceName}/api/UserToken";
+            var loginRequest = new UserTokenLoginRequest() { Password = this.Password, UserName = this.UserName };
+            var response = await httpClient.PostAsJsonAsync(loginUri, loginRequest);
+            if (response.IsSuccessStatusCode)
+            {
+
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            CardLoggingIn = false;
+            ButtonLoggingIn = false;
+            ButtonDisabled = false;
+        }
+    }
+}

@@ -19,7 +19,4 @@ var configuration = new AphroditeConfiguration()
 };
 builder.Services.ConfigureServices(configuration);
 
-// Supply HttpClient instances that include access tokens when making requests to the server project
-// builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("CleanMicroserviceSystem.Aphrodite.ServerAPI"));
-
 await builder.Build().RunAsync();
