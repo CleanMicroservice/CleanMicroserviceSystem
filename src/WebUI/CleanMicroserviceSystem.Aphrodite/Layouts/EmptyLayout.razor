@@ -1,0 +1,16 @@
+﻿@inherits LayoutComponentBase
+@inject ILogger<EmptyLayout> logger
+
+<MApp>
+    <MMain>
+        @Body
+    </MMain>
+</MApp>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        this.logger.LogInformation("Initialize Empty Layout ...");
+        await base.OnInitializedAsync();
+    }
+}

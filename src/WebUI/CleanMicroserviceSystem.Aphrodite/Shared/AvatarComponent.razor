@@ -1,0 +1,39 @@
+﻿@inject ILogger<AvatarComponent> logger
+@inject NavigationManager navigationManager
+
+<AuthorizeView>
+    <NotAuthorized>
+        <MAvatar Size="36" Color="grey lighten-2" @onclick="OnLogin">
+            <MIcon Dark>mdi-account-circle</MIcon>
+        </MAvatar>
+    </NotAuthorized>
+    <Authorized>
+        <MMenu OpenOnHover Bottom OffsetY>
+            <ActivatorContent Context="menuContext">
+                <MButton Width="36" Height="36" Icon @attributes="@menuContext.Attrs">
+                    <MAvatar Size="36" Color="primary">
+                        <MImage Src="/img/Avatar.png"></MImage>
+                    </MAvatar>
+                </MButton>
+            </ActivatorContent>
+            <ChildContent>
+                <MList>
+                    <MListItem>
+                        <MListItemContent>
+                            <MListItemTitle>
+                                Test
+                            </MListItemTitle>
+                        </MListItemContent>
+                    </MListItem>
+                </MList>
+            </ChildContent>
+        </MMenu>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public void OnLogin()
+    {
+        this.navigationManager.NavigateTo(RouterContract.LoginUri);
+    }
+}
