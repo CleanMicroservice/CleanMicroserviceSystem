@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
+﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Users;
 
 public class UserInformationResponse
 {

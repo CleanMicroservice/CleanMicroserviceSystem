@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients
+namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Clients
 {
     public class ClientResult
     {

@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Roles;
+﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Roles;
 
 public class RoleInformationResponse
 {

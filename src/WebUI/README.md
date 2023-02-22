@@ -23,4 +23,8 @@ npm install @mdi/font
 <MIcon Large Color="blue">mdi-cog</MIcon>
 ```
 
+## Images
+
+> Resources: [Storyset | Freepik](https://www.freepik.com/author/stories)
+
 

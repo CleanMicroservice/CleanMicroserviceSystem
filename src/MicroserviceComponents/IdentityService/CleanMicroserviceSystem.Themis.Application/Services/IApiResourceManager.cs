@@ -1,5 +1,5 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources;
+using CleanMicroserviceSystem.Themis.Domain.DTOs.ApiResources;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 
 namespace CleanMicroserviceSystem.Themis.Application.Services

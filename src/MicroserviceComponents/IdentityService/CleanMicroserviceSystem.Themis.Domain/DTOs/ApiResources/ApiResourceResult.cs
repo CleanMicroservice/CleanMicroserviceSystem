@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources
+namespace CleanMicroserviceSystem.Themis.Domain.DTOs.ApiResources
 {
     public class ApiResourceResult
     {

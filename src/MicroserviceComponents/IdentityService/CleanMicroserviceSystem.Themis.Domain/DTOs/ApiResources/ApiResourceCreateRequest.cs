@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.ApiResources
+namespace CleanMicroserviceSystem.Themis.Domain.DTOs.ApiResources
 {
     public class ApiResourceCreateRequest
     {

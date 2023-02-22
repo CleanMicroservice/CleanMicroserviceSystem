@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Claims;
+﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Claims;
 
 public class ClaimsUpdateRequest
 {

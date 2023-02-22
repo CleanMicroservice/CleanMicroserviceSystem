@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients
+namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Clients
 {
     public class ClientTokenLoginRequest
     {

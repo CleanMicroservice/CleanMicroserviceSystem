@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Services;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Users;
+using CleanMicroserviceSystem.Themis.Domain.DTOs.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

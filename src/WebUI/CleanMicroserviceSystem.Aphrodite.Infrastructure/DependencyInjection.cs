@@ -30,6 +30,7 @@ public static class DependencyInjection
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(configuration.WebUIBaseAddress));
         services.AddHttpClient<HttpClient>(
+            ApiContract.GatewayHttpClientName,
             client => client.BaseAddress = new Uri(configuration.GatewayBaseAddress));
         return services;
     }

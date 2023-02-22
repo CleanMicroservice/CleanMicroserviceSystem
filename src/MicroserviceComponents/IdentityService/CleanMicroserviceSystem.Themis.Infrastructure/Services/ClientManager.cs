@@ -1,8 +1,8 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
-using CleanMicroserviceSystem.Themis.Application.DataTransferObjects.Clients;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
+using CleanMicroserviceSystem.Themis.Domain.DTOs.Clients;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.Extensions.Logging;
 
