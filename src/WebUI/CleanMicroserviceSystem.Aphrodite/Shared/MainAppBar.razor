@@ -1,7 +1,21 @@
-﻿<MAppBar App Elevation=0 Class="rounded-b-xl mx-5">
-    Aphrodite
+﻿<MAppBar Color="white" Class="rounded-b-xl mx-5" App Elevation="0">
+    <MRow NoGutters Justify="@JustifyTypes.SpaceBetween">
+        <MCol></MCol>
+        <MSpacer></MSpacer>
+        <MCol Class="mx-3" Cols="@("auto")">
+            <MTextField Style="width:280px;" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
+                        @bind-Value="SearchInput" Placeholder="Search" Clearable Flat Dense Solo>
+                <PrependInnerContent>
+                    <MIcon Size=20 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                </PrependInnerContent>
+            </MTextField>
+        </MCol>
+        <MCol Cols="@("auto")">
+            <MButton Depressed>123</MButton>
+        </MCol>
+    </MRow>
 </MAppBar>
 
 @code {
-
+    public string SearchInput { get; set; }
 }
