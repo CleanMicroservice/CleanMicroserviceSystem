@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.Roles;
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
-public class RoleInformationResponse
+namespace CleanMicroserviceSystem.Themis.Contract.Roles;
+
+public class RoleInformationResponse : ContractBase
 {
     public int Id { get; set; }
 

@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
 namespace CleanMicroserviceSystem.Themis.Contract.ApiResources
 {
-    public class ApiResourceCreateRequest
+    public class ApiResourceCreateRequest : ContractBase
     {
         [Required(ErrorMessage = "Api resource name is required")]
         public string Name { get; set; }

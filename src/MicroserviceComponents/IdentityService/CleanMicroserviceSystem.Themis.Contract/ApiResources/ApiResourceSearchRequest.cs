@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.ApiResources
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
+
+namespace CleanMicroserviceSystem.Themis.Contract.ApiResources
 {
-    public class ApiResourceSearchRequest
+    public class ApiResourceSearchRequest : ContractBase
     {
         public int? Id { get; set; }
 

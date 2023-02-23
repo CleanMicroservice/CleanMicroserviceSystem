@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.Claims;
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
-public class ClaimsUpdateRequest
+namespace CleanMicroserviceSystem.Themis.Contract.Claims;
+
+public class ClaimsUpdateRequest : ContractBase
 {
     public string Type { get; set; }
 

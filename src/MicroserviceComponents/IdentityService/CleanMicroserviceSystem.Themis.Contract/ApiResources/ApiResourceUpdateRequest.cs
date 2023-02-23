@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.ApiResources
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
+
+namespace CleanMicroserviceSystem.Themis.Contract.ApiResources
 {
-    public class ApiResourceUpdateRequest
+    public class ApiResourceUpdateRequest : ContractBase
     {
         public string? Name { get; set; }
 

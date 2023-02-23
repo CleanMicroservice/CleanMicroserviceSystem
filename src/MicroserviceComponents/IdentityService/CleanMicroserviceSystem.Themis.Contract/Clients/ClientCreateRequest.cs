@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
 namespace CleanMicroserviceSystem.Themis.Contract.Clients
 {
-    public class ClientCreateRequest
+    public class ClientCreateRequest : ContractBase
     {
         [Required(ErrorMessage = "Client name is required")]
         public string Name { get; set; }

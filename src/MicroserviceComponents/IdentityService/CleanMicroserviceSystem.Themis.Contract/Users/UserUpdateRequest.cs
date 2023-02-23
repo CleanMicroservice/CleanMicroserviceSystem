@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
 namespace CleanMicroserviceSystem.Themis.Contract.Users;
-public class UserUpdateRequest
+public class UserUpdateRequest : ContractBase
 {
     public string? UserName { get; set; }
 

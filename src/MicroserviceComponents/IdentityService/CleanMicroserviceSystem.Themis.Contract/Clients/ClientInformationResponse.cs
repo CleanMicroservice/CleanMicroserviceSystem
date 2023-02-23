@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.Clients
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
+
+namespace CleanMicroserviceSystem.Themis.Contract.Clients
 {
-    public class ClientInformationResponse
+    public class ClientInformationResponse : ContractBase
     {
         public int Id { get; set; }
 

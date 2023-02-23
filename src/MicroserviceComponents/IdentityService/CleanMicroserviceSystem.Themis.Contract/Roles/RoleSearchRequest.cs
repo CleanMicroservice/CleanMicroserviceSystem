@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.Roles;
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
-public class RoleSearchRequest
+namespace CleanMicroserviceSystem.Themis.Contract.Roles;
+
+public class RoleSearchRequest : ContractBase
 {
     public int? Id { get; set; } = default;
 

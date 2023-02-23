@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
 namespace CleanMicroserviceSystem.Themis.Contract.Users;
-public class UserRegisterRequest
+public class UserRegisterRequest : ContractBase
 {
     [Required(ErrorMessage = "User name is required")]
     public string UserName { get; set; }

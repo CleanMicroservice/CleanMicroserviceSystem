@@ -1,6 +1,8 @@
-﻿namespace CleanMicroserviceSystem.Themis.Contract.Users;
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
-public class UserSearchRequest
+namespace CleanMicroserviceSystem.Themis.Contract.Users;
+
+public class UserSearchRequest : ContractBase
 {
     public int? Id { get; set; } = default;
 
