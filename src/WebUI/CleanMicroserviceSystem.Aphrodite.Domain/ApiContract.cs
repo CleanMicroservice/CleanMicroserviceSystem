@@ -10,6 +10,8 @@
 
         #region MicroserviceNames
 
+        public const string GatewayUriPrefix = "Ocelot";
+
         public const string ThemisServiceName = "Themis";
         #endregion
     }
