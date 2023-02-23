@@ -67,7 +67,7 @@ public class OceanusProgram
             webApp.UseSwagger();
             webApp.UseSwaggerUI(options => options.EnablePersistAuthorization());
         }
-
+        webApp.UseCors();
         webApp.UseOceanusPipelines();
         webApp.UseHttpsRedirection();
         ConfigurePipelinesBeforeAuth();
