@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Users;
+﻿namespace CleanMicroserviceSystem.Themis.Contract.Users;
 
 public class UserInformationResponse
 {

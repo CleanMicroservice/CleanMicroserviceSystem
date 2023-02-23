@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.ApiResources
+﻿namespace CleanMicroserviceSystem.Themis.Contract.ApiResources
 {
     public class ApiResourceUpdateRequest
     {

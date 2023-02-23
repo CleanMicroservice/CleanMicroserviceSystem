@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Users;
+namespace CleanMicroserviceSystem.Themis.Contract.Users;
 public class UserRegisterRequest
 {
     [Required(ErrorMessage = "User name is required")]

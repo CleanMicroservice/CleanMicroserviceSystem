@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Roles;
+namespace CleanMicroserviceSystem.Themis.Contract.Roles;
 public class RoleCreateRequest
 {
     [Required(ErrorMessage = "Role name is required")]

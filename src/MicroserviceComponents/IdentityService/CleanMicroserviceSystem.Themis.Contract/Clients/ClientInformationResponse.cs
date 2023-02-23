@@ -1,6 +1,6 @@
-﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.ApiResources
+﻿namespace CleanMicroserviceSystem.Themis.Contract.Clients
 {
-    public class ApiResourceInformationResponse
+    public class ClientInformationResponse
     {
         public int Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Application.Services;
-using CleanMicroserviceSystem.Themis.Domain.DTOs.ApiResources;
+using CleanMicroserviceSystem.Themis.Contract.ApiResources;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

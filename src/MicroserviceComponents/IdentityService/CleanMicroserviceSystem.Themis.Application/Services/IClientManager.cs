@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
-using CleanMicroserviceSystem.Themis.Domain.DTOs.Clients;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
+using CleanMicroserviceSystem.Themis.Domain.Models;
 
 namespace CleanMicroserviceSystem.Themis.Application.Services
 {

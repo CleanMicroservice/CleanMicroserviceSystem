@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Application.Repository;
-using CleanMicroserviceSystem.Themis.Domain.DTOs.Claims;
-using CleanMicroserviceSystem.Themis.Domain.DTOs.Users;
+using CleanMicroserviceSystem.Themis.Contract.Claims;
+using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

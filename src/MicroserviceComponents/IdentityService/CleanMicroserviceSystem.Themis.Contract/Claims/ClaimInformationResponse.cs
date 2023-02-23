@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Claims;
+﻿namespace CleanMicroserviceSystem.Themis.Contract.Claims;
 
 public class ClaimInformationResponse
 {

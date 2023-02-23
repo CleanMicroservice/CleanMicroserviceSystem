@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Roles;
+﻿namespace CleanMicroserviceSystem.Themis.Contract.Roles;
 
 public class RoleSearchRequest
 {

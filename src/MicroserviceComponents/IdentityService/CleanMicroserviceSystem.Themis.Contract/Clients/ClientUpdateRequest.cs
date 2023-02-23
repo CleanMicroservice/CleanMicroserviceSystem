@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Themis.Domain.DTOs.Clients
+﻿namespace CleanMicroserviceSystem.Themis.Contract.Clients
 {
     public class ClientUpdateRequest
     {
