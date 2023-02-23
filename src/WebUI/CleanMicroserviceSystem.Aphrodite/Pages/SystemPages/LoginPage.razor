@@ -1,6 +1,8 @@
 ﻿@page "/systempages/login"
 @layout EmptyLayout
 @inject ILogger<LoginPage> logger
+@inject AphroditeAuthenticationTokenStore tokenStore
+@inject NavigationManager navigationManager
 @inject IHttpClientFactory httpClientFactory
 
 <MRow Class="ma-0" Style="height:100%">
@@ -22,8 +24,13 @@
                 <MCardTitle>
                     <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Login</p>
                 </MCardTitle>
-
                 <MCardText>
+                    @if (!string.IsNullOrEmpty(Message))
+                    {
+                        <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
+                            @Message
+                        </MAlert>
+                    }
                     <MTextField BackgroundColor="grey lighten-4"
                                 @bind-Value="UserName" Label="UserName"
                                 Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
@@ -38,7 +45,6 @@
                                 Clearable Flat Solo Dense>
                     </MTextField>
                 </MCardText>
-
                 <MCardActions>
                     <MButton Color="primary" Loading="ButtonLoggingIn" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
                 </MCardActions>
@@ -54,27 +60,51 @@
     private string UserName { get; set; }
     private string Password { get; set; }
     private bool ShowPassword { get; set; }
+    private string? Message { get; set; }
     private Func<string, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "It's empty.";
 
     private async Task Login()
     {
+        if (notEmptyRule.Invoke(this.UserName) != true)
+        {
+            Message = "User name is empty.";
+            return;
+        }
+        if (notEmptyRule.Invoke(this.Password) != true)
+        {
+            Message = "Password is empty.";
+            return;
+        }
+
+        this.logger.LogInformation($"Logging in [{this.UserName}]");
         CardLoggingIn = true;
         ButtonLoggingIn = true;
         ButtonDisabled = true;
+        Message = null;
 
         try
         {
             var httpClient = this.httpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
-            var loginUri = $"{ApiContract.ThemisServiceName}/api/UserToken";
+            var loginUri = $"{ApiContract.GatewayUriPrefix}/{ApiContract.ThemisServiceName}/api/UserToken";
             var loginRequest = new UserTokenLoginRequest() { Password = this.Password, UserName = this.UserName };
             var response = await httpClient.PostAsJsonAsync(loginUri, loginRequest);
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-
+                this.logger.LogInformation($"Login [{this.UserName}] successfully.");
+                await tokenStore.UpdateTokenAsync(content);
+                this.navigationManager.NavigateTo(RouterContract.DefaultUri);
+            }
+            else
+            {
+                this.logger.LogWarning($"Login [{this.UserName}] failed: \n{content}");
+                Message = $"{response.StatusCode}\n{content}";
             }
         }
         catch (Exception ex)
         {
+            this.logger.LogError(ex, $"Login [{this.UserName}] meets error.");
+            Message = ex.Message;
         }
         finally
         {
