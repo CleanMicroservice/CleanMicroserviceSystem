@@ -9,7 +9,7 @@
         </MImage>
     </MCol>
     <MCol Class="d-flex indigo lighten-5">
-        <MCard Class="rounded-xl mx-auto my-auto" Width=360 Elevation=0 Loading=CardLoggingIn>
+        <MCard Class="rounded-xl mx-auto my-auto" Width=360 Loading=CardLoggingIn>
             <ProgressContent>
                 <MProgressLinear Color="primary" Height="10" Indeterminate />
             </ProgressContent>
@@ -25,13 +25,14 @@
 
                 <MCardText>
                     <MTextField @bind-Value="UserName"
-                                Label="UserName">
+                                Label="UserName" Clearable>
                     </MTextField>
                     <MTextField @bind-Value="Password"
                                 AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
                                 Type="@(ShowPassword ? "text" : "password")"
                                 Label="Password"
-                                OnAppendClick="() => ShowPassword = !ShowPassword">
+                                OnAppendClick="() => ShowPassword = !ShowPassword"
+                                Clearable>
                     </MTextField>
                 </MCardText>
 
@@ -61,12 +62,14 @@
         {
             var httpClient = this.httpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
             var loginUri = $"{ApiContract.ThemisServiceName}/api/UserToken";
+            /*
             var loginRequest = new UserTokenLoginRequest() { Password = this.Password, UserName = this.UserName };
             var response = await httpClient.PostAsJsonAsync(loginUri, loginRequest);
             if (response.IsSuccessStatusCode)
             {
 
             }
+             */
         }
         catch (Exception ex)
         {
