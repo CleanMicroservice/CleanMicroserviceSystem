@@ -4,8 +4,8 @@
 @inject IHttpClientFactory httpClientFactory
 
 <MRow Class="ma-0" Style="height:100%">
-    <MCol Class="d-flex align-center" Cols="@("auto")">
-        <MImage LazySrc="/img/LoginImage.jpg" Src="/img/LoginImage.jpg" Height=480 Width=667>
+    <MCol Class="d-flex align-center">
+        <MImage Class="mx-auto" LazySrc="/img/LoginImage.jpg" Src="/img/LoginImage.jpg" Height=480 Width=667>
         </MImage>
     </MCol>
     <MCol Class="d-flex indigo lighten-5">
@@ -24,15 +24,18 @@
                 </MCardTitle>
 
                 <MCardText>
-                    <MTextField @bind-Value="UserName"
-                                Label="UserName" Clearable>
+                    <MTextField BackgroundColor="grey lighten-4"
+                                @bind-Value="UserName" Label="UserName"
+                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
+                                Clearable Flat Solo Dense>
                     </MTextField>
-                    <MTextField @bind-Value="Password"
+                    <MTextField BackgroundColor="grey lighten-4"
+                                @bind-Value="Password" Label="Password"
                                 AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
                                 Type="@(ShowPassword ? "text" : "password")"
-                                Label="Password"
                                 OnAppendClick="() => ShowPassword = !ShowPassword"
-                                Clearable>
+                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
+                                Clearable Flat Solo Dense>
                     </MTextField>
                 </MCardText>
 
@@ -51,6 +54,7 @@
     private string UserName { get; set; }
     private string Password { get; set; }
     private bool ShowPassword { get; set; }
+    private Func<string, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "It's empty.";
 
     private async Task Login()
     {
@@ -62,14 +66,12 @@
         {
             var httpClient = this.httpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
             var loginUri = $"{ApiContract.ThemisServiceName}/api/UserToken";
-            /*
             var loginRequest = new UserTokenLoginRequest() { Password = this.Password, UserName = this.UserName };
             var response = await httpClient.PostAsJsonAsync(loginUri, loginRequest);
             if (response.IsSuccessStatusCode)
             {
 
             }
-             */
         }
         catch (Exception ex)
         {
