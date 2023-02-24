@@ -1,15 +1,15 @@
-﻿@page "/system/notfound"
+﻿@page "/system/unauthorized"
 @attribute [AllowAnonymous]
 @inject NavigationManager navigationManager
 
-<PageTitle>Not Found</PageTitle>
+<PageTitle>Unauthorized</PageTitle>
 
 <MContainer Class="mt-10">
     <MRow Justify="@JustifyTypes.Center"
           NoGutters>
         <MSpacer></MSpacer>
         <MCol Cols="@("auto")">
-            <MImage Src="/img/status/404.png" Width="350" Height="200"></MImage>
+            <MImage Src="/img/status/401.png" Width="350" Height="200"></MImage>
             <MButton Outlined Block Color="primary" OnClick="()=>navigationManager.NavigateTo(DefaultUrl)">Home</MButton>
         </MCol>
         <MSpacer></MSpacer>

@@ -1,5 +1,6 @@
 ﻿@page "/account/login"
 @layout EmptyLayout
+@attribute [AllowAnonymous]
 @inject ILogger<LoginPage> logger
 @inject AphroditeAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager

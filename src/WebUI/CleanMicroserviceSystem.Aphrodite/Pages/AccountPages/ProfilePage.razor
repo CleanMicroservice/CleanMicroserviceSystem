@@ -1,18 +1,18 @@
 ﻿@page "/account/profile"
+@attribute [Authorize()]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
 
 <PageTitle>Profile</PageTitle>
 
-<MContainer>
-    <AuthorizeView>
-        <Authorized>
-            <MAvatar Size="64">
-                <MImage Src="/img/Avatar.png"></MImage>
-            </MAvatar>
-        </Authorized>
-    </AuthorizeView>
-</MContainer>
+<AuthorizeView>
+    <Authorized>
+        <MAvatar Size="64">
+            <MImage Src="/img/Avatar.png"></MImage>
+        </MAvatar>
+    </Authorized>
+</AuthorizeView>
+
 
 @code {
 

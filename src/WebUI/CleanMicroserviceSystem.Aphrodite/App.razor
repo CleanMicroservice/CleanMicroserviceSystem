@@ -3,7 +3,11 @@
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="this.OnNavigateAsync">
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <UnauthorizedPage />
+                </NotAuthorized>
+            </AuthorizeRouteView>
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">
