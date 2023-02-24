@@ -34,7 +34,7 @@
                                     @(context.User.Identity?.Name ?? "[Unknown]")
                                 </MListItemTitle>
                                 <MListItemSubtitle>
-                                    @(context.User.Identity?.AuthenticationType ?? "[Unknown]")
+                                    @((context.User.Identity as ClaimsIdentity)?.GetEmail() ?? "[Unknown]")
                                 </MListItemSubtitle>
                             </MListItemContent>
                             <MListItemAction>

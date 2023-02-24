@@ -18,7 +18,7 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
         {
             logger.LogInformation($"Validate claims identity [{identity?.Name ?? string.Empty}]...");
             if (identity is null) return false;
-            return !identity.Claims.IsExpired("exp");
+            return !identity.IsExpired("exp");
         }
     }
 }
