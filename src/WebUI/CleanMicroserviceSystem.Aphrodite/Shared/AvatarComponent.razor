@@ -1,4 +1,5 @@
 ﻿@inject ILogger<AvatarComponent> logger
+@inject AphroditeAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager
 
 <AuthorizeView>
@@ -37,9 +38,7 @@
                                 </MListItemSubtitle>
                             </MListItemContent>
                             <MListItemAction>
-                                <MButton Color="primary" Icon>
-                                    <MIcon>mdi-chevron-right</MIcon>
-                                </MButton>
+                                <MIcon Color="red">mdi-heart</MIcon>
                             </MListItemAction>
                         </MListItem>
                     </MList>
@@ -47,19 +46,19 @@
                     <MDivider></MDivider>
 
                     <MList Dense>
-                        <MListItem Link>
+                        <MListItem Link OnClick="OnProfile">
                             <MListItemIcon>
                                 <MIcon>mdi-account-box</MIcon>
                             </MListItemIcon>
                             <MListItemTitle>Profile</MListItemTitle>
                         </MListItem>
-                        <MListItem Link>
+                        <MListItem Link OnClick="OnSettings">
                             <MListItemIcon>
                                 <MIcon>mdi-cog</MIcon>
                             </MListItemIcon>
                             <MListItemTitle>Settings</MListItemTitle>
                         </MListItem>
-                        <MListItem Link>
+                        <MListItem Link OnClick="OnLogout">
                             <MListItemIcon>
                                 <MIcon>mdi-logout</MIcon>
                             </MListItemIcon>
@@ -76,5 +75,21 @@
     private void OnLogin()
     {
         this.navigationManager.NavigateTo(RouterContract.LoginUri);
+    }
+
+    private void OnProfile()
+    {
+        this.navigationManager.NavigateTo(RouterContract.ProfileUri);
+    }
+
+    private void OnSettings()
+    {
+        this.navigationManager.NavigateTo(RouterContract.SettingsUri);
+    }
+
+    private async Task OnLogout()
+    {
+        await this.tokenStore.UpdateTokenAsync(string.Empty);
+        this.navigationManager.NavigateTo(RouterContract.DefaultUri);
     }
 }

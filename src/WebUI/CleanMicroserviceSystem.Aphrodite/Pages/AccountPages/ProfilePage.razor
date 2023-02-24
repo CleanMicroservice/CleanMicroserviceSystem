@@ -1,0 +1,17 @@
+﻿@page "/account/profile"
+@inject ILogger<ProfilePage> logger
+@inject IHttpClientFactory httpClientFactory
+
+<AuthorizeView>
+    <Authorized>
+        <MAvatar>
+            <MImage Src="/img/Avatar.png"></MImage>
+        </MAvatar>
+        <MTextarea Class="text-h1">
+            @(context.User.Identity.Name)
+        </MTextarea>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+}
