@@ -7,8 +7,9 @@ public static class IdentityContract
     #region SchemeType
 
     public const string JwtAuthenticationType = $"Jwt";
-    public const string UserJwtBearerScheme = $"JwtBearer_User";
-    public const string ClientJwtBearerScheme = $"JwtBearer_Client";
+    public const string BearerScheme = $"Bearer";
+    public const string UserJwtBearerScheme = $"Jwt{BearerScheme}_User";
+    public const string ClientJwtBearerScheme = $"Jwt{BearerScheme}_Client";
     #endregion
 
     #region Users

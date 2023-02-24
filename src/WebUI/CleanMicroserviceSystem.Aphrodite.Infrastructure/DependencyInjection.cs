@@ -21,17 +21,21 @@ public static class DependencyInjection
             options.AddPolicy(IdentityContract.ThemisAPIReadPolicyName, IdentityContract.ThemisAPIReadPolicy);
             options.AddPolicy(IdentityContract.ThemisAPIWritePolicyName, IdentityContract.ThemisAPIWritePolicy);
         });
-        services.AddSingleton<CookieStorage>();
-        services.AddSingleton<AphroditeJsonWebTokenParser>();
-        services.AddSingleton<AphroditeAuthenticationTokenStore>();
-        services.AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>();
-        services.AddSingleton<AphroditeAuthenticationClaimsIdentityValidator>();
+        services
+            .AddSingleton<CookieStorage>()
+            .AddSingleton<AphroditeJsonWebTokenParser>()
+            .AddSingleton<AphroditeAuthenticationTokenStore>()
+            .AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>()
+            .AddSingleton<AphroditeAuthenticationClaimsIdentityValidator>();
         services.AddHttpClient(
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(configuration.WebUIBaseAddress));
-        services.AddHttpClient<HttpClient>(
-            ApiContract.GatewayHttpClientName,
-            client => client.BaseAddress = new Uri(configuration.GatewayBaseAddress));
+        services
+            .AddTransient<AphroditeDelegatingHandler>()
+            .AddHttpClient<HttpClient>(
+                ApiContract.GatewayHttpClientName,
+                client => client.BaseAddress = new Uri(configuration.GatewayBaseAddress))
+            .AddHttpMessageHandler<AphroditeDelegatingHandler>();
         return services;
     }
 }

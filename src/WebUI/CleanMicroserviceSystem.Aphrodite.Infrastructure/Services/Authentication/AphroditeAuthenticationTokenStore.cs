@@ -7,6 +7,7 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
         private const string AuthenticationTokenCookieName = "AphroditeAuthenticationToken";
         private readonly ILogger<AphroditeAuthenticationTokenStore> logger;
         private readonly CookieStorage cookieStorage;
+        private string token;
         public event EventHandler<string> TokenUpdated;
 
         public AphroditeAuthenticationTokenStore(
@@ -20,12 +21,17 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
         public async ValueTask<string> GetTokenAsync()
         {
             logger.LogInformation("Get Token ...");
-            return await cookieStorage.GetCookieAsync(AuthenticationTokenCookieName);
+            if (string.IsNullOrWhiteSpace(this.token))
+            {
+                this.token = await cookieStorage.GetCookieAsync(AuthenticationTokenCookieName);
+            }
+            return this.token;
         }
 
         public async Task UpdateTokenAsync(string token)
         {
             logger.LogInformation("Update Token ...");
+            this.token = token;
             await cookieStorage.SetItemAsync(AuthenticationTokenCookieName, token);
             TokenUpdated?.Invoke(this, token);
         }
