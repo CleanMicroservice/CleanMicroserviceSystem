@@ -2,13 +2,14 @@
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
 
+<PageTitle>Profile</PageTitle>
+
 <MContainer>
     <AuthorizeView>
         <Authorized>
             <MAvatar Size="64">
                 <MImage Src="/img/Avatar.png"></MImage>
             </MAvatar>
-            <div style="height:1000px"></div>
         </Authorized>
     </AuthorizeView>
 </MContainer>
