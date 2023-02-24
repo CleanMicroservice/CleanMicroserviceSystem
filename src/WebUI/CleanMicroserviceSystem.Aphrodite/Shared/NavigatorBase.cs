@@ -2,7 +2,7 @@
 
 namespace CleanMicroserviceSystem.Aphrodite.Shared
 {
-    public partial class NavigationItemBase : ComponentBase
+    public partial class NavigatorBase : ComponentBase
     {
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
