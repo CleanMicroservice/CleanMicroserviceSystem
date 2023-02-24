@@ -3,12 +3,17 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        <MAvatar Size="36" Color="grey lighten-2" @onclick="OnLogin">
-            <MIcon Dark>mdi-account-circle</MIcon>
-        </MAvatar>
+        <MTooltip Bottom Left>
+            <ActivatorContent Context="tooltipContext">
+                <MIcon Size="36" Color="primary" @attributes="@tooltipContext.Attrs" @onclick="OnLogin">mdi-account-circle</MIcon>
+            </ActivatorContent>
+            <ChildContent>
+                <span>Login</span>
+            </ChildContent>
+        </MTooltip>
     </NotAuthorized>
     <Authorized>
-        <MMenu OpenOnHover Bottom OffsetY>
+        <MMenu OpenOnHover Bottom Left OffsetY>
             <ActivatorContent Context="menuContext">
                 <MButton Width="36" Height="36" Icon @attributes="@menuContext.Attrs">
                     <MAvatar Size="36" Color="primary">

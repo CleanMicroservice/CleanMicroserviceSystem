@@ -98,7 +98,7 @@
             else
             {
                 this.logger.LogWarning($"Login [{this.UserName}] failed: \n{content}");
-                Message = $"{response.StatusCode}\n{content}";
+                Message = content;
             }
         }
         catch (Exception ex)

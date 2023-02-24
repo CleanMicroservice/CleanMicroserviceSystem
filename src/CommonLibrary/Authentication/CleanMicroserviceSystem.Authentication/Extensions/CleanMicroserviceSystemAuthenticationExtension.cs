@@ -13,8 +13,6 @@ public static class CleanMicroserviceSystemAuthenticationExtension
         this IServiceCollection services,
         JwtBearerConfiguration configuration)
     {
-        const string UserJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_User";
-        const string ClientJwtBearerKey = $"{JwtBearerDefaults.AuthenticationScheme}_Client";
         services
             .Configure(new Action<JwtBearerConfiguration>(options =>
             {
@@ -26,7 +24,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             .AddHybridAuthenticationSchemeProvider(new AuthenticationSchemeConfiguration[]
             {
                 new AuthenticationSchemeConfiguration(
-                    ClientJwtBearerKey,
+                    IdentityContract.ClientJwtBearerScheme,
                     context =>
                         context.Request.Headers.TryGetValue(IdentityContract.AuthenticationSchemeHeaderName, out var headerValue) &&
                         IdentityContract.ClientAuthenticationSchemeHeaderValue.Equals(headerValue, StringComparison.OrdinalIgnoreCase)),
@@ -34,10 +32,10 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             .AddScoped<IJwtBearerTokenGenerator, JwtBearerTokenGenerator>()
             .AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = UserJwtBearerKey;
-                options.DefaultChallengeScheme = ClientJwtBearerKey;
+                options.DefaultAuthenticateScheme = IdentityContract.UserJwtBearerScheme;
+                options.DefaultChallengeScheme = IdentityContract.ClientJwtBearerScheme;
             })
-            .AddJwtBearer(UserJwtBearerKey, "CleanMicroserviceSystem Bearer for User (IdentityServer)", options =>
+            .AddJwtBearer(IdentityContract.UserJwtBearerScheme, "CleanMicroserviceSystem Bearer for User (IdentityServer)", options =>
             {
                 options.Events = new JwtBearerEvents()
                 {
@@ -60,7 +58,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 };
                 options.Validate();
             })
-            .AddJwtBearer(ClientJwtBearerKey, "CleanMicroserviceSystem Bearer for Client (IdentityServer)", options =>
+            .AddJwtBearer(IdentityContract.ClientJwtBearerScheme, "CleanMicroserviceSystem Bearer for Client (IdentityServer)", options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {

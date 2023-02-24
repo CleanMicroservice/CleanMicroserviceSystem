@@ -4,6 +4,13 @@ namespace CleanMicroserviceSystem.Authentication.Domain;
 
 public static class IdentityContract
 {
+    #region SchemeType
+
+    public const string JwtAuthenticationType = $"Jwt";
+    public const string UserJwtBearerScheme = $"JwtBearer_User";
+    public const string ClientJwtBearerScheme = $"JwtBearer_Client";
+    #endregion
+
     #region Users
 
     public const int SuperUserId = 1;

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
+using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication
@@ -49,7 +49,8 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
                 {
                     authenticationState = AnonymousState;
                 }
-                authenticationState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(updatedClaims)));
+
+                authenticationState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(updatedClaims, IdentityContract.JwtAuthenticationType)));
             }
         }
 
