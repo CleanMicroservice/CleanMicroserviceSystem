@@ -1,6 +1,6 @@
 ﻿@page "/account/profile"
+@inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
-@inject IHttpClientFactory httpClientFactory
 
 <AuthorizeView>
     <Authorized>
@@ -14,4 +14,5 @@
 </AuthorizeView>
 
 @code {
+
 }
