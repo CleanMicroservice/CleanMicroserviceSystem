@@ -2,16 +2,16 @@
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
 
-<AuthorizeView>
-    <Authorized>
-        <MAvatar>
-            <MImage Src="/img/Avatar.png"></MImage>
-        </MAvatar>
-        <MTextarea Class="text-h1">
-            @(context.User.Identity.Name)
-        </MTextarea>
-    </Authorized>
-</AuthorizeView>
+<MContainer>
+    <AuthorizeView>
+        <Authorized>
+            <MAvatar Size="64">
+                <MImage Src="/img/Avatar.png"></MImage>
+            </MAvatar>
+            <div style="height:1000px"></div>
+        </Authorized>
+    </AuthorizeView>
+</MContainer>
 
 @code {
 
