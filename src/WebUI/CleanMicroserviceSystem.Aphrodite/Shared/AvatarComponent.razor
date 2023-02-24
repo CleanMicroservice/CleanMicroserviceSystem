@@ -13,7 +13,7 @@
         </MTooltip>
     </NotAuthorized>
     <Authorized>
-        <MMenu OpenOnHover Bottom Left OffsetY>
+        <MMenu OpenOnHover Bottom Left OffsetY Rounded="@("xl")">
             <ActivatorContent Context="menuContext">
                 <MButton Width="36" Height="36" Icon @attributes="@menuContext.Attrs">
                     <MAvatar Size="36" Color="primary">
@@ -22,15 +22,51 @@
                 </MButton>
             </ActivatorContent>
             <ChildContent>
-                <MList>
-                    <MListItem>
-                        <MListItemContent>
-                            <MListItemTitle>
-                                Test
-                            </MListItemTitle>
-                        </MListItemContent>
-                    </MListItem>
-                </MList>
+                <MCard>
+                    <MList>
+                        <MListItem>
+                            <MListItemAvatar>
+                                <MImage Src="/img/Avatar.png"></MImage>
+                            </MListItemAvatar>
+                            <MListItemContent>
+                                <MListItemTitle>
+                                    @(context.User.Identity?.Name ?? "[Unknown]")
+                                </MListItemTitle>
+                                <MListItemSubtitle>
+                                    @(context.User.Identity?.AuthenticationType ?? "[Unknown]")
+                                </MListItemSubtitle>
+                            </MListItemContent>
+                            <MListItemAction>
+                                <MButton Color="primary" Icon>
+                                    <MIcon>mdi-chevron-right</MIcon>
+                                </MButton>
+                            </MListItemAction>
+                        </MListItem>
+                    </MList>
+
+                    <MDivider></MDivider>
+
+                    <MList Dense>
+                        <MListItem Link>
+                            <MListItemIcon>
+                                <MIcon>mdi-account-box</MIcon>
+                            </MListItemIcon>
+                            <MListItemTitle>Profile</MListItemTitle>
+                        </MListItem>
+                        <MListItem Link>
+                            <MListItemIcon>
+                                <MIcon>mdi-cog</MIcon>
+                            </MListItemIcon>
+                            <MListItemTitle>Settings</MListItemTitle>
+                        </MListItem>
+                        <MListItem Link>
+                            <MListItemIcon>
+                                <MIcon>mdi-logout</MIcon>
+                            </MListItemIcon>
+                            <MListItemTitle>Logout</MListItemTitle>
+                        </MListItem>
+                    </MList>
+                </MCard>
             </ChildContent>
         </MMenu>
     </Authorized>
