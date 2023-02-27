@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Text;
 using CleanMicroserviceSystem.Authentication.Configurations;
-using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanMicroserviceSystem.Authentication.Services;
@@ -36,13 +35,12 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
 
     protected string GenerateSecurityToken(IEnumerable<Claim> claims, DateTime expiry)
     {
-        var token = this.jwtSecurityTokenHandler.CreateJwtSecurityToken(
+        var token = new JwtSecurityToken(
             this.options.Value.JwtIssuer,
             this.options.Value.JwtAudience,
-            new ClaimsIdentity(claims, IdentityContract.JwtAuthenticationType),
+            claims,
             DateTime.UtcNow,
-            expiry,
-            DateTime.UtcNow,
+            expires: expiry,
             signingCredentials: this.signingCredentials);
         return this.jwtSecurityTokenHandler.WriteToken(token);
     }
