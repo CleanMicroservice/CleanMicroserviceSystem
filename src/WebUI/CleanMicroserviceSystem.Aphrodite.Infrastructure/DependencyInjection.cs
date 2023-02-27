@@ -1,4 +1,5 @@
-﻿using CleanMicroserviceSystem.Aphrodite.Application.Configurations;
+﻿using System.IdentityModel.Tokens.Jwt;
+using CleanMicroserviceSystem.Aphrodite.Application.Configurations;
 using CleanMicroserviceSystem.Aphrodite.Domain;
 using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services;
 using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
@@ -23,7 +24,7 @@ public static class DependencyInjection
         });
         services
             .AddSingleton<CookieStorage>()
-            .AddSingleton<AphroditeJsonWebTokenParser>()
+            .AddSingleton<JwtSecurityTokenHandler>()
             .AddSingleton<AphroditeAuthenticationTokenStore>()
             .AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>()
             .AddSingleton<AphroditeAuthenticationClaimsIdentityValidator>();
