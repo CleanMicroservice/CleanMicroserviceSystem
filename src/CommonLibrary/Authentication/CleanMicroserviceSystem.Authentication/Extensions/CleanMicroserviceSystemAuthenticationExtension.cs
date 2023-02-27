@@ -17,7 +17,8 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             .Configure(new Action<JwtBearerConfiguration>(options =>
             {
                 options.JwtAudience = configuration.JwtAudience;
-                options.JwtExpiryInMinutes = configuration.JwtExpiryInMinutes;
+                options.JwtExpiryForUser = configuration.JwtExpiryForUser;
+                options.JwtExpiryForClient = configuration.JwtExpiryForClient;
                 options.JwtIssuer = configuration.JwtIssuer;
                 options.JwtSecurityKey = configuration.JwtSecurityKey;
             }))
@@ -46,12 +47,14 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    // Correction of expiration time's offset
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+                    RequireAudience = true,
+                    RequireSignedTokens = true,
+                    RequireExpirationTime = true,
                     ValidIssuer = configuration.JwtIssuer,
                     ValidAudience = configuration.JwtAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JwtSecurityKey))
@@ -62,15 +65,14 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             {
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    /* Add header in request to call api from client:
-                     * IdentityContract.AuthenticationSchemeHeaderName : IdentityContract.ClientAuthenticationSchemeHeaderValue
-                     */
+                    ClockSkew = TimeSpan.Zero,
                     ValidateIssuer = true,
                     ValidateAudience = true,
+                    ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    RequireSignedTokens = true,
                     RequireAudience = true,
-                    RequireExpirationTime = false,
+                    RequireSignedTokens = true,
+                    RequireExpirationTime = true,
                     ValidIssuer = configuration.JwtIssuer,
                     ValidAudience = configuration.JwtAudience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JwtSecurityKey)),

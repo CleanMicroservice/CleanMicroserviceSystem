@@ -23,8 +23,18 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
 
     public string GenerateUserSecurityToken(IEnumerable<Claim> claims)
     {
-        var expiry = DateTime.Now.AddMinutes(this.options.Value.JwtExpiryInMinutes);
+        var expiry = DateTime.Now.AddMinutes(this.options.Value.JwtExpiryForUser);
+        return this.GenerateSecurityToken(claims, expiry);
+    }
 
+    public string GenerateClientSecurityToken(IEnumerable<Claim> claims)
+    {
+        var expiry = DateTime.Now.AddMinutes(this.options.Value.JwtExpiryForClient);
+        return this.GenerateSecurityToken(claims, expiry);
+    }
+
+    protected string GenerateSecurityToken(IEnumerable<Claim> claims, DateTime expiry)
+    {
         var token = new JwtSecurityToken(
             this.options.Value.JwtIssuer,
             this.options.Value.JwtAudience,
@@ -32,23 +42,6 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
             expires: expiry,
             signingCredentials: this.signingCredentials);
 
-        return this.GenerateSecurityToken(token);
-    }
-
-    public string GenerateClientSecurityToken(IEnumerable<Claim> claims)
-    {
-        var token = new JwtSecurityToken(
-            this.options.Value.JwtIssuer,
-            this.options.Value.JwtAudience,
-            claims,
-            expires: null,
-            signingCredentials: this.signingCredentials);
-
-        return this.GenerateSecurityToken(token);
-    }
-
-    protected string GenerateSecurityToken(JwtSecurityToken token)
-    {
         return this.jwtSecurityTokenHandler.WriteToken(token);
     }
 }

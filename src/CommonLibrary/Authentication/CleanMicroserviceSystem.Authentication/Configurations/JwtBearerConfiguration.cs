@@ -8,5 +8,7 @@ public class JwtBearerConfiguration
 
     public string JwtAudience { get; set; }
 
-    public int JwtExpiryInMinutes { get; set; }
+    public int JwtExpiryForUser { get; set; }
+
+    public int JwtExpiryForClient { get; set; }
 }

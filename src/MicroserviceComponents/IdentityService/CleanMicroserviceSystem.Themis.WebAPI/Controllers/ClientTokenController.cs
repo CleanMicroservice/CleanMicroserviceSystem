@@ -40,7 +40,6 @@ public class ClientTokenController : ControllerBase
         var claims = new List<Claim>()
         {
             new Claim(ClaimTypes.Name, client.Name),
-            new Claim(nameof(DateTime.UtcNow), DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.ffffff"))
         };
         claims.AddRange(clientClaims?.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue))?.ToArray() ?? Enumerable.Empty<Claim>());
         var token = this.jwtBearerTokenGenerator.GenerateClientSecurityToken(claims);
