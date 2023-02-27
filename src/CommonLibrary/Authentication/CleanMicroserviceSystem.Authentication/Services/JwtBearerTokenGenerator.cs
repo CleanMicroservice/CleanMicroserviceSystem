@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using CleanMicroserviceSystem.Authentication.Configurations;
+using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanMicroserviceSystem.Authentication.Services;
@@ -23,25 +24,26 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
 
     public string GenerateUserSecurityToken(IEnumerable<Claim> claims)
     {
-        var expiry = DateTime.Now.AddMinutes(this.options.Value.JwtExpiryForUser);
+        var expiry = DateTime.UtcNow.AddMinutes(this.options.Value.JwtExpiryForUser);
         return this.GenerateSecurityToken(claims, expiry);
     }
 
     public string GenerateClientSecurityToken(IEnumerable<Claim> claims)
     {
-        var expiry = DateTime.Now.AddMinutes(this.options.Value.JwtExpiryForClient);
+        var expiry = DateTime.UtcNow.AddMinutes(this.options.Value.JwtExpiryForClient);
         return this.GenerateSecurityToken(claims, expiry);
     }
 
     protected string GenerateSecurityToken(IEnumerable<Claim> claims, DateTime expiry)
     {
-        var token = new JwtSecurityToken(
+        var token = this.jwtSecurityTokenHandler.CreateJwtSecurityToken(
             this.options.Value.JwtIssuer,
             this.options.Value.JwtAudience,
-            claims,
-            expires: expiry,
+            new ClaimsIdentity(claims, IdentityContract.JwtAuthenticationType),
+            DateTime.UtcNow,
+            expiry,
+            DateTime.UtcNow,
             signingCredentials: this.signingCredentials);
-
         return this.jwtSecurityTokenHandler.WriteToken(token);
     }
 }
