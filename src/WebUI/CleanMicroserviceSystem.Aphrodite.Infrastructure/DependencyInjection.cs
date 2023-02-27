@@ -27,7 +27,7 @@ public static class DependencyInjection
             .AddSingleton<JwtSecurityTokenHandler>()
             .AddSingleton<AphroditeAuthenticationTokenStore>()
             .AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>()
-            .AddSingleton<AphroditeAuthenticationClaimsIdentityValidator>();
+            .AddSingleton<AphroditeJwtSecurityTokenValidator>();
         services.AddHttpClient(
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(configuration.WebUIBaseAddress));

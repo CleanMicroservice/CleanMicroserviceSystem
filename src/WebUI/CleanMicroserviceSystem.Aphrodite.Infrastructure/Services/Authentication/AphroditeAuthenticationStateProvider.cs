@@ -1,6 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
@@ -9,56 +8,64 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
 {
     public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
     {
+        public readonly static AuthenticationState AnonymousState = new(
+            new ClaimsPrincipal(new[] { new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "Anonymous") }) }));
+
         private readonly ILogger<AphroditeAuthenticationStateProvider> logger;
         private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
         private readonly AphroditeAuthenticationTokenStore authenticationTokenStore;
-        private readonly AphroditeAuthenticationClaimsIdentityValidator claimsIdentityValidator;
-        public readonly static AuthenticationState AnonymousState = new(
-            new ClaimsPrincipal(new[] { new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, "Anonymous") }) }));
+        private readonly AphroditeJwtSecurityTokenValidator jwtSecurityTokenValidator;
         private AuthenticationState? authenticationState = default;
+        private JwtSecurityToken? jwtSecurityToken = default;
 
         public AphroditeAuthenticationStateProvider(
             ILogger<AphroditeAuthenticationStateProvider> logger,
             JwtSecurityTokenHandler jwtSecurityTokenHandler,
             AphroditeAuthenticationTokenStore authenticationTokenStore,
-            AphroditeAuthenticationClaimsIdentityValidator claimsIdentityValidator)
+            AphroditeJwtSecurityTokenValidator jwtSecurityTokenValidator)
         {
             this.logger = logger;
             this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
             this.authenticationTokenStore = authenticationTokenStore;
-            this.claimsIdentityValidator = claimsIdentityValidator;
+            this.jwtSecurityTokenValidator = jwtSecurityTokenValidator;
             this.authenticationTokenStore.TokenUpdated += AuthenticationTokenStoreTokenUpdated;
         }
 
         private async void AuthenticationTokenStoreTokenUpdated(object? sender, string token)
         {
-            logger.LogInformation($"Authentication token updated...");
+            this.logger.LogInformation($"Authentication token updated...");
             await this.ApplyTokenAsync(token);
             this.NotifyAuthenticationStateChanged(this.GetAuthenticationStateAsync());
         }
 
         private async Task ApplyTokenAsync(string token)
         {
-            logger.LogInformation($"Apply token...");
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                authenticationState = AnonymousState;
-            }
-            else
-            {
-                var jwtSecurityToken = this.jwtSecurityTokenHandler.ReadJwtToken(token);
-                if (!(jwtSecurityToken?.Claims?.Any() ?? false))
-                {
-                    authenticationState = AnonymousState;
-                }
+            this.logger.LogInformation($"Apply token...");
 
-                authenticationState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(jwtSecurityToken!.Claims, IdentityContract.JwtAuthenticationType)));
+            try
+            {
+                this.jwtSecurityToken = this.jwtSecurityTokenHandler.ReadJwtToken(token);
+                this.authenticationState = new AuthenticationState(
+                    new ClaimsPrincipal(
+                        new ClaimsIdentity(
+                            this.jwtSecurityToken!.Claims,
+                            IdentityContract.JwtAuthenticationType)));
             }
+            catch
+            {
+                this.ClearState();
+            }
+        }
+
+        private void ClearState()
+        {
+            this.jwtSecurityToken = default;
+            this.authenticationState = AnonymousState;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            logger.LogInformation($"Get authentication state...");
+            this.logger.LogInformation($"Get authentication state...");
 
             if (this.authenticationState is null)
             {
@@ -66,12 +73,12 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
                 await this.ApplyTokenAsync(existedToken);
             }
 
-            var validated = await this.claimsIdentityValidator.ValidateAsync(authenticationState!.User.Identity as ClaimsIdentity);
+            var validated = await this.jwtSecurityTokenValidator.ValidateAsync(this.jwtSecurityToken);
             if (!validated)
             {
-                return AnonymousState;
+                this.ClearState();
             }
-            return authenticationState;
+            return this.authenticationState!;
         }
     }
 }
