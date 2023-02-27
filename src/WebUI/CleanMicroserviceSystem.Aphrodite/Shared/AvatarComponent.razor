@@ -31,10 +31,10 @@
                             </MListItemAvatar>
                             <MListItemContent>
                                 <MListItemTitle>
-                                    @(context.User.Identity?.Name ?? "[Unknown]")
+                                    @(context.User.Identity?.Name ?? "-")
                                 </MListItemTitle>
                                 <MListItemSubtitle>
-                                    @((context.User.Identity as ClaimsIdentity)?.GetEmail() ?? "[Unknown]")
+                                    @((context.User.Identity as ClaimsIdentity)?.GetEmail() ?? "-")
                                 </MListItemSubtitle>
                             </MListItemContent>
                             <MListItemAction>
