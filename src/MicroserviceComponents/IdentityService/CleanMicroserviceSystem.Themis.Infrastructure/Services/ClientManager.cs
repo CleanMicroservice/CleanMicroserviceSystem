@@ -48,6 +48,11 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
             return result;
         }
 
+        public async Task SignOutAsync()
+        {
+            await Task.CompletedTask;
+        }
+
         public async Task<PaginatedEnumerable<Client>> SearchAsync(
             int? id, string? name, bool? enabled, int start, int count)
         {
@@ -57,6 +62,11 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services
         public async Task<Client?> FindByIdAsync(int clientId)
         {
             return await this.clientRepository.FindAsync(clientId);
+        }
+
+        public async Task<Client?> FindByNameAsync(string clientName)
+        {
+            return await this.clientRepository.FindClientByNameAsync(clientName);
         }
 
         public async Task<ClientResult> CreateAsync(Client client)

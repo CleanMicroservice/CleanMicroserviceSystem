@@ -11,7 +11,11 @@ namespace CleanMicroserviceSystem.Themis.Application.Services
 
         Task<ClientResult> SignInAsync(string clientName, string clientSecret);
 
+        Task SignOutAsync();
+
         Task<Client?> FindByIdAsync(int clientId);
+
+        Task<Client?> FindByNameAsync(string clientName);
 
         Task<ClientResult> CreateAsync(Client client);
 
