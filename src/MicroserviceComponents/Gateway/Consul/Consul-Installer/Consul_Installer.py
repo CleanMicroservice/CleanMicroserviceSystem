@@ -2,6 +2,7 @@ import requests
 import platform
 import re
 
+
 GitHubReleaseUrl = "https://github.com/hashicorp/consul/releases/latest"
 print(f"Navigating to: {GitHubReleaseUrl}")
 response = requests.get(GitHubReleaseUrl)
@@ -24,7 +25,6 @@ resourceMatches = re.findall(
     r"<a.*?data-os=" "(\S+)" "\sdata-arch=" "(\S+)" "\shref=" "(\S+)" ">(.*)</a>",
     response.text,
 )
-
 
 """
 consul_1.14.3_darwin_amd64.zip             "darwin" - "amd64"
