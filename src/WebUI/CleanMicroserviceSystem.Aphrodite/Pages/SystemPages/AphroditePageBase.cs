@@ -5,9 +5,9 @@ namespace CleanMicroserviceSystem.Aphrodite.Pages.SystemPages
     public class AphroditePageBase : ComponentBase
     {
         [Inject]
-        public NavigationManager NavigationManager { get; set; }
+        protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public IHttpClientFactory HttpClientFactory { get; set; }
+        protected IHttpClientFactory HttpClientFactory { get; set; }
     }
 }

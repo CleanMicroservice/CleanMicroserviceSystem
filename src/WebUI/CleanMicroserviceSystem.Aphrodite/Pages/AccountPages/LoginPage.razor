@@ -14,7 +14,7 @@
         </MImage>
     </MCol>
     <MCol Class="d-flex indigo lighten-5">
-        <MCard Class="rounded-xl mx-auto my-auto" Width=360 Loading=CardLoggingIn>
+        <MCard Class="mx-auto my-auto" Rounded="@("xl")" Width=360 Loading=CardLoading>
             <ProgressContent>
                 <MProgressLinear Color="primary" Height="10" Indeterminate />
             </ProgressContent>
@@ -49,7 +49,7 @@
                     </MTextField>
                 </MCardText>
                 <MCardActions>
-                    <MButton Color="primary" Loading="ButtonLoggingIn" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
+                    <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
                 </MCardActions>
             </ChildContent>
         </MCard>
@@ -57,8 +57,8 @@
 </MRow>
 
 @code {
-    private StringBoolean CardLoggingIn { get; set; }
-    private bool ButtonLoggingIn { get; set; }
+    private StringBoolean CardLoading { get; set; }
+    private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
     private string UserName { get; set; }
     private string Password { get; set; }
@@ -70,20 +70,20 @@
     {
         if (notEmptyRule.Invoke(this.UserName) != true)
         {
-            Message = "User name is empty.";
+            this.Message = "User name is empty.";
             return;
         }
         if (notEmptyRule.Invoke(this.Password) != true)
         {
-            Message = "Password is empty.";
+            this.Message = "Password is empty.";
             return;
         }
 
         this.logger.LogInformation($"Logging in [{this.UserName}]");
-        CardLoggingIn = true;
-        ButtonLoggingIn = true;
-        ButtonDisabled = true;
-        Message = null;
+        this.CardLoading = true;
+        this.ButtonLoading = true;
+        this.ButtonDisabled = true;
+        this.Message = null;
 
         try
         {
@@ -101,19 +101,19 @@
             else
             {
                 this.logger.LogWarning($"Login [{this.UserName}] failed: \n{content}");
-                Message = content;
+                this.Message = content;
             }
         }
         catch (Exception ex)
         {
             this.logger.LogError(ex, $"Login [{this.UserName}] meets error.");
-            Message = ex.Message;
+            this.Message = ex.Message;
         }
         finally
         {
-            CardLoggingIn = false;
-            ButtonLoggingIn = false;
-            ButtonDisabled = false;
+            this.CardLoading = false;
+            this.ButtonLoading = false;
+            this.ButtonDisabled = false;
         }
     }
 }
