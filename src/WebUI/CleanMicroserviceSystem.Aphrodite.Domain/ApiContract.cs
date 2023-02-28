@@ -1,18 +1,17 @@
-﻿namespace CleanMicroserviceSystem.Aphrodite.Domain
+﻿namespace CleanMicroserviceSystem.Aphrodite.Domain;
+
+public static class ApiContract
 {
-    public static class ApiContract
-    {
-        #region HttpClientNames
+    #region HttpClientNames
 
-        public const string AphroditeHttpClientName = "AphroditeClient";
-        public const string GatewayHttpClientName = "UranusClient";
-        #endregion
+    public const string AphroditeHttpClientName = "AphroditeClient";
+    public const string GatewayHttpClientName = "UranusClient";
+    #endregion
 
-        #region MicroserviceNames
+    #region MicroserviceNames
 
-        public const string GatewayUriPrefix = "Ocelot";
+    public const string GatewayUriPrefix = "Ocelot";
 
-        public const string ThemisServiceName = "Themis";
-        #endregion
-    }
+    public const string ThemisServiceName = "Themis";
+    #endregion
 }

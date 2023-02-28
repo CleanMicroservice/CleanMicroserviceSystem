@@ -1,5 +1,5 @@
-﻿using NLog.Web;
-using Microsoft.AspNetCore.HttpLogging;
+﻿using Microsoft.AspNetCore.HttpLogging;
+using NLog.Web;
 
 namespace CleanMicroserviceSystem.Aphrodite.Host.Extensions;
 

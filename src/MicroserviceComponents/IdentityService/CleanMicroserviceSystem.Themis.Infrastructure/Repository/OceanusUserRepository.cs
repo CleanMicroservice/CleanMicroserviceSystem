@@ -26,7 +26,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         int start,
         int count)
     {
-        var users = this.AsQueryable().AsNoTracking();
+        var users = this.AsQueryable();
         if (id.HasValue)
             users = users.Where(user => user.Id == id);
         if (!string.IsNullOrEmpty(userName))

@@ -11,7 +11,7 @@ public class UranusProgram : OceanusProgram
 
     public override void ConfigurePipelines()
     {
-        webApp.UseWhen(
+        this.webApp.UseWhen(
             context => context.Request.Path.StartsWithSegments("/Ocelot"),
             builder => builder.UseOcelot());
         base.ConfigurePipelines();
@@ -21,9 +21,9 @@ public class UranusProgram : OceanusProgram
     {
         var dbConfig = new OceanusDbConfiguration()
         {
-            ConnectionString = configManager.GetConnectionString("ServiceDB")!
+            ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
         };
-        webAppBuilder.Services.AddInfrastructure(dbConfig);
+        this.webAppBuilder.Services.AddInfrastructure(dbConfig);
         base.ConfigureServices();
     }
 }

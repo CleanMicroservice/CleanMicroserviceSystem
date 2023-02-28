@@ -2,31 +2,30 @@
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using CleanMicroserviceSystem.Themis.Domain.Models;
 
-namespace CleanMicroserviceSystem.Themis.Application.Services
+namespace CleanMicroserviceSystem.Themis.Application.Services;
+
+public interface IClientManager
 {
-    public interface IClientManager
-    {
-        Task<PaginatedEnumerable<Client>> SearchAsync(
-            int? id, string? name, bool? enabled, int start, int count);
+    Task<PaginatedEnumerable<Client>> SearchAsync(
+        int? id, string? name, bool? enabled, int start, int count);
 
-        Task<ClientResult> SignInAsync(string clientName, string clientSecret);
+    Task<ClientResult> SignInAsync(string clientName, string clientSecret);
 
-        Task SignOutAsync();
+    Task SignOutAsync();
 
-        Task<Client?> FindByIdAsync(int clientId);
+    Task<Client?> FindByIdAsync(int clientId);
 
-        Task<Client?> FindByNameAsync(string clientName);
+    Task<Client?> FindByNameAsync(string clientName);
 
-        Task<ClientResult> CreateAsync(Client client);
+    Task<ClientResult> CreateAsync(Client client);
 
-        Task<ClientResult> UpdateAsync(Client client);
+    Task<ClientResult> UpdateAsync(Client client);
 
-        Task<ClientResult> DeleteAsync(Client client);
+    Task<ClientResult> DeleteAsync(Client client);
 
-        Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId);
+    Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId);
 
-        Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims);
+    Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims);
 
-        Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds);
-    }
+    Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds);
 }

@@ -15,27 +15,27 @@ public class IntermediaryPublisher : IIntermediaryPublisher
 
     public async Task SendCommand(IIntermediaryCommand command, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug($"Sending command of type {command?.GetType()?.FullName ?? "[Null]"}...");
-        _ = await mediator.Send(command, cancellationToken);
+        this.logger.LogDebug($"Sending command of type {command?.GetType()?.FullName ?? "[Null]"}...");
+        _ = await this.mediator.Send(command, cancellationToken);
     }
 
     public async Task<TResponse> SendRequest<TResponse>(IIntermediaryRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug($"Sending request of type {request?.GetType()?.FullName ?? "[Null]"}...");
-        var response = await mediator.Send(request, cancellationToken);
-        logger.LogDebug($"Received response of type {response?.GetType()?.FullName ?? "[Null]"}.");
+        this.logger.LogDebug($"Sending request of type {request?.GetType()?.FullName ?? "[Null]"}...");
+        var response = await this.mediator.Send(request, cancellationToken);
+        this.logger.LogDebug($"Received response of type {response?.GetType()?.FullName ?? "[Null]"}.");
         return response;
     }
 
     public async Task PublishNotification(IIntermediaryNotification notification, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug($"Publishing notification type of {notification.GetType().FullName}...");
-        await mediator.Publish(notification, cancellationToken);
+        this.logger.LogDebug($"Publishing notification type of {notification.GetType().FullName}...");
+        await this.mediator.Publish(notification, cancellationToken);
     }
 
     public async Task PublishEvent(IIntermediaryEvent eventArg, CancellationToken cancellationToken = default)
     {
-        logger.LogDebug($"Publishing event type of {eventArg.GetType().FullName}...");
-        await mediator.Publish(eventArg, cancellationToken);
+        this.logger.LogDebug($"Publishing event type of {eventArg.GetType().FullName}...");
+        await this.mediator.Publish(eventArg, cancellationToken);
     }
 }

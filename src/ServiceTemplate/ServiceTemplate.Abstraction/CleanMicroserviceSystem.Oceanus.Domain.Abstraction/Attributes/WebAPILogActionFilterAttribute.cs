@@ -19,8 +19,8 @@ public class WebAPILogActionFilterAttribute : ActionFilterAttribute
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        if (this.noLogRequestBody) context.HttpContext.Request.Headers.Add(NoLogRequestBodyFlag, TureHeaderValue);
-        if (this.noLogResponseBody) context.HttpContext.Response.Headers.Add(NoLogResponseBodyFlag, TureHeaderValue);
+        if (this.noLogRequestBody) context.HttpContext.Request.Headers.Add(NoLogRequestBodyFlag, this.TureHeaderValue);
+        if (this.noLogResponseBody) context.HttpContext.Response.Headers.Add(NoLogResponseBodyFlag, this.TureHeaderValue);
         await base.OnActionExecutionAsync(context, next);
     }
 }

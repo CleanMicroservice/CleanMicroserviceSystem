@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
+﻿using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
 namespace CleanMicroserviceSystem.Themis.Contract.Roles;
 

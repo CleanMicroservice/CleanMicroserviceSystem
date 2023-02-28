@@ -1,13 +1,12 @@
 ﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 
-namespace CleanMicroserviceSystem.Themis.Domain.Models
+namespace CleanMicroserviceSystem.Themis.Domain.Models;
+
+public class ApiResourceResult
 {
-    public class ApiResourceResult
-    {
-        public ApiResource? ApiResource { get; set; }
+    public ApiResource? ApiResource { get; set; }
 
-        public bool Succeeded { get => string.IsNullOrEmpty(Error); }
+    public bool Succeeded => string.IsNullOrEmpty(this.Error);
 
-        public string? Error { get; set; }
-    }
+    public string? Error { get; set; }
 }

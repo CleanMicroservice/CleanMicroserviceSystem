@@ -1,8 +1,8 @@
 ﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configurations
-{
+namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configurations;
+
     public static class ConfigurationConfiguration
     {
         public static ModelBuilder ConfigureApiResource(this ModelBuilder modelBuilder)
@@ -32,4 +32,3 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configuratio
             return modelBuilder;
         }
     }
-}

@@ -12,7 +12,7 @@ public class TethysProgram : OceanusProgram
     {
         webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
         {
-            ConnectionString = configManager.GetConnectionString("ServiceDB")!
+            ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
         });
         base.ConfigureServices();
     }

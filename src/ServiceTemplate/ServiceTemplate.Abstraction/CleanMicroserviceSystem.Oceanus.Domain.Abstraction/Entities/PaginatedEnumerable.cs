@@ -23,10 +23,10 @@ public class PaginatedEnumerable<T> : IEnumerable<T>
         this.OriginCount = originCount;
 
         this.CurrentPageIndex = this.StartOfPage / this.CountPerPage;
-        this.TotalPageCounts = (int)Math.Ceiling((double)OriginCount / this.CountPerPage);
+        this.TotalPageCounts = (int)Math.Ceiling((double)this.OriginCount / this.CountPerPage);
     }
 
-    public IEnumerator<T> GetEnumerator() => values.GetEnumerator();
+    public IEnumerator<T> GetEnumerator() => this.values.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

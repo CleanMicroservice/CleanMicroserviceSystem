@@ -12,9 +12,9 @@ public class ThemisProgram : OceanusProgram
 
     public override void ConfigureServices()
     {
-        webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
+        this.webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
         {
-            ConnectionString = configManager.GetConnectionString("ServiceDB")!
+            ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
         });
         base.ConfigureServices();
     }
@@ -23,7 +23,7 @@ public class ThemisProgram : OceanusProgram
     {
         base.ConfigureWebApp();
 
-        var servicesProvider = webApp.Services;
+        var servicesProvider = this.webApp.Services;
         servicesProvider.InitializeDatabaseAsync<IdentityDbContext>().ConfigureAwait(false);
         servicesProvider.InitializeDatabaseAsync<ConfigurationDbContext>().ConfigureAwait(false);
     }

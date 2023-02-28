@@ -1,30 +1,29 @@
 ﻿using Microsoft.JSInterop;
 
-namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services
+namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services;
+
+public class CookieStorage
 {
-    public class CookieStorage
+    private readonly IJSRuntime _jsRuntime;
+
+    public CookieStorage(IJSRuntime jsRuntime)
     {
-        private readonly IJSRuntime _jsRuntime;
+        this._jsRuntime = jsRuntime;
+    }
 
-        public CookieStorage(IJSRuntime jsRuntime)
+    private const string GetCookieJs =
+        "(function(name){const reg = new RegExp(`(^| )${name}=([^;]*)(;|$)`);const arr = document.cookie.match(reg);if (arr) {return unescape(arr[2]);}return null;})";
+    private const string SetCookieJs =
+        "(function(name,value){ var Days = 30;var exp = new Date();exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);document.cookie = `${name}=${escape(value.toString())};path=/;expires=${exp.toUTCString()}`;})";
+
+    public async Task<string> GetCookieAsync(string key)
         {
-            _jsRuntime = jsRuntime;
-        }
-
-        const string GetCookieJs =
-            "(function(name){const reg = new RegExp(`(^| )${name}=([^;]*)(;|$)`);const arr = document.cookie.match(reg);if (arr) {return unescape(arr[2]);}return null;})";
-
-        const string SetCookieJs =
-            "(function(name,value){ var Days = 30;var exp = new Date();exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);document.cookie = `${name}=${escape(value.toString())};path=/;expires=${exp.toUTCString()}`;})";
-
-        public async Task<string> GetCookieAsync(string key)
-        {
-            return await _jsRuntime.InvokeAsync<string>("eval", $"{GetCookieJs}('{key}')");
+            return await this._jsRuntime.InvokeAsync<string>("eval", $"{GetCookieJs}('{key}')");
         }
 
         public string? GetCookie(string key)
         {
-            if (_jsRuntime is IJSInProcessRuntime jsInProcess)
+            if (this._jsRuntime is IJSInProcessRuntime jsInProcess)
             {
                 return jsInProcess.Invoke<string>("eval", $"{GetCookieJs}('{key}')");
             }
@@ -32,16 +31,14 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services
             return null;
         }
 
-        public async Task SetItemAsync<T>(string key, T? value)
+    public async Task SetItemAsync<T>(string key, T? value)
+    {
+        try
         {
-            try
-            {
-                await _jsRuntime.InvokeVoidAsync("eval", $"{SetCookieJs}('{key}','{value}')");
-            }
-            catch
-            {
-            }
+                await this._jsRuntime.InvokeVoidAsync("eval", $"{SetCookieJs}('{key}','{value}')");
+        }
+        catch
+        {
         }
     }
-
 }

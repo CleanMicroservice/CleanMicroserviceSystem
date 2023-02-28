@@ -3,7 +3,6 @@ using CleanMicroserviceSystem.Authentication.Services;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
-using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,7 +50,7 @@ public class ClientTokenController : ControllerBase
             return this.BadRequest(result.Error);
         }
         var client = result.Client!;
-        var claims = await GetClaimsAsync(client);
+        var claims = await this.GetClaimsAsync(client);
         var token = this.jwtBearerTokenGenerator.GenerateClientSecurityToken(claims);
         return this.Ok(token);
     }

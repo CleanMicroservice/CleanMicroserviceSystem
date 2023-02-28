@@ -170,7 +170,6 @@ public class ClientController : ControllerBase
     }
     #endregion
 
-
     #region ClientClaims
 
     /// <summary>

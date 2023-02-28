@@ -29,12 +29,12 @@ public class OceanusProgram
 
     public virtual void ConfigureHostBuilder(string[] args)
     {
-        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-        AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-        Console.CancelKeyPress += Console_CancelKeyPress;
-        webAppBuilder = WebApplication.CreateBuilder(args);
-        configManager = webAppBuilder.Configuration;
-        webAppBuilder.Logging
+        AppDomain.CurrentDomain.UnhandledException += this.CurrentDomain_UnhandledException;
+        AppDomain.CurrentDomain.ProcessExit += this.CurrentDomain_ProcessExit;
+        Console.CancelKeyPress += this.Console_CancelKeyPress;
+        this.webAppBuilder = WebApplication.CreateBuilder(args);
+        this.configManager = this.webAppBuilder.Configuration;
+        this.webAppBuilder.Logging
             .ClearProviders()
             .AddConsole()
             .AddDebug()
@@ -49,32 +49,32 @@ public class OceanusProgram
          * Click Manage User Secrets (User secrets id was specified in <UserSecretsId> of project file)
          * Configurations in user secrets file will be imported into _configurationManager automatically when startup
          */
-        var jwtBearerConfiguration = configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
-        var agentServiceRegistrationConfiguration = configManager.GetRequiredSection("AgentServiceRegistrationConfiguration")!.Get<AgentServiceRegistrationConfiguration>()!;
-        webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
-        webAppBuilder.Services.AddHttpContextAccessor();
-        webAppBuilder.Services.AddControllers();
-        webAppBuilder.Services.AddEndpointsApiExplorer();
-        webAppBuilder.Services.AddOceanusSwaggerGen();
-        webAppBuilder.Services.AddOceanusServices(agentServiceRegistrationConfiguration);
-        webApp = webAppBuilder.Build();
+        var jwtBearerConfiguration = this.configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
+        var agentServiceRegistrationConfiguration = this.configManager.GetRequiredSection("AgentServiceRegistrationConfiguration")!.Get<AgentServiceRegistrationConfiguration>()!;
+        this.webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
+        this.webAppBuilder.Services.AddHttpContextAccessor();
+        this.webAppBuilder.Services.AddControllers();
+        this.webAppBuilder.Services.AddEndpointsApiExplorer();
+        this.webAppBuilder.Services.AddOceanusSwaggerGen();
+        this.webAppBuilder.Services.AddOceanusServices(agentServiceRegistrationConfiguration);
+        this.webApp = this.webAppBuilder.Build();
     }
 
     public virtual void ConfigurePipelines()
     {
-        if (webApp.Environment.IsDevelopment())
+        if (this.webApp.Environment.IsDevelopment())
         {
-            webApp.UseSwagger();
-            webApp.UseSwaggerUI(options => options.EnablePersistAuthorization());
+            _ = this.webApp.UseSwagger();
+            _ = this.webApp.UseSwaggerUI(options => options.EnablePersistAuthorization());
         }
-        webApp.UseCors();
-        webApp.UseOceanusPipelines();
-        webApp.UseHttpsRedirection();
-        ConfigurePipelinesBeforeAuth();
-        webApp.UseAuthentication();
-        webApp.UseAuthorization();
-        ConfigurePipelinesAfterAuth();
-        webApp.MapControllers();
+        this.webApp.UseCors();
+        this.webApp.UseOceanusPipelines();
+        this.webApp.UseHttpsRedirection();
+        this.ConfigurePipelinesBeforeAuth();
+        this.webApp.UseAuthentication();
+        this.webApp.UseAuthorization();
+        this.ConfigurePipelinesAfterAuth();
+        this.webApp.MapControllers();
     }
 
     public virtual void ConfigurePipelinesBeforeAuth()
@@ -87,34 +87,31 @@ public class OceanusProgram
 
     public virtual void ConfigureWebApp()
     {
-        var servicesProvider = webApp.Services;
+        var servicesProvider = this.webApp.Services;
         servicesProvider.InitializeDatabaseAsync().ConfigureAwait(false);
         var lifetime = servicesProvider.GetRequiredService<IHostApplicationLifetime>();
-        lifetime.ApplicationStarted.Register(ApplicationLifetime_ApplicationStarted);
-        lifetime.ApplicationStopping.Register(ApplicationLifetime_ApplicationStopping);
-        lifetime.ApplicationStopped.Register(ApplicationLifetime_ApplicationStopped);
+        lifetime.ApplicationStarted.Register(this.ApplicationLifetime_ApplicationStarted);
+        lifetime.ApplicationStopping.Register(this.ApplicationLifetime_ApplicationStopping);
+        lifetime.ApplicationStopped.Register(this.ApplicationLifetime_ApplicationStopped);
     }
 
-    public virtual void Run()
-    {
-        webApp.Run();
-    }
+    public virtual void Run() => this.webApp.Run();
 
     public virtual void Console_CancelKeyPress(object? sender, ConsoleCancelEventArgs e)
-        => logger?.Info($"{nameof(Console_CancelKeyPress)} => {(e.Cancel ? "Cancel" : "Not Cancel")}, {e.SpecialKey}");
+        => this.logger?.Info($"{nameof(Console_CancelKeyPress)} => {(e.Cancel ? "Cancel" : "Not Cancel")}, {e.SpecialKey}");
 
     public virtual void CurrentDomain_ProcessExit(object? sender, EventArgs e)
-        => logger?.Info($"{nameof(CurrentDomain_ProcessExit)}");
+        => this.logger?.Info($"{nameof(CurrentDomain_ProcessExit)}");
 
     public virtual void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        => logger?.Error($"{nameof(CurrentDomain_UnhandledException)} => {(e.IsTerminating ? "Terminating" : "Not Terminating")}, {e.ExceptionObject}");
+        => this.logger?.Error($"{nameof(CurrentDomain_UnhandledException)} => {(e.IsTerminating ? "Terminating" : "Not Terminating")}, {e.ExceptionObject}");
 
     public virtual void ApplicationLifetime_ApplicationStarted()
-        => logger?.Info($"{nameof(ApplicationLifetime_ApplicationStarted)}");
+        => this.logger?.Info($"{nameof(ApplicationLifetime_ApplicationStarted)}");
 
     public virtual void ApplicationLifetime_ApplicationStopping()
-        => logger?.Info($"{nameof(ApplicationLifetime_ApplicationStopping)}");
+        => this.logger?.Info($"{nameof(ApplicationLifetime_ApplicationStopping)}");
 
     public virtual void ApplicationLifetime_ApplicationStopped()
-        => logger?.Info($"{nameof(ApplicationLifetime_ApplicationStopped)}");
+        => this.logger?.Info($"{nameof(ApplicationLifetime_ApplicationStopped)}");
 }

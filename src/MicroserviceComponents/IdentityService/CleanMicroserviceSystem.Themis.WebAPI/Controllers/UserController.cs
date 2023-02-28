@@ -220,7 +220,7 @@ public class UserController : ControllerBase
         }
         if (!string.IsNullOrEmpty(request.PhoneNumber))
         {
-            userManager.FindByEmailAsync(request.PhoneNumber).Wait();
+            this.userManager.FindByEmailAsync(request.PhoneNumber).Wait();
             user.PhoneNumber = request.PhoneNumber;
         }
 

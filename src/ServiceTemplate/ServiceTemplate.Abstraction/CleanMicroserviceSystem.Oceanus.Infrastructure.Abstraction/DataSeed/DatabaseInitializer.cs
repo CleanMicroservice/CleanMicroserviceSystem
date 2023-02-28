@@ -6,10 +6,10 @@ namespace CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 
 public static class DatabaseInitializer
 {
-    public async static Task InitializeDatabaseAsync(this IServiceProvider services)
+    public static async Task InitializeDatabaseAsync(this IServiceProvider services)
         => await services.InitializeDatabaseAsync<DbContext>();
 
-    public async static Task InitializeDatabaseAsync<TDbContext>(this IServiceProvider services)
+    public static async Task InitializeDatabaseAsync<TDbContext>(this IServiceProvider services)
         where TDbContext : DbContext
     {
         using var scope = services.CreateScope();

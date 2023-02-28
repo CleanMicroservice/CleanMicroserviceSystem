@@ -1,6 +1,6 @@
+using CleanMicroserviceSystem.Aphrodite.Host.Extensions;
 using NLog;
 using NLog.Web;
-using CleanMicroserviceSystem.Aphrodite.Host.Extensions;
 
 var assemblyName = typeof(Program).Assembly.GetName();
 var setupInformation = AppDomain.CurrentDomain.SetupInformation;

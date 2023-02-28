@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace CleanMicroserviceSystem.Aphrodite.Shared
+namespace CleanMicroserviceSystem.Aphrodite.Shared;
+
+public partial class NavigatorBase : ComponentBase
 {
-    public partial class NavigatorBase : ComponentBase
-    {
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
-    }
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
 }

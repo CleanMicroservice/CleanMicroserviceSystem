@@ -18,7 +18,7 @@ public class JwtBearerTokenGenerator : IJwtBearerTokenGenerator
     {
         this.options = options;
         this.securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.options.Value.JwtSecurityKey));
-        this.signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        this.signingCredentials = new SigningCredentials(this.securityKey, SecurityAlgorithms.HmacSha256);
     }
 
     public string GenerateUserSecurityToken(IEnumerable<Claim> claims)

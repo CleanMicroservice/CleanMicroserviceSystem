@@ -346,7 +346,10 @@ public class RoleController : ControllerBase
         {
             var user = await this.userManager.FindByIdAsync(userId);
             if (user is null ||
-                await this.userManager.IsInRoleAsync(user, role!.Name!)) continue;
+                await this.userManager.IsInRoleAsync(user, role!.Name!))
+            {
+                continue;
+            }
 
             result = await this.userManager.AddToRoleAsync(user, role!.Name!);
             if (!result.Succeeded)
@@ -380,7 +383,10 @@ public class RoleController : ControllerBase
         {
             var user = await this.userManager.FindByIdAsync(userId);
             if (user is null ||
-                !await this.userManager.IsInRoleAsync(user, role!.Name!)) continue;
+                !await this.userManager.IsInRoleAsync(user, role!.Name!))
+            {
+                continue;
+            }
 
             result = await this.userManager.RemoveFromRoleAsync(user, role!.Name!);
             if (!result.Succeeded)

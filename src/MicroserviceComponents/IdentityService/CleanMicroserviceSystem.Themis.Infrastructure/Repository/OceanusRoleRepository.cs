@@ -20,7 +20,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
 
     public async Task<PaginatedEnumerable<OceanusRole>> SearchAsync(int? id, string? roleName, int start, int count)
     {
-        var roles = this.AsQueryable().AsNoTracking();
+        var roles = this.AsQueryable();
         if (id.HasValue)
             roles = roles.Where(role => role.Id == id);
         if (!string.IsNullOrEmpty(roleName))
@@ -39,10 +39,10 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         int start,
         int count)
     {
-        var users = this.AsQueryable().AsNoTracking()
+        var users = this.AsQueryable()
             .Where(role => roleIds.Contains(role.Id))
-            .Join(this.dbContext.Set<IdentityUserRole<int>>().AsNoTracking(), role => role.Id, map => map.RoleId, (role, map) => new { Role = role, UserId = map.UserId })
-            .Join(this.dbContext.Set<OceanusUser>().AsNoTracking(), tuple => tuple.UserId, user => user.Id, (map, user) => user);
+            .Join(this.dbContext.Set<IdentityUserRole<int>>(), role => role.Id, map => map.RoleId, (role, map) => new { Role = role, map.UserId })
+            .Join(this.dbContext.Set<OceanusUser>(), tuple => tuple.UserId, user => user.Id, (map, user) => user);
 
         if (id.HasValue)
             users = users.Where(user => user.Id == id);

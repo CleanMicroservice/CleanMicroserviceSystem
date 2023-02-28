@@ -6,39 +6,36 @@ using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository
+namespace CleanMicroserviceSystem.Themis.Infrastructure.Repository;
+
+public class ClientRepository : RepositoryBase<Client>, IClientRepository
 {
-    public class ClientRepository : RepositoryBase<Client>, IClientRepository
+    public ClientRepository(
+        ILogger<ClientRepository> logger,
+        ConfigurationDbContext dbContext)
+        : base(logger, dbContext)
     {
-        public ClientRepository(
-            ILogger<ClientRepository> logger,
-            ConfigurationDbContext dbContext)
-            : base(logger, dbContext)
-        {
-        }
+    }
 
-        public async Task<Client?> FindClientByNameAsync(string name)
-        {
-            return await this.FirstOrDefaultAsync(x => x.Name == name);
-        }
+    public async Task<Client?> FindClientByNameAsync(string name)
+        => await this.FirstOrDefaultAsync(x => x.Name == name);
 
-        public async Task<PaginatedEnumerable<Client>> SearchAsync(
-            int? id,
-            string? name,
-            bool? enabled,
-            int start,
-            int count)
-        {
-            var clients = this.AsQueryable();
-            if (id.HasValue)
-                clients = clients.Where(client => client.Id == id);
-            if (!string.IsNullOrEmpty(name))
-                clients = clients.Where(client => EF.Functions.Like(client.Name, $"%{name}%"));
-            if (enabled.HasValue)
-                clients = clients.Where(client => client.Enabled == enabled.Value);
-            var originCounts = await clients.CountAsync();
-            clients = clients.Skip(start).Take(count);
-            return new PaginatedEnumerable<Client>(clients.ToArray(), start, count, originCounts);
-        }
+    public async Task<PaginatedEnumerable<Client>> SearchAsync(
+        int? id,
+        string? name,
+        bool? enabled,
+        int start,
+        int count)
+    {
+        var clients = this.AsQueryable();
+        if (id.HasValue)
+            clients = clients.Where(client => client.Id == id);
+        if (!string.IsNullOrEmpty(name))
+            clients = clients.Where(client => EF.Functions.Like(client.Name, $"%{name}%"));
+        if (enabled.HasValue)
+            clients = clients.Where(client => client.Enabled == enabled.Value);
+        var originCounts = await clients.CountAsync();
+        clients = clients.Skip(start).Take(count);
+        return new PaginatedEnumerable<Client>(clients.ToArray(), start, count, originCounts);
     }
 }

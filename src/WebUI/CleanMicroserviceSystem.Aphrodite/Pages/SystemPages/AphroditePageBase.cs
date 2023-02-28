@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace CleanMicroserviceSystem.Aphrodite.Pages.SystemPages
-{
-    public class AphroditePageBase : ComponentBase
-    {
-        [Inject]
-        protected NavigationManager NavigationManager { get; set; }
+namespace CleanMicroserviceSystem.Aphrodite.Pages.SystemPages;
 
-        [Inject]
-        protected IHttpClientFactory HttpClientFactory { get; set; }
-    }
+public class AphroditePageBase : ComponentBase
+{
+    [Inject]
+    protected NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    protected IHttpClientFactory HttpClientFactory { get; set; }
 }

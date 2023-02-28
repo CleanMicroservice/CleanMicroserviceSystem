@@ -6,7 +6,5 @@ public class DefaultIntermediaryEventHandler<TEvent> : IIntermediaryEventHandler
     public event EventHandler<TEvent> EventRaised;
 
     public async Task Handle(TEvent eventArg, CancellationToken cancellationToken)
-    {
-        EventRaised?.Invoke(this, eventArg);
-    }
+        => EventRaised?.Invoke(this, eventArg);
 }

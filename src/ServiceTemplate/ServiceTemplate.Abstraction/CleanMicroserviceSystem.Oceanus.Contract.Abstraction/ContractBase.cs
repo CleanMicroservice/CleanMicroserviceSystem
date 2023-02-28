@@ -1,6 +1,5 @@
-﻿namespace CleanMicroserviceSystem.Oceanus.Contract.Abstraction
+﻿namespace CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
+
+public abstract class ContractBase
 {
-    public abstract class ContractBase
-    {
-    }
 }
