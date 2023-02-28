@@ -43,6 +43,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Get()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
+        this.logger.LogInformation($"Get current user: {userName}");
         if (string.IsNullOrEmpty(userName))
             return this.BadRequest(new ArgumentException());
 
@@ -68,6 +69,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Put([FromBody] UserUpdateRequest request)
     {
         var userName = this.HttpContext.User?.Identity?.Name;
+        this.logger.LogInformation($"Update current user: {userName}");
         if (string.IsNullOrEmpty(userName))
             return this.BadRequest(new ArgumentException());
 
@@ -118,6 +120,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(string id)
     {
+        this.logger.LogInformation($"Get User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         return user is null
             ? this.NotFound()
@@ -139,6 +142,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] UserSearchRequest request)
     {
+        this.logger.LogInformation($"Search Users: {request.Id}, {request.UserName}, {request.Email}, {request.PhoneNumber}, {request.Start}, {request.Count}");
         var result = await this.oceanusUserRepository.Search(
             request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
         var users = result.Select(user => new UserInformationResponse()
@@ -160,6 +164,7 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Post([FromBody] UserRegisterRequest request)
     {
+        this.logger.LogInformation($"Create User: {request.UserName}");
         var newUser = new OceanusUser()
         {
             UserName = request.UserName,
@@ -194,6 +199,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(string id, [FromBody] UserUpdateRequest request)
     {
+        this.logger.LogInformation($"Update User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -251,6 +257,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(string id)
     {
+        this.logger.LogInformation($"Delete User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -270,6 +277,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetClaims(string id)
     {
+        this.logger.LogInformation($"Get User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -293,6 +301,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Update User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -347,6 +356,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Create User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -377,6 +387,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Delete User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -408,6 +419,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetRoles(string id)
     {
+        this.logger.LogInformation($"Get User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -426,6 +438,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutRoles(string id, [FromBody] IEnumerable<string> requests)
     {
+        this.logger.LogInformation($"Update User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -480,6 +493,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostRoles(string id, [FromBody] IEnumerable<string> requests)
     {
+        this.logger.LogInformation($"Create User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
@@ -507,6 +521,7 @@ public class UserController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteRoles(string id, [FromBody] IEnumerable<string> requests)
     {
+        this.logger.LogInformation($"Delete User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();

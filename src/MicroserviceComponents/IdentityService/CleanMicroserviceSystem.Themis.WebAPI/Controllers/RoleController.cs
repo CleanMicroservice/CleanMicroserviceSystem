@@ -44,6 +44,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(string id)
     {
+        this.logger.LogInformation($"Get Role: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
         return role is null
             ? this.NotFound()
@@ -63,6 +64,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] RoleSearchRequest request)
     {
+        this.logger.LogInformation($"Search Roles: {request.Id}, {request.RoleName}, {request.Start}, {request.Count}");
         var result = await this.oceanusRoleRepository.SearchAsync(
             request.Id, request.RoleName, request.Start, request.Count);
         var roles = result.Select(role => new RoleInformationResponse()
@@ -82,6 +84,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
     {
+        this.logger.LogInformation($"Create Role: {request.RoleName}");
         var newRole = new OceanusRole()
         {
             Name = request.RoleName
@@ -112,6 +115,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(string id, [FromBody] RoleUpdateRequest request)
     {
+        this.logger.LogInformation($"Update Role: {request.RoleName}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
             return this.NotFound();
@@ -142,6 +146,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(string id)
     {
+        this.logger.LogInformation($"Delete Role: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
             return this.NotFound();
@@ -161,6 +166,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetClaims(string id)
     {
+        this.logger.LogInformation($"Add Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
             return this.NotFound();
@@ -184,6 +190,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Update Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
             return this.NotFound();
@@ -244,6 +251,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Create Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
         if (role is null)
             return this.NotFound();
@@ -281,6 +289,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Delete Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
         if (role is null)
             return this.NotFound();
@@ -319,6 +328,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetUsers(int id, [FromQuery] UserSearchRequest request)
     {
+        this.logger.LogInformation($"Get Role Users: {id}");
         var users = await this.oceanusRoleRepository.SearchUsersAsync(
             new[] { id }, request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
         return this.Ok(users);
@@ -334,6 +344,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostUsers(string id, [FromBody] IEnumerable<string> requests)
     {
+        this.logger.LogInformation($"Create Role Users: {id}");
         if (!requests.Any())
             return this.NoContent();
 
@@ -371,6 +382,7 @@ public class RoleController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteUsers(string id, [FromBody] IEnumerable<string> requests)
     {
+        this.logger.LogInformation($"Delete Role Users: {id}");
         if (!requests.Any())
             return this.NoContent();
 
