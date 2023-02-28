@@ -11,7 +11,7 @@ public interface IClientManager
 
     Task<CommonResult<Client>> SignInAsync(string clientName, string clientSecret);
 
-    Task SignOutAsync();
+    Task SignOutAsync(string clientName);
 
     Task<Client?> FindByIdAsync(int clientId);
 

@@ -44,6 +44,7 @@ public class ClientTokenController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Post([FromBody] ClientTokenLoginRequest request)
     {
+        this.logger.LogInformation($"Sign in client: {request.Name}");
         var result = await this.clientManager.SignInAsync(request.Name, request.Secret);
         if (!result.Succeeded)
         {
@@ -62,6 +63,7 @@ public class ClientTokenController : ControllerBase
     public async Task<IActionResult> Put()
     {
         var clientName = this.HttpContext.User?.Identity?.Name;
+        this.logger.LogInformation($"Refresh Client token: {clientName}");
         if (string.IsNullOrEmpty(clientName))
             return this.BadRequest(new ArgumentException());
 
@@ -77,7 +79,11 @@ public class ClientTokenController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> Delete()
     {
-        await this.clientManager.SignOutAsync();
+        var clientName = this.HttpContext.User?.Identity?.Name;
+        this.logger.LogInformation($"Sign out Client: {clientName}");
+        if (string.IsNullOrEmpty(clientName))
+            return this.BadRequest(new ArgumentException());
+        await this.clientManager.SignOutAsync(clientName);
         return this.Ok();
     }
 }

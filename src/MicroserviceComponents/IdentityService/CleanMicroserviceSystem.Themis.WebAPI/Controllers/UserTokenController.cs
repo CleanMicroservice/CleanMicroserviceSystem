@@ -70,6 +70,7 @@ public class UserTokenController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Post([FromBody] UserTokenLoginRequest request)
     {
+        this.logger.LogInformation($"Sign in User: {request.UserName}");
         var result = await this.signInManager.PasswordSignInAsync(request.UserName, request.Password, true, false);
         if (!result.Succeeded)
         {
@@ -97,6 +98,7 @@ public class UserTokenController : ControllerBase
     public async Task<IActionResult> Put()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
+        this.logger.LogInformation($"Refresh User token: {userName}");
         if (string.IsNullOrEmpty(userName))
             return this.BadRequest(new ArgumentException());
 
@@ -112,6 +114,10 @@ public class UserTokenController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> Delete()
     {
+        var userName = this.HttpContext.User?.Identity?.Name;
+        this.logger.LogInformation($"Sign out User: {userName}");
+        if (string.IsNullOrEmpty(userName))
+            return this.BadRequest(new ArgumentException());
         await this.signInManager.SignOutAsync();
         return this.Ok();
     }

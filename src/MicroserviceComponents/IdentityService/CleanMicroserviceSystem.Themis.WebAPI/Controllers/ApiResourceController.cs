@@ -34,6 +34,7 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(int id)
     {
+        this.logger.LogInformation($"Get API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
         return resource is null
             ? this.NotFound()
@@ -55,6 +56,7 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] ApiResourceSearchRequest request)
     {
+        this.logger.LogInformation($"Search API Resources: {request.Id}, {request.Name}, {request.Enabled}");
         var result = await this.apiResourceManager.SearchAsync(
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
         var resources = result.Select(resource => new ApiResourceInformationResponse()
@@ -76,6 +78,7 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Post([FromBody] ApiResourceCreateRequest request)
     {
+        this.logger.LogInformation($"Create API Resource: {request.Name}");
         var newResource = new ApiResource()
         {
             Name = request.Name,
@@ -110,6 +113,7 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(int id, [FromBody] ApiResourceUpdateRequest request)
     {
+        this.logger.LogInformation($"Update API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
             return this.NotFound();
@@ -154,6 +158,7 @@ public class ApiResourceController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(int id)
     {
+        this.logger.LogInformation($"Delete API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
             return this.NotFound();

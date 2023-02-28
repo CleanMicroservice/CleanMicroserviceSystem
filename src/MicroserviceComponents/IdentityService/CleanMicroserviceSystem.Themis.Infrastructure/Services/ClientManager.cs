@@ -26,6 +26,7 @@ public class ClientManager : IClientManager
 
     public async Task<CommonResult<Client>> SignInAsync(string clientName, string clientSecret)
     {
+        this.logger.LogDebug($"Sign in client: {clientName}");
         var client = await this.clientRepository.FindClientByNameAsync(clientName);
         var result = new CommonResult<Client>() { Entity = client };
         if (client == null)
@@ -45,59 +46,84 @@ public class ClientManager : IClientManager
             return result;
         }
 
+        if (result.Succeeded)
+            this.logger.LogDebug($"Client {clientName} signs in successfully.");
+        else
+            this.logger.LogWarning($"Client {clientName} signs in failed.:{result.Error}");
         return result;
     }
 
-    public async Task SignOutAsync()
-        => await Task.CompletedTask;
+    public async Task SignOutAsync(string clientName)
+    {
+        this.logger.LogDebug($"Sign out client {clientName}");
+        await Task.CompletedTask;
+    }
 
     public async Task<PaginatedEnumerable<Client>> SearchAsync(
         int? id, string? name, bool? enabled, int start, int count)
-        => await this.clientRepository.SearchAsync(id, name, enabled, start, count);
+    {
+        this.logger.LogDebug($"Search clients: {id}, {name}, {enabled}, {start}, {count}");
+        return await this.clientRepository.SearchAsync(id, name, enabled, start, count);
+    }
 
     public async Task<Client?> FindByIdAsync(int clientId)
-        => await this.clientRepository.FindAsync(clientId);
+    {
+        this.logger.LogDebug($"Find client {clientId}");
+        return await this.clientRepository.FindAsync(clientId);
+    }
 
     public async Task<Client?> FindByNameAsync(string clientName)
-        => await this.clientRepository.FindClientByNameAsync(clientName);
+    {
+        this.logger.LogDebug($"Find client {clientName}");
+        return await this.clientRepository.FindClientByNameAsync(clientName);
+    }
 
     public async Task<CommonResult<Client>> CreateAsync(Client client)
     {
+        this.logger.LogDebug($"Create client {client.Name}");
         client = await this.clientRepository.AddAsync(client);
-        await this.clientRepository.SaveChangesAsync();
+        _ = await this.clientRepository.SaveChangesAsync();
         return new CommonResult<Client>() { Entity = client };
     }
 
     public async Task<CommonResult<Client>> UpdateAsync(Client client)
     {
+        this.logger.LogDebug($"Update client {client.Id}");
         client = await this.clientRepository.UpdateAsync(client);
-        await this.clientRepository.SaveChangesAsync();
+        _ = await this.clientRepository.SaveChangesAsync();
         return new CommonResult<Client>() { Entity = client };
     }
 
     public async Task<CommonResult<Client>> DeleteAsync(Client client)
     {
-        await this.clientRepository.RemoveAsync(client);
-        await this.clientRepository.SaveChangesAsync();
+        this.logger.LogDebug($"Delete client {client.Id}");
+        _ = await this.clientRepository.RemoveAsync(client);
+        _ = await this.clientRepository.SaveChangesAsync();
         return new CommonResult<Client>() { Entity = client };
     }
 
     public async Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId)
-        => this.clientClaimRepository.AsQueryable().Where(claim => claim.ClientId == clientId);
+    {
+        this.logger.LogDebug($"Get client claims: {clientId}");
+        return this.clientClaimRepository.AsQueryable().Where(claim => claim.ClientId == clientId);
+    }
 
     public async Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims)
     {
+        this.logger.LogDebug($"Add client claims: {string.Join(";", claims.Select(claim => $"{claim.ClientId}:{claim.ClaimType}"))}");
         var result = await this.clientClaimRepository.AddRangeAsync(claims);
-        await this.clientClaimRepository.SaveChangesAsync();
+        _ = await this.clientClaimRepository.SaveChangesAsync();
         return result;
     }
 
     public async Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds)
     {
+        this.logger.LogDebug($"Remove client claims: {string.Join(";", claimIds)}");
         foreach (var claimId in claimIds)
         {
             var claim = await this.clientClaimRepository.FindAsync(claimId);
-            await this.clientClaimRepository.RemoveAsync(claim);
+            if (claim is null) continue;
+            _ = await this.clientClaimRepository.RemoveAsync(claim);
         }
         var result = await this.clientClaimRepository.SaveChangesAsync();
         return result;

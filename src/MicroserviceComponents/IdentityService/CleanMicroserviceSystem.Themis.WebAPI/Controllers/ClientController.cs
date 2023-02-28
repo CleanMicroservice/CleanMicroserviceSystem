@@ -38,6 +38,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Get(int id)
     {
+        this.logger.LogInformation($"Get Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         return client is null
             ? this.NotFound()
@@ -59,6 +60,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> Search([FromQuery] ClientSearchRequest request)
     {
+        this.logger.LogInformation($"Search Clients: {request.Id}, {request.Name}, {request.Enabled}");
         var result = await this.clientManager.SearchAsync(
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
         var clients = result.Select(client => new ClientInformationResponse()
@@ -80,6 +82,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Post([FromBody] ClientCreateRequest request)
     {
+        this.logger.LogInformation($"Create Client: {request.Name}");
         var newClient = new Client()
         {
             Name = request.Name,
@@ -114,6 +117,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Put(int id, [FromBody] ClientUpdateRequest request)
     {
+        this.logger.LogInformation($"Update Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
@@ -162,6 +166,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> Delete(int id)
     {
+        this.logger.LogInformation($"Delete Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
@@ -181,6 +186,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<IActionResult> GetClaims(int id)
     {
+        this.logger.LogInformation($"Get Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
@@ -204,6 +210,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PutClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Update Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
@@ -249,6 +256,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Create Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
@@ -283,6 +291,7 @@ public class ClientController : ControllerBase
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
+        this.logger.LogInformation($"Delete Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
             return this.NotFound();
