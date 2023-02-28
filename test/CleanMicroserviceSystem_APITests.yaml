@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-02-27T05:50:50.935Z
+__export_date: 2023-02-28T02:07:37.636Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_99d6d8440874404c8aa191bd8e08df69
@@ -72,7 +72,7 @@ resources:
     _type: workspace
   - _id: req_d13aeb5363454d9c8c7af03e86c2f6e8
     parentId: fld_1d15cb0708244848bbed034ababbe711
-    modified: 1677476868114
+    modified: 1677550039650
     created: 1677476791818
     url: "{{ _.ThemisAddress }}api/ClientToken"
     name: Refresh
@@ -102,7 +102,7 @@ resources:
     _type: request
   - _id: req_71d02e6ad0074ab2abc0946823685d54
     parentId: fld_1d15cb0708244848bbed034ababbe711
-    modified: 1677477035003
+    modified: 1677550046089
     created: 1677477018925
     url: "{{ _.ThemisAddress }}api/ClientToken"
     name: Logout
@@ -118,7 +118,7 @@ resources:
     authentication:
       type: bearer
       prefix: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
+      token: "{% response 'raw', 'req_99d6d8440874404c8aa191bd8e08df69', '',
         'when-expired', 1500 %}"
     metaSortKey: -1671019686137
     isPrivate: false
@@ -170,7 +170,7 @@ resources:
     _type: request_group
   - _id: req_ad860fa2fe6a47b58829b3ea5da33c9f
     parentId: fld_c2d69352e09e409a918395ea93313e96
-    modified: 1676717833605
+    modified: 1677485580989
     created: 1671019895653
     url: "{{ _.ThemisAddress }}api/UserToken"
     name: Refresh
@@ -1867,13 +1867,13 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1677476294247
+    modified: 1677550016251
     created: 1670678556534
     name: Default Jar
     cookies:
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8ODuDWgnciBDip_aNidIWrL-z93Angf7Ut2xZT_k_5Zrso6GXszGwvjOMm4snKLQIzi4ODRT_SWJ1ngkdtWNJ31ha93rx6oO6no0T9i1HyyWC-dTh_MXDrmyOiX3-J_7jkpfdZdaEgP1g2Tj6FPIQno0Kv5kdv6OtWbO1TssN_uj_lik80tNM0KlERhDuzwZaKn8PKInq7_aq7CT0JQkjshIY96Pa8mYHewmaSZiweSrfZIZb0khfhuBwl6lF6yX4jUcxXcyrBcfA2vaeXT9DGVF5MSs55MYgBNuAl8b6WRZrcPzn2qd16fItjRxLkJNJZd08s8j1ldHxUZ5eSvhD85gdTdmJ51XXlhbkttMvcT-fRTj1Vucyd3UgtAKGlF9LTxOCyIXdhCjl1MbZqoWjH4m3RdxZfJM4zvc0m6K_zUa1z38JTWfn19ABPvSnNJAHP9o7TyrLa7tH-TesQH2XMe9iqskmTBISNtHVMP3IfdJJh68z5IaACpe8bs5iX0s6PUc7gXfZCdi4MEdpoXkZPHGXOTLF7ASRxf7VxDiIuWhZin5NrcHqm0SLiVTKW5GZo6ZgeItcl3VXjfKuTYLH4pNy5FRX-aUlBqgL9ZkmnR2oAGjX2PSIr8lajCpd8sFPJwHLI7UYPIYE93PPwlskhuKjD6v7limk_pa7mRT9JboaRe5O8xglLkS94oAMDsqW-wMslutpJhivxzvJ0zmYLBNRRuOLhfOD2x8UTjoU_ya7WuSTvgY5r4J64BPxn8juigqfjeIccYoPCBDQDaFa9j07MFelfXMNQSu2E_AgLUWYa6fQ1wBHpu153xT0uv-2UkzOsytRdIeiE9htF_aA_LzIrmUkYzLzH75uHXhvXwEFidoWc6x9uYXgq_blBWeT4GflTx7FH25cZZC9FT1nWgion5e4BkcfJttLAupLvR7p11IO669kJXM-62AthNGOmHPw3rxoeiAzPchqhAuhgBgrXkiH6UUoy24D06iE2ezCU9MQSry1RwzuX8N_vFpu4p28PNjPtvcbnuf9ze4hmjYCHVSthdgkKoTNwuDfeuiASmnWGTYeaodLI5E92J75A
-        expires: 2023-03-13T05:38:14.000Z
+        value: CfDJ8ODuDWgnciBDip_aNidIWrIdJg9eowzln-69SlqiAz9D2ghCvGE_vNbwcZ7WFepc50ULfBy4Cs2TSidEhUvNHr6OAvhnk3uFRB3TqXN7ivrv71BhhZdiu6q62Oj8QuI3n2MujaFlBnr1tlxYTVcf2UkIxJfWGpXe5-Za6NPmQ8pucCzy8vebF9XtvO9KD3tmt6VGilsCWRuFgzGpw-AmgqxQK25VYPc1w12NrIO1OieFcXj-Ouo4h3CLiFy1pCh_bCUOoNlkegHIuCLCO7gFaD3u-oYXfF58OHFQw6u_n05QXPxbC88igElJ3CKPv5YVP2vUlqiyvqQQYaXQCkBz9E3DjB54Wc8p8idplm30EUNPxk-ZGYNhdi_eNk93grIWZk6TTVsSQPngvxo3IATorOd-TaC_icUP323YZiwe793AzEJCbFJmDpZNIeefd6-5HIfUCsWUwbXqJerlQmkAzwjasea6WMdyUgedpXW67xKdQM1zrPvfTRK9Xpc83fuy0plvlmF89slZUZjCJYbtdJravB32rtlsX3oO4mcBxCHvLw0Q_mpPceo1k8PaK8-0E1UAsoOzDhMSqblgYICe4QGCQAjlcavdzqs64tsXo79shLoVPgvSe-U5hETSzhp1Y6E33hS4iWQkSBH2khDQ-QFZ4x-2Fu7c3aNHkecBH22G-hg_U5wupf1KLedXmapOdz8UO2DrXEIBhil6tCf-0B97u5zbw-S7rwlGT-4oYYb3WSAyOqizVt8uMlGaLGVqo7SdTmQ6WDeVww2PDy_ZJ9v20BmVyNcG-X6qnt98DBofSLTEegIWksMsQGoCQ6CTAfSp_x9pU1ZnDaslCkrIS4uDGRbJOlbym4DYparz9dTU2bgg1-Y00Ml5EWygaTVuEXtwgd0Z8-2kNqZwdWbTQouELIjWOUpCvJ0sMg8wryspc1qVn8fGYB2S1bZl1BFTsPs_L6irGFUDKnMOx_BA0vBxWGqkKsEp5iKAEG1V8KgYDqEs919I5xQNqD2CvFjq5leIxeT4D-ZvacXpXYl7kWcDOkcl9PsG8ONHjST4RrdFNsaMZWHERTFupzAvarhzfg
+        expires: 2023-03-14T02:06:36.000Z
         domain: localhost
         path: /
         secure: true
@@ -1882,8 +1882,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-02-17T16:40:01.153Z
-        lastAccessed: 2023-02-27T05:38:14.247Z
-        id: "5591341084788348"
+        lastAccessed: 2023-02-28T02:06:56.251Z
+        id: "9918335688697235"
       - key: Identity.External
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -1895,7 +1895,7 @@ resources:
         hostOnly: true
         creation: 2023-02-18T07:41:59.228Z
         lastAccessed: 2023-02-18T07:41:59.228Z
-        id: "4793715240899066"
+        id: "7787293053514444"
       - key: Identity.TwoFactorUserId
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -1907,7 +1907,7 @@ resources:
         hostOnly: true
         creation: 2023-02-18T07:41:59.228Z
         lastAccessed: 2023-02-18T07:41:59.228Z
-        id: "6773441252251493"
+        id: "5163105421796943"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd

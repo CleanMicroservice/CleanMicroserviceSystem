@@ -22,6 +22,7 @@ public static class DependencyInjection
             .AddDbContext<DbContext, UranusDBContext>(
                 options => options
                     .UseSqlite(dbConfiguration.ConnectionString)
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     .UseLazyLoadingProxies())
             .AddOcelot()
             .AddConsul();
