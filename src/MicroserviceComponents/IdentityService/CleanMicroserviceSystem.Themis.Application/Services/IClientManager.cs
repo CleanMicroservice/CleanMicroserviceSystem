@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
-using CleanMicroserviceSystem.Themis.Domain.Models;
 
 namespace CleanMicroserviceSystem.Themis.Application.Services;
 
@@ -9,7 +9,7 @@ public interface IClientManager
     Task<PaginatedEnumerable<Client>> SearchAsync(
         int? id, string? name, bool? enabled, int start, int count);
 
-    Task<ClientResult> SignInAsync(string clientName, string clientSecret);
+    Task<CommonResult<Client>> SignInAsync(string clientName, string clientSecret);
 
     Task SignOutAsync();
 
@@ -17,11 +17,11 @@ public interface IClientManager
 
     Task<Client?> FindByNameAsync(string clientName);
 
-    Task<ClientResult> CreateAsync(Client client);
+    Task<CommonResult<Client>> CreateAsync(Client client);
 
-    Task<ClientResult> UpdateAsync(Client client);
+    Task<CommonResult<Client>> UpdateAsync(Client client);
 
-    Task<ClientResult> DeleteAsync(Client client);
+    Task<CommonResult<Client>> DeleteAsync(Client client);
 
     Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId);
 

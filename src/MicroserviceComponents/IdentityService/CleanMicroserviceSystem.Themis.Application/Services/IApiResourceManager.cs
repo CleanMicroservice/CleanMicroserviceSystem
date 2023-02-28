@@ -1,6 +1,6 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
-using CleanMicroserviceSystem.Themis.Domain.Models;
 
 namespace CleanMicroserviceSystem.Themis.Application.Services;
 
@@ -11,9 +11,9 @@ public interface IApiResourceManager
 
     Task<ApiResource?> FindByIdAsync(int resourceId);
 
-    Task<ApiResourceResult> CreateAsync(ApiResource resource);
+    Task<CommonResult<ApiResource>> CreateAsync(ApiResource resource);
 
-    Task<ApiResourceResult> UpdateAsync(ApiResource resource);
+    Task<CommonResult<ApiResource>> UpdateAsync(ApiResource resource);
 
-    Task<ApiResourceResult> DeleteAsync(ApiResource resource);
+    Task<CommonResult<ApiResource>> DeleteAsync(ApiResource resource);
 }

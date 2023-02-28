@@ -1,9 +1,9 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
-using CleanMicroserviceSystem.Themis.Domain.Models;
 using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Services;
@@ -24,10 +24,10 @@ public class ClientManager : IClientManager
         this.clientClaimRepository = clientClaimRepository;
     }
 
-    public async Task<ClientResult> SignInAsync(string clientName, string clientSecret)
+    public async Task<CommonResult<Client>> SignInAsync(string clientName, string clientSecret)
     {
         var client = await this.clientRepository.FindClientByNameAsync(clientName);
-        var result = new ClientResult() { Client = client };
+        var result = new CommonResult<Client>() { Entity = client };
         if (client == null)
         {
             result.Error = $"Can't find client with name {clientName}.";
@@ -61,25 +61,25 @@ public class ClientManager : IClientManager
     public async Task<Client?> FindByNameAsync(string clientName)
         => await this.clientRepository.FindClientByNameAsync(clientName);
 
-    public async Task<ClientResult> CreateAsync(Client client)
+    public async Task<CommonResult<Client>> CreateAsync(Client client)
     {
         client = await this.clientRepository.AddAsync(client);
         await this.clientRepository.SaveChangesAsync();
-        return new ClientResult() { Client = client };
+        return new CommonResult<Client>() { Entity = client };
     }
 
-    public async Task<ClientResult> UpdateAsync(Client client)
+    public async Task<CommonResult<Client>> UpdateAsync(Client client)
     {
         client = await this.clientRepository.UpdateAsync(client);
-            await this.clientRepository.SaveChangesAsync();
-        return new ClientResult() { Client = client };
+        await this.clientRepository.SaveChangesAsync();
+        return new CommonResult<Client>() { Entity = client };
     }
 
-    public async Task<ClientResult> DeleteAsync(Client client)
+    public async Task<CommonResult<Client>> DeleteAsync(Client client)
     {
         await this.clientRepository.RemoveAsync(client);
         await this.clientRepository.SaveChangesAsync();
-        return new ClientResult() { Client = client };
+        return new CommonResult<Client>() { Entity = client };
     }
 
     public async Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId)

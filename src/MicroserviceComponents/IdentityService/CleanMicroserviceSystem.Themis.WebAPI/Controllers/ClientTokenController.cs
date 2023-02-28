@@ -49,7 +49,7 @@ public class ClientTokenController : ControllerBase
         {
             return this.BadRequest(result.Error);
         }
-        var client = result.Client!;
+        var client = result.Entity!;
         var claims = await this.GetClaimsAsync(client);
         var token = this.jwtBearerTokenGenerator.GenerateClientSecurityToken(claims);
         return this.Ok(token);

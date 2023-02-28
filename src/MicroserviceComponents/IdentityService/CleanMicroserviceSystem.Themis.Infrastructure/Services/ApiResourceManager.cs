@@ -1,8 +1,8 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
-using CleanMicroserviceSystem.Themis.Domain.Models;
 using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Services;
@@ -25,25 +25,25 @@ public class ApiResourceManager : IApiResourceManager
         int? id, string? name, bool? enabled, int start, int count)
         => await this.apiResourceRepository.SearchAsync(id, name, enabled, start, count);
 
-    public async Task<ApiResourceResult> CreateAsync(ApiResource resource)
+    public async Task<CommonResult<ApiResource>> CreateAsync(ApiResource resource)
     {
         resource = await this.apiResourceRepository.AddAsync(resource);
-            await this.apiResourceRepository.SaveChangesAsync();
-        return new ApiResourceResult() { ApiResource = resource };
+        await this.apiResourceRepository.SaveChangesAsync();
+        return new CommonResult<ApiResource>() { Entity = resource };
     }
 
-    public async Task<ApiResourceResult> UpdateAsync(ApiResource resource)
+    public async Task<CommonResult<ApiResource>> UpdateAsync(ApiResource resource)
     {
         resource = await this.apiResourceRepository.UpdateAsync(resource);
-            await this.apiResourceRepository.SaveChangesAsync();
-        return new ApiResourceResult() { ApiResource = resource };
+        await this.apiResourceRepository.SaveChangesAsync();
+        return new CommonResult<ApiResource>() { Entity = resource };
     }
 
-    public async Task<ApiResourceResult> DeleteAsync(ApiResource resource)
+    public async Task<CommonResult<ApiResource>> DeleteAsync(ApiResource resource)
     {
-            await this.apiResourceRepository.RemoveAsync(resource);
-            await this.apiResourceRepository.SaveChangesAsync();
-        return new ApiResourceResult() { ApiResource = resource };
+        await this.apiResourceRepository.RemoveAsync(resource);
+        await this.apiResourceRepository.SaveChangesAsync();
+        return new CommonResult<ApiResource>() { Entity = resource };
     }
 
     public async Task<ApiResource?> FindByIdAsync(int resourceId)
