@@ -40,15 +40,11 @@ public class OceanusProgram
             .AddDebug()
             .SetMinimumLevel(MSLoggingLevel.Debug)
             .AddNLogWeb();
+        this.logger.Info($"{nameof(this.webAppBuilder.Environment.EnvironmentName)}={this.webAppBuilder.Environment.EnvironmentName}");
     }
 
     public virtual void ConfigureServices()
     {
-        /* JwtBearerConfiguration was stored in user secrets file, to make multiple applications reuse this part of section by same Secret Id
-         * Right click on WebAPI project in Solution Explorer window
-         * Click Manage User Secrets (User secrets id was specified in <UserSecretsId> of project file)
-         * Configurations in user secrets file will be imported into _configurationManager automatically when startup
-         */
         var jwtBearerConfiguration = this.configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
         var agentServiceRegistrationConfiguration = this.configManager.GetRequiredSection("AgentServiceRegistrationConfiguration")!.Get<AgentServiceRegistrationConfiguration>()!;
         this.webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
