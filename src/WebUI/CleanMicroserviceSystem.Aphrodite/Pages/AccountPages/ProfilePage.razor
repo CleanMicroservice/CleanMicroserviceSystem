@@ -9,45 +9,54 @@
     <Authorized>
         @if (!string.IsNullOrEmpty(Message))
         {
-            <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
-                @Message
-            </MAlert>
+            <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>@Message</MAlert>
         }
         <MRow>
-            <MCol Cols="@("Auto")">
-                @if (this.CardLoading == true)
-                {
-                    <MSheet Color="grey lighten-4">
-                        <MSkeletonLoader Class="mx-auto" MaxWidth="300" Type="card"></MSkeletonLoader>
-                    </MSheet>
-                }
-                else
-                {
-                    <MCard Flat Rounded="@("xl")" Loading=CardLoading>
-                        <MCardText>
-                            <MRow>
-                                <MCol Cols="@("Auto")" Class="text-center">
-                                    <MAvatar Size="64" Class="mb-3">
-                                        <MImage Src="/img/Avatar.png"></MImage>
-                                    </MAvatar>
-                                    <p class="text-h5">@(this.UserInformation?.UserName ?? "-")</p>
-                                    <p class="text-h5">@(context?.User?.Identity?.Name ?? "-")</p>
-                                </MCol>
-                                <MDivider Vertical />
-                                <MCol>
+            <MCol>
+                <MCard Flat Rounded="@("xl")" Loading=CardLoading>
+                    <MCardText>
+                        <MRow>
+                            <MCol Class="text-center">
+                                <MAvatar Size="64" Class="mb-3">
+                                    <MImage Src="/img/Avatar.png"></MImage>
+                                </MAvatar>
+                                <p class="text-h5">@(this.UserInformation?.UserName ?? "-")</p>
+                            </MCol>
+                            <MDivider Vertical />
+                            <MCol>
+                                <MList TwoLine>
+                                    <MListItem>
+                                        <MListItemIcon>
+                                            <MIcon Color="primary">mdi-phone</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>@(this.UserInformation?.PhoneNumber ?? "-")</MListItemTitle>
+                                                <MListItemSubtitle>Phone</MListItemSubtitle>
+                                            </MListItemContent>
+                                        </MListItem>
+                                        <MDivider Inset></MDivider>
+                                    <MListItem>
+                                        <MListItemIcon>
+                                            <MIcon Color="primary">mdi-email</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>@(this.UserInformation?.Email ?? "-")</MListItemTitle>
+                                                <MListItemSubtitle>Email</MListItemSubtitle>
+                                            </MListItemContent>
+                                        </MListItem>
+                                    </MList>
                                 </MCol>
                             </MRow>
                         </MCardText>
                     </MCard>
-                }
-            </MCol>
-            <MSpacer></MSpacer>
-            <MCol></MCol>
-        </MRow>
-    </Authorized>
-</AuthorizeView>
+                </MCol>
+                <MSpacer></MSpacer>
+                <MCol></MCol>
+            </MRow>
+        </Authorized>
+    </AuthorizeView>
 
-@code {
+    @code {
     protected string Message { get; set; }
     private StringBoolean CardLoading { get; set; }
     protected UserInformationResponse? UserInformation { get; set; }
@@ -61,7 +70,6 @@
             var httpClient = this.HttpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
             var userUri = $"{ApiContract.GatewayUriPrefix}/{ApiContract.ThemisServiceName}/api/User";
             this.UserInformation = await httpClient.GetFromJsonAsync<UserInformationResponse>(userUri);
-            await Task.Delay(1000);
             if (this.UserInformation is null)
             {
                 this.logger.LogWarning($"Get null user information.");
