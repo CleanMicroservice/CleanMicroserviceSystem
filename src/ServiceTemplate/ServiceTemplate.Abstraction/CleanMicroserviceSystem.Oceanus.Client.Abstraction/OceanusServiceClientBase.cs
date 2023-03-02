@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 
@@ -10,10 +9,10 @@ public abstract class OceanusServiceClientBase
 
     public OceanusServiceClientBase(
         ILogger<OceanusServiceClientBase> logger,
-        IOptionsSnapshot<OceanusServiceClientConfiguration> options,
-        IHttpClientFactory httpClientFactory)
+        IHttpClientFactory httpClientFactory,
+        string serviceClientName)
     {
         this.logger = logger;
-        this.httpClient = httpClientFactory.CreateClient(options.Value.GatewayClientName);
+        this.httpClient = httpClientFactory.CreateClient(serviceClientName);
     }
 }
