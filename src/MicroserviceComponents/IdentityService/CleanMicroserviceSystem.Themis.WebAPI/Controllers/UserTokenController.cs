@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using CleanMicroserviceSystem.Authentication.Services;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;

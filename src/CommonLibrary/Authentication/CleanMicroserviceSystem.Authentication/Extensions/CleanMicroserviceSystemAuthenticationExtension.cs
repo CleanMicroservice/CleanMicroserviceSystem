@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Configurations;
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Authentication.Services;

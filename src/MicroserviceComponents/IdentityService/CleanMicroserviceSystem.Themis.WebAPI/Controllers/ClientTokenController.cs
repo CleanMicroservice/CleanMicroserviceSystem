@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using CleanMicroserviceSystem.Authentication.Services;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;

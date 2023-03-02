@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Configurations;
 using Microsoft.IdentityModel.Tokens;
 

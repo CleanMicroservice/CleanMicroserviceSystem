@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace CleanMicroserviceSystem.Authentication.Services;
+namespace CleanMicroserviceSystem.Authentication.Application;
 
 public interface IJwtBearerTokenGenerator
 {
