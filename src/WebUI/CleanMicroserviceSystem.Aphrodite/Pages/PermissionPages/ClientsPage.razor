@@ -1,0 +1,12 @@
+﻿@page "/permission/clients"
+@attribute [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
+@inherits AphroditePageBase
+@inject ILogger<ClientsPage> logger
+
+<PageTitle>Clients</PageTitle>
+
+<h3>ClientsPage</h3>
+
+@code {
+
+}

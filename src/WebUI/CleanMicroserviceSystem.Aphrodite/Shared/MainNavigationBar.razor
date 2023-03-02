@@ -4,7 +4,7 @@
                    Class="navigation rounded-r-xl"
                    Width=NavigationWidth MiniVariantWidth=NavigationMinWidth
                    ExpandOnHover="navigationExpandOnHover" @bind-MiniVariant="navigationMini"
-                   Fixed App Permanent Floating>
+                          Fixed App Permanent Floating>
     <MRow Justify="@JustifyTypes.Center" NoGutters Class="mt-10 mb-5">
         <MSpacer></MSpacer>
         <MCol Align="@("center")">
@@ -18,18 +18,18 @@
     @if (!navigationMini)
     {
         <MRow Justify="@JustifyTypes.Center" NoGutters>
-            <MSpacer></MSpacer>
-            <MCol Align="@("center")">
-                <p class="text-h5 font-weight-black text-no-wrap primary--text mb-5">Aphrodite</p>
-            </MCol>
-            <MSpacer></MSpacer>
-        </MRow>
+        <MSpacer></MSpacer>
+        <MCol Align="@("center")">
+            <p class="text-h5 font-weight-black text-no-wrap primary--text mb-5">Aphrodite</p>
+        </MCol>
+        <MSpacer></MSpacer>
+    </MRow>
     }
 
     <MList Nav Dense Rounded>
         <MListItemGroup @bind-Value="navigationSelectedItem" Color="primary">
             <!-- Home -->
-            <MListItem Link>
+            <MListItem Link OnClick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)">
                 <MListItemIcon>
                     <MIcon>mdi-home</MIcon>
                 </MListItemIcon>
@@ -38,10 +38,10 @@
             <!-- Permissions -->
             <PermissionNavigator />
         </MListItemGroup>
-    </MList>
-</MNavigationDrawer>
+        </MList>
+        </MNavigationDrawer>
 
-<MButton Small Fab Color="primary" Elevation="0" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position: fixed;left:{expandButtonLeft}px;")">
+        <MButton Small Fab Color="primary" Elevation="0" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position:fixed;left:{expandButtonLeft}px;")">
     <MIcon Class="white--text">
         @(navigationVisible is false || navigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
     </MIcon>

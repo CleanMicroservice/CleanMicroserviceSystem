@@ -16,23 +16,23 @@
                     </ActivatorContent>
                     <ChildContent>
                         <!-- User -->
-                        <MListItem Link>
+                        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.UsersUri)">
                             <MListItemIcon>
                                 <MIcon>mdi-shield-account</MIcon>
                             </MListItemIcon>
                             <MListItemTitle>User</MListItemTitle>
                         </MListItem>
                         <!-- Role -->
-                        <MListItem Link>
+                        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.RolesUri)">
                             <MListItemIcon>
                                 <MIcon>mdi-account-group</MIcon>
                             </MListItemIcon>
                             <MListItemTitle>Role</MListItemTitle>
                         </MListItem>
                     </ChildContent>
-                </MListGroup>
-                <!-- Application -->
-                <MListGroup NoAction SubGroup Value="true">
+                    </MListGroup>
+                    <!-- Application -->
+                    <MListGroup NoAction SubGroup Value="true">
                     <ActivatorContent>
                         <MListItemContent>
                             <MListItemTitle>Application</MListItemTitle>
@@ -40,19 +40,19 @@
                     </ActivatorContent>
                     <ChildContent>
                         <!-- Client -->
-                        <MListItem Link>
+                        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.ClientsUri)">
                             <MListItemIcon>
                                 <MIcon>mdi-application-array</MIcon>
                             </MListItemIcon>
                             <MListItemTitle>Client</MListItemTitle>
                         </MListItem>
                     </ChildContent>
+                    </MListGroup>
+                </ChildContent>
                 </MListGroup>
-            </ChildContent>
-        </MListGroup>
-    </Authorized>
-</AuthorizeView>
+            </Authorized>
+            </AuthorizeView>
 
-@code {
+            @code {
 
 }
