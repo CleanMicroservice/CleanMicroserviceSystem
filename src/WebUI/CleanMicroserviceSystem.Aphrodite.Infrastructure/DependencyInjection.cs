@@ -5,9 +5,9 @@ using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services;
 using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
 using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.Themis.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure;
 
@@ -17,24 +17,24 @@ public static class DependencyInjection
         this IServiceCollection services,
         AphroditeConfiguration configuration)
     {
-        services.AddMasaBlazor();
-        services.AddLogging();
-        services.AddAuthorizationCore(options =>
+        _ = services.AddMasaBlazor();
+        _ = services.AddLogging();
+        _ = services.AddAuthorizationCore(options =>
         {
             options.AddPolicy(IdentityContract.ThemisAPIReadPolicyName, IdentityContract.ThemisAPIReadPolicy);
             options.AddPolicy(IdentityContract.ThemisAPIWritePolicyName, IdentityContract.ThemisAPIWritePolicy);
         });
-        services
+        _ = services
             .AddSingleton<CookieStorage>()
             .AddSingleton<JwtSecurityTokenHandler>()
             .AddSingleton<IAuthenticationTokenStore, AphroditeAuthenticationTokenStore>()
             .AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>()
             .AddSingleton<AphroditeJwtSecurityTokenValidator>();
-        services.AddHttpClient(
+        _ = services.AddHttpClient(
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(configuration.WebUIBaseAddress));
-        services
-            .ConfigServiceClient(new OceanusServiceClientConfiguration()
+        _ = services
+            .AddThemisClients(new ThemisClientConfiguration()
             {
                 GatewayClientName = ApiContract.GatewayHttpClientName,
             })
