@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
 
     private readonly ILogger<AphroditeAuthenticationStateProvider> logger;
     private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
-    private readonly AphroditeAuthenticationTokenStore authenticationTokenStore;
+    private readonly IAuthenticationTokenStore authenticationTokenStore;
     private readonly AphroditeJwtSecurityTokenValidator jwtSecurityTokenValidator;
     private AuthenticationState? authenticationState = default;
     private JwtSecurityToken? jwtSecurityToken = default;
@@ -21,7 +22,7 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
     public AphroditeAuthenticationStateProvider(
         ILogger<AphroditeAuthenticationStateProvider> logger,
         JwtSecurityTokenHandler jwtSecurityTokenHandler,
-        AphroditeAuthenticationTokenStore authenticationTokenStore,
+        IAuthenticationTokenStore authenticationTokenStore,
         AphroditeJwtSecurityTokenValidator jwtSecurityTokenValidator)
     {
         this.logger = logger;

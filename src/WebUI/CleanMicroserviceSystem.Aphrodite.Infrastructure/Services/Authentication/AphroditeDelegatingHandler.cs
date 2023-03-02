@@ -1,14 +1,15 @@
 ﻿using System.Net.Http.Headers;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
 
 public class AphroditeDelegatingHandler : DelegatingHandler
 {
-    private readonly AphroditeAuthenticationTokenStore tokenStore;
+    private readonly IAuthenticationTokenStore tokenStore;
 
     public AphroditeDelegatingHandler(
-        AphroditeAuthenticationTokenStore tokenStore)
+        IAuthenticationTokenStore tokenStore)
     {
         this.tokenStore = tokenStore;
     }

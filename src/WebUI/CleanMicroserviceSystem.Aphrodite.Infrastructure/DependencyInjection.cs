@@ -3,6 +3,7 @@ using CleanMicroserviceSystem.Aphrodite.Application.Configurations;
 using CleanMicroserviceSystem.Aphrodite.Domain;
 using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services;
 using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
+using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +26,7 @@ public static class DependencyInjection
         services
             .AddSingleton<CookieStorage>()
             .AddSingleton<JwtSecurityTokenHandler>()
-            .AddSingleton<AphroditeAuthenticationTokenStore>()
+            .AddSingleton<IAuthenticationTokenStore, AphroditeAuthenticationTokenStore>()
             .AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>()
             .AddSingleton<AphroditeJwtSecurityTokenValidator>();
         services.AddHttpClient(

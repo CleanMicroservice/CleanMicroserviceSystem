@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CleanMicroserviceSystem.Authentication.Application;
+using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
 
-public class AphroditeAuthenticationTokenStore
+public class AphroditeAuthenticationTokenStore : IAuthenticationTokenStore
 {
     private const string AuthenticationTokenCookieName = "AphroditeAuthenticationToken";
     private readonly ILogger<AphroditeAuthenticationTokenStore> logger;
