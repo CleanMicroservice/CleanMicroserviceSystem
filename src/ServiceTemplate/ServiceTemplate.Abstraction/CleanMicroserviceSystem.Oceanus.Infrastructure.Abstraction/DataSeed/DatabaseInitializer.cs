@@ -20,8 +20,6 @@ public static class DatabaseInitializer
         logger.LogInformation("Start to validate database...");
         try
         {
-            logger.LogDebug($"Ensure database created...");
-            await dbContext.Database.EnsureCreatedAsync();
             logger.LogDebug($"Check database pending migrations...");
             var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
             if (pendingMigrations.Any())
