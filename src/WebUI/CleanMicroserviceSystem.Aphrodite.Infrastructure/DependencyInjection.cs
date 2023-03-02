@@ -7,6 +7,7 @@ using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure;
 
@@ -33,6 +34,10 @@ public static class DependencyInjection
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(configuration.WebUIBaseAddress));
         services
+            .ConfigServiceClient(new OceanusServiceClientConfiguration()
+            {
+                GatewayClientName = ApiContract.GatewayHttpClientName,
+            })
             .AddTransient<AphroditeDelegatingHandler>()
             .AddHttpClient<HttpClient>(
                 ApiContract.GatewayHttpClientName,
