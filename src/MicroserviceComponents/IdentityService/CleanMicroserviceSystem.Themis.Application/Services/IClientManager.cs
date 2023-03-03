@@ -7,7 +7,7 @@ namespace CleanMicroserviceSystem.Themis.Application.Services;
 public interface IClientManager
 {
     Task<PaginatedEnumerable<Client>> SearchAsync(
-        int? id, string? name, bool? enabled, int start, int count);
+        int? id, string? name, bool? enabled, int? start, int? count);
 
     Task<CommonResult<Client>> SignInAsync(string clientName, string clientSecret);
 

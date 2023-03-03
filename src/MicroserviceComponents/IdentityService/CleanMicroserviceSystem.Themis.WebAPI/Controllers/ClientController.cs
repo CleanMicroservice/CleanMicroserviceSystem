@@ -146,14 +146,7 @@ public class ClientController : ControllerBase
         }
         else
         {
-            client = await this.clientManager.FindByIdAsync(client.Id);
-            return this.Ok(new ClientInformationResponse()
-            {
-                Id = client.Id,
-                Name = client.Name,
-                Enabled = client.Enabled,
-                Description = client.Description,
-            });
+            return this.Ok(result);
         }
     }
 
@@ -237,13 +230,7 @@ public class ClientController : ControllerBase
             _ = await this.clientManager.AddClaimsAsync(claimsToAdd);
         }
 
-        existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
-        var claims = existingClaims.Select(claim => new ClaimInformationResponse()
-        {
-            Type = claim.ClaimType,
-            Value = claim.ClaimValue
-        });
-        return this.Ok(claims);
+        return this.Ok();
     }
 
     /// <summary>
@@ -270,12 +257,7 @@ public class ClientController : ControllerBase
         if (claimsToAdd.Any())
         {
             _ = await this.clientManager.AddClaimsAsync(claimsToAdd);
-            var claims = claimsToAdd.Select(claim => new ClaimInformationResponse()
-            {
-                Type = claim.ClaimType,
-                Value = claim.ClaimValue
-            });
-            return this.Ok(claims);
+            return this.Ok();
         }
 
         return this.NoContent();
@@ -305,12 +287,7 @@ public class ClientController : ControllerBase
         {
             var claimToRemoveIds = claimsToRemove.Select(claim => claim.Id);
             _ = await this.clientManager.RemoveClaimsAsync(claimToRemoveIds);
-            var claims = claimsToRemove.Select(claim => new ClaimInformationResponse()
-            {
-                Type = claim.ClaimType,
-                Value = claim.ClaimValue
-            });
-            return this.Ok(claims);
+            return this.Ok();
         }
 
         return this.NoContent();

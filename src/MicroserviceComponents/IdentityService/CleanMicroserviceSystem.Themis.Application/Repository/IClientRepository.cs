@@ -12,6 +12,6 @@ public interface IClientRepository : IRepositoryBase<Client>
         int? id,
         string? name,
         bool? enabled,
-        int start,
-        int count);
+        int? start,
+        int? count);
 }

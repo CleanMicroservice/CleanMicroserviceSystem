@@ -60,7 +60,7 @@ public class ClientManager : IClientManager
     }
 
     public async Task<PaginatedEnumerable<Client>> SearchAsync(
-        int? id, string? name, bool? enabled, int start, int count)
+        int? id, string? name, bool? enabled, int? start, int? count)
     {
         this.logger.LogDebug($"Search clients: {id}, {name}, {enabled}, {start}, {count}");
         return await this.clientRepository.SearchAsync(id, name, enabled, start, count);

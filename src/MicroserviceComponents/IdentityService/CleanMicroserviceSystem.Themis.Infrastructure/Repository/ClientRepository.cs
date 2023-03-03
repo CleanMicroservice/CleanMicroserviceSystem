@@ -24,8 +24,8 @@ public class ClientRepository : RepositoryBase<Client>, IClientRepository
         int? id,
         string? name,
         bool? enabled,
-        int start,
-        int count)
+        int? start,
+        int? count)
     {
         var clients = this.AsQueryable();
         if (id.HasValue)
@@ -35,7 +35,11 @@ public class ClientRepository : RepositoryBase<Client>, IClientRepository
         if (enabled.HasValue)
             clients = clients.Where(client => client.Enabled == enabled.Value);
         var originCounts = await clients.CountAsync();
-        clients = clients.Skip(start).Take(count);
+        clients = clients.OrderBy(user => user.Id);
+        if (start.HasValue)
+            clients = clients.Skip(start.Value);
+        if (count.HasValue)
+            clients = clients.Take(count.Value);
         return new PaginatedEnumerable<Client>(clients.ToArray(), start, count, originCounts);
     }
 }
