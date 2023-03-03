@@ -18,8 +18,9 @@ public abstract class OceanusServiceClientBase
         this.logger = logger;
         this.serviceUriPrefix = serviceUriPrefix;
         this.httpClient = httpClientFactory.CreateClient(serviceClientName);
+        if (!serviceUriPrefix.EndsWith("/")) serviceUriPrefix += "/";
         this.baseUriPrefix = new Uri(this.httpClient.BaseAddress!, serviceUriPrefix);
     }
 
-    protected virtual Uri BuildUri(string uri) => new(this.baseUriPrefix, uri);
+    protected virtual Uri BuildUri(string uri) => new(this.baseUriPrefix, uri.TrimStart('/'));
 }
