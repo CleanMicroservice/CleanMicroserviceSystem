@@ -9,7 +9,7 @@ public static class ThemisClientExtension
         {
             options.GatewayClientName = configuration.GatewayClientName;
         }));
-        services.AddScoped<ThemisClient>();
+        services.AddScoped<ThemisUserTokenClient>();
         return services;
     }
 }

@@ -2,7 +2,7 @@
 @attribute [Authorize()]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
-@inject ThemisClient themisClient
+@inject ThemisUserTokenClient themisUserTokenClient
 
 <PageTitle>Profile</PageTitle>
 
@@ -42,22 +42,22 @@
                                         </MListItemIcon>
                                         <MListItemContent>
                                             <MListItemTitle>@(this.UserInformation?.Email ?? "-")</MListItemTitle>
-                                                <MListItemSubtitle>Email</MListItemSubtitle>
-                                            </MListItemContent>
-                                        </MListItem>
-                                    </MList>
-                                </MCol>
-                            </MRow>
-                        </MCardText>
-                    </MCard>
-                </MCol>
-                <MSpacer></MSpacer>
-                <MCol></MCol>
-            </MRow>
-        </Authorized>
-    </AuthorizeView>
+                                            <MListItemSubtitle>Email</MListItemSubtitle>
+                                        </MListItemContent>
+                                    </MListItem>
+                                </MList>
+                            </MCol>
+                        </MRow>
+                    </MCardText>
+                </MCard>
+            </MCol>
+            <MSpacer></MSpacer>
+            <MCol></MCol>
+        </MRow>
+    </Authorized>
+</AuthorizeView>
 
-    @code {
+@code {
     protected string Message { get; set; }
     private StringBoolean CardLoading { get; set; }
     protected UserInformationResponse? UserInformation { get; set; }
@@ -68,7 +68,7 @@
         this.CardLoading = true;
         try
         {
-            this.UserInformation = await this.themisClient.GetCurrentUserAsync();
+            this.UserInformation = await this.themisUserTokenClient.GetCurrentUserAsync();
             if (this.UserInformation is null)
             {
                 this.logger.LogWarning($"Get null user information.");

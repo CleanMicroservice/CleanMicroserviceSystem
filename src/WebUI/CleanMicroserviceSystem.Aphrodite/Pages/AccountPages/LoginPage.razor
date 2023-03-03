@@ -4,7 +4,7 @@
 @inject ILogger<LoginPage> logger
 @inject IAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager
-@inject ThemisClient themisClient
+@inject ThemisUserTokenClient themisUserTokenClient
 
 <PageTitle>Login</PageTitle>
 
@@ -87,7 +87,7 @@
 
         try
         {
-            var response = await this.themisClient.LoginUserAsync(this.UserName, this.Password);
+            var response = await this.themisUserTokenClient.LoginUserAsync(this.UserName, this.Password);
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
