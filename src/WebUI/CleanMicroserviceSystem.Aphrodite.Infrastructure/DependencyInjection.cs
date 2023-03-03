@@ -38,11 +38,11 @@ public static class DependencyInjection
             {
                 GatewayClientName = ApiContract.GatewayHttpClientName,
             })
-            .AddTransient<AphroditeDelegatingHandler>()
+            .AddTransient<DefaultAuthenticationDelegatingHandler>()
             .AddHttpClient<HttpClient>(
                 ApiContract.GatewayHttpClientName,
                 client => client.BaseAddress = new Uri(configuration.GatewayBaseAddress))
-            .AddHttpMessageHandler<AphroditeDelegatingHandler>();
+            .AddHttpMessageHandler<DefaultAuthenticationDelegatingHandler>();
         return services;
     }
 }

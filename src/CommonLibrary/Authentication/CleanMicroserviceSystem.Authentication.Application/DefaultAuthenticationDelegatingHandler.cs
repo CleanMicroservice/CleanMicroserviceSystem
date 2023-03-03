@@ -4,11 +4,11 @@ using CleanMicroserviceSystem.Authentication.Domain;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
 
-public class AphroditeDelegatingHandler : DelegatingHandler
+public class DefaultAuthenticationDelegatingHandler : DelegatingHandler
 {
     private readonly IAuthenticationTokenStore tokenStore;
 
-    public AphroditeDelegatingHandler(
+    public DefaultAuthenticationDelegatingHandler(
         IAuthenticationTokenStore tokenStore)
     {
         this.tokenStore = tokenStore;
