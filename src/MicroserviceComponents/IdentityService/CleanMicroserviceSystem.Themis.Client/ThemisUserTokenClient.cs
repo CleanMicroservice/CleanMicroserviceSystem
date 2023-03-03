@@ -9,7 +9,7 @@ namespace CleanMicroserviceSystem.Themis.Client;
 public class ThemisUserTokenClient : OceanusServiceClientBase
 {
     public ThemisUserTokenClient(
-        ILogger<OceanusServiceClientBase> logger,
+        ILogger<ThemisUserTokenClient> logger,
         IHttpClientFactory httpClientFactory,
         IOptionsSnapshot<ThemisClientConfiguration> options) :
         base(logger, httpClientFactory, options.Value.GatewayClientName, ThemisClientContract.ThemisUriPrefix)
@@ -24,10 +24,17 @@ public class ThemisUserTokenClient : OceanusServiceClientBase
         return response;
     }
 
-    public async Task<UserInformationResponse?> GetCurrentUserAsync()
+    public async Task<HttpResponseMessage> RefreshUserTokenAsync()
     {
-        var uri = this.BuildUri("/api/User");
-        var user = await this.httpClient.GetFromJsonAsync<UserInformationResponse>(uri);
-        return user;
+        var uri = this.BuildUri("/api/UserToken");
+        var response = await this.httpClient.PutAsync(uri, null);
+        return response;
+    }
+
+    public async Task<HttpResponseMessage> LogoutUserAsync()
+    {
+        var uri = this.BuildUri("/api/UserToken");
+        var response = await this.httpClient.DeleteAsync(uri);
+        return response;
     }
 }

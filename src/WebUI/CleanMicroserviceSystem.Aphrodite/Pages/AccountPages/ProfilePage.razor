@@ -2,7 +2,7 @@
 @attribute [Authorize()]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
-@inject ThemisUserTokenClient themisUserTokenClient
+@inject ThemisUserClient themisUserClient
 
 <PageTitle>Profile</PageTitle>
 
@@ -68,7 +68,7 @@
         this.CardLoading = true;
         try
         {
-            this.UserInformation = await this.themisUserTokenClient.GetCurrentUserAsync();
+            this.UserInformation = await this.themisUserClient.GetCurrentUserAsync();
             if (this.UserInformation is null)
             {
                 this.logger.LogWarning($"Get null user information.");

@@ -1,6 +1,7 @@
 ﻿@inject ILogger<AvatarComponent> logger
 @inject IAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager
+@inject ThemisUserTokenClient themisUserTokenClient
 
 <AuthorizeView>
     <NotAuthorized>
@@ -71,7 +72,7 @@
     </Authorized>
 </AuthorizeView>
 
-@code {
+                @code {
     private void OnLogin()
     {
         this.navigationManager.NavigateTo(RouterContract.LoginUri);
@@ -89,6 +90,7 @@
 
     private async Task OnLogout()
     {
+        await themisUserTokenClient.LogoutUserAsync();
         await this.tokenStore.UpdateTokenAsync(string.Empty);
         this.navigationManager.NavigateTo(RouterContract.DefaultUri);
     }
