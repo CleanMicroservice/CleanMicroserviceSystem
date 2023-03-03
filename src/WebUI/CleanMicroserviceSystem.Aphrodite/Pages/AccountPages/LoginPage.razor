@@ -31,32 +31,32 @@
                     @if (!string.IsNullOrEmpty(Message))
                     {
                         <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
-                        @Message
-                    </MAlert>
-                    }
-                    <MTextField BackgroundColor="grey lighten-4"
-                                @bind-Value="UserName" Label="UserName"
-                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                    Clearable Flat Solo Dense>
-                    </MTextField>
-                    <MTextField BackgroundColor="grey lighten-4"
-                                @bind-Value="Password" Label="Password"
-                                AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
-                                Type="@(ShowPassword ? "text" : "password")"
-                                OnAppendClick="() => ShowPassword = !ShowPassword"
-                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                    Clearable Flat Solo Dense>
-                    </MTextField>
-                </MCardText>
-                <MCardActions>
-                    <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
-                    </MCardActions>
-                </ChildContent>
-                </MCard>
-                </MCol>
-                </MRow>
+                    @Message
+                </MAlert>
+                }
+                <MTextField BackgroundColor="grey lighten-4"
+                            @bind-Value="UserName" Label="UserName"
+                            Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
+                                Clearable Flat Solo Dense>
+                </MTextField>
+                <MTextField BackgroundColor="grey lighten-4"
+                            @bind-Value="Password" Label="Password"
+                            AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
+                            Type="@(ShowPassword ? "text" : "password")"
+                            OnAppendClick="() => ShowPassword = !ShowPassword"
+                            Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
+                                Clearable Flat Solo Dense>
+                </MTextField>
+            </MCardText>
+            <MCardActions>
+                <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
+                </MCardActions>
+            </ChildContent>
+        </MCard>
+    </MCol>
+</MRow>
 
-                @code {
+@code {
     private StringBoolean CardLoading { get; set; }
     private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
