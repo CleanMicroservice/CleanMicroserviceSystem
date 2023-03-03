@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanMicroserviceSystem.Themis.Client;
+
 public static class ThemisClientExtension
 {
     public static IServiceCollection AddThemisClients(this IServiceCollection services, ThemisClientConfiguration configuration)
@@ -9,7 +10,10 @@ public static class ThemisClientExtension
         {
             options.GatewayClientName = configuration.GatewayClientName;
         }));
-        services.AddScoped<ThemisUserTokenClient>();
+        services
+            .AddScoped<ThemisUserClient>()
+            .AddScoped<ThemisUserTokenClient>()
+            .AddScoped<ThemisClientTokenClient>();
         return services;
     }
 }
