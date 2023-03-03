@@ -12,7 +12,7 @@ public class UserSearchRequest : ContractBase
 
     public string? PhoneNumber { get; set; } = default;
 
-    public int Start { get; set; } = 0;
+    public int? Start { get; set; }
 
-    public int Count { get; set; } = 10;
+    public int? Count { get; set; }
 }

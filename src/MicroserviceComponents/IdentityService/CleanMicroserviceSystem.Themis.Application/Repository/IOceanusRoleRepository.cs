@@ -18,6 +18,6 @@ public interface IOceanusRoleRepository : IRepositoryBase<OceanusRole>
         string? userName,
         string? email,
         string? phoneNumber,
-        int start,
-        int count);
+        int? start,
+        int? count);
 }

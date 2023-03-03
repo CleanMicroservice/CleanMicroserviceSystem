@@ -11,6 +11,6 @@ public interface IOceanusUserRepository : IRepositoryBase<OceanusUser>
         string? userName,
         string? email,
         string? phoneNumber,
-        int start,
-        int count);
+        int? start,
+        int? count);
 }

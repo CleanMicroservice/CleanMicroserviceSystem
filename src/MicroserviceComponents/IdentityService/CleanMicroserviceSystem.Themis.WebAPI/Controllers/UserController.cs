@@ -97,14 +97,7 @@ public class UserController : ControllerBase
         }
         else
         {
-            user = await this.userManager.FindByIdAsync(user.Id.ToString());
-            return this.Ok(new UserInformationResponse()
-            {
-                Id = user!.Id,
-                UserName = user!.UserName,
-                Email = user!.Email,
-                PhoneNumber = user!.PhoneNumber
-            });
+            return this.Ok(result);
         }
     }
     #endregion
@@ -237,14 +230,7 @@ public class UserController : ControllerBase
         }
         else
         {
-            user = await this.userManager.FindByIdAsync(user.Id.ToString());
-            return this.Ok(new UserInformationResponse()
-            {
-                Id = user!.Id,
-                UserName = user!.UserName,
-                Email = user!.Email,
-                PhoneNumber = user!.PhoneNumber
-            });
+            return this.Ok(result);
         }
     }
 

@@ -36,8 +36,8 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         string? userName,
         string? email,
         string? phoneNumber,
-        int start,
-        int count)
+        int? start,
+        int? count)
     {
         var users = this.AsQueryable()
             .Where(role => roleIds.Contains(role.Id))
@@ -54,7 +54,11 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
             users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
 
         var originCounts = await users.CountAsync();
-        users = users.OrderBy(user => user.Id).Skip(start).Take(count);
+        users = users.OrderBy(user => user.Id);
+        if (start.HasValue)
+            users = users.Skip(start.Value);
+        if (count.HasValue)
+            users = users.Take(count.Value);
         return new PaginatedEnumerable<OceanusUser>(users.ToArray(), start, count, originCounts);
     }
 }
