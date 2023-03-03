@@ -2,6 +2,7 @@
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
+using CleanMicroserviceSystem.Themis.Contract.Roles;
 using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -323,13 +324,7 @@ public class UserController : ControllerBase
             }
         }
 
-        existingClaims = await this.userManager.GetClaimsAsync(user);
-        var claims = existingClaims.Select(claim => new ClaimInformationResponse()
-        {
-            Type = claim.Type,
-            Value = claim.Value
-        });
-        return this.Ok(claims);
+        return this.Ok();
     }
 
     /// <summary>
@@ -410,7 +405,8 @@ public class UserController : ControllerBase
         if (user is null)
             return this.NotFound();
 
-        var roles = await this.userManager.GetRolesAsync(user);
+        var result = await this.userManager.GetRolesAsync(user);
+        var roles = result.Select(role => new RoleInformationResponse() { RoleName = role }).ToArray();
         return this.Ok(roles);
     }
 
@@ -465,8 +461,7 @@ public class UserController : ControllerBase
             }
         }
 
-        existingRoles = await this.userManager.GetRolesAsync(user);
-        return this.Ok(existingRoles);
+        return this.Ok();
     }
 
     /// <summary>

@@ -1,5 +1,7 @@
 ﻿using System.Net.Http.Json;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
+using CleanMicroserviceSystem.Themis.Contract.Claims;
+using CleanMicroserviceSystem.Themis.Contract.Roles;
 using CleanMicroserviceSystem.Themis.Contract.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -71,6 +73,62 @@ public class ThemisUserClient : OceanusServiceClientBase
     {
         var uri = this.BuildUri($"/api/User/{id}");
         var response = await this.httpClient.DeleteAsync(uri);
+        return response;
+    }
+
+    public async Task<IEnumerable<ClaimInformationResponse>?> GetUserClaimsAsync(int id)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Claims");
+        var claims = await this.httpClient.GetFromJsonAsync<IEnumerable<ClaimInformationResponse>>(uri);
+        return claims;
+    }
+
+    public async Task<HttpResponseMessage> AddUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Claims");
+        var response = await this.httpClient.PostAsJsonAsync(uri, requests);
+        return response;
+    }
+
+    public async Task<HttpResponseMessage> UpdateUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Claims");
+        var response = await this.httpClient.PutAsJsonAsync(uri, requests);
+        return response;
+    }
+
+    public async Task<HttpResponseMessage?> DeleteUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Claims");
+        var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
+        return response;
+    }
+
+    public async Task<IEnumerable<RoleInformationResponse>?> GetUserRolesAsync(int id)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Roles");
+        var roles = await this.httpClient.GetFromJsonAsync<IEnumerable<RoleInformationResponse>>(uri);
+        return roles;
+    }
+
+    public async Task<HttpResponseMessage> AddUserRolesAsync(int id, IEnumerable<string> requests)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Roles");
+        var response = await this.httpClient.PostAsJsonAsync(uri, requests);
+        return response;
+    }
+
+    public async Task<HttpResponseMessage> UpdateUserRolesAsync(int id, IEnumerable<string> requests)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Roles");
+        var response = await this.httpClient.PutAsJsonAsync(uri, requests);
+        return response;
+    }
+
+    public async Task<HttpResponseMessage?> DeleteUserRolesAsync(int id, IEnumerable<string> requests)
+    {
+        var uri = this.BuildUri($"/api/User/{id}/Roles");
+        var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
         return response;
     }
 }
