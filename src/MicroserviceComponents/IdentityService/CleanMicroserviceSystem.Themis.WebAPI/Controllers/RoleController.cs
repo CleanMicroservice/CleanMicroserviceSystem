@@ -342,7 +342,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Users")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PostUsers(string id, [FromBody] IEnumerable<string> requests)
+    public async Task<IActionResult> PostUsers(string id, [FromBody] IEnumerable<int> requests)
     {
         this.logger.LogInformation($"Create Role Users: {id}");
         if (!requests.Any())
@@ -355,7 +355,7 @@ public class RoleController : ControllerBase
         IdentityResult? result = default;
         foreach (var userId in requests)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
+            var user = await this.userManager.FindByIdAsync(userId.ToString());
             if (user is null ||
                 await this.userManager.IsInRoleAsync(user, role!.Name!))
             {
@@ -380,7 +380,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Users")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> DeleteUsers(string id, [FromBody] IEnumerable<string> requests)
+    public async Task<IActionResult> DeleteUsers(string id, [FromBody] IEnumerable<int> requests)
     {
         this.logger.LogInformation($"Delete Role Users: {id}");
         if (!requests.Any())
@@ -393,7 +393,7 @@ public class RoleController : ControllerBase
         IdentityResult? result = default;
         foreach (var userId in requests)
         {
-            var user = await this.userManager.FindByIdAsync(userId);
+            var user = await this.userManager.FindByIdAsync(userId.ToString());
             if (user is null ||
                 !await this.userManager.IsInRoleAsync(user, role!.Name!))
             {

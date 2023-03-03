@@ -30,11 +30,11 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         if (id.HasValue)
             users = users.Where(user => user.Id == id);
         if (!string.IsNullOrEmpty(userName))
-            users = users.Where(user => EF.Functions.Like(user.UserName!, $"%{userName}%"));
+            users = users.Where(user => EF.Functions.Like(user.UserName, $"%{userName}%"));
         if (!string.IsNullOrEmpty(email))
-            users = users.Where(user => EF.Functions.Like(user.Email!, $"%{email}%"));
+            users = users.Where(user => EF.Functions.Like(user.Email, $"%{email}%"));
         if (!string.IsNullOrEmpty(phoneNumber))
-            users = users.Where(user => EF.Functions.Like(user.PhoneNumber!, $"%{phoneNumber}%"));
+            users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
 
         var originCounts = await users.CountAsync();
         users = users.OrderBy(user => user.Id);

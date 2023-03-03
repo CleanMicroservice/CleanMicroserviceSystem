@@ -8,7 +8,7 @@ public class RoleSearchRequest : ContractBase
 
     public string? RoleName { get; set; } = default;
 
-    public int Start { get; set; } = 0;
+    public int? Start { get; set; }
 
-    public int Count { get; set; } = 10;
+    public int? Count { get; set; }
 }

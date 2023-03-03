@@ -9,8 +9,8 @@ public interface IOceanusRoleRepository : IRepositoryBase<OceanusRole>
     Task<PaginatedEnumerable<OceanusRole>> SearchAsync(
         int? id,
         string? roleName,
-        int start,
-        int count);
+        int? start,
+        int? count);
 
     Task<PaginatedEnumerable<OceanusUser>> SearchUsersAsync(
         IEnumerable<int> roleIds,

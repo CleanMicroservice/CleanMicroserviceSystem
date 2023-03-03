@@ -18,7 +18,8 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
     {
     }
 
-    public async Task<PaginatedEnumerable<OceanusRole>> SearchAsync(int? id, string? roleName, int start, int count)
+    public async Task<PaginatedEnumerable<OceanusRole>> SearchAsync(
+        int? id, string? roleName, int? start, int? count)
     {
         var roles = this.AsQueryable();
         if (id.HasValue)
@@ -26,7 +27,11 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         if (!string.IsNullOrEmpty(roleName))
             roles = roles.Where(role => EF.Functions.Like(role.Name, $"%{roleName}%"));
         var originCounts = await roles.CountAsync();
-        roles = roles.Skip(start).Take(count);
+        roles = roles.OrderBy(user => user.Id);
+        if (start.HasValue)
+            roles = roles.Skip(start.Value);
+        if (count.HasValue)
+            roles = roles.Take(count.Value);
         return new PaginatedEnumerable<OceanusRole>(roles.ToArray(), start, count, originCounts);
     }
 
