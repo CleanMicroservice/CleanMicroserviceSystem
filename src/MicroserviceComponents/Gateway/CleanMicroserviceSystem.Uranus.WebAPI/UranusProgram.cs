@@ -1,4 +1,5 @@
-﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
+﻿using CleanMicroserviceSystem.Gateway.Contract;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 using CleanMicroserviceSystem.Uranus.Infrastructure;
 using Ocelot.Middleware;
@@ -12,7 +13,7 @@ public class UranusProgram : OceanusProgram
     public override void ConfigurePipelines()
     {
         this.webApp.UseWhen(
-            context => context.Request.Path.StartsWithSegments("/Ocelot"),
+            context => context.Request.Path.StartsWithSegments(GatewayContract.GatewayUriPrefix),
             builder => builder.UseOcelot());
         base.ConfigurePipelines();
     }

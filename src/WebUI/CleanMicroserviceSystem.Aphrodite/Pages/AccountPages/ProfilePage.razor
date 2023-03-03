@@ -2,6 +2,7 @@
 @attribute [Authorize()]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
+@inject ThemisClient themisClient
 
 <PageTitle>Profile</PageTitle>
 
@@ -67,9 +68,7 @@
         this.CardLoading = true;
         try
         {
-            var httpClient = this.HttpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
-            var userUri = $"{ApiContract.GatewayUriPrefix}/{ApiContract.ThemisServiceName}/api/User";
-            this.UserInformation = await httpClient.GetFromJsonAsync<UserInformationResponse>(userUri);
+            this.UserInformation = await this.themisClient.GetCurrentUserAsync();
             if (this.UserInformation is null)
             {
                 this.logger.LogWarning($"Get null user information.");

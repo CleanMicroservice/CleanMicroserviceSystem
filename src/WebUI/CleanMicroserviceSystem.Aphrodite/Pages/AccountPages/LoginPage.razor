@@ -4,7 +4,7 @@
 @inject ILogger<LoginPage> logger
 @inject IAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager
-@inject IHttpClientFactory httpClientFactory
+@inject ThemisClient themisClient
 
 <PageTitle>Login</PageTitle>
 
@@ -31,13 +31,13 @@
                     @if (!string.IsNullOrEmpty(Message))
                     {
                         <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
-                            @Message
-                        </MAlert>
+                        @Message
+                    </MAlert>
                     }
                     <MTextField BackgroundColor="grey lighten-4"
                                 @bind-Value="UserName" Label="UserName"
                                 Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                Clearable Flat Solo Dense>
+                                    Clearable Flat Solo Dense>
                     </MTextField>
                     <MTextField BackgroundColor="grey lighten-4"
                                 @bind-Value="Password" Label="Password"
@@ -45,18 +45,18 @@
                                 Type="@(ShowPassword ? "text" : "password")"
                                 OnAppendClick="() => ShowPassword = !ShowPassword"
                                 Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                Clearable Flat Solo Dense>
+                                    Clearable Flat Solo Dense>
                     </MTextField>
                 </MCardText>
                 <MCardActions>
                     <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
-                </MCardActions>
-            </ChildContent>
-        </MCard>
-    </MCol>
-</MRow>
+                    </MCardActions>
+                </ChildContent>
+                </MCard>
+                </MCol>
+                </MRow>
 
-@code {
+                @code {
     private StringBoolean CardLoading { get; set; }
     private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
@@ -87,10 +87,7 @@
 
         try
         {
-            var httpClient = this.httpClientFactory.CreateClient(ApiContract.GatewayHttpClientName);
-            var loginUri = $"{ApiContract.GatewayUriPrefix}/{ApiContract.ThemisServiceName}/api/UserToken";
-            var loginRequest = new UserTokenLoginRequest() { Password = this.Password, UserName = this.UserName };
-            var response = await httpClient.PostAsJsonAsync(loginUri, loginRequest);
+            var response = await this.themisClient.LoginUserAsync(this.UserName, this.Password);
             var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
