@@ -10,7 +10,7 @@ public class ApiResourceSearchRequest : ContractBase
 
     public bool? Enabled { get; set; }
 
-    public int Start { get; set; }
+    public int? Start { get; set; }
 
-    public int Count { get; set; }
+    public int? Count { get; set; }
 }

@@ -7,7 +7,7 @@ namespace CleanMicroserviceSystem.Themis.Application.Services;
 public interface IApiResourceManager
 {
     Task<PaginatedEnumerable<ApiResource>> SearchAsync(
-        int? id, string? name, bool? enabled, int start, int count);
+        int? id, string? name, bool? enabled, int? start, int? count);
 
     Task<ApiResource?> FindByIdAsync(int resourceId);
 

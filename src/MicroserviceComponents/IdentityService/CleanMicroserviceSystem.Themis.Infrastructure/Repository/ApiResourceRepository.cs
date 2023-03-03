@@ -21,8 +21,8 @@ public class ApiResourceRepository : RepositoryBase<ApiResource>, IApiResourceRe
         int? id,
         string? name,
         bool? enabled,
-        int start,
-        int count)
+        int? start,
+        int? count)
     {
         var resources = this.AsQueryable();
         if (id.HasValue)
@@ -32,7 +32,11 @@ public class ApiResourceRepository : RepositoryBase<ApiResource>, IApiResourceRe
         if (enabled.HasValue)
             resources = resources.Where(resource => resource.Enabled == enabled.Value);
         var originCounts = await resources.CountAsync();
-        resources = resources.Skip(start).Take(count);
+        resources = resources.OrderBy(user => user.Id);
+        if (start.HasValue)
+            resources = resources.Skip(start.Value);
+        if (count.HasValue)
+            resources = resources.Take(count.Value);
         return new PaginatedEnumerable<ApiResource>(resources.ToArray(), start, count, originCounts);
     }
 }

@@ -10,6 +10,6 @@ public interface IApiResourceRepository : IRepositoryBase<ApiResource>
         int? id,
         string? name,
         bool? enabled,
-        int start,
-        int count);
+        int? start,
+        int? count);
 }

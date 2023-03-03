@@ -138,14 +138,7 @@ public class ApiResourceController : ControllerBase
         }
         else
         {
-            resource = await this.apiResourceManager.FindByIdAsync(resource.Id);
-            return this.Ok(new ApiResourceInformationResponse()
-            {
-                Id = resource.Id,
-                Name = resource.Name,
-                Enabled = resource.Enabled,
-                Description = resource.Description,
-            });
+            return this.Ok(result);
         }
     }
 

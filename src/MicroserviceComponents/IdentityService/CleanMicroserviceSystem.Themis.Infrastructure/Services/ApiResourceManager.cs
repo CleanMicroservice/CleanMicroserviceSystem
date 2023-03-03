@@ -22,7 +22,7 @@ public class ApiResourceManager : IApiResourceManager
     }
 
     public async Task<PaginatedEnumerable<ApiResource>> SearchAsync(
-        int? id, string? name, bool? enabled, int start, int count)
+        int? id, string? name, bool? enabled, int? start, int? count)
     {
         this.logger.LogDebug($"Search api resources: {id}, {name}, {enabled}, {start}, {count}");
         return await this.apiResourceRepository.SearchAsync(id, name, enabled, start, count);
