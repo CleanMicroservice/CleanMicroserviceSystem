@@ -44,11 +44,11 @@ public class ThemisRoleClient : OceanusServiceClientBase
     public async Task<PaginatedEnumerable<RoleInformationResponse>?> SearchRolesAsync(RoleSearchRequest request)
     {
         var queryString = new QueryString();
-        if (request.Id.HasValue) _ = queryString.Add(nameof(request.Id), request.Id.ToString());
-        if (request.Count.HasValue) _ = queryString.Add(nameof(request.Count), request.Count.ToString());
-        if (request.Start.HasValue) _ = queryString.Add(nameof(request.Start), request.Start.ToString());
-        if (!string.IsNullOrEmpty(request.RoleName)) _ = queryString.Add(nameof(request.RoleName), request.RoleName.ToString());
-        var uri = this.BuildUri($"/api/Role/Search?{queryString.ToUriComponent()}");
+        if (request.Id.HasValue) queryString += QueryString.Create(nameof(request.Id), request.Id.ToString());
+        if (request.Count.HasValue) queryString += QueryString.Create(nameof(request.Count), request.Count.ToString());
+        if (request.Start.HasValue) queryString += QueryString.Create(nameof(request.Start), request.Start.ToString());
+        if (!string.IsNullOrEmpty(request.RoleName)) queryString += QueryString.Create(nameof(request.RoleName), request.RoleName.ToString());
+        var uri = this.BuildUri($"/api/Role/Search{queryString.ToUriComponent()}");
         var role = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<RoleInformationResponse>>(uri);
         return role;
     }

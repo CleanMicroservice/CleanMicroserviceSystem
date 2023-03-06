@@ -52,13 +52,13 @@ public class ThemisUserClient : OceanusServiceClientBase
     public async Task<PaginatedEnumerable<UserInformationResponse>?> SearchUsersAsync(UserSearchRequest request)
     {
         var queryString = new QueryString();
-        if (request.Id.HasValue) queryString.Add(nameof(request.Id), request.Id.ToString());
-        if (request.Count.HasValue) queryString.Add(nameof(request.Count), request.Count.ToString());
-        if (request.Start.HasValue) queryString.Add(nameof(request.Start), request.Start.ToString());
-        if (!string.IsNullOrEmpty(request.PhoneNumber)) queryString.Add(nameof(request.PhoneNumber), request.PhoneNumber.ToString());
-        if (!string.IsNullOrEmpty(request.Email)) queryString.Add(nameof(request.Email), request.Email.ToString());
-        if (!string.IsNullOrEmpty(request.UserName)) queryString.Add(nameof(request.UserName), request.UserName.ToString());
-        var uri = this.BuildUri($"/api/User/Search?{queryString.ToUriComponent()}");
+        if (request.Id.HasValue) queryString += QueryString.Create(nameof(request.Id), request.Id.ToString());
+        if (request.Count.HasValue) queryString += QueryString.Create(nameof(request.Count), request.Count.ToString());
+        if (request.Start.HasValue) queryString += QueryString.Create(nameof(request.Start), request.Start.ToString());
+        if (!string.IsNullOrEmpty(request.PhoneNumber)) queryString += QueryString.Create(nameof(request.PhoneNumber), request.PhoneNumber.ToString());
+        if (!string.IsNullOrEmpty(request.Email)) queryString += QueryString.Create(nameof(request.Email), request.Email.ToString());
+        if (!string.IsNullOrEmpty(request.UserName)) queryString += QueryString.Create(nameof(request.UserName), request.UserName.ToString());
+        var uri = this.BuildUri($"/api/User/Search{queryString.ToUriComponent()}");
         var user = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<UserInformationResponse>>(uri);
         return user;
     }

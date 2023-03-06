@@ -37,12 +37,12 @@ public class ThemisClientClient : OceanusServiceClientBase
     public async Task<PaginatedEnumerable<ClientInformationResponse>?> SearchClientsAsync(ClientSearchRequest request)
     {
         var queryString = new QueryString();
-        if (request.Id.HasValue) _ = queryString.Add(nameof(request.Id), request.Id.ToString());
-        if (request.Count.HasValue) _ = queryString.Add(nameof(request.Count), request.Count.ToString());
-        if (request.Start.HasValue) _ = queryString.Add(nameof(request.Start), request.Start.ToString());
-        if (request.Enabled.HasValue) _ = queryString.Add(nameof(request.Enabled), request.Enabled.ToString());
-        if (!string.IsNullOrEmpty(request.Name)) _ = queryString.Add(nameof(request.Name), request.Name.ToString());
-        var uri = this.BuildUri($"/api/Client/Search?{queryString.ToUriComponent()}");
+        if (request.Id.HasValue) queryString += QueryString.Create(nameof(request.Id), request.Id.ToString());
+        if (request.Count.HasValue) queryString += QueryString.Create(nameof(request.Count), request.Count.ToString());
+        if (request.Start.HasValue) queryString += QueryString.Create(nameof(request.Start), request.Start.ToString());
+        if (request.Enabled.HasValue) queryString += QueryString.Create(nameof(request.Enabled), request.Enabled.ToString());
+        if (!string.IsNullOrEmpty(request.Name)) queryString += QueryString.Create(nameof(request.Name), request.Name.ToString());
+        var uri = this.BuildUri($"/api/Client/Search{queryString.ToUriComponent()}");
         var client = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<ClientInformationResponse>>(uri);
         return client;
     }
