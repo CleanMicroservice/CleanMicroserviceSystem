@@ -2,12 +2,11 @@
 @attribute [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
-@inject ThemisRoleClient themisRoleClient
 @inject ThemisUserClient themisUserClient
 
 <PageTitle>Users</PageTitle>
 
-<MCard Rounded="@("xl")">
+<MCard Elevation=0 Rounded="@("xl")">
     <MCardText Class="pa-6">
         <MRow>
             <MCol>
@@ -19,43 +18,52 @@
                          Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
                     Search
                 </MButton>
+                </MCol>
+                </MRow>
+                <MRow Class="mt-3">
+                <MCol Sm=12 Md=3>
+                <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
+                            Color="primary" HideDetails="@("auto")" BackgroundColor="grey lighten-4"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
             </MCol>
-        </MRow>
-        <MRow Class="mt-3">
             <MCol Sm=12 Md=3>
-                <MSelect Label="Role" @bind-Value="@this.Role" Items="@this.Roles"
-                         Color="primary" HideDetails="@("auto")" Clearable Outlined Flat Dense
-                         ItemText="role => role.RoleName" ItemValue="role => role.RoleName">
-                </MSelect>
-            </MCol>
-            <MCol Sm=12 Md=3>
-                <MTextField Label="User Name" @bind-Value="@this.UserName"
+                <MTextField Label="Name" @bind-Value="@this.UserName"
                             Color="primary" HideDetails="@("auto")"
-                            Clearable Outlined Flat Dense>
+                            Clearable Filled Rounded Dense>
                 </MTextField>
             </MCol>
             <MCol Sm=12 Md=3>
                 <MTextField Label="Email" @bind-Value="@this.Email"
                             Color="primary" HideDetails="@("auto")"
-                            Clearable Outlined Flat Dense>
+                            Clearable Filled Rounded Dense>
                 </MTextField>
             </MCol>
             <MCol Sm=12 Md=3>
-                <MTextField Label="Phone Number" @bind-Value="@this.PhoneNumber"
+                <MTextField Label="Phone" @bind-Value="@this.PhoneNumber"
                             Color="primary" HideDetails="@("auto")"
-                            Clearable Outlined Flat Dense>
+                            Clearable Filled Rounded Dense>
                 </MTextField>
             </MCol>
         </MRow>
     </MCardText>
 </MCard>
 
-<MCard Rounded="@("xl")" Class="mt-6">
-    <MDataTable Headers="@this.userHeader"
+<MCard Elevation=0 Rounded="@("xl")" Class="mt-6">
+    <MRow>
+        <MSpacer></MSpacer>
+        <MCol Cols="@("auto")">
+            <MTextField Class="mx-3" Style="width:280px;" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
+                        @bind-Value="@this.LocalSearch" Placeholder="Search" Clearable Flat Dense Solo>
+                <PrependInnerContent>
+                    <MIcon Size=16 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                </PrependInnerContent>
+            </MTextField>
+        </MCol>
+    </MRow>
+    <MDataTable Headers="@this.userHeader" Search="@this.LocalSearch"
                 Items="@this.PaginatedUsers.Values"
                 TItem="UserInformationResponse"
-                ItemsPerPage="@this.CountPerPage"
-                Class="ml-2 table-border-none"
                 MultiSort FixedHeader>
     </MDataTable>
 </MCard>
@@ -63,11 +71,12 @@
 @code {
     protected bool LoadingUsers { get; set; }
     protected IList<RoleInformationResponse>? Roles { get; set; }
+    protected int? Id { get; set; }
     protected string? Role { get; set; }
     protected string? UserName { get; set; }
     protected string? Email { get; set; }
     protected string? PhoneNumber { get; set; }
-    protected int CountPerPage { get; set; } = 50;
+    protected string? LocalSearch { get; set; }
     protected PaginatedEnumerable<UserInformationResponse> PaginatedUsers { get; set; } = PaginatedEnumerable<UserInformationResponse>.Empty;
     protected readonly List<DataTableHeader<UserInformationResponse>> userHeader = new()
     {
@@ -88,14 +97,12 @@
         this.LoadingUsers = true;
         try
         {
-            var roles = await this.themisRoleClient.GetRolesAsync();
-            this.Roles = roles?.ToList();
             var userSearch = new UserSearchRequest()
                 {
-                    Count = this.CountPerPage,
+                    Id = this.Id,
+                    UserName = this.UserName,
                     Email = this.Email,
                     PhoneNumber = this.PhoneNumber,
-                    UserName = this.UserName,
                 };
             this.PaginatedUsers = (await this.themisUserClient.SearchUsersAsync(userSearch)) ??
                 PaginatedEnumerable<UserInformationResponse>.Empty;
