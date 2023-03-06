@@ -74,15 +74,7 @@ public class UserTokenController : ControllerBase
         var result = await this.signInManager.PasswordSignInAsync(request.UserName, request.Password, true, false);
         if (!result.Succeeded)
         {
-            var errorMessage = result switch
-            {
-                { } when result.IsLockedOut => "Account locked out",
-                { } when result.IsNotAllowed => "Account not allowed",
-                { } when result.RequiresTwoFactor => "Account requires two factor",
-                _ => "Invalid user information"
-            };
-
-            return this.BadRequest(errorMessage);
+            return this.BadRequest(result);
         }
 
         var user = await this.userManager.FindByNameAsync(request.UserName);
