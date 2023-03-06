@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-02-28T02:07:37.636Z
+__export_date: 2023-03-06T02:04:07.254Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_99d6d8440874404c8aa191bd8e08df69
@@ -1064,7 +1064,7 @@ resources:
     _type: request_group
   - _id: req_c95277fba1ed4a609cc07c6269e04436
     parentId: fld_0a5955d910844bddbfeb47cec407870f
-    modified: 1674196544943
+    modified: 1677838702186
     created: 1671250362854
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Users"
     name: AddRoleUsers
@@ -1074,10 +1074,10 @@ resources:
       mimeType: application/json
       text: |-
         [
-        	"2",
-        	"3",
-        	"4",
-        	"5"
+        	2,
+        	3,
+        	4,
+        	5
         ]
     parameters: []
     headers:
@@ -1100,7 +1100,7 @@ resources:
     _type: request
   - _id: req_d07f9b1566a3485e9e6a4cb0f647d937
     parentId: fld_0a5955d910844bddbfeb47cec407870f
-    modified: 1674196548711
+    modified: 1677838713537
     created: 1671250362867
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Users"
     name: DeleteRoleUsers
@@ -1110,8 +1110,8 @@ resources:
       mimeType: application/json
       text: |-
         [
-        	"2",
-        	"3"
+        	2,
+        	3
         ]
     parameters: []
     headers:
@@ -1867,47 +1867,10 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1677550016251
+    modified: 1678068110250
     created: 1670678556534
     name: Default Jar
-    cookies:
-      - key: .AspNetCore.Identity.Application
-        value: CfDJ8ODuDWgnciBDip_aNidIWrIdJg9eowzln-69SlqiAz9D2ghCvGE_vNbwcZ7WFepc50ULfBy4Cs2TSidEhUvNHr6OAvhnk3uFRB3TqXN7ivrv71BhhZdiu6q62Oj8QuI3n2MujaFlBnr1tlxYTVcf2UkIxJfWGpXe5-Za6NPmQ8pucCzy8vebF9XtvO9KD3tmt6VGilsCWRuFgzGpw-AmgqxQK25VYPc1w12NrIO1OieFcXj-Ouo4h3CLiFy1pCh_bCUOoNlkegHIuCLCO7gFaD3u-oYXfF58OHFQw6u_n05QXPxbC88igElJ3CKPv5YVP2vUlqiyvqQQYaXQCkBz9E3DjB54Wc8p8idplm30EUNPxk-ZGYNhdi_eNk93grIWZk6TTVsSQPngvxo3IATorOd-TaC_icUP323YZiwe793AzEJCbFJmDpZNIeefd6-5HIfUCsWUwbXqJerlQmkAzwjasea6WMdyUgedpXW67xKdQM1zrPvfTRK9Xpc83fuy0plvlmF89slZUZjCJYbtdJravB32rtlsX3oO4mcBxCHvLw0Q_mpPceo1k8PaK8-0E1UAsoOzDhMSqblgYICe4QGCQAjlcavdzqs64tsXo79shLoVPgvSe-U5hETSzhp1Y6E33hS4iWQkSBH2khDQ-QFZ4x-2Fu7c3aNHkecBH22G-hg_U5wupf1KLedXmapOdz8UO2DrXEIBhil6tCf-0B97u5zbw-S7rwlGT-4oYYb3WSAyOqizVt8uMlGaLGVqo7SdTmQ6WDeVww2PDy_ZJ9v20BmVyNcG-X6qnt98DBofSLTEegIWksMsQGoCQ6CTAfSp_x9pU1ZnDaslCkrIS4uDGRbJOlbym4DYparz9dTU2bgg1-Y00Ml5EWygaTVuEXtwgd0Z8-2kNqZwdWbTQouELIjWOUpCvJ0sMg8wryspc1qVn8fGYB2S1bZl1BFTsPs_L6irGFUDKnMOx_BA0vBxWGqkKsEp5iKAEG1V8KgYDqEs919I5xQNqD2CvFjq5leIxeT4D-ZvacXpXYl7kWcDOkcl9PsG8ONHjST4RrdFNsaMZWHERTFupzAvarhzfg
-        expires: 2023-03-14T02:06:36.000Z
-        domain: localhost
-        path: /
-        secure: true
-        httpOnly: true
-        extensions:
-          - samesite=lax
-        hostOnly: true
-        creation: 2023-02-17T16:40:01.153Z
-        lastAccessed: 2023-02-28T02:06:56.251Z
-        id: "9918335688697235"
-      - key: Identity.External
-        expires: 1970-01-01T00:00:00.000Z
-        domain: localhost
-        path: /
-        secure: true
-        httpOnly: true
-        extensions:
-          - samesite=lax
-        hostOnly: true
-        creation: 2023-02-18T07:41:59.228Z
-        lastAccessed: 2023-02-18T07:41:59.228Z
-        id: "7787293053514444"
-      - key: Identity.TwoFactorUserId
-        expires: 1970-01-01T00:00:00.000Z
-        domain: localhost
-        path: /
-        secure: true
-        httpOnly: true
-        extensions:
-          - samesite=lax
-        hostOnly: true
-        creation: 2023-02-18T07:41:59.228Z
-        lastAccessed: 2023-02-18T07:41:59.228Z
-        id: "5163105421796943"
+    cookies: []
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
@@ -1919,9 +1882,9 @@ resources:
     _type: api_spec
   - _id: env_bd78d43cb4934b1f8297ad93f0265fbf
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1676646951916
+    modified: 1678068190757
     created: 1670678668397
-    name: LocalHost
+    name: localhost-Dev
     data:
       ThemisAddress: https://localhost:11002/
       UserId: "1"
@@ -1949,15 +1912,19 @@ resources:
     _type: environment
   - _id: env_f07c58410ac8492bb945212789dc8160
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1674196673257
+    modified: 1678068195861
     created: 1671867367448
-    name: Gateway-Uranus
+    name: gateway-Dev
     data:
       ThemisAddress: https://localhost:11001/Ocelot/Themis/
       UserId: "1"
       RoleId: "1"
       UserName: Leon
       Password: 12345@Qq
+      ClientId: "1"
+      ClientName: Tethys
+      ClientSecret: TethysSecret
+      ApiResourceId: "1"
     dataPropertyOrder:
       "&":
         - ThemisAddress
@@ -1965,7 +1932,71 @@ resources:
         - RoleId
         - UserName
         - Password
+        - ClientId
+        - ClientName
+        - ClientSecret
+        - ApiResourceId
     color: null
     isPrivate: false
     metaSortKey: 1670678668447
+    _type: environment
+  - _id: env_f85c1388567d4d65a7ede3d87c741be3
+    parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
+    modified: 1678068086016
+    created: 1677826083851
+    name: localhost-Prod
+    data:
+      ThemisAddress: https://localhost:21002/
+      UserId: "1"
+      RoleId: "1"
+      UserName: Leon
+      Password: 12345@Qq
+      ClientId: "1"
+      ClientName: Tethys
+      ClientSecret: TethysSecret
+      ApiResourceId: "1"
+    dataPropertyOrder:
+      "&":
+        - ThemisAddress
+        - UserId
+        - RoleId
+        - UserName
+        - Password
+        - ClientId
+        - ClientName
+        - ClientSecret
+        - ApiResourceId
+    color: null
+    isPrivate: false
+    metaSortKey: 1670678668422
+    _type: environment
+  - _id: env_5409ae96b6af4fb2b8b005b669c4c3cf
+    parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
+    modified: 1678068200501
+    created: 1678068150556
+    name: gateway-Prod
+    data:
+      ThemisAddress: https://localhost:21001/Ocelot/Themis/
+      UserId: "1"
+      RoleId: "1"
+      UserName: Leon
+      Password: 12345@Qq
+      ClientId: "1"
+      ClientName: Tethys
+      ClientSecret: TethysSecret
+      ApiResourceId: "1"
+    dataPropertyOrder:
+      "&":
+        - ThemisAddress
+        - UserId
+        - RoleId
+        - UserName
+        - Password
+        - ClientId
+        - ClientName
+        - ClientSecret
+        - ApiResourceId
+    color: null
+    isPrivate: false
+    metaSortKey: 1672084266132
     _type: environment
