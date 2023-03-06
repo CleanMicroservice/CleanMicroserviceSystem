@@ -2,11 +2,110 @@
 @attribute [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
+@inject ThemisRoleClient themisRoleClient
+@inject ThemisUserClient themisUserClient
 
 <PageTitle>Users</PageTitle>
 
-<h3>UsersPage</h3>
+<MCard Rounded="@("xl")">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol>
+                <h6>Filters</h6>
+            </MCol>
+            <MSpacer></MSpacer>
+            <MCol Cols="@("auto")">
+                <MButton Rounded Color="primary" OnClick=this.LoadUsers
+                         Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
+                    Search
+                </MButton>
+            </MCol>
+        </MRow>
+        <MRow Class="mt-3">
+            <MCol Sm=12 Md=3>
+                <MSelect Label="Role" @bind-Value="@this.Role" Items="@this.Roles"
+                         Color="primary" HideDetails="@("auto")" Clearable Outlined Flat Dense
+                         ItemText="role => role.RoleName" ItemValue="role => role.RoleName">
+                </MSelect>
+            </MCol>
+            <MCol Sm=12 Md=3>
+                <MTextField Label="User Name" @bind-Value="@this.UserName"
+                            Color="primary" HideDetails="@("auto")"
+                            Clearable Outlined Flat Dense>
+                </MTextField>
+            </MCol>
+            <MCol Sm=12 Md=3>
+                <MTextField Label="Email" @bind-Value="@this.Email"
+                            Color="primary" HideDetails="@("auto")"
+                            Clearable Outlined Flat Dense>
+                </MTextField>
+            </MCol>
+            <MCol Sm=12 Md=3>
+                <MTextField Label="Phone Number" @bind-Value="@this.PhoneNumber"
+                            Color="primary" HideDetails="@("auto")"
+                            Clearable Outlined Flat Dense>
+                </MTextField>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+
+<MCard Rounded="@("xl")" Class="mt-6">
+    <MDataTable Headers="@this.userHeader"
+                Items="@this.PaginatedUsers.Values"
+                TItem="UserInformationResponse"
+                ItemsPerPage="@this.CountPerPage"
+                Class="ml-2 table-border-none"
+                MultiSort FixedHeader>
+    </MDataTable>
+</MCard>
 
 @code {
+    protected bool LoadingUsers { get; set; }
+    protected IList<RoleInformationResponse>? Roles { get; set; }
+    protected string? Role { get; set; }
+    protected string? UserName { get; set; }
+    protected string? Email { get; set; }
+    protected string? PhoneNumber { get; set; }
+    protected int CountPerPage { get; set; } = 50;
+    protected PaginatedEnumerable<UserInformationResponse> PaginatedUsers { get; set; } = PaginatedEnumerable<UserInformationResponse>.Empty;
+    protected readonly List<DataTableHeader<UserInformationResponse>> userHeader = new()
+    {
+        new() { Value = nameof(UserInformationResponse.Id), Text=nameof(UserInformationResponse.Id), Filterable = true, Sortable = true },
+        new() { Value = nameof(UserInformationResponse.UserName), Text=nameof(UserInformationResponse.UserName), Filterable = true, Sortable = true },
+        new() { Value = nameof(UserInformationResponse.Email), Text=nameof(UserInformationResponse.Email), Filterable = true, Sortable = true },
+        new() { Value = nameof(UserInformationResponse.PhoneNumber), Text=nameof(UserInformationResponse.PhoneNumber), Filterable = true, Sortable = true },
+    };
 
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await this.LoadUsers();
+    }
+
+    protected async Task LoadUsers()
+    {
+        this.LoadingUsers = true;
+        try
+        {
+            var roles = await this.themisRoleClient.GetRolesAsync();
+            this.Roles = roles?.ToList();
+            var userSearch = new UserSearchRequest()
+                {
+                    Count = this.CountPerPage,
+                    Email = this.Email,
+                    PhoneNumber = this.PhoneNumber,
+                    UserName = this.UserName,
+                };
+            this.PaginatedUsers = (await this.themisUserClient.SearchUsersAsync(userSearch)) ??
+                PaginatedEnumerable<UserInformationResponse>.Empty;
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            this.LoadingUsers = false;
+        }
+    }
 }
