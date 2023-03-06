@@ -1,34 +1,30 @@
-﻿using System.Collections;
+﻿namespace CleanMicroserviceSystem.DataStructure;
 
-namespace CleanMicroserviceSystem.DataStructure;
-
-public class PaginatedEnumerable<T> : IEnumerable<T>
+public class PaginatedEnumerable<TItem>
 {
-    private readonly IEnumerable<T> values;
-    public readonly int? StartOfPage;
-    public readonly int? CountPerPage;
-    public readonly int OriginCount;
-    public readonly int CurrentPageIndex;
-    public readonly int TotalPageCounts;
+    public static PaginatedEnumerable<TItem> Empty => new(Enumerable.Empty<TItem>(), 0, 0, 0);
+
+    public IEnumerable<TItem> Values { get; set; }
+    public int? StartItemIndex { get; set; }
+    public int? PageSize { get; set; }
+    public int OriginItemCount { get; set; }
+    public int CurrentPageIndex { get; set; }
+    public int TotalPageCount { get; set; }
 
     public PaginatedEnumerable(
-        IEnumerable<T> values,
-        int? startOfPage,
-        int? countPerPage,
-        int originCount)
+        IEnumerable<TItem> values,
+        int? startItemIndex,
+        int? pageSize,
+        int originItemCount)
     {
-        this.values = values;
-        this.StartOfPage = startOfPage;
-        this.CountPerPage = countPerPage;
-        this.OriginCount = originCount;
+        this.Values = values;
+        this.StartItemIndex = startItemIndex;
+        this.PageSize = pageSize;
+        this.OriginItemCount = originItemCount;
 
-        this.CurrentPageIndex = this.StartOfPage.HasValue && this.CountPerPage.HasValue ?
-            this.StartOfPage.Value / this.CountPerPage.Value : 0;
-        this.TotalPageCounts = this.CountPerPage.HasValue ?
-            (int)Math.Ceiling((double)this.OriginCount / this.CountPerPage.Value) : 1;
+        this.CurrentPageIndex = this.StartItemIndex.HasValue && this.PageSize.HasValue && this.PageSize > 0 ?
+            this.StartItemIndex.Value / this.PageSize.Value : 0;
+        this.TotalPageCount = this.PageSize.HasValue && this.PageSize > 0 ?
+            (int)Math.Ceiling((double)this.OriginItemCount / this.PageSize.Value) : 1;
     }
-
-    public IEnumerator<T> GetEnumerator() => this.values.GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

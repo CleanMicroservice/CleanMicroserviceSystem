@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
@@ -40,7 +41,7 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return role;
     }
 
-    public async Task<RoleInformationResponse?> SearchRolesAsync(RoleSearchRequest request)
+    public async Task<PaginatedEnumerable<RoleInformationResponse>?> SearchRolesAsync(RoleSearchRequest request)
     {
         var queryString = new QueryString();
         if (request.Id.HasValue) _ = queryString.Add(nameof(request.Id), request.Id.ToString());
@@ -48,7 +49,7 @@ public class ThemisRoleClient : OceanusServiceClientBase
         if (request.Start.HasValue) _ = queryString.Add(nameof(request.Start), request.Start.ToString());
         if (!string.IsNullOrEmpty(request.RoleName)) _ = queryString.Add(nameof(request.RoleName), request.RoleName.ToString());
         var uri = this.BuildUri($"/api/Role/Search?{queryString.ToUriComponent()}");
-        var role = await this.httpClient.GetFromJsonAsync<RoleInformationResponse>(uri);
+        var role = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<RoleInformationResponse>>(uri);
         return role;
     }
 

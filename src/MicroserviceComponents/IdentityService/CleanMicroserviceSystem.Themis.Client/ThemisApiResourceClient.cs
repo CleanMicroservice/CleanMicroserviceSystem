@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using CleanMicroserviceSystem.Themis.Contract.ApiResources;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,7 @@ public class ThemisApiResourceApiResource : OceanusServiceClientBase
         return apiResource;
     }
 
-    public async Task<ApiResourceInformationResponse?> SearchApiResourcesAsync(ApiResourceSearchRequest request)
+    public async Task<PaginatedEnumerable<ApiResourceInformationResponse>?> SearchApiResourcesAsync(ApiResourceSearchRequest request)
     {
         var queryString = new QueryString();
         if (request.Id.HasValue) _ = queryString.Add(nameof(request.Id), request.Id.ToString());
@@ -41,7 +42,7 @@ public class ThemisApiResourceApiResource : OceanusServiceClientBase
         if (request.Enabled.HasValue) _ = queryString.Add(nameof(request.Enabled), request.Enabled.ToString());
         if (!string.IsNullOrEmpty(request.Name)) _ = queryString.Add(nameof(request.Name), request.Name.ToString());
         var uri = this.BuildUri($"/api/ApiResource/Search?{queryString.ToUriComponent()}");
-        var apiResource = await this.httpClient.GetFromJsonAsync<ApiResourceInformationResponse>(uri);
+        var apiResource = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<ApiResourceInformationResponse>>(uri);
         return apiResource;
     }
 

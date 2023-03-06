@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
@@ -139,14 +140,16 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Search Users: {request.Id}, {request.UserName}, {request.Email}, {request.PhoneNumber}, {request.Start}, {request.Count}");
         var result = await this.oceanusUserRepository.Search(
             request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
-        var users = result.Select(user => new UserInformationResponse()
+        var users = result.Values.Select(user => new UserInformationResponse()
         {
             Id = user.Id,
             UserName = user.UserName,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber
         });
-        return this.Ok(users);
+        var paginatedUsers = new PaginatedEnumerable<UserInformationResponse>(
+            users, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedUsers);
     }
 
     /// <summary>

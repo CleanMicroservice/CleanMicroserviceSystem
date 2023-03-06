@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
@@ -33,7 +34,7 @@ public class ThemisClientClient : OceanusServiceClientBase
         return client;
     }
 
-    public async Task<ClientInformationResponse?> SearchClientsAsync(ClientSearchRequest request)
+    public async Task<PaginatedEnumerable<ClientInformationResponse>?> SearchClientsAsync(ClientSearchRequest request)
     {
         var queryString = new QueryString();
         if (request.Id.HasValue) _ = queryString.Add(nameof(request.Id), request.Id.ToString());
@@ -42,7 +43,7 @@ public class ThemisClientClient : OceanusServiceClientBase
         if (request.Enabled.HasValue) _ = queryString.Add(nameof(request.Enabled), request.Enabled.ToString());
         if (!string.IsNullOrEmpty(request.Name)) _ = queryString.Add(nameof(request.Name), request.Name.ToString());
         var uri = this.BuildUri($"/api/Client/Search?{queryString.ToUriComponent()}");
-        var client = await this.httpClient.GetFromJsonAsync<ClientInformationResponse>(uri);
+        var client = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<ClientInformationResponse>>(uri);
         return client;
     }
 

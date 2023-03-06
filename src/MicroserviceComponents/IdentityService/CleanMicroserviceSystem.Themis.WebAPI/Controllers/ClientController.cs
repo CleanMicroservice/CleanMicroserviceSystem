@@ -1,7 +1,9 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
+using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -63,14 +65,16 @@ public class ClientController : ControllerBase
         this.logger.LogInformation($"Search Clients: {request.Id}, {request.Name}, {request.Enabled}");
         var result = await this.clientManager.SearchAsync(
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
-        var clients = result.Select(client => new ClientInformationResponse()
+        var clients = result.Values.Select(client => new ClientInformationResponse()
         {
             Id = client.Id,
             Name = client.Name,
             Enabled = client.Enabled,
             Description = client.Description,
         });
-        return this.Ok(clients);
+        var paginatedClients = new PaginatedEnumerable<ClientInformationResponse>(
+            clients, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedClients);
     }
 
     /// <summary>

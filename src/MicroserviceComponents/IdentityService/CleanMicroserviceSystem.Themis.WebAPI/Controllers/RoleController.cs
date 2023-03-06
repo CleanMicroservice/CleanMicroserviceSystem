@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
@@ -67,12 +68,14 @@ public class RoleController : ControllerBase
         this.logger.LogInformation($"Search Roles: {request.Id}, {request.RoleName}, {request.Start}, {request.Count}");
         var result = await this.oceanusRoleRepository.SearchAsync(
             request.Id, request.RoleName, request.Start, request.Count);
-        var roles = result.Select(role => new RoleInformationResponse()
+        var roles = result.Values.Select(role => new RoleInformationResponse()
         {
             Id = role.Id,
             RoleName = role.Name,
         });
-        return this.Ok(roles);
+        var paginatedRoles = new PaginatedEnumerable<RoleInformationResponse>(
+            roles, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedRoles);
     }
 
     /// <summary>

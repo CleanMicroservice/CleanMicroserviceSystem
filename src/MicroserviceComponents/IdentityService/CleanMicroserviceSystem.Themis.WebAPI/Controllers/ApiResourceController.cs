@@ -1,6 +1,8 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.ApiResources;
+using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,14 +61,16 @@ public class ApiResourceController : ControllerBase
         this.logger.LogInformation($"Search API Resources: {request.Id}, {request.Name}, {request.Enabled}");
         var result = await this.apiResourceManager.SearchAsync(
             request.Id, request.Name, request.Enabled, request.Start, request.Count);
-        var resources = result.Select(resource => new ApiResourceInformationResponse()
+        var resources = result.Values.Select(resource => new ApiResourceInformationResponse()
         {
             Id = resource.Id,
             Name = resource.Name,
             Enabled = resource.Enabled,
             Description = resource.Description,
         }).ToArray();
-        return this.Ok(resources);
+        var paginatedResources = new PaginatedEnumerable<ApiResourceInformationResponse>(
+            resources, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedResources);
     }
 
     /// <summary>
