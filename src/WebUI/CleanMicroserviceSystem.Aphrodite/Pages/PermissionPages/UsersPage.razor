@@ -17,10 +17,10 @@
                 <MButton Rounded Color="primary" OnClick=this.LoadUsers Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
                     Search
                 </MButton>
-                </MCol>
-                </MRow>
-                <MRow Class="mt-3">
-                <MCol Sm=12 Md=3>
+            </MCol>
+        </MRow>
+        <MRow Class="mt-3">
+            <MCol Sm=12 Md=3>
                 <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
                             Color="primary" HideDetails="@("auto")" BackgroundColor="grey lighten-4"
                             Clearable Filled Rounded Dense>
@@ -73,6 +73,10 @@
                     </MChip>
                     break;
                 case "Actions":
+                    <MButtonGroup Dense Borderless Rounded>
+                        <MButton Depressed Small Color="primary">Edit</MButton>
+                        <MButton Depressed Small Color="red">Delete</MButton>
+                    </MButtonGroup>
                     break;
                 default:
                     @context.Value
