@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+namespace CleanMicroserviceSystem.DataStructure;
 
 public class PaginatedEnumerable<T> : IEnumerable<T>
 {

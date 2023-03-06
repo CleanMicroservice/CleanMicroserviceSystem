@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+﻿using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 

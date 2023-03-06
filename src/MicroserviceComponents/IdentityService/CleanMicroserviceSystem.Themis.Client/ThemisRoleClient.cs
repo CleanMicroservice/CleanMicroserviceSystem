@@ -26,6 +26,13 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return role;
     }
 
+    public async Task<IEnumerable<RoleInformationResponse>?> GetRolesAsync()
+    {
+        var uri = this.BuildUri($"/api/Role/Search");
+        var roles = await this.httpClient.GetFromJsonAsync<IEnumerable<RoleInformationResponse>?>(uri);
+        return roles;
+    }
+
     public async Task<RoleInformationResponse?> GetRoleAsync(int id)
     {
         var uri = this.BuildUri($"/api/Role/{id}");

@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;

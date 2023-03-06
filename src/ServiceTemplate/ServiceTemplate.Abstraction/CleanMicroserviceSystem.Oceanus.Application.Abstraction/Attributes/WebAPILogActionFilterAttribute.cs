@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 
-namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Attributes;
+namespace CleanMicroserviceSystem.Oceanus.Application.Abstraction.Attributes;
 public class WebAPILogActionFilterAttribute : ActionFilterAttribute
 {
     public const string NoLogResponseBodyFlag = "NoLogResponseBody";
