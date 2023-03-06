@@ -11,9 +11,12 @@ public static class ThemisClientExtension
             options.GatewayClientName = configuration.GatewayClientName;
         }));
         services
+            .AddScoped<ThemisApiResourceClient>()
+            .AddScoped<ThemisClientClient>()
+            .AddScoped<ThemisClientTokenClient>()
+            .AddScoped<ThemisRoleClient>()
             .AddScoped<ThemisUserClient>()
-            .AddScoped<ThemisUserTokenClient>()
-            .AddScoped<ThemisClientTokenClient>();
+            .AddScoped<ThemisUserTokenClient>();
         return services;
     }
 }

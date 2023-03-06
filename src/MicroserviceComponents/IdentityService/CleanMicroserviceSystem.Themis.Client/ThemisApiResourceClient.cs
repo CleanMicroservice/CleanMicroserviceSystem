@@ -8,14 +8,17 @@ using Microsoft.Extensions.Options;
 
 namespace CleanMicroserviceSystem.Themis.Client;
 
-public class ThemisApiResourceApiResource : OceanusServiceClientBase
+public class ThemisApiResourceClient : OceanusServiceClientBase
 {
-    public ThemisApiResourceApiResource(
-        ILogger<ThemisApiResourceApiResource> logger,
+    public ILogger<ThemisApiResourceClient> Logger { get; }
+
+    public ThemisApiResourceClient(
+        ILogger<ThemisApiResourceClient> logger,
         IHttpClientFactory httpApiResourceFactory,
         IOptionsSnapshot<ThemisClientConfiguration> options) :
         base(logger, httpApiResourceFactory, options.Value.GatewayClientName, ThemisClientContract.ThemisUriPrefix)
     {
+        this.Logger = logger;
     }
 
     public async Task<ApiResourceInformationResponse?> CreateApiResourceAsync(ApiResourceCreateRequest request)
