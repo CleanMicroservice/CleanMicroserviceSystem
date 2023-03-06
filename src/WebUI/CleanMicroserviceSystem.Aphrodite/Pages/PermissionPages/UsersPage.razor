@@ -14,8 +14,7 @@
             </MCol>
             <MSpacer></MSpacer>
             <MCol Cols="@("auto")">
-                <MButton Rounded Color="primary" OnClick=this.LoadUsers
-                         Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
+                <MButton Rounded Color="primary" OnClick=this.LoadUsers Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
                     Search
                 </MButton>
                 </MCol>
@@ -65,6 +64,21 @@
                 Items="@this.PaginatedUsers.Values"
                 TItem="UserInformationResponse"
                 MultiSort FixedHeader>
+        <ItemColContent>
+            @switch (context.Header.Value)
+            {
+                case nameof(UserInformationResponse.Enabled):
+                    <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false">
+                        <span>@(context.Item.Enabled ? "Enabled" : "Disabled")</span>
+                    </MChip>
+                    break;
+                case "Actions":
+                    break;
+                default:
+                    @context.Value
+                    break;
+            }
+        </ItemColContent>
     </MDataTable>
 </MCard>
 
@@ -84,8 +98,9 @@
         new() { Value = nameof(UserInformationResponse.UserName), Text=nameof(UserInformationResponse.UserName), Filterable = true, Sortable = true },
         new() { Value = nameof(UserInformationResponse.Email), Text=nameof(UserInformationResponse.Email), Filterable = true, Sortable = true },
         new() { Value = nameof(UserInformationResponse.PhoneNumber), Text=nameof(UserInformationResponse.PhoneNumber), Filterable = true, Sortable = true },
+        new() { Value = nameof(UserInformationResponse.Enabled), Text=nameof(UserInformationResponse.Enabled), Filterable = true, Sortable = true },
+        new() { Value = "Actions", Text="Actions", Filterable = false, Sortable = false},
     };
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

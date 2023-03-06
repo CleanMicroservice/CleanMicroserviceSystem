@@ -57,7 +57,8 @@ public class UserController : ControllerBase
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Enabled = !(user.LockoutEnabled && user.LockoutEnd.HasValue && user.LockoutEnd.Value >= DateTime.UtcNow),
             });
     }
 
@@ -124,7 +125,8 @@ public class UserController : ControllerBase
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                Enabled = !(user.LockoutEnabled && user.LockoutEnd.HasValue && user.LockoutEnd.Value >= DateTime.UtcNow),
             });
     }
 
@@ -145,7 +147,8 @@ public class UserController : ControllerBase
             Id = user.Id,
             UserName = user.UserName,
             Email = user.Email,
-            PhoneNumber = user.PhoneNumber
+            PhoneNumber = user.PhoneNumber,
+            Enabled = !(user.LockoutEnabled && user.LockoutEnd.HasValue && user.LockoutEnd.Value >= DateTime.UtcNow),
         });
         var paginatedUsers = new PaginatedEnumerable<UserInformationResponse>(
             users, result.StartItemIndex, result.PageSize, result.OriginItemCount);
@@ -181,7 +184,8 @@ public class UserController : ControllerBase
                 Id = newUser!.Id,
                 UserName = newUser!.UserName,
                 Email = newUser!.Email,
-                PhoneNumber = newUser!.PhoneNumber
+                PhoneNumber = newUser!.PhoneNumber,
+                Enabled = !(newUser.LockoutEnabled && newUser.LockoutEnd.HasValue && newUser.LockoutEnd.Value >= DateTime.UtcNow),
             });
         }
     }
