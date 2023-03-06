@@ -11,4 +11,6 @@ public class UserUpdateRequest : ContractBase
 
     [Phone(ErrorMessage = "User Phone number should match phone number format")]
     public string? PhoneNumber { get; set; }
+
+    public bool? Enabled { get; set; }
 }

@@ -92,6 +92,10 @@ public class UserController : ControllerBase
         {
             user.Email = request.Email;
         }
+        if (request.Enabled.HasValue)
+        {
+            user.LockoutEnd = request.Enabled.Value ? null : DateTimeOffset.MaxValue;
+        }
 
         var result = await this.userManager.UpdateAsync(user);
         if (!result.Succeeded)
@@ -227,8 +231,11 @@ public class UserController : ControllerBase
         }
         if (!string.IsNullOrEmpty(request.PhoneNumber))
         {
-            this.userManager.FindByEmailAsync(request.PhoneNumber).Wait();
             user.PhoneNumber = request.PhoneNumber;
+        }
+        if (request.Enabled.HasValue)
+        {
+            user.LockoutEnd = request.Enabled.Value ? null : DateTimeOffset.MaxValue;
         }
 
         var result = await this.userManager.UpdateAsync(user);
