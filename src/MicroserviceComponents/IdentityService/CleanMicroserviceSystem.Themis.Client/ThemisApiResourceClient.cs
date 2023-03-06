@@ -1,13 +1,11 @@
 ﻿using System.Net.Http.Json;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
-using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.ApiResources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using CleanMicroserviceSystem.Themis.Client;
 
-namespace CleanMicroserviceSystem.Themis.ApiResource;
+namespace CleanMicroserviceSystem.Themis.Client;
 
 public class ThemisApiResourceApiResource : OceanusServiceClientBase
 {
