@@ -17,10 +17,10 @@
                 <MButton Rounded Color="primary" OnClick=this.LoadUsers Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
                     Search
                 </MButton>
-            </MCol>
-        </MRow>
-        <MRow Class="mt-3">
-            <MCol Sm=12 Md=3>
+                </MCol>
+                </MRow>
+                <MRow Class="mt-3">
+                <MCol Sm=12 Md=3>
                 <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
                             Color="primary" HideDetails="@("auto")" BackgroundColor="grey lighten-4"
                             Clearable Filled Rounded Dense>
@@ -68,15 +68,15 @@
             @switch (context.Header.Value)
             {
                 case nameof(UserInformationResponse.Enabled):
-                    <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false">
+                    <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false" OnClick="()=>this.ToggleUserEnabled(context.Item)">
                         <span>@(context.Item.Enabled ? "Enabled" : "Disabled")</span>
                     </MChip>
                     break;
                 case "Actions":
                     <MButtonGroup Dense Borderless Rounded>
-                        <MButton Depressed Small Color="primary">Edit</MButton>
+                    <MButton Depressed Small Color="primary">Edit</MButton>
                         <MButton Depressed Small Color="red">Delete</MButton>
-                    </MButtonGroup>
+                        </MButtonGroup>
                     break;
                 default:
                     @context.Value
@@ -133,5 +133,12 @@
         {
             this.LoadingUsers = false;
         }
+    }
+
+    protected async Task ToggleUserEnabled(UserInformationResponse user)
+    {
+        var newStatus = !user.Enabled;
+        await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
+        user.Enabled = newStatus;
     }
 }
