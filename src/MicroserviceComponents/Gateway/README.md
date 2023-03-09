@@ -25,7 +25,7 @@ Add `AgentServiceRegistrationConfiguration` configuration in Service's JSON conf
     "ServiceInstanceId": "IdentityServer_Themis_000",
     "SelfHost": "localhost",
     "SelfPort": "11002",
-    "HealthCheckUrl": "https://localhost:11002/health/healthcheck"
+    "HealthCheckUrl": "https://localhost:11002/healthcheck"
 }
 ```
 
