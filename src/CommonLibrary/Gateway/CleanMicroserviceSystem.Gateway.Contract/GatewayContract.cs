@@ -4,4 +4,5 @@ public class GatewayContract
 {
     public const string GatewayPrefix = "Ocelot";
     public const string GatewayUriPrefix = "/" + GatewayPrefix;
+    public const string HealthCheckUri = "/HealthCheck";
 }

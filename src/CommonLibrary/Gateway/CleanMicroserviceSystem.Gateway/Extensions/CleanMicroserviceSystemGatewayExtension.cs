@@ -1,5 +1,4 @@
 ﻿using CleanMicroserviceSystem.Gateway.Configurations;
-using CleanMicroserviceSystem.Gateway.Controllers;
 using Consul;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +24,6 @@ public static class CleanMicroserviceSystemGatewayExtension
                 HTTP = configuration.HealthCheckUrl
             }
         };
-        services.AddTransient<HealthController>();
         var consulClient = new ConsulClient();
         consulClient.Agent.ServiceRegister(registration);
         services.AddSingleton(consulClient);

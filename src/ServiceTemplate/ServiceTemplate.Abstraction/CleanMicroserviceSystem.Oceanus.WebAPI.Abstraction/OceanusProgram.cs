@@ -2,6 +2,7 @@
 using CleanMicroserviceSystem.Authentication.Configurations;
 using CleanMicroserviceSystem.Authentication.Extensions;
 using CleanMicroserviceSystem.Gateway.Configurations;
+using CleanMicroserviceSystem.Gateway.Contract;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -47,6 +48,7 @@ public class OceanusProgram
     {
         var jwtBearerConfiguration = this.configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
         var agentServiceRegistrationConfiguration = this.configManager.GetRequiredSection("AgentServiceRegistrationConfiguration")!.Get<AgentServiceRegistrationConfiguration>()!;
+        this.webAppBuilder.Services.AddHealthChecks();
         this.webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
         this.webAppBuilder.Services.AddHttpContextAccessor();
         this.webAppBuilder.Services.AddControllers();
@@ -66,6 +68,7 @@ public class OceanusProgram
         this.webApp.UseCors();
         this.webApp.UseOceanusPipelines();
         this.webApp.UseHttpsRedirection();
+        this.webApp.UseHealthChecks(GatewayContract.HealthCheckUri);
         this.ConfigurePipelinesBeforeAuth();
         this.webApp.UseAuthentication();
         this.webApp.UseAuthorization();
