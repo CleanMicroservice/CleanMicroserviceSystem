@@ -1,26 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Primitives;
 
 namespace CleanMicroserviceSystem.Oceanus.Application.Abstraction.Attributes;
 public class WebAPILogActionFilterAttribute : ActionFilterAttribute
 {
-    public const string NoLogResponseBodyFlag = "NoLogResponseBody";
-    public const string NoLogRequestBodyFlag = "NoLogRequestBody";
+    private readonly bool logRequestBody;
+    private readonly bool logResponseBody;
+    public const string LogRequestBodyKey = "LogRequestBody";
+    public const string LogResponseBodyKey = "LogResponseBody";
 
-    private readonly StringValues TureHeaderValue = new(bool.TrueString);
-    private readonly bool noLogRequestBody;
-    private readonly bool noLogResponseBody;
-
-    public WebAPILogActionFilterAttribute(bool noLogRequestBody = false, bool noLogResponseBody = false)
+    public WebAPILogActionFilterAttribute(bool logRequestBody = true, bool logResponseBody = true)
     {
-        this.noLogRequestBody = noLogRequestBody;
-        this.noLogResponseBody = noLogResponseBody;
+        this.logRequestBody = logRequestBody;
+        this.logResponseBody = logResponseBody;
     }
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        if (this.noLogRequestBody) context.HttpContext.Request.Headers.Add(NoLogRequestBodyFlag, this.TureHeaderValue);
-        if (this.noLogResponseBody) context.HttpContext.Response.Headers.Add(NoLogResponseBodyFlag, this.TureHeaderValue);
+        context.HttpContext.Items[LogRequestBodyKey] = this.logRequestBody;
+        context.HttpContext.Items[LogResponseBodyKey] = this.logResponseBody;
         await base.OnActionExecutionAsync(context, next);
     }
 }

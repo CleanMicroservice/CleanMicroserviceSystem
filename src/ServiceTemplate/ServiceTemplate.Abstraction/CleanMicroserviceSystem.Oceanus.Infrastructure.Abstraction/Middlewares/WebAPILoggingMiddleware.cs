@@ -52,10 +52,8 @@ public class WebAPILoggingMiddleware
             context.Request.EnableBuffering();
             await this.next(context);
 
-            var noLogRequestBody = context.Request.Headers.ContainsKey(WebAPILogActionFilterAttribute.NoLogRequestBodyFlag);
-            var noLogResponseBody = context.Response.Headers.ContainsKey(WebAPILogActionFilterAttribute.NoLogResponseBodyFlag);
-
-            if (!noLogRequestBody && context.Request.Body.CanRead)
+            if (context.Items.TryGetValue(WebAPILogActionFilterAttribute.LogRequestBodyKey, out var logRequestBody) &&
+                logRequestBody is true)
             {
                 context.Request.Body.Seek(0, SeekOrigin.Begin);
                 await using var requestStream = this.recyclableMemoryStreamManager.GetStream();
@@ -66,7 +64,8 @@ public class WebAPILoggingMiddleware
                 webAPILog.RequestBody = string.IsNullOrEmpty(requestBody) ? default : requestBody;
             }
 
-            if (!noLogResponseBody)
+            if (context.Items.TryGetValue(WebAPILogActionFilterAttribute.LogResponseBodyKey, out var logResponseBody) &&
+                logResponseBody is true)
             {
                 // Stream will be disposed together with Reader automatically.
                 using var responseStreamReader = new StreamReader(responseBodyStream);
