@@ -1,9 +1,11 @@
 ﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
+using CleanMicroserviceSystem.Uranus.Infrastructure.Middlewares;
 using CleanMicroserviceSystem.Uranus.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ocelot.DependencyInjection;
 using Ocelot.Provider.Consul;
+using Ocelot.Request.Mapper;
 
 namespace CleanMicroserviceSystem.Uranus.Infrastructure;
 
@@ -25,7 +27,8 @@ public static class DependencyInjection
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     .UseLazyLoadingProxies())
             .AddOcelot()
-            .AddConsul();
+            .AddConsul()
+            .Services.AddSingleton<IRequestMapper, UranusRequestMapper>();
 
         return services;
     }
