@@ -48,12 +48,15 @@ public static class IdentityContract
     #region ApiResources
 
     public const string ThemisAPIResource = "ThemisAPI";
+    public const string AstraAPIResource = "AstraAPI";
     #endregion
 
     #region PolicyNames
 
     public const string ThemisAPIReadPolicyName = $"{ThemisAPIResource}_{Read}";
     public const string ThemisAPIWritePolicyName = $"{ThemisAPIResource}_{Write}";
+    public const string AstraAPIReadPolicyName = $"{AstraAPIResource}_{Read}";
+    public const string AstraAPIWritePolicyName = $"{AstraAPIResource}_{Write}";
     #endregion
 
     #region PolicyBuilders
@@ -62,5 +65,9 @@ public static class IdentityContract
         new AuthorizationPolicyBuilder().RequireClaim(ThemisAPIResource, Read).Build();
     public static AuthorizationPolicy ThemisAPIWritePolicy =
         new AuthorizationPolicyBuilder().RequireClaim(ThemisAPIResource, Write).Build();
+    public static AuthorizationPolicy AstraAPIReadPolicy =
+        new AuthorizationPolicyBuilder().RequireClaim(AstraAPIResource, Read).Build();
+    public static AuthorizationPolicy AstraAPIWritePolicy =
+        new AuthorizationPolicyBuilder().RequireClaim(AstraAPIResource, Write).Build();
     #endregion
 }
