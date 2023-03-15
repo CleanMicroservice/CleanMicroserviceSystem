@@ -176,3 +176,5 @@ This will contain all entities, enums, exceptions, interfaces, types and logic s
   - [ ] 忒弥斯（Θεμις / Themis，“法律”）是[法律](https://baike.baidu.com/item/法律/84813?fromModule=lemma_inlink)和正义的象征。忒弥斯是宙斯最尊重最信任的妻子。是秩序的创造者、守护者。
 - [ ] Aphrodite - WebUI
   - [ ] 阿佛洛狄忒，是[古希腊神话](https://baike.baidu.com/item/古希腊神话/1962436?fromModule=lemma_inlink)中爱情与美丽的女神，同时也是性欲女神，[奥林匹斯十二主神](https://baike.baidu.com/item/奥林匹斯十二主神/34825?fromModule=lemma_inlink)之一。因其诞生于海洋，所以有时还被奉为航海的庇护神。阿佛洛狄忒生于海中浪花，拥有白瓷般的肌肤、金发碧眼和古希腊女性完美的身材和相貌，象征女性的美丽，被认为是女性身体美的最高象征。
+- [ ] Astra - NuGet
+  - [ ] 阿斯特拉，星辰之神，阿斯特赖俄斯与厄俄斯诸子，数量不定。
