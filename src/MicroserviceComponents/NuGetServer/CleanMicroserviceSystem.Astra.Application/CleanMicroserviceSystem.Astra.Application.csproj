@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CommonLibrary\DataStructure\CleanMicroserviceSystem.DataStructure\CleanMicroserviceSystem.DataStructure.csproj" />
+    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\CleanMicroserviceSystem.Astra.Contract\CleanMicroserviceSystem.Astra.Contract.csproj" />
+    <ProjectReference Include="..\CleanMicroserviceSystem.Astra.Domain\CleanMicroserviceSystem.Astra.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
