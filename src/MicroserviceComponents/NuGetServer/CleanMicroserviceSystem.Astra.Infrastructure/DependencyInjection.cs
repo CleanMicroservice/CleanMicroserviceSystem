@@ -1,7 +1,10 @@
-﻿using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
-using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
+﻿using BaGet;
+using BaGet.Core;
 using CleanMicroserviceSystem.Astra.Application.Configurations;
+using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
+using CleanMicroserviceSystem.Astra.Infrastructure.Services;
+using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -29,6 +32,22 @@ public static class DependencyInjection
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies());
+        services
+            .AddTransient<IUrlGenerator, BaGetUrlGenerator>()
+            .AddDbContext<BaGetDBContext>(options => options
+                .UseSqlite(dbConfiguration.ConnectionString)
+            )
+            .AddBaGetApplication(bagetApplication =>
+            {
+                bagetApplication.AddSqliteDatabase(options =>
+                {
+                    options.ConnectionString = dbConfiguration.ConnectionString;
+                });
+                bagetApplication.AddFileStorage(options =>
+                {
+                    options.Path = nuGetConfiguration.PackagePath;
+                });
+            });
         return services;
     }
 }
