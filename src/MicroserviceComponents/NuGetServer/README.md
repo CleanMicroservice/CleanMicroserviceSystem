@@ -24,7 +24,7 @@ remove-migration -Context BaGetDBContext
 
 ## To generate database migration code files automatically
 add-migration InitialMigration -Context AstraDBContext
-add-migration MigrateIdentityDbContext -Context BaGetDBContext
+add-migration MigrateBaGetDBContext -Context BaGetDBContext
 
 ## To execute database migration code files and apply modifications to current connected database file
 Update-Database -Context AstraDBContext
