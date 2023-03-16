@@ -7,7 +7,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Upstream;
 
 public class PackageDownloadsJsonSource : IPackageDownloadsSource
 {
-
+    public const string PackageDownloadsV1Url = "https://nugetprod0.blob.core.windows.net/ng-search-data/downloads.v1.json";
     private readonly HttpClient _httpClient;
     private readonly ILogger<PackageDownloadsJsonSource> _logger;
 
