@@ -8,6 +8,6 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
         public string Name { get; set; }
         public string Version { get; set; }
 
-        public Package Package { get; set; }
+        public virtual Package Package { get; set; }
     }
 }

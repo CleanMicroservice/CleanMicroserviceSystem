@@ -11,16 +11,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
 {
     [DbContext(typeof(BaGetDBContext))]
-    [Migration("20230316074127_MigrateBaGetDBContext")]
+    [Migration("20230316093712_MigrateBaGetDBContext")]
     partial class MigrateBaGetDBContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0-preview.2.23128.3");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.0-preview.2.23128.3")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true);
 
-            modelBuilder.Entity("BaGet.Core.Package", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Package", b =>
                 {
                     b.Property<int>("Key")
                         .ValueGeneratedOnAdd()
@@ -73,13 +77,11 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.Property<string>("NormalizedVersionString")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("TEXT COLLATE NOCASE")
-                        .HasColumnName("Version");
+                        .HasColumnType("TEXT COLLATE NOCASE");
 
                     b.Property<string>("OriginalVersionString")
                         .HasMaxLength(64)
-                        .HasColumnType("TEXT")
-                        .HasColumnName("OriginalVersion");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ProjectUrl")
                         .HasMaxLength(4000)
@@ -89,8 +91,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ReleaseNotes")
-                        .HasColumnType("TEXT")
-                        .HasColumnName("ReleaseNotes");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RepositoryType")
                         .HasMaxLength(100)
@@ -133,7 +134,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.ToTable("Packages");
                 });
 
-            modelBuilder.Entity("BaGet.Core.PackageDependency", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.PackageDependency", b =>
                 {
                     b.Property<int>("Key")
                         .ValueGeneratedOnAdd()
@@ -163,7 +164,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.ToTable("PackageDependencies");
                 });
 
-            modelBuilder.Entity("BaGet.Core.PackageType", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.PackageType", b =>
                 {
                     b.Property<int>("Key")
                         .ValueGeneratedOnAdd()
@@ -189,7 +190,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.ToTable("PackageTypes");
                 });
 
-            modelBuilder.Entity("BaGet.Core.TargetFramework", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.TargetFramework", b =>
                 {
                     b.Property<int>("Key")
                         .ValueGeneratedOnAdd()
@@ -211,18 +212,18 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.ToTable("TargetFrameworks");
                 });
 
-            modelBuilder.Entity("BaGet.Core.PackageDependency", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.PackageDependency", b =>
                 {
-                    b.HasOne("BaGet.Core.Package", "Package")
+                    b.HasOne("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Package", "Package")
                         .WithMany("Dependencies")
                         .HasForeignKey("PackageKey");
 
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("BaGet.Core.PackageType", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.PackageType", b =>
                 {
-                    b.HasOne("BaGet.Core.Package", "Package")
+                    b.HasOne("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Package", "Package")
                         .WithMany("PackageTypes")
                         .HasForeignKey("PackageKey")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -231,9 +232,9 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("BaGet.Core.TargetFramework", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.TargetFramework", b =>
                 {
-                    b.HasOne("BaGet.Core.Package", "Package")
+                    b.HasOne("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Package", "Package")
                         .WithMany("TargetFrameworks")
                         .HasForeignKey("PackageKey")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -242,7 +243,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     b.Navigation("Package");
                 });
 
-            modelBuilder.Entity("BaGet.Core.Package", b =>
+            modelBuilder.Entity("CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Package", b =>
                 {
                     b.Navigation("Dependencies");
 

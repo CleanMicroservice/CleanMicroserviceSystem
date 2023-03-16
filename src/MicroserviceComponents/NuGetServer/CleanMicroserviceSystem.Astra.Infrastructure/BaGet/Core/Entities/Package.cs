@@ -60,9 +60,9 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
         /// </summary>
         public byte[] RowVersion { get; set; }
 
-        public List<PackageDependency> Dependencies { get; set; }
-        public List<PackageType> PackageTypes { get; set; }
-        public List<TargetFramework> TargetFrameworks { get; set; }
+        public virtual List<PackageDependency> Dependencies { get; set; }
+        public virtual List<PackageType> PackageTypes { get; set; }
+        public virtual List<TargetFramework> TargetFrameworks { get; set; }
 
         public string NormalizedVersionString { get; set; }
         public string OriginalVersionString { get; set; }

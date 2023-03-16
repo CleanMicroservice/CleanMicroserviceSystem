@@ -128,6 +128,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.DataStructure", "CommonLibrary\DataStructure\CleanMicroserviceSystem.DataStructure\CleanMicroserviceSystem.DataStructure.csproj", "{4CAC94FA-49DD-4885-9069-63F3E83D4A16}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGetServer", "NuGetServer", "{23FDB838-00DE-4A6A-9D22-9216984B4696}"
+	ProjectSection(SolutionItems) = preProject
+		MicroserviceComponents\NuGetServer\README.md = MicroserviceComponents\NuGetServer\README.md
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Astra.WebAPI", "MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.WebAPI\CleanMicroserviceSystem.Astra.WebAPI.csproj", "{F1278812-A314-42B7-9559-3DAD8847887A}"
 EndProject

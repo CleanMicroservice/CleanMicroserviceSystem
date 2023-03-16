@@ -6,6 +6,6 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
 
         public string Moniker { get; set; }
 
-        public Package Package { get; set; }
+        public virtual Package Package { get; set; }
     }
 }

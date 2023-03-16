@@ -34,10 +34,10 @@ public static class DependencyInjection
                 .UseLazyLoadingProxies());
         services
             .AddTransient<IUrlGenerator, BaGetUrlGenerator>()
-            .AddBaGetDbContextProvider<BaGetDBContext>("Sqlite", (provider, options) =>
-            {
-                options.UseSqlite(dbConfiguration.ConnectionString);
-            })
+            .AddBaGetDbContextProvider<BaGetDBContext>("Sqlite", (provider, options) => options
+                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .UseLazyLoadingProxies())
             .AddBaGetApplication(bagetApplication =>
             {
                 bagetApplication.AddFileStorage(options =>

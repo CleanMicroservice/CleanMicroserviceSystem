@@ -40,8 +40,8 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                     RepositoryType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     Tags = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: true),
                     RowVersion = table.Column<byte[]>(type: "BLOB", rowVersion: true, nullable: true),
-                    Version = table.Column<string>(type: "TEXT COLLATE NOCASE", maxLength: 64, nullable: false),
-                    OriginalVersion = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true)
+                    NormalizedVersionString = table.Column<string>(type: "TEXT COLLATE NOCASE", maxLength: 64, nullable: false),
+                    OriginalVersionString = table.Column<string>(type: "TEXT", maxLength: 64, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,9 +126,9 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.Migrations.BaGetDB
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Packages_Id_Version",
+                name: "IX_Packages_Id_NormalizedVersionString",
                 table: "Packages",
-                columns: new[] { "Id", "Version" },
+                columns: new[] { "Id", "NormalizedVersionString" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

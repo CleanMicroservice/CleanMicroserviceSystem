@@ -1,8 +1,8 @@
-using System.Threading;
-using System.Threading.Tasks;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Converters;
+using CleanMicroserviceSystem.Astra.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
 {
@@ -21,10 +21,22 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
         public const int MaxTargetFrameworkLength = 256;
 
         public const int MaxPackageDependencyVersionRangeLength = 256;
+        protected readonly ILogger<AbstractContext<TContext>> logger;
 
-        public AbstractContext(DbContextOptions<TContext> options)
+        public AbstractContext(
+            ILogger<AbstractContext<TContext>> logger)
+            : base()
+        {
+            this.logger = logger;
+        }
+
+        public AbstractContext(
+            ILogger<AbstractContext<TContext>> logger,
+            DbContextOptions options)
             : base(options)
-        { }
+        {
+            this.logger = logger;
+        }
 
         public DbSet<Package> Packages { get; set; }
         public DbSet<PackageDependency> PackageDependencies { get; set; }
@@ -40,6 +52,12 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
 
         public virtual bool SupportsLimitInSubqueries => true;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(log => this.logger.LogDebug(log));
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Package>(BuildPackageEntity);
@@ -48,7 +66,7 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
             builder.Entity<TargetFramework>(BuildTargetFrameworkEntity);
         }
 
-        private void BuildPackageEntity(EntityTypeBuilder<Package> package)
+        private static void BuildPackageEntity(EntityTypeBuilder<Package> package)
         {
             package.HasKey(p => p.Key);
             package.HasIndex(p => p.Id);
@@ -57,68 +75,64 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
 
             package.Property(p => p.Id)
                 .HasMaxLength(MaxPackageIdLength)
+                .HasColumnType("TEXT COLLATE NOCASE")
                 .IsRequired();
 
             package.Property(p => p.NormalizedVersionString)
-                .HasColumnName("Version")
                 .HasMaxLength(MaxPackageVersionLength)
+                .HasColumnType("TEXT COLLATE NOCASE")
                 .IsRequired();
 
             package.Property(p => p.OriginalVersionString)
-                .HasColumnName("OriginalVersion")
+                .IsRequired(false)
                 .HasMaxLength(MaxPackageVersionLength);
 
-            package.Property(p => p.ReleaseNotes)
-                .HasColumnName("ReleaseNotes");
+            package.Property(p => p.ReleaseNotes).IsRequired(false);
 
             package.Property(p => p.Authors)
+                .IsRequired(false)
                 .HasMaxLength(DefaultMaxStringLength)
                 .HasConversion(StringArrayToJsonConverter.Instance)
-                .Metadata.SetValueComparer(StringArrayComparer.Instance);
+                .Metadata.SetValueComparer(AstraStringArrayComparer.Instance);
 
             package.Property(p => p.IconUrl)
+                .IsRequired(false)
                 .HasConversion(UriToStringConverter.Instance)
                 .HasMaxLength(DefaultMaxStringLength);
 
             package.Property(p => p.LicenseUrl)
+                .IsRequired(false)
                 .HasConversion(UriToStringConverter.Instance)
                 .HasMaxLength(DefaultMaxStringLength);
 
             package.Property(p => p.ProjectUrl)
+                .IsRequired(false)
                 .HasConversion(UriToStringConverter.Instance)
                 .HasMaxLength(DefaultMaxStringLength);
 
             package.Property(p => p.RepositoryUrl)
+                .IsRequired(false)
                 .HasConversion(UriToStringConverter.Instance)
                 .HasMaxLength(DefaultMaxStringLength);
 
             package.Property(p => p.Tags)
+                .IsRequired(false)
                 .HasMaxLength(DefaultMaxStringLength)
                 .HasConversion(StringArrayToJsonConverter.Instance)
-                .Metadata.SetValueComparer(StringArrayComparer.Instance);
+                .Metadata.SetValueComparer(AstraStringArrayComparer.Instance);
 
-            package.Property(p => p.Description).HasMaxLength(DefaultMaxStringLength);
-            package.Property(p => p.Language).HasMaxLength(MaxPackageLanguageLength);
-            package.Property(p => p.MinClientVersion).HasMaxLength(MaxPackageMinClientVersionLength);
-            package.Property(p => p.Summary).HasMaxLength(DefaultMaxStringLength);
-            package.Property(p => p.Title).HasMaxLength(MaxPackageTitleLength);
-            package.Property(p => p.RepositoryType).HasMaxLength(MaxRepositoryTypeLength);
+            package.Property(p => p.Description).IsRequired(false).HasMaxLength(DefaultMaxStringLength);
+            package.Property(p => p.Language).IsRequired(false).HasMaxLength(MaxPackageLanguageLength);
+            package.Property(p => p.MinClientVersion).IsRequired(false).HasMaxLength(MaxPackageMinClientVersionLength);
+            package.Property(p => p.Summary).IsRequired(false).HasMaxLength(DefaultMaxStringLength);
+            package.Property(p => p.Title).IsRequired(false).HasMaxLength(MaxPackageTitleLength);
+            package.Property(p => p.RepositoryType).IsRequired(false).HasMaxLength(MaxRepositoryTypeLength);
 
             package.Ignore(p => p.Version);
             package.Ignore(p => p.IconUrlString);
             package.Ignore(p => p.LicenseUrlString);
             package.Ignore(p => p.ProjectUrlString);
             package.Ignore(p => p.RepositoryUrlString);
-
-            // TODO: This is needed to make the dependency to package relationship required.
-            // Unfortunately, this would generate a migration that drops a foreign key, which
-            // isn't supported by SQLite. The migrations will be need to be recreated for this.
-            // Consumers will need to recreate their database and reindex all their packages.
-            // To make this transition easier, I'd like to finish this change:
-            // https://github.com/loic-sharma/BaGet/pull/174
-            //package.HasMany(p => p.Dependencies)
-            //    .WithOne(d => d.Package)
-            //    .IsRequired();
 
             package.HasMany(p => p.PackageTypes)
                 .WithOne(d => d.Package)
@@ -128,34 +142,34 @@ namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
                 .WithOne(d => d.Package)
                 .IsRequired();
 
-            package.Property(p => p.RowVersion).IsRowVersion();
+            package.Property(p => p.RowVersion).IsRequired(false).IsRowVersion();
         }
 
-        private void BuildPackageDependencyEntity(EntityTypeBuilder<PackageDependency> dependency)
+        private static void BuildPackageDependencyEntity(EntityTypeBuilder<PackageDependency> dependency)
         {
             dependency.HasKey(d => d.Key);
             dependency.HasIndex(d => d.Id);
 
-            dependency.Property(d => d.Id).HasMaxLength(MaxPackageIdLength);
-            dependency.Property(d => d.VersionRange).HasMaxLength(MaxPackageDependencyVersionRangeLength);
-            dependency.Property(d => d.TargetFramework).HasMaxLength(MaxTargetFrameworkLength);
+            dependency.Property(d => d.Id).HasMaxLength(MaxPackageIdLength).HasColumnType("TEXT COLLATE NOCASE");
+            dependency.Property(d => d.VersionRange).IsRequired(false).HasMaxLength(MaxPackageDependencyVersionRangeLength);
+            dependency.Property(d => d.TargetFramework).IsRequired(false).HasMaxLength(MaxTargetFrameworkLength);
         }
 
-        private void BuildPackageTypeEntity(EntityTypeBuilder<PackageType> type)
+        private static void BuildPackageTypeEntity(EntityTypeBuilder<PackageType> type)
         {
             type.HasKey(d => d.Key);
             type.HasIndex(d => d.Name);
 
-            type.Property(d => d.Name).HasMaxLength(MaxPackageTypeNameLength);
-            type.Property(d => d.Version).HasMaxLength(MaxPackageTypeVersionLength);
+            type.Property(d => d.Name).IsRequired(false).HasMaxLength(MaxPackageTypeNameLength).HasColumnType("TEXT COLLATE NOCASE");
+            type.Property(d => d.Version).IsRequired(false).HasMaxLength(MaxPackageTypeVersionLength);
         }
 
-        private void BuildTargetFrameworkEntity(EntityTypeBuilder<TargetFramework> targetFramework)
+        private static void BuildTargetFrameworkEntity(EntityTypeBuilder<TargetFramework> targetFramework)
         {
             targetFramework.HasKey(f => f.Key);
             targetFramework.HasIndex(f => f.Moniker);
 
-            targetFramework.Property(f => f.Moniker).HasMaxLength(MaxTargetFrameworkLength);
+            targetFramework.Property(f => f.Moniker).IsRequired(false).HasMaxLength(MaxTargetFrameworkLength).HasColumnType("TEXT COLLATE NOCASE");
         }
     }
 }
