@@ -1,52 +1,47 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.ServiceIndex
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.ServiceIndex;
+
+public class BaGetServiceIndex : IServiceIndexService
 {
-    public class BaGetServiceIndex : IServiceIndexService
+    private readonly IUrlGenerator _url;
+
+    public BaGetServiceIndex(IUrlGenerator url)
     {
-        private readonly IUrlGenerator _url;
+        this._url = url ?? throw new ArgumentNullException(nameof(url));
+    }
 
-        public BaGetServiceIndex(IUrlGenerator url)
+    private IEnumerable<ServiceIndexItem> BuildResource(string name, string url, params string[] versions)
+    {
+        foreach (var version in versions)
         {
-            _url = url ?? throw new ArgumentNullException(nameof(url));
-        }
+            var type = string.IsNullOrEmpty(version) ? name : $"{name}/{version}";
 
-        private IEnumerable<ServiceIndexItem> BuildResource(string name, string url, params string[] versions)
-        {
-            foreach (var version in versions)
+            yield return new ServiceIndexItem
             {
-                var type = string.IsNullOrEmpty(version) ? name : $"{name}/{version}";
-
-                yield return new ServiceIndexItem
-                {
-                    ResourceUrl = url,
-                    Type = type,
-                };
-            }
-        }
-
-        public Task<ServiceIndexResponse> GetAsync(CancellationToken cancellationToken = default)
-        {
-            var resources = new List<ServiceIndexItem>();
-
-            resources.AddRange(BuildResource("PackagePublish", _url.GetPackagePublishResourceUrl(), "2.0.0"));
-            resources.AddRange(BuildResource("SymbolPackagePublish", _url.GetSymbolPublishResourceUrl(), "4.9.0"));
-            resources.AddRange(BuildResource("SearchQueryService", _url.GetSearchResourceUrl(), "", "3.0.0-beta", "3.0.0-rc"));
-            resources.AddRange(BuildResource("RegistrationsBaseUrl", _url.GetPackageMetadataResourceUrl(), "", "3.0.0-rc", "3.0.0-beta"));
-            resources.AddRange(BuildResource("PackageBaseAddress", _url.GetPackageContentResourceUrl(), "3.0.0"));
-            resources.AddRange(BuildResource("SearchAutocompleteService", _url.GetAutocompleteResourceUrl(), "", "3.0.0-rc", "3.0.0-beta"));
-
-            var result = new ServiceIndexResponse
-            {
-                Version = "3.0.0",
-                Resources = resources,
+                ResourceUrl = url,
+                Type = type,
             };
-
-            return Task.FromResult(result);
         }
+    }
+
+    public Task<ServiceIndexResponse> GetAsync(CancellationToken cancellationToken = default)
+    {
+        var resources = new List<ServiceIndexItem>();
+
+        resources.AddRange(this.BuildResource("PackagePublish", this._url.GetPackagePublishResourceUrl(), "2.0.0"));
+        resources.AddRange(this.BuildResource("SymbolPackagePublish", this._url.GetSymbolPublishResourceUrl(), "4.9.0"));
+        resources.AddRange(this.BuildResource("SearchQueryService", this._url.GetSearchResourceUrl(), "", "3.0.0-beta", "3.0.0-rc"));
+        resources.AddRange(this.BuildResource("RegistrationsBaseUrl", this._url.GetPackageMetadataResourceUrl(), "", "3.0.0-rc", "3.0.0-beta"));
+        resources.AddRange(this.BuildResource("PackageBaseAddress", this._url.GetPackageContentResourceUrl(), "3.0.0"));
+        resources.AddRange(this.BuildResource("SearchAutocompleteService", this._url.GetAutocompleteResourceUrl(), "", "3.0.0-rc", "3.0.0-beta"));
+
+        var result = new ServiceIndexResponse
+        {
+            Version = "3.0.0",
+            Resources = resources,
+        };
+
+        return Task.FromResult(result);
     }
 }

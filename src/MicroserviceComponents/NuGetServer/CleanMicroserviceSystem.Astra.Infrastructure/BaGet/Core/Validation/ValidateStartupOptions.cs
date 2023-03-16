@@ -1,58 +1,51 @@
-using System;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Validation
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Validation;
+
+public class ValidateStartupOptions
 {
-    /// <summary>
-    /// Validates BaGet's options, used at startup.
-    /// </summary>
-    public class ValidateStartupOptions
+    private readonly IOptions<BaGetOptions> _root;
+    private readonly IOptions<DatabaseOptions> _database;
+    private readonly IOptions<StorageOptions> _storage;
+    private readonly IOptions<MirrorOptions> _mirror;
+    private readonly ILogger<ValidateStartupOptions> _logger;
+
+    public ValidateStartupOptions(
+        IOptions<BaGetOptions> root,
+        IOptions<DatabaseOptions> database,
+        IOptions<StorageOptions> storage,
+        IOptions<MirrorOptions> mirror,
+        ILogger<ValidateStartupOptions> logger)
     {
-        private readonly IOptions<BaGetOptions> _root;
-        private readonly IOptions<DatabaseOptions> _database;
-        private readonly IOptions<StorageOptions> _storage;
-        private readonly IOptions<MirrorOptions> _mirror;
-        private readonly ILogger<ValidateStartupOptions> _logger;
+        this._root = root ?? throw new ArgumentNullException(nameof(root));
+        this._database = database ?? throw new ArgumentNullException(nameof(database));
+        this._storage = storage ?? throw new ArgumentNullException(nameof(storage));
+        this._mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
+        this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
 
-        public ValidateStartupOptions(
-            IOptions<BaGetOptions> root,
-            IOptions<DatabaseOptions> database,
-            IOptions<StorageOptions> storage,
-            IOptions<MirrorOptions> mirror,
-            ILogger<ValidateStartupOptions> logger)
+    public bool Validate()
+    {
+        try
         {
-            _root = root ?? throw new ArgumentNullException(nameof(root));
-            _database = database ?? throw new ArgumentNullException(nameof(database));
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-            _mirror = mirror ?? throw new ArgumentNullException(nameof(mirror));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _ = this._root.Value;
+            _ = this._database.Value;
+            _ = this._storage.Value;
+            _ = this._mirror.Value;
+
+            return true;
         }
-
-        public bool Validate()
+        catch (OptionsValidationException e)
         {
-            try
+            foreach (var failure in e.Failures)
             {
-                // Access each option to force validations to run.
-                // Invalid options will trigger an "OptionsValidationException" exception.
-                _ = _root.Value;
-                _ = _database.Value;
-                _ = _storage.Value;
-                _ = _mirror.Value;
-
-                return true;
+                this._logger.LogError("{OptionsFailure}", failure);
             }
-            catch (OptionsValidationException e)
-            {
-                foreach (var failure in e.Failures)
-                {
-                    _logger.LogError("{OptionsFailure}", failure);
-                }
 
-                _logger.LogError(e, "BaGet configuration is invalid.");
-                return false;
-            }
+            this._logger.LogError(e, "BaGet configuration is invalid.");
+            return false;
         }
     }
 }

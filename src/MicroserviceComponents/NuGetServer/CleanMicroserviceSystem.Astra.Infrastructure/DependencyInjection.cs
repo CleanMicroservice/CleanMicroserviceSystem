@@ -17,7 +17,7 @@ public static class DependencyInjection
         OceanusDbConfiguration dbConfiguration,
         NuGetServerConfiguration nuGetConfiguration)
     {
-        services
+        _ = services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
                     .AllowAnyOrigin()
@@ -32,7 +32,7 @@ public static class DependencyInjection
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies());
-        services
+        _ = services
             .AddTransient<IUrlGenerator, BaGetUrlGenerator>()
             .AddBaGetDbContextProvider<BaGetDBContext>("Sqlite", (provider, options) => options
                 .UseSqlite(dbConfiguration.ConnectionString)
@@ -40,7 +40,7 @@ public static class DependencyInjection
                 .UseLazyLoadingProxies())
             .AddBaGetApplication(bagetApplication =>
             {
-                bagetApplication.AddFileStorage(options =>
+                _ = bagetApplication.AddFileStorage(options =>
                 {
                     options.Path = nuGetConfiguration.PackagePath;
                 });

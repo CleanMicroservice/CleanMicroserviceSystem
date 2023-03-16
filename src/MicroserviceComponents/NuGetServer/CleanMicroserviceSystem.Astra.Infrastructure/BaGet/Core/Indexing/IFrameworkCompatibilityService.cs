@@ -1,17 +1,6 @@
-using System.Collections.Generic;
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing
+public interface IFrameworkCompatibilityService
 {
-    /// <summary>
-    /// Used to determine the compatibility matrix between frameworks.
-    /// </summary>
-    public interface IFrameworkCompatibilityService
-    {
-        /// <summary>
-        /// Given a framework, find all other compatible frameworks.
-        /// </summary>
-        /// <param name="framework">The input framework.</param>
-        /// <returns>The list of compatible frameworks.</returns>
-        IReadOnlyList<string> FindAllCompatibleFrameworks(string framework);
-    }
+    IReadOnlyList<string> FindAllCompatibleFrameworks(string framework);
 }

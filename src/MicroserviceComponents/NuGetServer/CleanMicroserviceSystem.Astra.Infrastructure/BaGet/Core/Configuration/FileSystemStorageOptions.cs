@@ -1,26 +1,16 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
+
+public class FileSystemStorageOptions : IValidatableObject
 {
-    public class FileSystemStorageOptions : IValidatableObject
+    public string Path { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        /// <summary>
-        /// The path at which content will be stored. Defaults to the same path
-        /// as the main BaGet executable. This path will be created if it does not
-        /// exist at startup. Packages will be stored in a subfolder named "packages".
-        /// </summary>
-        public string Path { get; set; }
+        if (string.IsNullOrEmpty(this.Path))
+            this.Path = Directory.GetCurrentDirectory();
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            // Convert an empty storage path to the current working directory.
-            if (string.IsNullOrEmpty(Path))
-                Path = Directory.GetCurrentDirectory();
-
-            return Enumerable.Empty<ValidationResult>();
-        }
+        return Enumerable.Empty<ValidationResult>();
     }
 }

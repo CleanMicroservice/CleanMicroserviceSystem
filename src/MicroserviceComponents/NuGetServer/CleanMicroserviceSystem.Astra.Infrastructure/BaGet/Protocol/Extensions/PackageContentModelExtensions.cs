@@ -1,26 +1,15 @@
-using System.Collections.Generic;
-using System.Linq;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using NuGet.Versioning;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Extensions
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Extensions;
+
+public static class PackageContentModelExtensions
 {
-    /// <summary>
-    /// These are documented interpretations of values returned by the Package Content resource.
-    /// </summary>
-    public static class PackageContentModelExtensions
+    public static IReadOnlyList<NuGetVersion> ParseVersions(this PackageVersionsResponse response)
     {
-        /// <summary>
-        /// Parse the package versions as <see cref="NuGetVersion" />s.
-        /// </summary>
-        /// <param name="response">The package versions response.</param>
-        /// <returns>The package versions.</returns>
-        public static IReadOnlyList<NuGetVersion> ParseVersions(this PackageVersionsResponse response)
-        {
-            return response
-                .Versions
-                .Select(NuGetVersion.Parse)
-                .ToList();
-        }
+        return response
+            .Versions
+            .Select(NuGetVersion.Parse)
+            .ToList();
     }
 }

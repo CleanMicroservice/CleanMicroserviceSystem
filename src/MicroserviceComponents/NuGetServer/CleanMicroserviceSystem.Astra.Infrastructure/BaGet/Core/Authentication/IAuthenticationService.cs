@@ -1,10 +1,6 @@
-using System.Threading;
-using System.Threading.Tasks;
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication
+public interface IAuthenticationService
 {
-    public interface IAuthenticationService
-    {
-        Task<bool> AuthenticateAsync(string apiKey, CancellationToken cancellationToken);
-    }
+    Task<bool> AuthenticateAsync(string apiKey, CancellationToken cancellationToken);
 }

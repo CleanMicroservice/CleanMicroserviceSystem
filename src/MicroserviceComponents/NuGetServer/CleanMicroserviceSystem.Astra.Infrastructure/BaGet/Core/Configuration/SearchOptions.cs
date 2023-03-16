@@ -1,7 +1,6 @@
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
+
+public class SearchOptions
 {
-    public class SearchOptions
-    {
-        public string Type { get; set; }
-    }
+    public string Type { get; set; }
 }

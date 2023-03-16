@@ -1,15 +1,7 @@
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities
-{
-    public enum SemVerLevel
-    {
-        /// <summary>
-        /// Either an invalid semantic version or a semantic version v1.0.0
-        /// </summary>
-        Unknown = 0,
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities;
 
-        /// <summary>
-        /// A valid semantic version v2.0.0
-        /// </summary>
-        SemVer2 = 2
-    }
+public enum SemVerLevel
+{
+    Unknown = 0,
+    SemVer2 = 2
 }

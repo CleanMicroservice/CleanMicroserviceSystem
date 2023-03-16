@@ -1,12 +1,6 @@
-using System;
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions
+public class SystemTime
 {
-    /// <summary>
-    /// A wrapper that allows for unit tests related to system time.
-    /// </summary>
-    public class SystemTime
-    {
-        public virtual DateTime UtcNow => DateTime.UtcNow;
-    }
+    public virtual DateTime UtcNow => DateTime.UtcNow;
 }

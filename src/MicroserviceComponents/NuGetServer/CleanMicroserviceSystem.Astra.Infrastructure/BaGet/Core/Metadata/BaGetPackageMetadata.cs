@@ -1,34 +1,25 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Metadata
+namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Metadata;
+
+public class BaGetPackageMetadata : PackageMetadata
 {
-    /// <summary>
-    /// BaGet's extensions to the package metadata model. These additions
-    /// are not part of the official protocol.
-    /// </summary>
-    public class BaGetPackageMetadata : PackageMetadata
-    {
-        [JsonPropertyName("downloads")]
-        public long Downloads { get; set; }
+    [JsonPropertyName("downloads")]
+    public long Downloads { get; set; }
 
-        [JsonPropertyName("hasReadme")]
-        public bool HasReadme { get; set; }
+    [JsonPropertyName("hasReadme")]
+    public bool HasReadme { get; set; }
 
-        [JsonPropertyName("packageTypes")]
-        public IReadOnlyList<string> PackageTypes { get; set; }
+    [JsonPropertyName("packageTypes")]
+    public IReadOnlyList<string> PackageTypes { get; set; }
 
-        /// <summary>
-        /// The package's release notes.
-        /// </summary>
-        [JsonPropertyName("releaseNotes")]
-        public string ReleaseNotes { get; set; }
+    [JsonPropertyName("releaseNotes")]
+    public string ReleaseNotes { get; set; }
 
-        [JsonPropertyName("repositoryUrl")]
-        public string RepositoryUrl { get; set; }
+    [JsonPropertyName("repositoryUrl")]
+    public string RepositoryUrl { get; set; }
 
-        [JsonPropertyName("repositoryType")]
-        public string RepositoryType { get; set; }
-    }
+    [JsonPropertyName("repositoryType")]
+    public string RepositoryType { get; set; }
 }
