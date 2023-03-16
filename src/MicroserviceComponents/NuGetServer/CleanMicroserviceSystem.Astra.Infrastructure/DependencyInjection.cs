@@ -1,6 +1,7 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
+using CleanMicroserviceSystem.Astra.Application.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        OceanusDbConfiguration dbConfiguration)
+        OceanusDbConfiguration dbConfiguration,
+        NuGetServerConfiguration nuGetConfiguration)
     {
         services
             .AddCors(options => options
