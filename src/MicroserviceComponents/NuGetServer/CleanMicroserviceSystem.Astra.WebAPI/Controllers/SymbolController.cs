@@ -1,4 +1,7 @@
-using BaGet.Core;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Storage;
 using CleanMicroserviceSystem.Astra.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

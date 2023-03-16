@@ -1,5 +1,5 @@
-﻿using BaGet.Core;
-using CleanMicroserviceSystem.Astra.Domain;
+﻿using CleanMicroserviceSystem.Astra.Domain;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using NuGet.Versioning;

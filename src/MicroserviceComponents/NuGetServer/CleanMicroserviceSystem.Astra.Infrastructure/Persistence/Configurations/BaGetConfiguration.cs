@@ -1,4 +1,5 @@
-﻿using BaGet.Core;
+﻿using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities.Converters;
 using CleanMicroserviceSystem.Astra.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

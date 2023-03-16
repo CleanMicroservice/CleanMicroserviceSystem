@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BaGet.Core" Version="0.4.0-preview2" />
-    <PackageReference Include="BaGet.Database.Sqlite" Version="0.4.0-preview2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0-preview.2.23128.3" />
+    <PackageReference Include="NuGet.Frameworks" Version="6.5.0" />
+    <PackageReference Include="NuGet.Protocol" Version="6.5.0" />
+    <PackageReference Include="NuGet.Versioning" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using BaGet.Core;
+﻿using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.Extensions;

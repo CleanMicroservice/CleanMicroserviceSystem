@@ -1,5 +1,5 @@
-using BaGet.Core;
-using BaGet.Protocol.Models;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;

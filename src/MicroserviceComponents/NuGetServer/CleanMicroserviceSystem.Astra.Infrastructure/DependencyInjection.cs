@@ -1,6 +1,6 @@
-﻿using BaGet;
-using BaGet.Core;
-using CleanMicroserviceSystem.Astra.Application.Configurations;
+﻿using CleanMicroserviceSystem.Astra.Application.Configurations;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Astra.Infrastructure.Services;
 using CleanMicroserviceSystem.Authentication.Domain;
@@ -34,15 +34,12 @@ public static class DependencyInjection
                 .UseLazyLoadingProxies());
         services
             .AddTransient<IUrlGenerator, BaGetUrlGenerator>()
-            .AddDbContext<BaGetDBContext>(options => options
-                .UseSqlite(dbConfiguration.ConnectionString)
-            )
+            .AddBaGetDbContextProvider<BaGetDBContext>("Sqlite", (provider, options) =>
+            {
+                options.UseSqlite(dbConfiguration.ConnectionString);
+            })
             .AddBaGetApplication(bagetApplication =>
             {
-                bagetApplication.AddSqliteDatabase(options =>
-                {
-                    options.ConnectionString = dbConfiguration.ConnectionString;
-                });
                 bagetApplication.AddFileStorage(options =>
                 {
                     options.Path = nuGetConfiguration.PackagePath;

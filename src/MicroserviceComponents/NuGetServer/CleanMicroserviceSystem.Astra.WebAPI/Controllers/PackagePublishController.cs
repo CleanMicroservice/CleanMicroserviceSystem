@@ -1,4 +1,7 @@
-using BaGet.Core;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
 using CleanMicroserviceSystem.Astra.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -11,7 +14,7 @@ public class PackagePublishController : ControllerBase
 {
     private readonly IAuthenticationService _authentication;
     private readonly IPackageIndexingService _indexer;
-    private readonly IPackageService _packages;
+    private readonly IPackageDatabase _packages;
     private readonly IPackageDeletionService _deleteService;
     private readonly IOptionsSnapshot<BaGetOptions> _options;
     private readonly ILogger<PackagePublishController> _logger;
@@ -19,7 +22,7 @@ public class PackagePublishController : ControllerBase
     public PackagePublishController(
         IAuthenticationService authentication,
         IPackageIndexingService indexer,
-        IPackageService packages,
+        IPackageDatabase packages,
         IPackageDeletionService deletionService,
         IOptionsSnapshot<BaGetOptions> options,
         ILogger<PackagePublishController> logger)
