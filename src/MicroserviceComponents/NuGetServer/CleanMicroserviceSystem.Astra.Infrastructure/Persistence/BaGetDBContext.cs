@@ -27,12 +27,4 @@ public class BaGetDBContext : AbstractContext<BaGetDBContext>
         return exception.InnerException is SqliteException sqliteException &&
             sqliteException.SqliteErrorCode == SqliteUniqueConstraintViolationErrorCode;
     }
-
-    public DbSet<Package> Packages { get; set; }
-
-    public DbSet<PackageDependency> PackageDependencies { get; set; }
-
-    public DbSet<PackageType> PackageTypes { get; set; }
-
-    public DbSet<TargetFramework> TargetFrameworks { get; set; }
 }
