@@ -38,9 +38,8 @@ public class PackagePublishController : ControllerBase
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    [HttpPut]
+    [HttpPut(Name = NuGetRouteContract.UploadPackageRouteName)]
     [WebAPILogActionFilter(false, true)]
-    [Route("", Name = NuGetRouteContract.UploadPackageRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode ||

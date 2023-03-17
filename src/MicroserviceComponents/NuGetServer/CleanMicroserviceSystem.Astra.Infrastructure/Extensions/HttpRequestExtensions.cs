@@ -1,12 +1,11 @@
-﻿using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
+﻿using CleanMicroserviceSystem.Astra.Contract;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.Extensions;
 
 public static class HttpRequestExtensions
 {
-    public const string ApiKeyHeader = "X-NuGet-ApiKey";
-
     public static async Task<Stream> GetUploadStreamOrNullAsync(this HttpRequest request, CancellationToken cancellationToken)
     {
         Stream rawUploadStream = null;
@@ -26,6 +25,6 @@ public static class HttpRequestExtensions
 
     public static string GetApiKey(this HttpRequest request)
     {
-        return request.Headers[ApiKeyHeader];
+        return request.Headers[NuGetServerContract.ApiKeyHeader];
     }
 }

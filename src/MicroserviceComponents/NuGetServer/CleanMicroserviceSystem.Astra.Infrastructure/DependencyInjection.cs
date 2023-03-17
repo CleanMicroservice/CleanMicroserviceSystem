@@ -1,5 +1,6 @@
 ﻿using CleanMicroserviceSystem.Astra.Application.Configurations;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Astra.Infrastructure.Services;
@@ -38,6 +39,10 @@ public static class DependencyInjection
                 .UseSqlite(dbConfiguration.ConnectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies())
+            .Configure<BaGetOptions>(options =>
+            {
+                options.ApiKey = nuGetConfiguration.ApiKey;
+            })
             .AddBaGetApplication(bagetApplication =>
             {
                 _ = bagetApplication.AddFileStorage(options =>

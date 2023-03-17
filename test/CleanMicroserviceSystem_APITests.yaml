@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-03-17T18:40:42.174Z
+__export_date: 2023-03-17T19:20:44.082Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_3f4e407afa854239935befaddd0a3d4a
@@ -26,9 +26,9 @@ resources:
     _type: request
   - _id: fld_591c55ee55284f3fa07bd09af8ff7835
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1679043727503
+    modified: 1679078985690
     created: 1679043727503
-    name: Astras - NuGetServer
+    name: Astra - NuGetServer
     description: ""
     environment: {}
     environmentPropertyOrder: null
@@ -216,7 +216,7 @@ resources:
     _type: request
   - _id: req_27d64bd0bf924bf9b42b598a45efb243
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679078284287
+    modified: 1679080724190
     created: 1679044579300
     url: "{{ _.AstraAddress }}api/v2/PackagePublish"
     name: PackagePublish
@@ -229,6 +229,11 @@ resources:
     headers:
       - name: Content-Type
         value: application/octet-stream
+        id: pair_420ee60e17604ab992dc8e195d874b23
+      - id: pair_27c1df0e46344cf1bfb5414a14f165ed
+        name: X-NuGet-ApiKey
+        value: ASTRANUGETSERVERAPIKEY
+        description: ""
     authentication: {}
     metaSortKey: -1679044579300
     isPrivate: false
@@ -251,7 +256,7 @@ resources:
     _type: request_group
   - _id: req_ddcd171292754838b079bed5cc6dd30b
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679078301085
+    modified: 1679080829593
     created: 1679045111525
     url: "{{ _.AstraAddress }}api/v2/packagepublish/{{ _.PackageId }}/{{
       _.PackageVersion }}"
@@ -260,7 +265,11 @@ resources:
     method: DELETE
     body: {}
     parameters: []
-    headers: []
+    headers:
+      - id: pair_32cedf62af9b42b296c790d2ed93f8e5
+        name: X-NuGet-ApiKey
+        value: ASTRANUGETSERVERAPIKEY
+        description: ""
     authentication: {}
     metaSortKey: -1679044158507.5
     isPrivate: false
@@ -273,7 +282,7 @@ resources:
     _type: request
   - _id: req_c83ed1bed7ca49c38c3472fea4ce80c0
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679078310856
+    modified: 1679080831454
     created: 1679045218993
     url: "{{ _.AstraAddress }}api/v2/packagepublish/{{ _.PackageId }}/{{
       _.PackageVersion }}"
@@ -282,7 +291,11 @@ resources:
     method: POST
     body: {}
     parameters: []
-    headers: []
+    headers:
+      - id: pair_4f47e1d23a574ef1bc32d225ec79c529
+        name: X-NuGet-ApiKey
+        value: ASTRANUGETSERVERAPIKEY
+        description: ""
     authentication: {}
     metaSortKey: -1679043948111.25
     isPrivate: false
@@ -389,7 +402,7 @@ resources:
     _type: request
   - _id: req_6b14e6e5cf414450817b8dd00d1f26d1
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679078368547
+    modified: 1679080834930
     created: 1679045601143
     url: "{{ _.AstraAddress }}api/v2/symbol/upload"
     name: SymbolPublish
@@ -403,6 +416,10 @@ resources:
       - name: Content-Type
         value: application/octet-stream
         id: pair_16295a6728a643b39cb2c94b9a01317e
+      - id: pair_57093624cb9542d28eb5c2185af45460
+        name: X-NuGet-ApiKey
+        value: ASTRANUGETSERVERAPIKEY
+        description: ""
     authentication: {}
     metaSortKey: -1679045601143
     isPrivate: false
