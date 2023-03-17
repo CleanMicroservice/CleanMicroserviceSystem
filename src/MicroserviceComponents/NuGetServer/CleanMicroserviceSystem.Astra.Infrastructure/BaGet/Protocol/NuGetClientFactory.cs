@@ -1,6 +1,6 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Catalog;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Extensions;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.PackageContent;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.PackageMetadata;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Search;

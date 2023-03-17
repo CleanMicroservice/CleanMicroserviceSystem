@@ -1,6 +1,6 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.ServiceIndex;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;

@@ -1,4 +1,4 @@
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+namespace CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 
 
 public interface ICatalogLeafItem

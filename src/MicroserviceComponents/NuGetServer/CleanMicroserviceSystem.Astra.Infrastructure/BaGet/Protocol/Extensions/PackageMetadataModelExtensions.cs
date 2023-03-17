@@ -1,6 +1,6 @@
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using NuGet.Versioning;
-using PackageMetadataModel = CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models.PackageMetadata;
+using PackageMetadataModel = CleanMicroserviceSystem.Astra.Contract.NuGetPackages.PackageMetadata;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Extensions;
 

@@ -1,5 +1,5 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Extensions;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Catalog;
 

@@ -1,3 +1,4 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol;

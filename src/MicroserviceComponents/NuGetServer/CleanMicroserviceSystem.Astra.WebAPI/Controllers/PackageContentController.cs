@@ -1,6 +1,7 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Content;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Versioning;

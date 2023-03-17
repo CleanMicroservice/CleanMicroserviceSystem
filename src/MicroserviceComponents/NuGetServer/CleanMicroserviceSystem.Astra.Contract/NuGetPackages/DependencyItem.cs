@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Converters;
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages.Converters;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+namespace CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 
 public class DependencyItem
 {

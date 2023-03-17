@@ -1,5 +1,5 @@
-﻿using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Metadata;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+﻿using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Metadata;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;
 

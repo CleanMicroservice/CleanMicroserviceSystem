@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+namespace CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 
 
 public class CatalogPage

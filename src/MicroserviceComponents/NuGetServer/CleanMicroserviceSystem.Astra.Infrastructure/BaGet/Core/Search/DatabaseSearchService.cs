@@ -1,7 +1,7 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Metadata;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;

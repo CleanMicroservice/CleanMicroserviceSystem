@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Converters;
+namespace CleanMicroserviceSystem.Astra.Contract.NuGetPackages.Converters;
 
 public class PackageDependencyRangeJsonConverter : JsonConverter<string>
 {

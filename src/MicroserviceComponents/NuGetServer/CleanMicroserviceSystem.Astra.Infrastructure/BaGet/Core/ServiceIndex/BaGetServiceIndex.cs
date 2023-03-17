@@ -1,4 +1,4 @@
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.ServiceIndex;
 

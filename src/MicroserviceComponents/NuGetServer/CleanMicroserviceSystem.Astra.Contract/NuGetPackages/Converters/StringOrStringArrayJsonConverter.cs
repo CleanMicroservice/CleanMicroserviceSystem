@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Converters;
+namespace CleanMicroserviceSystem.Astra.Contract.NuGetPackages.Converters;
 
 public class StringOrStringArrayJsonConverter : JsonConverter<IReadOnlyList<string>>
 {
@@ -18,9 +18,7 @@ public class StringOrStringArrayJsonConverter : JsonConverter<IReadOnlyList<stri
         while (reader.Read())
         {
             if (reader.TokenType == JsonTokenType.String)
-            {
                 result.Add(reader.GetString());
-            }
             else if (reader.TokenType == JsonTokenType.EndArray)
             {
                 return result;

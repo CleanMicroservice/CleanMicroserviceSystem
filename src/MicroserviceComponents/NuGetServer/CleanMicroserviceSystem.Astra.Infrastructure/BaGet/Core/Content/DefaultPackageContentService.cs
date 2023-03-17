@@ -1,5 +1,5 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Storage;
-using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using NuGet.Versioning;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Content;

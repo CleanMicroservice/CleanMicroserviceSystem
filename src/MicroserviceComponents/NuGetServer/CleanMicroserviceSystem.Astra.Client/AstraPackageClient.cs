@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Json;
 using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
-using CleanMicroserviceSystem.Astra.Contract.ApiResources;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -21,6 +20,7 @@ public class AstraPackageClient : OceanusServiceClientBase
         this.Logger = logger;
     }
 
+    /*
     public async Task<PackageInformationResponse?> CreateApiResourceAsync(PackageCreateRequest request)
     {
         var uri = this.BuildUri("/api/Package");
@@ -58,4 +58,5 @@ public class AstraPackageClient : OceanusServiceClientBase
         var response = await this.httpClient.DeleteAsync(uri);
         return response;
     }
+    */
 }
