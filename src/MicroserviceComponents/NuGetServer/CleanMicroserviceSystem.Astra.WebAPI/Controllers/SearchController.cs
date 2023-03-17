@@ -1,6 +1,5 @@
 using CleanMicroserviceSystem.Astra.Contract;
 using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
-using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,4 @@
-﻿using CleanMicroserviceSystem.Astra.Domain;
+﻿using CleanMicroserviceSystem.Astra.Contract;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;

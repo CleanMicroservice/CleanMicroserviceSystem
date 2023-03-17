@@ -1,4 +1,4 @@
-using CleanMicroserviceSystem.Astra.Domain;
+using CleanMicroserviceSystem.Astra.Contract;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;

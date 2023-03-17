@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Astra.Domain;
+﻿namespace CleanMicroserviceSystem.Astra.Contract;
 
 public class NuGetRouteContract
 {
