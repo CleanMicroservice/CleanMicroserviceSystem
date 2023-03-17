@@ -138,11 +138,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Ast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Astra.Domain", "MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.Domain\CleanMicroserviceSystem.Astra.Domain.csproj", "{500E30B2-2175-4032-812B-8088F1081970}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Astra.Contract", "MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.Contract\CleanMicroserviceSystem.Astra.Contract.csproj", "{99D23F2F-3673-4423-83AB-005D0B6A2104}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Astra.Application", "MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.Application\CleanMicroserviceSystem.Astra.Application.csproj", "{BCB0D073-0ABA-44AF-8800-C19C0769723B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Astra.Client", "MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.Client\CleanMicroserviceSystem.Astra.Client.csproj", "{BC7B9B44-7A73-4697-9E17-E20F1BA88A43}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Astra.Contract", "MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.Contract\CleanMicroserviceSystem.Astra.Contract.csproj", "{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -468,6 +468,14 @@ Global
 		{500E30B2-2175-4032-812B-8088F1081970}.Release|Any CPU.Build.0 = Release|Any CPU
 		{500E30B2-2175-4032-812B-8088F1081970}.Release|x86.ActiveCfg = Release|Any CPU
 		{500E30B2-2175-4032-812B-8088F1081970}.Release|x86.Build.0 = Release|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Debug|x86.Build.0 = Debug|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Release|x86.ActiveCfg = Release|Any CPU
+		{99D23F2F-3673-4423-83AB-005D0B6A2104}.Release|x86.Build.0 = Release|Any CPU
 		{BCB0D073-0ABA-44AF-8800-C19C0769723B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCB0D073-0ABA-44AF-8800-C19C0769723B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCB0D073-0ABA-44AF-8800-C19C0769723B}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -484,14 +492,6 @@ Global
 		{BC7B9B44-7A73-4697-9E17-E20F1BA88A43}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BC7B9B44-7A73-4697-9E17-E20F1BA88A43}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC7B9B44-7A73-4697-9E17-E20F1BA88A43}.Release|x86.Build.0 = Release|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Debug|x86.Build.0 = Debug|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Release|x86.ActiveCfg = Release|Any CPU
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -547,9 +547,9 @@ Global
 		{F1278812-A314-42B7-9559-3DAD8847887A} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
 		{3C40D8A3-BDB9-4D6C-B0BE-AD4885CFC575} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
 		{500E30B2-2175-4032-812B-8088F1081970} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
+		{99D23F2F-3673-4423-83AB-005D0B6A2104} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
 		{BCB0D073-0ABA-44AF-8800-C19C0769723B} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
 		{BC7B9B44-7A73-4697-9E17-E20F1BA88A43} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
-		{63AE9D42-F1DC-4EB6-839D-23C1CF9CE8EB} = {23FDB838-00DE-4A6A-9D22-9216984B4696}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}

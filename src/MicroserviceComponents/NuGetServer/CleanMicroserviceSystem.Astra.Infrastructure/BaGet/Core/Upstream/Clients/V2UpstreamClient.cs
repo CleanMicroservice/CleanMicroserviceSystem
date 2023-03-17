@@ -1,4 +1,4 @@
-using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
+using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
