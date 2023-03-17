@@ -1,6 +1,7 @@
 using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Content;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Versioning;
 
@@ -25,6 +26,7 @@ public class PackageContentController : ControllerBase
     }
 
     [HttpGet]
+    [WebAPILogActionFilter(true, false)]
     [Route("v3/package/{id}/{version}/{idVersion}.nupkg", Name = NuGetRouteContract.PackageDownloadRouteName)]
     public async Task<IActionResult> DownloadPackageAsync(string id, string version, CancellationToken cancellationToken)
     {
@@ -36,6 +38,7 @@ public class PackageContentController : ControllerBase
     }
 
     [HttpGet]
+    [WebAPILogActionFilter(true, false)]
     [Route("v3/package/{id}/{version}/{id2}.nuspec", Name = NuGetRouteContract.PackageDownloadManifestRouteName)]
     public async Task<IActionResult> DownloadNuspecAsync(string id, string version, CancellationToken cancellationToken)
     {
@@ -47,6 +50,7 @@ public class PackageContentController : ControllerBase
     }
 
     [HttpGet]
+    [WebAPILogActionFilter(true, false)]
     [Route("v3/package/{id}/{version}/readme", Name = NuGetRouteContract.PackageDownloadReadmeRouteName)]
     public async Task<IActionResult> DownloadReadmeAsync(string id, string version, CancellationToken cancellationToken)
     {
@@ -58,6 +62,7 @@ public class PackageContentController : ControllerBase
     }
 
     [HttpGet]
+    [WebAPILogActionFilter(true, false)]
     [Route("v3/package/{id}/{version}/icon", Name = NuGetRouteContract.PackageDownloadIconRouteName)]
     public async Task<IActionResult> DownloadIconAsync(string id, string version, CancellationToken cancellationToken)
     {

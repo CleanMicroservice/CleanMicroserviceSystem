@@ -4,6 +4,7 @@ using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
 using CleanMicroserviceSystem.Astra.Infrastructure.Extensions;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NuGet.Versioning;
@@ -37,6 +38,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpPut]
+    [WebAPILogActionFilter(false, true)]
     [Route("api/v2/package", Name = NuGetRouteContract.UploadPackageRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {

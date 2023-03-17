@@ -4,6 +4,7 @@ using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Storage;
 using CleanMicroserviceSystem.Astra.Infrastructure.Extensions;
+using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -33,6 +34,7 @@ public class SymbolController : ControllerBase
     }
 
     [HttpPut]
+    [WebAPILogActionFilter(false, true)]
     [Route("api/v2/symbol", Name = NuGetRouteContract.UploadSymbolRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
@@ -77,6 +79,7 @@ public class SymbolController : ControllerBase
     }
 
     [HttpGet]
+    [WebAPILogActionFilter(true, false)]
     [Route("api/download/symbols/{file}/{key}/{file2}", Name = NuGetRouteContract.SymbolDownloadRouteName)]
     [Route("api/download/symbols/{prefix}/{file}/{key}/{file2}", Name = NuGetRouteContract.PrefixedSymbolDownloadRouteName)]
     public async Task<IActionResult> Get(string file, string key)
