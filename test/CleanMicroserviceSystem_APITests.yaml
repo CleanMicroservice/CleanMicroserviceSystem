@@ -1,8 +1,485 @@
 _type: export
 __export_format: 4
-__export_date: 2023-03-09T06:15:35.351Z
+__export_date: 2023-03-17T17:30:44.053Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
+  - _id: req_3f4e407afa854239935befaddd0a3d4a
+    parentId: fld_591c55ee55284f3fa07bd09af8ff7835
+    modified: 1679065907199
+    created: 1679045487772
+    url: "{{ _.AstraAddress }}v3/index.json"
+    name: Index.json
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679044409637
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_591c55ee55284f3fa07bd09af8ff7835
+    parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
+    modified: 1679043727503
+    created: 1679043727503
+    name: Astras - NuGetServer
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1679043727503
+    _type: request_group
+  - _id: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
+    parentId: null
+    modified: 1670678556526
+    created: 1670678556526
+    name: CleanMicroservice
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_21d1fcb8ac3d4eceb929738919598e87
+    parentId: fld_303a52f5dff845da8e3053cf5cce6296
+    modified: 1679044496513
+    created: 1679044493788
+    url: "{{ _.AstraAddress }}v3/registration/{{ _.PackageId }}/index.json"
+    name: Registration/index.json
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1675649265806.375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_303a52f5dff845da8e3053cf5cce6296
+    parentId: fld_591c55ee55284f3fa07bd09af8ff7835
+    modified: 1679045597098
+    created: 1679044409587
+    name: Metadata
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1679044409587
+    _type: request_group
+  - _id: req_9556da9533f949df8e2d51b9fa7f3b0a
+    parentId: fld_303a52f5dff845da8e3053cf5cce6296
+    modified: 1679044553691
+    created: 1679044536014
+    url: "{{ _.AstraAddress }}v3/registration/{{ _.PackageId }}/{{ _.PackageVersion
+      }}.json"
+    name: Registration/Version.json
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1673952029898.9375
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_17b8120fc3d749b2911c5e5c6f21718f
+    parentId: fld_4771f0240bea46daaff78eae2f7ec546
+    modified: 1679044401139
+    created: 1679043737615
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/index.json"
+    name: Package/Index.json
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679043737715
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_4771f0240bea46daaff78eae2f7ec546
+    parentId: fld_591c55ee55284f3fa07bd09af8ff7835
+    modified: 1679045593226
+    created: 1679044392563
+    name: Content
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1679044392564
+    _type: request_group
+  - _id: req_349de5833d9a4f77ac106623b673089e
+    parentId: fld_4771f0240bea46daaff78eae2f7ec546
+    modified: 1679044396369
+    created: 1679044075362
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion }}/{{
+      _.PackageVersion }}.nupkg"
+    name: Package.nupkg
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679043737665
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_903542c93b2c45648f043f4fd7b3cebd
+    parentId: fld_4771f0240bea46daaff78eae2f7ec546
+    modified: 1679044397955
+    created: 1679044275323
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion }}/{{
+      _.PackageVersion }}.nuspec"
+    name: Package.nuspec
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679043737640
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5cedd0166fe44f0382b9da216f3023dd
+    parentId: fld_4771f0240bea46daaff78eae2f7ec546
+    modified: 1679044398862
+    created: 1679044296516
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}/readme"
+    name: Package.readme
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679043737627.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_620f4744ea704be7b6cfb2fe48fe6669
+    parentId: fld_4771f0240bea46daaff78eae2f7ec546
+    modified: 1679044521059
+    created: 1679044375975
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}/icon"
+    name: Package.icon
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679043737621.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_27d64bd0bf924bf9b42b598a45efb243
+    parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
+    modified: 1679045106377
+    created: 1679044579300
+    url: "{{ _.AstraAddress }}api/v2/package"
+    name: PackagePublish
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/octet-stream
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/octet-stream
+    authentication: {}
+    metaSortKey: -1679044579300
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
+    parentId: fld_591c55ee55284f3fa07bd09af8ff7835
+    modified: 1679045589200
+    created: 1679044572755
+    name: Publish
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1679044392514
+    _type: request_group
+  - _id: req_ddcd171292754838b079bed5cc6dd30b
+    parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
+    modified: 1679045132165
+    created: 1679045111525
+    url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}"
+    name: PackageDelete
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679044158507.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c83ed1bed7ca49c38c3472fea4ce80c0
+    parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
+    modified: 1679045221378
+    created: 1679045218993
+    url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}"
+    name: PackageRelist
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1679043948111.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ec8dad4113c54518908e452e934e2dfb
+    parentId: fld_a5b3eab4a9b944df832b11302cd33d63
+    modified: 1679071009407
+    created: 1679045238965
+    url: "{{ _.AstraAddress }}v3/search"
+    name: Search
+    description: ""
+    method: GET
+    body: {}
+    parameters:
+      - id: pair_da7faa5ea067454a92d33a741c4302bc
+        name: q
+        value: Clean
+        description: ""
+        disabled: true
+      - id: pair_04c7cfba59d54a6d99a2100eb5f92d1a
+        name: prerelease
+        value: "true"
+        description: ""
+      - id: pair_674a41d62f7741c99409c196c2f4dc3b
+        name: semVerLevel
+        value: 2.0.0
+        description: ""
+    headers: []
+    authentication: {}
+    metaSortKey: -1679045238965
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_a5b3eab4a9b944df832b11302cd33d63
+    parentId: fld_591c55ee55284f3fa07bd09af8ff7835
+    modified: 1679045585184
+    created: 1679045233462
+    name: Search
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1679044392464
+    _type: request_group
+  - _id: req_ae50d2b7ef254059ba3edead73721e82
+    parentId: fld_a5b3eab4a9b944df832b11302cd33d63
+    modified: 1679045400407
+    created: 1679045386683
+    url: "{{ _.AstraAddress }}v3/autocomplete"
+    name: AutoComplete
+    description: ""
+    method: GET
+    body: {}
+    parameters:
+      - id: pair_da7faa5ea067454a92d33a741c4302bc
+        name: q
+        value: Clean
+        description: ""
+    headers: []
+    authentication: {}
+    metaSortKey: -1679044909132.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_ff99f6b338de4fd4ad6a1f616017a8c8
+    parentId: fld_a5b3eab4a9b944df832b11302cd33d63
+    modified: 1679045471844
+    created: 1679045416879
+    url: "{{ _.AstraAddress }}v3/dependents"
+    name: Dependents
+    description: ""
+    method: GET
+    body: {}
+    parameters:
+      - id: pair_da7faa5ea067454a92d33a741c4302bc
+        name: packageid
+        value: "{{ _.PackageId }}"
+        description: ""
+    headers: []
+    authentication: {}
+    metaSortKey: -1679044744216.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_6b14e6e5cf414450817b8dd00d1f26d1
+    parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
+    modified: 1679071522657
+    created: 1679045601143
+    url: "{{ _.AstraAddress }}api/v2/symbol"
+    name: SymbolPublish
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/octet-stream
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Application.Abstraction.1.0.0.nupkg
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/octet-stream
+        id: pair_16295a6728a643b39cb2c94b9a01317e
+    authentication: {}
+    metaSortKey: -1679045601143
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_f2e3796eb34e4ac1bba45b2fa496170c
+    parentId: fld_591c55ee55284f3fa07bd09af8ff7835
+    modified: 1679045541108
+    created: 1679045538541
+    name: Symbol
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1679044392414
+    _type: request_group
+  - _id: req_ff27caceba5c4ef3a328c4ef17fb2808
+    parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
+    modified: 1679068829638
+    created: 1679068676910
+    url: "{{ _.AstraAddress }}api/download/symbols/{{ _.PackageFile }}/{{
+      _.NuGetApiKey }}/{{ _.PackageFile }}"
+    name: SymbolDownload
+    description: ""
+    method: GET
+    body:
+      mimeType: application/octet-stream
+      fileName: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/vnd.palm
+    authentication: {}
+    metaSortKey: -1679045420054
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7f04995c82274736a1a7ad8743cffb9e
+    parentId: fld_483d0509583b4ab9beb979fb1cecc7ed
+    modified: 1678343509958
+    created: 1678343399168
+    url: "{{ _.UranusAddress }}HealthCheck"
+    name: HealthCheck
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1671019580813.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_483d0509583b4ab9beb979fb1cecc7ed
+    parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
+    modified: 1678343391142
+    created: 1678343391142
+    name: Uranus - Gateway
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1678343391142
+    _type: request_group
   - _id: req_49d87dd480cb4fce919dadf56dfd72b5
     parentId: fld_2bee811412fb48d89b7ebf83a69eb791
     modified: 1678342517758
@@ -34,14 +511,6 @@ resources:
     environmentPropertyOrder: null
     metaSortKey: -1671019535474
     _type: request_group
-  - _id: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    parentId: null
-    modified: 1670678556526
-    created: 1670678556526
-    name: CleanMicroservice
-    description: ""
-    scope: collection
-    _type: workspace
   - _id: req_99d6d8440874404c8aa191bd8e08df69
     parentId: fld_1d15cb0708244848bbed034ababbe711
     modified: 1676699058323
@@ -152,7 +621,7 @@ resources:
     _type: request
   - _id: req_0944cd0c44ea4cb9a354c569c7b55dfd
     parentId: fld_c2d69352e09e409a918395ea93313e96
-    modified: 1676626434581
+    modified: 1678349730044
     created: 1671019721424
     url: "{{ _.ThemisAddress }}api/UserToken"
     name: Login
@@ -169,6 +638,8 @@ resources:
     headers:
       - name: Content-Type
         value: application/json
+        id: pair_bbd9b2e122f24bd1877fc56104adc9cf
+        disabled: false
     authentication: {}
     metaSortKey: -1671019721424
     isPrivate: false
@@ -1878,24 +2349,49 @@ resources:
     _type: request
   - _id: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1670678666304
+    modified: 1679068971535
     created: 1670678556532
     name: Base Environment
-    data: {}
-    dataPropertyOrder: {}
+    data:
+      UserId: "1"
+      RoleId: "1"
+      UserName: Leon
+      Password: 12345@Qq
+      ClientId: "1"
+      ClientName: Tethys
+      ClientSecret: TethysSecret
+      ApiResourceId: "1"
+      PackageId: CleanMicroserviceSystem.Oceanus.Application.Abstraction
+      PackageFile: CleanMicroserviceSystem.Oceanus.Application.Abstraction.dll
+      NuGetApiKey: FakeNuGetAPIKeyWhichMustLongerThan32
+      PackageVersion: 1.0.0
+    dataPropertyOrder:
+      "&":
+        - UserId
+        - RoleId
+        - UserName
+        - Password
+        - ClientId
+        - ClientName
+        - ClientSecret
+        - ApiResourceId
+        - PackageId
+        - PackageFile
+        - NuGetApiKey
+        - PackageVersion
     color: null
     isPrivate: false
     metaSortKey: 1670678556532
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1678341997929
+    modified: 1678784346270
     created: 1670678556534
     name: Default Jar
     cookies:
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8ODuDWgnciBDip_aNidIWrKTUXjJSHJPrttgstxmoZeRmSiY7Q2loH36I0Ko_ufQMHC6p_isGPL5zKo2p82IebvvqD98EjDboEvMDLI6mUZ87yNBG2WJpfedxNbppnbT9M_MnIB_s1O_No12FOmYKvaSPkqpBO-BugH3e4Y26FrV9QFT1FAtwL8dZFITgkksCZmVtL-iif--yMX8i7eUfKPPIRHIpZhwz2QINQzl6Upe5Wrira2hcMAk1UJ2SJab-CPybe1bj9r9mJPFylUywI_zhuvIAzk9zvE_ii8JnJRg43pUJ1n5HYOEV5rd7vuubDNqKSiH7jNbSk7uf0PNuL7ATeyNHOcPn5c8kuq3U_Ei_-Oq4FyTm9dHOIT3pvHJzB4GTPVysF1lmTG4QUpbrKowwBFgeLxrboTosNVFjugrfWgI5sNwuPNYE9SWAed9ADjtFeAny_8paPZ0xquWcBVwLrR2dSUFHyTyfiaCaTpI45DbJcTCUTnW-St-cjrlUb9uPRCZGktZQhJ_5TNR_K4HyfjYYYrVZ082DlDGjdPT7VQAYD7qww9C67_PSwRMvEfOzRfZw3J_7sSbZHPnTgSHlkr4vdc2q2E-0C90JHonHH8gUtYkUhPI-6QDRvpHDKyNSaAp8eLSuOWaq0H9dmw6P0QLEd0n00jv8ujt2Stx1MtXjw6ll6Fr6VBkkvEiYJNFyd6eoN3LqvfVFfynViBTNszoPkM0Xve9BH3Gi_W1klh4aoFgMK19f-Y6QJG7K1YERMwrjjQhRVmJExKzWcpteIVkXroWlELHUeFlBl1hAl-4wgsaDd2IB6avCGnazFIBMacmqmUHrWJfPWLuXG0HFQUQC0K6uUiBTTDKj6GGRDTEVcvxw-Vd2JG60ScZG_aKTYMa1-CvQQvSFH3EHyBFMdAWjXpK4_drhOnI3NNj7fbsoIKMgc3ABTd0DfsLxlrlkrS45OJ9Xzc0M5szK6RUPTFE3o39DFQljl3i3N2rDZq_wZxtYarcfuxSNOzVHw7rt3czhg3bihOCkLyL7DS_zV3Fbhmao_KYwurD-nRrCydBJeIge_yoQ5MGLK0TXw
-        expires: 2023-03-23T06:06:37.000Z
+        value: CfDJ8MG_LuO_HnRDrhvoEfUNNG3yp0X_FVqsWHJJO4-y6Zv3XzqJcihUytJSNwaMSTynccSYLlkgQuE5fYgNRmAbVpsGLQ1eEU2-KSwYAVJAugmEC4lXvfMFAQ1EAqrZNZnrmNdILLP7wfuLIaiedRDdieG_omHz8arGzLnj7jLRtLrsZajJsYtA2dror3znTt_-O7m3rhsDnAGYFNCYI2Sq3m7pKSdFvuqOwMXJ00o7Vx3QsK65nzs3fkp0Jb5_st1mQnYf7VVOCDXRf3e_mqooKeSDNYUjCzAmlzKDBTO_yaqECHPUgkHoewpsFalpvHPvh1diw_nb4WNi7kfFNd7HdGbCTXsd9AzDvwVhesl3RpD4aJ2vvfixAux46yfnqU9dbFoYQrpifgZSQalsieNezNIDjn4eXm2AJaQhWA5LEb_3bPXpYne4ODPA5uDwSdoFoz61brrTY85RObZwSHRvQHYB2WhK9hGhatsyH_584Yf5NbZqAGyrG6uxd5aAAw9tJT86x8TV3pq-_1BazMksHMOGrMPPTk8bIAz71aX4ipB-W8xN6wufWW4Lsx71TXb9tM0LSQSsmCb-f7ujziwJxyjpx1AM8Bqg7Wup56_uI763bg07ft1OWxjVs0HDYvLMNegRrSj29faKcHkPZWa7Ns4WTztTG4CiCTSk_A1nE7fsxIqP5j0MRh3pLSKR2Mf6IUE1-1rCXMWE5A4uWH6IX7PKdGvEM7HxXQYh_f0CgIVZMaXb3PLM-qvIahh0xsclhh_HLPwFOezOkwzt3J5hWm7Slt1WQGTlCojBq3N_psaUo_eOIkvVFJ8rIxdQ16ueVeIzzKNg7QVmhmhWK0Xrm6Zv5sd-RXPlyukKEm2i8zgddw6Rrz8p8SKs5s0Jmur5XVFz5e-FNR_UJv9a5j4ael13SC2G9USQa9iljHpsSaI2uW5rCByww66HYZG5Yg1yrOy-MZ33HP0nNHDz7fxkTMy29DBxOhF073GYr7s704lUyXll8pRwa4y-oZxJpudBOxkGsnhliAGqaXwslXmGo4RlGoVB1dPq5scJdNBsCXz5tX6suxuu_e081E_qoU06kQ
+        expires: 2023-03-28T08:59:06.000Z
         domain: localhost
         path: /
         secure: true
@@ -1904,8 +2400,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-03-06T02:51:11.872Z
-        lastAccessed: 2023-03-09T06:06:37.929Z
-        id: "17193642532946996"
+        lastAccessed: 2023-03-14T08:59:06.270Z
+        id: "9341125206078205"
       - key: .AspNetCore.Identity.Application
         value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-HySJ2WFVXpEuWevhITi9XR2vb_Inpx5OANxaFSIrwXeHh-hlcyHR6HX2XY6CD1NumATtPJY3Dlzv-96lvN18m25XMzXWU9FuL8mKjcwWP_bleckqHYzyCNtfMToGSIDmt2Zvy_IVL57A3gpyI9ACDVFO-XoUrqIbRbZJEv2_CrmDRTyzXldobsFUtlZRNwRYSy49DmVVPfNwUOBG9pXMZAgc_x21pNu4OCjGRwKpoV3Ddsu62VU43As8ms6RFk-vW_0OZYAOenBIf5-Ic5BCmzasN82jUFyD16bwl0_k6s0OnG-c1Ut0HjZd1yQE2BxDa_lbUA8WIBvDr2bhOQq2AFEONPsSZxfVKq6CpIqXQ0rnXkpiJQIqPct5bGDaFkhvFyiPVg4ylHyfo89VjsSNfiB2WI_shenlx0M1RLCPdN1R4MPzdeiSLM8Q41Pa1uEvN0IICvVRBWcn_Iz6HcSekZAjmsoBWqj8Xn-uFAgsdGVY2laiF2XG9JRLyGAt0nq1jd4xALxXdHZcTtd_7N9d8MrmNnNPzIS0NpHiCkoMfo3akoV4jc1t_BL15J-qsEHzpMfXKDZqpvqa0IBYtyzxVWCIRZRsgrgzTpuktWj84Vv4fSnW-XYF2kAU80sxoeGV-U4VC-jkvUDkwbX3NXf_8ozgQyt7k3w721HGvDAeRdj2a0iVjq70-uLD_LnWZvCDzoSEnQGtgs4060DQ70o2IGSdjH3A0i87VVUSUqZ8ZQbDiXNeS1DHWDypasC_EdbpYEQXbLfEDQyrHW9yaFwFYPXnQWmwRTk3deEqyXUnQAkXQV504vJODVRsU_sklBDzUFAY0SjKsKr1gQJ_lkbyEhUh_d_wicaWPgD-JXfra3XoNj0R4LIDF2koWMJKS83d34LTwgMOqDARYjQ_kdtq900BVquZiSOBBzfL3tsPYgdC-8ayWzSkXwtXkj_IfeCaFtj0uKOgOuyYzs1yZCroBS8q4Xkqfuv0eF2LdyGboAAfZhtHpgRxvGUraUswIdhp5JvXQSjPPu460S6pK4NnhJo9V3x2desdQLvXJCHUGMzQ
         expires: 2023-03-22T09:54:30.000Z
@@ -1918,7 +2414,7 @@ resources:
         hostOnly: true
         creation: 2023-03-08T09:54:30.887Z
         lastAccessed: 2023-03-08T09:54:30.887Z
-        id: "9281178574783508"
+        id: "6354549167227186"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
@@ -1930,90 +2426,54 @@ resources:
     _type: api_spec
   - _id: env_bd78d43cb4934b1f8297ad93f0265fbf
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1678068190757
+    modified: 1679044232616
     created: 1670678668397
     name: localhost-Dev
     data:
+      UranusAddress: https://localhost:11001/
       ThemisAddress: https://localhost:11002/
-      UserId: "1"
-      RoleId: "1"
-      UserName: Leon
-      Password: 12345@Qq
-      ClientId: "1"
-      ClientName: Tethys
-      ClientSecret: TethysSecret
-      ApiResourceId: "1"
+      AstraAddress: https://localhost:11003/
     dataPropertyOrder:
       "&":
+        - UranusAddress
         - ThemisAddress
-        - UserId
-        - RoleId
-        - UserName
-        - Password
-        - ClientId
-        - ClientName
-        - ClientSecret
-        - ApiResourceId
+        - AstraAddress
     color: null
     isPrivate: false
     metaSortKey: 1670678668397
     _type: environment
   - _id: env_f07c58410ac8492bb945212789dc8160
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1678068195861
+    modified: 1679044236064
     created: 1671867367448
     name: gateway-Dev
     data:
+      UranusAddress: https://localhost:11001/
       ThemisAddress: https://localhost:11001/Ocelot/Themis/
-      UserId: "1"
-      RoleId: "1"
-      UserName: Leon
-      Password: 12345@Qq
-      ClientId: "1"
-      ClientName: Tethys
-      ClientSecret: TethysSecret
-      ApiResourceId: "1"
+      AstraAddress: https://localhost:11001/Ocelot/Astra/
     dataPropertyOrder:
       "&":
+        - UranusAddress
         - ThemisAddress
-        - UserId
-        - RoleId
-        - UserName
-        - Password
-        - ClientId
-        - ClientName
-        - ClientSecret
-        - ApiResourceId
+        - AstraAddress
     color: null
     isPrivate: false
     metaSortKey: 1670678668447
     _type: environment
   - _id: env_5409ae96b6af4fb2b8b005b669c4c3cf
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1678177977038
+    modified: 1679044219664
     created: 1678068150556
     name: gateway-Prod
     data:
+      UranusAddress: https://10.1.100.73:21001/
       ThemisAddress: https://10.1.100.73:21001/Ocelot/Themis/
-      UserId: "1"
-      RoleId: "1"
-      UserName: Leon
-      Password: 12345@Qq
-      ClientId: "1"
-      ClientName: Tethys
-      ClientSecret: TethysSecret
-      ApiResourceId: "1"
+      AstraAddress: https://10.1.100.73:21001/Ocelot/Astra/
     dataPropertyOrder:
       "&":
+        - UranusAddress
         - ThemisAddress
-        - UserId
-        - RoleId
-        - UserName
-        - Password
-        - ClientId
-        - ClientName
-        - ClientSecret
-        - ApiResourceId
+        - AstraAddress
     color: null
     isPrivate: false
     metaSortKey: 1672084266132
