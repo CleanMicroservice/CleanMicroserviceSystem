@@ -39,7 +39,7 @@ public class PackagePublishController : ControllerBase
 
     [HttpPut]
     [WebAPILogActionFilter(false, true)]
-    [Route("api/v2/package", Name = NuGetRouteContract.UploadPackageRouteName)]
+    [Route("v2/package", Name = NuGetRouteContract.UploadPackageRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode ||
@@ -84,7 +84,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("api/v2/package/{id}/{version}", Name = NuGetRouteContract.DeleteRouteName)]
+    [Route("v2/package/{id}/{version}", Name = NuGetRouteContract.DeleteRouteName)]
     public async Task<IActionResult> Delete(string id, string version, CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode)
@@ -100,7 +100,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpPost]
-    [Route("api/v2/package/{id}/{version}", Name = NuGetRouteContract.RelistRouteName)]
+    [Route("v2/package/{id}/{version}", Name = NuGetRouteContract.RelistRouteName)]
     public async Task<IActionResult> Relist(string id, string version, CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode)
