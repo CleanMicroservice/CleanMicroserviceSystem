@@ -12,11 +12,14 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var gatewayConfiguration = config.GetRequiredSection("GatewayAPIConfiguration").Get<GatewayAPIConfiguration>();
-var configuration = new AphroditeConfiguration()
+var nuGetServerConfiguration = config.GetRequiredSection("NuGetServerConfiguration")!.Get<NuGetServerConfiguration>()!;
+var aphroditeConfiguration = new AphroditeConfiguration()
 {
     WebUIBaseAddress = builder.HostEnvironment.BaseAddress,
     GatewayBaseAddress = gatewayConfiguration!.GatewayBaseAddress,
 };
-builder.Services.ConfigureServices(configuration);
+builder.Services.ConfigureServices(
+    aphroditeConfiguration,
+    nuGetServerConfiguration);
 
 await builder.Build().RunAsync();
