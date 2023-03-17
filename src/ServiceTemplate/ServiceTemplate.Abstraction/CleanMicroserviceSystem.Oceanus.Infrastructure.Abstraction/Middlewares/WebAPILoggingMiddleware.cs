@@ -52,32 +52,49 @@ public class WebAPILoggingMiddleware
             context.Request.EnableBuffering();
             await this.next(context);
 
-            if (!context.Items.TryGetValue(WebAPILogActionFilterAttribute.LogRequestBodyKey, out var logRequestBody) ||
-                logRequestBody is true)
+            try
             {
-                context.Request.Body.Seek(0, SeekOrigin.Begin);
-                await using var requestStream = this.recyclableMemoryStreamManager.GetStream();
-                await context.Request.Body.CopyToAsync(requestStream);
-                using var requestStreamReader = new StreamReader(requestStream);
-                requestStream.Seek(0, SeekOrigin.Begin);
-                var requestBody = await requestStreamReader.ReadToEndAsync();
-                webAPILog.RequestBody = string.IsNullOrEmpty(requestBody) ? default : requestBody;
+                if (!context.Items.TryGetValue(WebAPILogActionFilterAttribute.LogRequestBodyKey, out var logRequestBody) ||
+                    logRequestBody is true)
+                {
+                    context.Request.Body.Seek(0, SeekOrigin.Begin);
+                    await using var requestStream = this.recyclableMemoryStreamManager.GetStream();
+                    await context.Request.Body.CopyToAsync(requestStream);
+                    using var requestStreamReader = new StreamReader(requestStream);
+                    requestStream.Seek(0, SeekOrigin.Begin);
+                    var requestBody = await requestStreamReader.ReadToEndAsync();
+                    webAPILog.RequestBody = string.IsNullOrEmpty(requestBody) ? default : requestBody;
+                }
             }
-            if (!context.Items.TryGetValue(WebAPILogActionFilterAttribute.LogResponseBodyKey, out var logResponseBody) ||
-                logResponseBody is true)
+            catch (Exception ex)
             {
-                // Stream will be disposed together with Reader automatically.
-                using var responseStreamReader = new StreamReader(responseBodyStream);
-                responseBodyStream.Seek(0, SeekOrigin.Begin);
-                var responseBody = await responseStreamReader.ReadToEndAsync();
-                responseBodyStream.Seek(0, SeekOrigin.Begin);
-                webAPILog.ResponseBody = string.IsNullOrEmpty(responseBody) ? default : responseBody;
-                await responseBodyStream.CopyToAsync(originalResponseStream);
+                this.logger.LogWarning(ex, $"Failed to read request body of {context.TraceIdentifier}.");
+                webAPILog.RequestBody = ex.Message;
             }
-            else
+
+            try
             {
-                responseBodyStream.Seek(0, SeekOrigin.Begin);
-                await responseBodyStream.CopyToAsync(originalResponseStream);
+                if (!context.Items.TryGetValue(WebAPILogActionFilterAttribute.LogResponseBodyKey, out var logResponseBody) ||
+                    logResponseBody is true)
+                {
+                    // Stream will be disposed together with Reader automatically.
+                    using var responseStreamReader = new StreamReader(responseBodyStream);
+                    responseBodyStream.Seek(0, SeekOrigin.Begin);
+                    var responseBody = await responseStreamReader.ReadToEndAsync();
+                    responseBodyStream.Seek(0, SeekOrigin.Begin);
+                    webAPILog.ResponseBody = string.IsNullOrEmpty(responseBody) ? default : responseBody;
+                    await responseBodyStream.CopyToAsync(originalResponseStream);
+                }
+                else
+                {
+                    responseBodyStream.Seek(0, SeekOrigin.Begin);
+                    await responseBodyStream.CopyToAsync(originalResponseStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning(ex, $"Failed to read response body of {context.TraceIdentifier}.");
+                webAPILog.ResponseBody = ex.Message;
             }
 
             webAPILog.IsAuthenticated = context.User.Identity?.IsAuthenticated ?? false;
