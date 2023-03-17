@@ -1,0 +1,14 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
+
+namespace CleanMicroserviceSystem.Astra.Client.Search;
+
+public interface ISearchClient
+{
+    Task<SearchResponse> SearchAsync(
+        string query = null,
+        int skip = 0,
+        int take = 20,
+        bool includePrerelease = true,
+        bool includeSemVer2 = true,
+        CancellationToken cancellationToken = default);
+}

@@ -1,3 +1,5 @@
+using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
+
 namespace CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 
 public class BaGetOptions
