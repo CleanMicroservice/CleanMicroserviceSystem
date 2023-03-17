@@ -1,13 +1,13 @@
 _type: export
 __export_format: 4
-__export_date: 2023-03-17T17:30:44.053Z
+__export_date: 2023-03-17T18:40:42.174Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_3f4e407afa854239935befaddd0a3d4a
     parentId: fld_591c55ee55284f3fa07bd09af8ff7835
-    modified: 1679065907199
+    modified: 1679078059919
     created: 1679045487772
-    url: "{{ _.AstraAddress }}v3/index.json"
+    url: "{{ _.AstraAddress }}api/v3/index.json"
     name: Index.json
     description: ""
     method: GET
@@ -44,10 +44,10 @@ resources:
     _type: workspace
   - _id: req_21d1fcb8ac3d4eceb929738919598e87
     parentId: fld_303a52f5dff845da8e3053cf5cce6296
-    modified: 1679044496513
+    modified: 1679078196992
     created: 1679044493788
-    url: "{{ _.AstraAddress }}v3/registration/{{ _.PackageId }}/index.json"
-    name: Registration/index.json
+    url: "{{ _.AstraAddress }}api/v3/packagemetadata/{{ _.PackageId }}/index.json"
+    name: Metadata/index.json
     description: ""
     method: GET
     body: {}
@@ -75,11 +75,11 @@ resources:
     _type: request_group
   - _id: req_9556da9533f949df8e2d51b9fa7f3b0a
     parentId: fld_303a52f5dff845da8e3053cf5cce6296
-    modified: 1679044553691
+    modified: 1679078210165
     created: 1679044536014
-    url: "{{ _.AstraAddress }}v3/registration/{{ _.PackageId }}/{{ _.PackageVersion
-      }}.json"
-    name: Registration/Version.json
+    url: "{{ _.AstraAddress }}api/v3/packagemetadata/{{ _.PackageId }}/{{
+      _.PackageVersion }}.json"
+    name: Metadata/Version.json
     description: ""
     method: GET
     body: {}
@@ -97,9 +97,9 @@ resources:
     _type: request
   - _id: req_17b8120fc3d749b2911c5e5c6f21718f
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679044401139
+    modified: 1679078237223
     created: 1679043737615
-    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/index.json"
+    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/index.json"
     name: Package/Index.json
     description: ""
     method: GET
@@ -128,10 +128,10 @@ resources:
     _type: request_group
   - _id: req_349de5833d9a4f77ac106623b673089e
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679044396369
+    modified: 1679078248034
     created: 1679044075362
-    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion }}/{{
-      _.PackageVersion }}.nupkg"
+    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
+      _.PackageVersion }}/{{ _.PackageVersion }}.nupkg"
     name: Package.nupkg
     description: ""
     method: GET
@@ -150,10 +150,10 @@ resources:
     _type: request
   - _id: req_903542c93b2c45648f043f4fd7b3cebd
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679044397955
+    modified: 1679078253839
     created: 1679044275323
-    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion }}/{{
-      _.PackageVersion }}.nuspec"
+    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
+      _.PackageVersion }}/{{ _.PackageVersion }}.nuspec"
     name: Package.nuspec
     description: ""
     method: GET
@@ -172,10 +172,10 @@ resources:
     _type: request
   - _id: req_5cedd0166fe44f0382b9da216f3023dd
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679044398862
+    modified: 1679078259374
     created: 1679044296516
-    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion
-      }}/readme"
+    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
+      _.PackageVersion }}/readme"
     name: Package.readme
     description: ""
     method: GET
@@ -194,10 +194,10 @@ resources:
     _type: request
   - _id: req_620f4744ea704be7b6cfb2fe48fe6669
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679044521059
+    modified: 1679078265717
     created: 1679044375975
-    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion
-      }}/icon"
+    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
+      _.PackageVersion }}/icon"
     name: Package.icon
     description: ""
     method: GET
@@ -216,9 +216,9 @@ resources:
     _type: request
   - _id: req_27d64bd0bf924bf9b42b598a45efb243
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679045106377
+    modified: 1679078284287
     created: 1679044579300
-    url: "{{ _.AstraAddress }}api/v2/package"
+    url: "{{ _.AstraAddress }}api/v2/PackagePublish"
     name: PackagePublish
     description: ""
     method: PUT
@@ -251,10 +251,10 @@ resources:
     _type: request_group
   - _id: req_ddcd171292754838b079bed5cc6dd30b
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679045132165
+    modified: 1679078301085
     created: 1679045111525
-    url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
-      }}"
+    url: "{{ _.AstraAddress }}api/v2/packagepublish/{{ _.PackageId }}/{{
+      _.PackageVersion }}"
     name: PackageDelete
     description: ""
     method: DELETE
@@ -273,10 +273,10 @@ resources:
     _type: request
   - _id: req_c83ed1bed7ca49c38c3472fea4ce80c0
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679045221378
+    modified: 1679078310856
     created: 1679045218993
-    url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
-      }}"
+    url: "{{ _.AstraAddress }}api/v2/packagepublish/{{ _.PackageId }}/{{
+      _.PackageVersion }}"
     name: PackageRelist
     description: ""
     method: POST
@@ -295,9 +295,9 @@ resources:
     _type: request
   - _id: req_ec8dad4113c54518908e452e934e2dfb
     parentId: fld_a5b3eab4a9b944df832b11302cd33d63
-    modified: 1679071009407
+    modified: 1679078322486
     created: 1679045238965
-    url: "{{ _.AstraAddress }}v3/search"
+    url: "{{ _.AstraAddress }}api/v3/search"
     name: Search
     description: ""
     method: GET
@@ -339,9 +339,9 @@ resources:
     _type: request_group
   - _id: req_ae50d2b7ef254059ba3edead73721e82
     parentId: fld_a5b3eab4a9b944df832b11302cd33d63
-    modified: 1679045400407
+    modified: 1679078333319
     created: 1679045386683
-    url: "{{ _.AstraAddress }}v3/autocomplete"
+    url: "{{ _.AstraAddress }}api/v3/autocomplete"
     name: AutoComplete
     description: ""
     method: GET
@@ -364,9 +364,9 @@ resources:
     _type: request
   - _id: req_ff99f6b338de4fd4ad6a1f616017a8c8
     parentId: fld_a5b3eab4a9b944df832b11302cd33d63
-    modified: 1679045471844
+    modified: 1679078339061
     created: 1679045416879
-    url: "{{ _.AstraAddress }}v3/dependents"
+    url: "{{ _.AstraAddress }}api/v3/dependents"
     name: Dependents
     description: ""
     method: GET
@@ -389,9 +389,9 @@ resources:
     _type: request
   - _id: req_6b14e6e5cf414450817b8dd00d1f26d1
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679071522657
+    modified: 1679078368547
     created: 1679045601143
-    url: "{{ _.AstraAddress }}api/v2/symbol"
+    url: "{{ _.AstraAddress }}api/v2/symbol/upload"
     name: SymbolPublish
     description: ""
     method: PUT
@@ -425,9 +425,9 @@ resources:
     _type: request_group
   - _id: req_ff27caceba5c4ef3a328c4ef17fb2808
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679068829638
+    modified: 1679078392658
     created: 1679068676910
-    url: "{{ _.AstraAddress }}api/download/symbols/{{ _.PackageFile }}/{{
+    url: "{{ _.AstraAddress }}api/v2/symbol/download/{{ _.PackageFile }}/{{
       _.NuGetApiKey }}/{{ _.PackageFile }}"
     name: SymbolDownload
     description: ""

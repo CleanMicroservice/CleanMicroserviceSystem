@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
+[Route("api/v2/[controller]")]
 public class SymbolController : ControllerBase
 {
     private readonly IAuthenticationService _authentication;
@@ -35,7 +36,7 @@ public class SymbolController : ControllerBase
 
     [HttpPut]
     [WebAPILogActionFilter(false, true)]
-    [Route("v2/symbol", Name = NuGetRouteContract.UploadSymbolRouteName)]
+    [Route("upload", Name = NuGetRouteContract.UploadSymbolRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode || !await this._authentication.AuthenticateAsync(this.Request.GetApiKey(), cancellationToken))
@@ -80,8 +81,8 @@ public class SymbolController : ControllerBase
 
     [HttpGet]
     [WebAPILogActionFilter(true, false)]
-    [Route("download/symbols/{file}/{key}/{file2}", Name = NuGetRouteContract.SymbolDownloadRouteName)]
-    [Route("download/symbols/{prefix}/{file}/{key}/{file2}", Name = NuGetRouteContract.PrefixedSymbolDownloadRouteName)]
+    [Route("download/{file}/{key}/{file2}", Name = NuGetRouteContract.SymbolDownloadRouteName)]
+    [Route("download/{prefix}/{file}/{key}/{file2}", Name = NuGetRouteContract.PrefixedSymbolDownloadRouteName)]
     public async Task<IActionResult> Get(string file, string key)
     {
         var pdbStream = await this._storage.GetPortablePdbContentStreamOrNullAsync(file, key);

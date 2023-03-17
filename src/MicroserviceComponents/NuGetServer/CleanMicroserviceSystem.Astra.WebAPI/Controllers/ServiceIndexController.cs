@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
+[Route("api/v3")]
 public class ServiceIndexController : ControllerBase
 {
     private readonly IServiceIndexService _serviceIndex;
@@ -16,7 +17,7 @@ public class ServiceIndexController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/index.json", Name = NuGetRouteContract.IndexRouteName)]
+    [Route("index.json", Name = NuGetRouteContract.IndexRouteName)]
     public async Task<ServiceIndexResponse> GetAsync(CancellationToken cancellationToken)
     {
         return await this._serviceIndex.GetAsync(cancellationToken);

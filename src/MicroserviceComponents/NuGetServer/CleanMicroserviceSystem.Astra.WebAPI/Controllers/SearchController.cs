@@ -1,3 +1,4 @@
+using CleanMicroserviceSystem.Astra.Contract;
 using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
+[Route("api/v3/[action]")]
 public class SearchController : ControllerBase
 {
     private readonly ISearchService _searchService;
@@ -16,7 +18,7 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/search", Name = NuGetRouteContract.SearchRouteName)]
+    [Route("", Name = NuGetRouteContract.SearchRouteName)]
     public async Task<ActionResult<SearchResponse>> SearchAsync(
         [FromQuery(Name = "q")] string query = null,
         [FromQuery] int skip = 0,
@@ -34,7 +36,7 @@ public class SearchController : ControllerBase
             Skip = skip,
             Take = take,
             IncludePrerelease = prerelease,
-            IncludeSemVer2 = semVerLevel == "2.0.0",
+            IncludeSemVer2 = semVerLevel == NuGetServerContract.SemVerLevel,
             PackageType = packageType,
             Framework = framework,
             Query = query ?? string.Empty,
@@ -43,8 +45,7 @@ public class SearchController : ControllerBase
         return await this._searchService.SearchAsync(request, cancellationToken);
     }
 
-    [HttpGet]
-    [Route("v3/autocomplete", Name = NuGetRouteContract.AutocompleteRouteName)]
+    [HttpGet(Name = NuGetRouteContract.AutocompleteRouteName)]
     public async Task<ActionResult<AutocompleteResponse>> AutocompleteAsync(
         [FromQuery(Name = "q")] string autocompleteQuery = null,
         [FromQuery(Name = "id")] string versionsQuery = null,
@@ -63,7 +64,7 @@ public class SearchController : ControllerBase
             var request = new VersionsRequest
             {
                 IncludePrerelease = prerelease,
-                IncludeSemVer2 = semVerLevel == "2.0.0",
+                IncludeSemVer2 = semVerLevel == NuGetServerContract.SemVerLevel,
                 PackageId = versionsQuery,
             };
 
@@ -74,7 +75,7 @@ public class SearchController : ControllerBase
             var request = new AutocompleteRequest
             {
                 IncludePrerelease = prerelease,
-                IncludeSemVer2 = semVerLevel == "2.0.0",
+                IncludeSemVer2 = semVerLevel == NuGetServerContract.SemVerLevel,
                 PackageType = packageType,
                 Skip = skip,
                 Take = take,
@@ -85,8 +86,7 @@ public class SearchController : ControllerBase
         }
     }
 
-    [HttpGet]
-    [Route("v3/dependents", Name = NuGetRouteContract.DependentsRouteName)]
+    [HttpGet(Name = NuGetRouteContract.DependentsRouteName)]
     public async Task<ActionResult<DependentsResponse>> DependentsAsync(
         [FromQuery] string packageId = null,
         CancellationToken cancellationToken = default)

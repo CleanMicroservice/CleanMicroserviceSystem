@@ -9,6 +9,7 @@ using NuGet.Versioning;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
+[Route("api/v3/[controller]")]
 public class PackageContentController : ControllerBase
 {
     private readonly IPackageContentService _content;
@@ -19,7 +20,7 @@ public class PackageContentController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/package/{id}/index.json", Name = NuGetRouteContract.PackageVersionsRouteName)]
+    [Route("{id}/index.json", Name = NuGetRouteContract.PackageVersionsRouteName)]
     public async Task<ActionResult<PackageVersionsResponse>> GetPackageVersionsAsync(string id, CancellationToken cancellationToken)
     {
         var versions = await this._content.GetPackageVersionsOrNullAsync(id, cancellationToken);
@@ -28,7 +29,7 @@ public class PackageContentController : ControllerBase
 
     [HttpGet]
     [WebAPILogActionFilter(true, false)]
-    [Route("v3/package/{id}/{version}/{idVersion}.nupkg", Name = NuGetRouteContract.PackageDownloadRouteName)]
+    [Route("{id}/{version}/{idVersion}.nupkg", Name = NuGetRouteContract.PackageDownloadRouteName)]
     public async Task<IActionResult> DownloadPackageAsync(string id, string version, CancellationToken cancellationToken)
     {
         if (!NuGetVersion.TryParse(version, out var nugetVersion))
@@ -40,7 +41,7 @@ public class PackageContentController : ControllerBase
 
     [HttpGet]
     [WebAPILogActionFilter(true, false)]
-    [Route("v3/package/{id}/{version}/{id2}.nuspec", Name = NuGetRouteContract.PackageDownloadManifestRouteName)]
+    [Route("{id}/{version}/{id2}.nuspec", Name = NuGetRouteContract.PackageDownloadManifestRouteName)]
     public async Task<IActionResult> DownloadNuspecAsync(string id, string version, CancellationToken cancellationToken)
     {
         if (!NuGetVersion.TryParse(version, out var nugetVersion))
@@ -52,7 +53,7 @@ public class PackageContentController : ControllerBase
 
     [HttpGet]
     [WebAPILogActionFilter(true, false)]
-    [Route("v3/package/{id}/{version}/readme", Name = NuGetRouteContract.PackageDownloadReadmeRouteName)]
+    [Route("{id}/{version}/readme", Name = NuGetRouteContract.PackageDownloadReadmeRouteName)]
     public async Task<IActionResult> DownloadReadmeAsync(string id, string version, CancellationToken cancellationToken)
     {
         if (!NuGetVersion.TryParse(version, out var nugetVersion))
@@ -64,7 +65,7 @@ public class PackageContentController : ControllerBase
 
     [HttpGet]
     [WebAPILogActionFilter(true, false)]
-    [Route("v3/package/{id}/{version}/icon", Name = NuGetRouteContract.PackageDownloadIconRouteName)]
+    [Route("{id}/{version}/icon", Name = NuGetRouteContract.PackageDownloadIconRouteName)]
     public async Task<IActionResult> DownloadIconAsync(string id, string version, CancellationToken cancellationToken)
     {
         if (!NuGetVersion.TryParse(version, out var nugetVersion))
