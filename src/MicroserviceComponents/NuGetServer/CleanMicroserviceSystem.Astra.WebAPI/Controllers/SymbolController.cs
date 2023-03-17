@@ -1,3 +1,4 @@
+using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Indexing;
@@ -32,7 +33,7 @@ public class SymbolController : ControllerBase
     }
 
     [HttpPut]
-    [Route("api/v2/symbol")]
+    [Route("api/v2/symbol", Name = NuGetRouteContract.UploadSymbolRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode || !await this._authentication.AuthenticateAsync(this.Request.GetApiKey(), cancellationToken))
@@ -76,7 +77,8 @@ public class SymbolController : ControllerBase
     }
 
     [HttpGet]
-    [Route("api/download/symbols/{file}/{key}/{file2}")]
+    [Route("api/download/symbols/{file}/{key}/{file2}", Name = NuGetRouteContract.SymbolDownloadRouteName)]
+    [Route("api/download/symbols/{prefix}/{file}/{key}/{file2}", Name = NuGetRouteContract.PrefixedSymbolDownloadRouteName)]
     public async Task<IActionResult> Get(string file, string key)
     {
         var pdbStream = await this._storage.GetPortablePdbContentStreamOrNullAsync(file, key);

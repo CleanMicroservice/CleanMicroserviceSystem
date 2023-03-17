@@ -1,3 +1,4 @@
+using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,7 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/search")]
+    [Route("v3/search", Name = NuGetRouteContract.SearchRouteName)]
     public async Task<ActionResult<SearchResponse>> SearchAsync(
         [FromQuery(Name = "q")] string query = null,
         [FromQuery] int skip = 0,
@@ -43,7 +44,7 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/autocomplete")]
+    [Route("v3/autocomplete", Name = NuGetRouteContract.AutocompleteRouteName)]
     public async Task<ActionResult<AutocompleteResponse>> AutocompleteAsync(
         [FromQuery(Name = "q")] string autocompleteQuery = null,
         [FromQuery(Name = "id")] string versionsQuery = null,
@@ -85,7 +86,7 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/dependents")]
+    [Route("v3/dependents", Name = NuGetRouteContract.DependentsRouteName)]
     public async Task<ActionResult<DependentsResponse>> DependentsAsync(
         [FromQuery] string packageId = null,
         CancellationToken cancellationToken = default)

@@ -1,3 +1,4 @@
+using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Metadata;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Protocol.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ public class PackageMetadataController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/registration/{id}/index.json")]
+    [Route("v3/registration/{id}/index.json", Name = NuGetRouteContract.RegistrationIndexRouteName)]
     public async Task<ActionResult<BaGetRegistrationIndexResponse>> RegistrationIndexAsync(string id, CancellationToken cancellationToken)
     {
         var index = await this._metadata.GetRegistrationIndexOrNullAsync(id, cancellationToken);
@@ -24,7 +25,7 @@ public class PackageMetadataController : ControllerBase
     }
 
     [HttpGet]
-    [Route("v3/registration/{id}/{version}.json")]
+    [Route("v3/registration/{id}/{version}.json", Name = NuGetRouteContract.RegistrationLeafRouteName)]
     public async Task<ActionResult<RegistrationLeafResponse>> RegistrationLeafAsync(string id, string version, CancellationToken cancellationToken)
     {
         if (!NuGetVersion.TryParse(version, out var nugetVersion))

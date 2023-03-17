@@ -1,3 +1,4 @@
+using CleanMicroserviceSystem.Astra.Domain;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Authentication;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Configuration;
@@ -36,7 +37,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpPut]
-    [Route("api/v2/package")]
+    [Route("api/v2/package", Name = NuGetRouteContract.UploadPackageRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode ||
@@ -81,7 +82,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("api/v2/package/{id}/{version}")]
+    [Route("api/v2/package/{id}/{version}", Name = NuGetRouteContract.DeleteRouteName)]
     public async Task<IActionResult> Delete(string id, string version, CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode)
@@ -97,7 +98,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpPost]
-    [Route("api/v2/package/{id}/{version}")]
+    [Route("api/v2/package/{id}/{version}", Name = NuGetRouteContract.RelistRouteName)]
     public async Task<IActionResult> Relist(string id, string version, CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode)
