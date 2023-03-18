@@ -20,7 +20,7 @@
 	</PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.1.23110.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0-preview.1.23110.8" />
-    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.3.1" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.3.2" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
