@@ -12,4 +12,6 @@ public class RouterContract
     public const string UsersUri = "/permission/users";
     public const string RolesUri = "/permission/roles";
     public const string ClientsUri = "/permission/clients";
+
+    public const string PackagesUri = "/nugetserver/packages";
 }
