@@ -1,0 +1,91 @@
+﻿@page "/nugetserver/packages"
+@using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
+@attribute [Authorize(Policy = IdentityContract.AstraAPIReadPolicyName)]
+@inherits AphroditePageBase
+@inject ILogger<PackagesPage> logger
+@inject AstraNuGetPackageClient astraNuGetPackageClient
+
+<PageTitle>Packages</PageTitle>
+
+<MCard Elevation=0 Rounded="@("xl")">
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol>
+                <h6>Filters</h6>
+            </MCol>
+            <MSpacer></MSpacer>
+            <MCol Cols="@("auto")">
+                <MButton Rounded Color="primary" OnClick=this.LoadPackages Disabled=@this.LoadingPackages Loading=@this.LoadingPackages>
+                    Search
+                </MButton>
+                </MCol>
+                </MRow>
+                <MRow Class="mt-3">
+                <MCol Sm=12 Md=3>
+                <MTextField Label="Keyword" @bind-Value="@this.Keyword"
+                            Color="primary" HideDetails="@("auto")"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+
+<MCard Elevation=0 Rounded="@("xl")" Class="mt-6">
+    @if (this.SearchResponse is null)
+    {
+        <p>Has no any package.</p>
+    }
+    else
+    {
+        <p>Total @this.SearchResponse.TotalHits pacakges.</p>
+        <p>Context @this.SearchResponse.Context.ToParameters()</p>
+        @foreach (var package in this.SearchResponse.Data)
+        {
+            <p>@package.PackageId</p>
+            <p>@package.Title</p>
+            <p>@package.Version</p>
+            <p>@string.Join(", ", package.Authors)</p>
+            <p>@string.Join(", ", package.Versions)</p>
+            <p>@string.Join(", ", package.PackageTypes)</p>
+            <p>@string.Join(", ", package.Tags)</p>
+            <p>@package.Summary</p>
+            <p>@package.Description</p>
+            <p>@package.ProjectUrl</p>
+            <p>@package.IconUrl</p>
+            <p>@package.LicenseUrl</p>
+            <p>@package.RegistrationIndexUrl</p>
+            <p>@package.TotalDownloads</p>
+        }
+    }
+</MCard>
+
+@code {
+    protected bool LoadingPackages { get; set; }
+    protected IList<RoleInformationResponse>? Roles { get; set; }
+    protected string? Keyword { get; set; }
+    protected string? LocalSearch { get; set; }
+    protected SearchResponse? SearchResponse { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await this.LoadPackages();
+    }
+
+    protected async Task LoadPackages()
+    {
+        this.LoadingPackages = true;
+        try
+        {
+            this.SearchResponse = await this.astraNuGetPackageClient.SearchAsync(this.Keyword);
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            this.LoadingPackages = false;
+        }
+    }
+}
