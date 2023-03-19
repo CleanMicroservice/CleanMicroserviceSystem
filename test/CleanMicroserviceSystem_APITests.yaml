@@ -1,13 +1,13 @@
 _type: export
 __export_format: 4
-__export_date: 2023-03-17T19:20:44.082Z
+__export_date: 2023-03-19T08:45:10.258Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_3f4e407afa854239935befaddd0a3d4a
     parentId: fld_591c55ee55284f3fa07bd09af8ff7835
-    modified: 1679078059919
+    modified: 1679215286813
     created: 1679045487772
-    url: "{{ _.AstraAddress }}api/v3/index.json"
+    url: "{{ _.AstraAddress }}v3/index.json"
     name: Index.json
     description: ""
     method: GET
@@ -44,9 +44,9 @@ resources:
     _type: workspace
   - _id: req_21d1fcb8ac3d4eceb929738919598e87
     parentId: fld_303a52f5dff845da8e3053cf5cce6296
-    modified: 1679078196992
+    modified: 1679215336926
     created: 1679044493788
-    url: "{{ _.AstraAddress }}api/v3/packagemetadata/{{ _.PackageId }}/index.json"
+    url: "{{ _.AstraAddress }}v3/registration/{{ _.PackageId }}/index.json"
     name: Metadata/index.json
     description: ""
     method: GET
@@ -75,10 +75,10 @@ resources:
     _type: request_group
   - _id: req_9556da9533f949df8e2d51b9fa7f3b0a
     parentId: fld_303a52f5dff845da8e3053cf5cce6296
-    modified: 1679078210165
+    modified: 1679215342200
     created: 1679044536014
-    url: "{{ _.AstraAddress }}api/v3/packagemetadata/{{ _.PackageId }}/{{
-      _.PackageVersion }}.json"
+    url: "{{ _.AstraAddress }}v3/registration/{{ _.PackageId }}/{{ _.PackageVersion
+      }}.json"
     name: Metadata/Version.json
     description: ""
     method: GET
@@ -97,9 +97,9 @@ resources:
     _type: request
   - _id: req_17b8120fc3d749b2911c5e5c6f21718f
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679078237223
+    modified: 1679215467127
     created: 1679043737615
-    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/index.json"
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/index.json"
     name: Package/Index.json
     description: ""
     method: GET
@@ -128,10 +128,10 @@ resources:
     _type: request_group
   - _id: req_349de5833d9a4f77ac106623b673089e
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679078248034
+    modified: 1679215491566
     created: 1679044075362
-    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
-      _.PackageVersion }}/{{ _.PackageVersion }}.nupkg"
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion }}/{{
+      _.PackageVersion }}.nupkg"
     name: Package.nupkg
     description: ""
     method: GET
@@ -150,10 +150,10 @@ resources:
     _type: request
   - _id: req_903542c93b2c45648f043f4fd7b3cebd
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679078253839
+    modified: 1679215486458
     created: 1679044275323
-    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
-      _.PackageVersion }}/{{ _.PackageVersion }}.nuspec"
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion }}/{{
+      _.PackageVersion }}.nuspec"
     name: Package.nuspec
     description: ""
     method: GET
@@ -172,10 +172,10 @@ resources:
     _type: request
   - _id: req_5cedd0166fe44f0382b9da216f3023dd
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679078259374
+    modified: 1679215483393
     created: 1679044296516
-    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
-      _.PackageVersion }}/readme"
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}/readme"
     name: Package.readme
     description: ""
     method: GET
@@ -194,10 +194,10 @@ resources:
     _type: request
   - _id: req_620f4744ea704be7b6cfb2fe48fe6669
     parentId: fld_4771f0240bea46daaff78eae2f7ec546
-    modified: 1679078265717
+    modified: 1679215479652
     created: 1679044375975
-    url: "{{ _.AstraAddress }}api/v3/packagecontent/{{ _.PackageId }}/{{
-      _.PackageVersion }}/icon"
+    url: "{{ _.AstraAddress }}v3/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}/icon"
     name: Package.icon
     description: ""
     method: GET
@@ -216,9 +216,9 @@ resources:
     _type: request
   - _id: req_27d64bd0bf924bf9b42b598a45efb243
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679080724190
+    modified: 1679215375352
     created: 1679044579300
-    url: "{{ _.AstraAddress }}api/v2/PackagePublish"
+    url: "{{ _.AstraAddress }}api/v2/package"
     name: PackagePublish
     description: ""
     method: PUT
@@ -256,10 +256,10 @@ resources:
     _type: request_group
   - _id: req_ddcd171292754838b079bed5cc6dd30b
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679080829593
+    modified: 1679215381598
     created: 1679045111525
-    url: "{{ _.AstraAddress }}api/v2/packagepublish/{{ _.PackageId }}/{{
-      _.PackageVersion }}"
+    url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}"
     name: PackageDelete
     description: ""
     method: DELETE
@@ -282,10 +282,10 @@ resources:
     _type: request
   - _id: req_c83ed1bed7ca49c38c3472fea4ce80c0
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679080831454
+    modified: 1679215385132
     created: 1679045218993
-    url: "{{ _.AstraAddress }}api/v2/packagepublish/{{ _.PackageId }}/{{
-      _.PackageVersion }}"
+    url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
+      }}"
     name: PackageRelist
     description: ""
     method: POST
@@ -308,9 +308,9 @@ resources:
     _type: request
   - _id: req_ec8dad4113c54518908e452e934e2dfb
     parentId: fld_a5b3eab4a9b944df832b11302cd33d63
-    modified: 1679078322486
+    modified: 1679215442052
     created: 1679045238965
-    url: "{{ _.AstraAddress }}api/v3/search"
+    url: "{{ _.AstraAddress }}v3/search"
     name: Search
     description: ""
     method: GET
@@ -352,9 +352,9 @@ resources:
     _type: request_group
   - _id: req_ae50d2b7ef254059ba3edead73721e82
     parentId: fld_a5b3eab4a9b944df832b11302cd33d63
-    modified: 1679078333319
+    modified: 1679215445495
     created: 1679045386683
-    url: "{{ _.AstraAddress }}api/v3/autocomplete"
+    url: "{{ _.AstraAddress }}v3/autocomplete"
     name: AutoComplete
     description: ""
     method: GET
@@ -377,9 +377,9 @@ resources:
     _type: request
   - _id: req_ff99f6b338de4fd4ad6a1f616017a8c8
     parentId: fld_a5b3eab4a9b944df832b11302cd33d63
-    modified: 1679078339061
+    modified: 1679215449114
     created: 1679045416879
-    url: "{{ _.AstraAddress }}api/v3/dependents"
+    url: "{{ _.AstraAddress }}v3/dependents"
     name: Dependents
     description: ""
     method: GET
@@ -402,9 +402,9 @@ resources:
     _type: request
   - _id: req_6b14e6e5cf414450817b8dd00d1f26d1
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679080834930
+    modified: 1679215408701
     created: 1679045601143
-    url: "{{ _.AstraAddress }}api/v2/symbol/upload"
+    url: "{{ _.AstraAddress }}api/v2/symbol"
     name: SymbolPublish
     description: ""
     method: PUT
@@ -442,9 +442,9 @@ resources:
     _type: request_group
   - _id: req_ff27caceba5c4ef3a328c4ef17fb2808
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679078392658
+    modified: 1679215421208
     created: 1679068676910
-    url: "{{ _.AstraAddress }}api/v2/symbol/download/{{ _.PackageFile }}/{{
+    url: "{{ _.AstraAddress }}api/download/symbols/{{ _.PackageFile }}/{{
       _.NuGetApiKey }}/{{ _.PackageFile }}"
     name: SymbolDownload
     description: ""
@@ -2402,7 +2402,7 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1678784346270
+    modified: 1679208457102
     created: 1670678556534
     name: Default Jar
     cookies:
@@ -2418,10 +2418,10 @@ resources:
         hostOnly: true
         creation: 2023-03-06T02:51:11.872Z
         lastAccessed: 2023-03-14T08:59:06.270Z
-        id: "9341125206078205"
+        id: "45461936445126727"
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-HySJ2WFVXpEuWevhITi9XR2vb_Inpx5OANxaFSIrwXeHh-hlcyHR6HX2XY6CD1NumATtPJY3Dlzv-96lvN18m25XMzXWU9FuL8mKjcwWP_bleckqHYzyCNtfMToGSIDmt2Zvy_IVL57A3gpyI9ACDVFO-XoUrqIbRbZJEv2_CrmDRTyzXldobsFUtlZRNwRYSy49DmVVPfNwUOBG9pXMZAgc_x21pNu4OCjGRwKpoV3Ddsu62VU43As8ms6RFk-vW_0OZYAOenBIf5-Ic5BCmzasN82jUFyD16bwl0_k6s0OnG-c1Ut0HjZd1yQE2BxDa_lbUA8WIBvDr2bhOQq2AFEONPsSZxfVKq6CpIqXQ0rnXkpiJQIqPct5bGDaFkhvFyiPVg4ylHyfo89VjsSNfiB2WI_shenlx0M1RLCPdN1R4MPzdeiSLM8Q41Pa1uEvN0IICvVRBWcn_Iz6HcSekZAjmsoBWqj8Xn-uFAgsdGVY2laiF2XG9JRLyGAt0nq1jd4xALxXdHZcTtd_7N9d8MrmNnNPzIS0NpHiCkoMfo3akoV4jc1t_BL15J-qsEHzpMfXKDZqpvqa0IBYtyzxVWCIRZRsgrgzTpuktWj84Vv4fSnW-XYF2kAU80sxoeGV-U4VC-jkvUDkwbX3NXf_8ozgQyt7k3w721HGvDAeRdj2a0iVjq70-uLD_LnWZvCDzoSEnQGtgs4060DQ70o2IGSdjH3A0i87VVUSUqZ8ZQbDiXNeS1DHWDypasC_EdbpYEQXbLfEDQyrHW9yaFwFYPXnQWmwRTk3deEqyXUnQAkXQV504vJODVRsU_sklBDzUFAY0SjKsKr1gQJ_lkbyEhUh_d_wicaWPgD-JXfra3XoNj0R4LIDF2koWMJKS83d34LTwgMOqDARYjQ_kdtq900BVquZiSOBBzfL3tsPYgdC-8ayWzSkXwtXkj_IfeCaFtj0uKOgOuyYzs1yZCroBS8q4Xkqfuv0eF2LdyGboAAfZhtHpgRxvGUraUswIdhp5JvXQSjPPu460S6pK4NnhJo9V3x2desdQLvXJCHUGMzQ
-        expires: 2023-03-22T09:54:30.000Z
+        value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-HxtObECTUK45FFKXzI-NWLns8fkP_KDb3tps8hb5-siVwHU91MXl0fF0yc8kq4cMB_ItCDevT1mdZmKfGsb9WxYdIz4-p9b-neh6zcd5mg3__jjAoH20psIsfWw3gqJx446wS7r0dhHbwBk5IdeSsk4aO_P2XGbOHcDnpHRi64zQUZnGrmb_4Z2YYHs3UfRr1B0v6Z2V-HZCbq3EzIutJNlq98SbK-ehYK4rVNuNDdJD26tBq3nrAXoFUsJw6C-bpiFnK0mZsVuggxsQPqYRlv9n4yRES4RzFfQNBfqkSYw-Ua6gKFpFnj4jLL-ZMz0Ut1feU-gVT3fiacA8QCFf0HbOGJ7cHGrUSFpTwRbd5yzsuuMrtNrIf_ysADyIm93Zi3hN7HvcKk-YrHVYzHcUH87zqspu0-gug1KNV-55M8Em4-RFNEY67rZq7c_hRtLjS2xBF1nanyycEP0kpRbwj7FyFtfR0JSpdDQ_mloqp-9MvEP_WYAd54sYyfbACn1Uzfe0ztxUF9Y8GAQO6SCk50zQkMCigVNZMj1cdTeQWz4Q0k3LY2oCQ7GUZs0H9YCi2LZNUFVU_7jOl0epFSL0PxtQ45T1AkqkGps_k8j-D2GvjrwZDA9bhC8aHHm-JlOGdSu6kb0A8-Co8ifdqceHOC6xav0vp1tZw04dKBaWBlqmpF-FuwcTFnPVs5Bo_CjK0a3DtB-Y7JHcrGTyz1EKG4lbEeEs8UDlDLUueHcM7r0NoojxEVyQ5PfkU0uNZ69Fmv3VCQl_VqIAr6M_8cGAGiXKEqwf7YkAOTEObh3y1QlHD_DSPkvUPKjTKYY3ghtCy7UJY3laiaZJjPB_1yOPEkWsQ_wlj3A7TlJcIi0wb35TsDaMbr0ZVNL6BoemLzI0DPEIEOn2uT2VBLoDnju0eo3Iy-5fn3jz5AKuhR5yzVEqrvWZZIaQelaFcsc9Df5tEOWRbP079Ys3E4MDRwRI6_7Z9aHeKxnI46OObCIgQt_iKrJkmKWqav6exjLYS3vPjdsqQm8Mrrvsb5tZ3NnPlay_lN33Kz3mKu8DNo0EFX4g
+        expires: 2023-04-02T06:47:37.000Z
         domain: 10.1.100.73
         path: /
         secure: true
@@ -2430,8 +2430,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-03-08T09:54:30.887Z
-        lastAccessed: 2023-03-08T09:54:30.887Z
-        id: "6354549167227186"
+        lastAccessed: 2023-03-19T06:47:37.102Z
+        id: "2148480796995722"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
