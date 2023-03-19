@@ -7,7 +7,7 @@ using NuGet.Versioning;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/v3/[controller]")]
+[Route("v3/registration/")]
 public class PackageMetadataController : ControllerBase
 {
     private readonly IPackageMetadataService _metadata;

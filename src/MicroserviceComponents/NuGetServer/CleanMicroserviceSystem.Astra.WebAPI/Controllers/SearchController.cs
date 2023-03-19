@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/v3/[action]")]
+[Route("v3/")]
 public class SearchController : ControllerBase
 {
     private readonly ISearchService _searchService;
@@ -17,7 +17,7 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-    [Route("", Name = NuGetRouteContract.SearchRouteName)]
+    [Route("search", Name = NuGetRouteContract.SearchRouteName)]
     public async Task<ActionResult<SearchResponse>> SearchAsync(
         [FromQuery(Name = "q")] string query = null,
         [FromQuery] int skip = 0,
@@ -44,7 +44,8 @@ public class SearchController : ControllerBase
         return await this._searchService.SearchAsync(request, cancellationToken);
     }
 
-    [HttpGet(Name = NuGetRouteContract.AutocompleteRouteName)]
+    [HttpGet]
+    [Route("autocomplete", Name = NuGetRouteContract.AutocompleteRouteName)]
     public async Task<ActionResult<AutocompleteResponse>> AutocompleteAsync(
         [FromQuery(Name = "q")] string autocompleteQuery = null,
         [FromQuery(Name = "id")] string versionsQuery = null,
@@ -85,7 +86,8 @@ public class SearchController : ControllerBase
         }
     }
 
-    [HttpGet(Name = NuGetRouteContract.DependentsRouteName)]
+    [HttpGet]
+    [Route("dependents", Name = NuGetRouteContract.DependentsRouteName)]
     public async Task<ActionResult<DependentsResponse>> DependentsAsync(
         [FromQuery] string packageId = null,
         CancellationToken cancellationToken = default)

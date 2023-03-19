@@ -9,7 +9,7 @@ using NuGet.Versioning;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/v3/[controller]")]
+[Route("v3/package/")]
 public class PackageContentController : ControllerBase
 {
     private readonly IPackageContentService _content;

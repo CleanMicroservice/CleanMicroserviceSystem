@@ -12,7 +12,7 @@ using NuGet.Versioning;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/v2/[controller]")]
+[Route("api/v2/")]
 public class PackagePublishController : ControllerBase
 {
     private readonly IAuthenticationService _authentication;
@@ -38,8 +38,9 @@ public class PackagePublishController : ControllerBase
         this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    [HttpPut(Name = NuGetRouteContract.UploadPackageRouteName)]
+    [HttpPut]
     [WebAPILogActionFilter(false, true)]
+    [Route("package", Name = NuGetRouteContract.UploadPackageRouteName)]
     public async Task Upload(CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode ||
@@ -84,7 +85,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{id}/{version}", Name = NuGetRouteContract.DeleteRouteName)]
+    [Route("package/{id}/{version}", Name = NuGetRouteContract.DeleteRouteName)]
     public async Task<IActionResult> Delete(string id, string version, CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode)
@@ -100,7 +101,7 @@ public class PackagePublishController : ControllerBase
     }
 
     [HttpPost]
-    [Route("{id}/{version}", Name = NuGetRouteContract.RelistRouteName)]
+    [Route("package/{id}/{version}", Name = NuGetRouteContract.RelistRouteName)]
     public async Task<IActionResult> Relist(string id, string version, CancellationToken cancellationToken)
     {
         if (this._options.Value.IsReadOnlyMode)

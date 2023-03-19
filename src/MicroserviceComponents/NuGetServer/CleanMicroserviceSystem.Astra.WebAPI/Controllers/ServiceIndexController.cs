@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 
 [ApiController]
-[Route("api/v3")]
+[Route("v3/")]
 public class ServiceIndexController : ControllerBase
 {
     private readonly IServiceIndexService _serviceIndex;
