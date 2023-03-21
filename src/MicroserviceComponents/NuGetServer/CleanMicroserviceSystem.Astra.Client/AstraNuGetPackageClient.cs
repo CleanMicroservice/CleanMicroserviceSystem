@@ -37,7 +37,7 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         if (prerelease.HasValue) queryString += QueryString.Create(nameof(prerelease), prerelease.ToString());
         if (semVerLevel.HasValue) queryString += QueryString.Create(nameof(semVerLevel), NuGetServerContract.SemVerLevel);
 
-        var uri = this.BuildUri($"/api/v3/search{queryString.ToUriComponent()}");
+        var uri = this.BuildUri($"/v3/search{queryString.ToUriComponent()}");
         var searchResponse = await this.httpClient.GetFromJsonAsync<SearchResponse>(uri);
         return searchResponse;
     }
@@ -47,19 +47,19 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         Stream stream,
         CancellationToken cancellationToken = default)
     {
-        var uri = this.BuildUri($"/api/v2/packagepublish");
+        var uri = this.BuildUri($"/api/v2/package");
         var content = new StreamContent(stream);
         var responseMessage = await this.httpClient.PutAsync(uri, content);
         return responseMessage;
     }
 
-    public async Task<HttpResponseMessage> PublishAsync(
+    public async Task<HttpResponseMessage> DeleteAsync(
         string apiKey,
         string packageId,
         string packageVersion,
         CancellationToken cancellationToken = default)
     {
-        var uri = this.BuildUri($"/api/v2/packagepublish");
+        var uri = this.BuildUri($"/api/v2/package");
         var responseMessage = await this.httpClient.DeleteAsync(uri);
         return responseMessage;
     }
@@ -70,7 +70,7 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         string packageVersion,
         CancellationToken cancellationToken = default)
     {
-        var uri = this.BuildUri($"/api/v2/packagepublish");
+        var uri = this.BuildUri($"/api/v2/package");
         var responseMessage = await this.httpClient.PostAsync(uri, null);
         return responseMessage;
     }
