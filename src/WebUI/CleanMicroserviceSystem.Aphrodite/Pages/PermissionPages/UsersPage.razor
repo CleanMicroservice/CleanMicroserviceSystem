@@ -126,7 +126,6 @@
                 };
             this.PaginatedUsers = (await this.themisUserClient.SearchUsersAsync(userSearch)) ??
                 PaginatedEnumerable<UserInformationResponse>.Empty;
-                throw new ArgumentException();
         }
         catch (Exception ex)
         {
