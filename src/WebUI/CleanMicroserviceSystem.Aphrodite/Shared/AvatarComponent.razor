@@ -65,12 +65,12 @@
                             </MListItemIcon>
                             <MListItemTitle>Logout</MListItemTitle>
                         </MListItem>
-                    </MList>
-                </MCard>
-            </ChildContent>
-        </MMenu>
-    </Authorized>
-</AuthorizeView>
+                        </MList>
+                        </MCard>
+                    </ChildContent>
+                    </MMenu>
+                </Authorized>
+                </AuthorizeView>
 
                 @code {
     private void OnLogin()
@@ -90,7 +90,14 @@
 
     private async Task OnLogout()
     {
-        await themisUserTokenClient.LogoutUserAsync();
+        try
+        {
+            await themisUserTokenClient.LogoutUserAsync();
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, $"Exception when logout.");
+        }
         await this.tokenStore.UpdateTokenAsync(string.Empty);
         this.navigationManager.NavigateTo(RouterContract.DefaultUri);
     }
