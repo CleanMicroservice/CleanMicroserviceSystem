@@ -2,6 +2,7 @@
 @attribute [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
 @inherits AphroditePageBase
 @inject ILogger<UsersPage> logger
+@inject IPopupService popupService
 @inject ThemisUserClient themisUserClient
 
 <PageTitle>Users</PageTitle>
@@ -125,9 +126,11 @@
                 };
             this.PaginatedUsers = (await this.themisUserClient.SearchUsersAsync(userSearch)) ??
                 PaginatedEnumerable<UserInformationResponse>.Empty;
+                throw new ArgumentException();
         }
         catch (Exception ex)
         {
+            await this.popupService.EnqueueSnackbarAsync(ex);
         }
         finally
         {

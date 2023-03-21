@@ -10,7 +10,14 @@
         <MSpacer></MSpacer>
         <MCol Cols="@("auto")">
             <MImage Src="/img/status/401.png" Width="350" Height="200"></MImage>
-            <MButton Outlined Block Color="primary" OnClick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)">Home</MButton>
+            <AuthorizeView>
+                <NotAuthorized>
+                    <MButton Outlined Block Color="primary" OnClick="()=>navigationManager.NavigateTo(RouterContract.LoginUri)">Login</MButton>
+                </NotAuthorized>
+                <Authorized>
+                    <MButton Outlined Block Color="primary" OnClick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)">Home</MButton>
+                </Authorized>
+            </AuthorizeView>
         </MCol>
         <MSpacer></MSpacer>
     </MRow>
