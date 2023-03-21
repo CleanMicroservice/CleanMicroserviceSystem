@@ -1,8 +1,9 @@
 ﻿@page "/nugetserver/packages"
 @using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
-@attribute [Authorize(Policy = IdentityContract.AstraAPIReadPolicyName)]
+@* @attribute [Authorize(Policy = IdentityContract.AstraAPIReadPolicyName)] *@
 @inherits AphroditePageBase
 @inject ILogger<PackagesPage> logger
+@inject IPopupService popupService
 @inject AstraNuGetPackageClient astraNuGetPackageClient
 
 <PageTitle>Packages</PageTitle>
@@ -21,7 +22,7 @@
                 </MCol>
                 </MRow>
                 <MRow Class="mt-3">
-                <MCol Sm=12 Md=3>
+                <MCol Cols="12">
                 <MTextField Label="Keyword" @bind-Value="@this.Keyword"
                             Color="primary" HideDetails="@("auto")"
                             Clearable Filled Rounded Dense>
@@ -31,33 +32,37 @@
     </MCardText>
 </MCard>
 
-<MCard Elevation=0 Rounded="@("xl")" Class="mt-6">
-    @if (this.SearchResponse is null)
-    {
-        <p>Has no any package.</p>
-    }
-    else
-    {
-        <p>Total @this.SearchResponse.TotalHits pacakges.</p>
-        <p>Context @this.SearchResponse.Context.ToParameters()</p>
-        @foreach (var package in this.SearchResponse.Data)
+<MCard Elevation=0 Rounded="@("xl")" Class="mt-6 pa-5   ">
+    <MCardText>
+        @if (this.SearchResponse is null)
         {
-            <p>@package.PackageId</p>
-            <p>@package.Title</p>
-            <p>@package.Version</p>
-            <p>@string.Join(", ", package.Authors)</p>
-            <p>@string.Join(", ", package.Versions)</p>
-            <p>@string.Join(", ", package.PackageTypes)</p>
-            <p>@string.Join(", ", package.Tags)</p>
-            <p>@package.Summary</p>
-            <p>@package.Description</p>
-            <p>@package.ProjectUrl</p>
-            <p>@package.IconUrl</p>
-            <p>@package.LicenseUrl</p>
-            <p>@package.RegistrationIndexUrl</p>
-            <p>@package.TotalDownloads</p>
+            <MAlert Rounded=false Shaped Color="primary" Border="Borders.Left" Type="AlertTypes.Info">
+            Has no any package.
+            </MAlert>
         }
-    }
+        else
+        {
+            <p>Total @this.SearchResponse.TotalHits pacakges.</p>
+            <p>Context @this.SearchResponse.Context.ToParameters()</p>
+            @foreach (var package in this.SearchResponse.Data)
+            {
+                <p>@package.PackageId</p>
+                <p>@package.Title</p>
+                <p>@package.Version</p>
+                <p>@string.Join(", ", package.Authors)</p>
+                <p>@string.Join(", ", package.Versions)</p>
+                <p>@string.Join(", ", package.PackageTypes)</p>
+                <p>@string.Join(", ", package.Tags)</p>
+                <p>@package.Summary</p>
+                <p>@package.Description</p>
+                <p>@package.ProjectUrl</p>
+                <p>@package.IconUrl</p>
+                <p>@package.LicenseUrl</p>
+                <p>@package.RegistrationIndexUrl</p>
+                <p>@package.TotalDownloads</p>
+            }
+        }
+    </MCardText>
 </MCard>
 
 @code {
@@ -82,6 +87,7 @@
         }
         catch (Exception ex)
         {
+            await this.popupService.EnqueueSnackbarAsync(ex);
         }
         finally
         {

@@ -1,17 +1,20 @@
 ﻿@inherits NavigatorBase
 
+<!--
 <AuthorizeView Policy="@IdentityContract.AstraAPIReadPolicyName">
     <Authorized>
-        <!-- Packages -->
-        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.PackagesUri)">
-            <MListItemIcon>
-                <MIcon>mdi-package-variant-closed</MIcon>
-            </MListItemIcon>
-            <MListItemTitle>Packages</MListItemTitle>
-        </MListItem>
+-->
+<!-- Packages -->
+<MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.PackagesUri)">
+    <MListItemIcon>
+        <MIcon>mdi-package-variant-closed</MIcon>
+    </MListItemIcon>
+    <MListItemTitle>Packages</MListItemTitle>
+</MListItem>
+<!--
     </Authorized>
 </AuthorizeView>
-
+-->
 @code {
 
 }
