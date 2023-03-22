@@ -64,6 +64,8 @@
     <MDataTable Headers="@this.userHeader" Search="@this.LocalSearch"
                 Items="@this.PaginatedUsers.Values"
                 TItem="UserInformationResponse"
+                Loading=@this.LoadingUsers
+                LoadingText="Loading ..."
                 MultiSort FixedHeader>
         <ItemColContent>
             @switch (context.Header.Value)
