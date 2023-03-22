@@ -5,11 +5,11 @@ public class PaginatedEnumerable<TItem>
     public static PaginatedEnumerable<TItem> Empty => new(Enumerable.Empty<TItem>(), 0, 0, 0);
 
     public IEnumerable<TItem> Values { get; set; }
-    public int? StartItemIndex { get; set; }
-    public int? PageSize { get; set; }
-    public int OriginItemCount { get; set; }
-    public int CurrentPageIndex { get; set; }
-    public int TotalPageCount { get; set; }
+    public int? StartItemIndex { get; protected set; }
+    public int? PageSize { get; protected set; }
+    public int OriginItemCount { get; protected set; }
+    public int CurrentPageIndex { get; protected set; }
+    public int TotalPageCount { get; protected set; }
 
     public PaginatedEnumerable(
         IEnumerable<TItem> values,
