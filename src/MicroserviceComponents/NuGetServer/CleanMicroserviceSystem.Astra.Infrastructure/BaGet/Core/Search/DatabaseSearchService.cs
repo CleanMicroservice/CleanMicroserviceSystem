@@ -37,10 +37,13 @@ public class DatabaseSearchService : ISearchService
 
         var packageIds = search
             .Select(p => p.Id)
-            .Distinct()
-            .OrderBy(id => id)
-            .Skip(request.Skip)
-            .Take(request.Take);
+            .Distinct();
+        packageIds = packageIds.OrderBy(id => id);
+
+        if (request.Skip.HasValue)
+            packageIds = packageIds.Skip(request.Skip.Value);
+        if (request.Take.HasValue)
+            packageIds = packageIds.Take(request.Take.Value);
 
         if (this._context.SupportsLimitInSubqueries)
         {
@@ -137,7 +140,7 @@ public class DatabaseSearchService : ISearchService
         return this._searchBuilder.BuildDependents(dependents);
     }
 
-    private IQueryable<Package> ApplySearchQuery(IQueryable<Package> query, string search)
+    private IQueryable<Package> ApplySearchQuery(IQueryable<Package> query, string? search)
     {
         if (string.IsNullOrEmpty(search))
             return query;
@@ -151,8 +154,8 @@ public class DatabaseSearchService : ISearchService
         IQueryable<Package> query,
         bool includePrerelease,
         bool includeSemVer2,
-        string packageType,
-        IReadOnlyList<string> frameworks)
+        string? packageType,
+        IReadOnlyList<string>? frameworks)
     {
         if (!includePrerelease)
             query = query.Where(p => !p.IsPrerelease);
@@ -169,8 +172,8 @@ public class DatabaseSearchService : ISearchService
         return query.Where(p => p.Listed);
     }
 
-    private IReadOnlyList<string> GetCompatibleFrameworksOrNull(string framework)
+    private IReadOnlyList<string>? GetCompatibleFrameworksOrNull(string? framework)
     {
-        return framework == null ? null : this._frameworks.FindAllCompatibleFrameworks(framework);
+        return framework is null ? null : this._frameworks.FindAllCompatibleFrameworks(framework!);
     }
 }
