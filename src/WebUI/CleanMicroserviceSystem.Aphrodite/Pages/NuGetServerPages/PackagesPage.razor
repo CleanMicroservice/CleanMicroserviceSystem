@@ -49,10 +49,10 @@
                 <p>@package.PackageId</p>
                 <p>@package.Title</p>
                 <p>@package.Version</p>
-                <p>@string.Join(", ", package.Authors)</p>
-                <p>@string.Join(", ", package.Versions)</p>
-                <p>@string.Join(", ", package.PackageTypes)</p>
-                <p>@string.Join(", ", package.Tags)</p>
+                <p>@string.Join(", ", package.Authors??Enumerable.Empty<string>())</p>
+                <p>@string.Join(", ", package.Versions?.Select(x=>x.Version)??Enumerable.Empty<string>())</p>
+                <p>@string.Join(", ", package.PackageTypes?.Select(x=>x.Name)??Enumerable.Empty<string>())</p>
+                <p>@string.Join(", ", package.Tags??Enumerable.Empty<string>())</p>
                 <p>@package.Summary</p>
                 <p>@package.Description</p>
                 <p>@package.ProjectUrl</p>
