@@ -19,15 +19,15 @@ public class SearchController : ControllerBase
     [HttpGet]
     [Route("search", Name = NuGetRouteContract.SearchRouteName)]
     public async Task<ActionResult<SearchResponse>> SearchAsync(
-        [FromQuery(Name = "q")] string query = null,
-        [FromQuery] int skip = 0,
-        [FromQuery] int take = 20,
+        [FromQuery(Name = "q")] string? query = null,
+        [FromQuery] int? skip = null,
+        [FromQuery] int? take = null,
         [FromQuery] bool prerelease = false,
-        [FromQuery] string semVerLevel = null,
+        [FromQuery] string? semVerLevel = null,
 
         // These are unofficial parameters
-        [FromQuery] string packageType = null,
-        [FromQuery] string framework = null,
+        [FromQuery] string? packageType = null,
+        [FromQuery] string? framework = null,
         CancellationToken cancellationToken = default)
     {
         var request = new SearchRequest
