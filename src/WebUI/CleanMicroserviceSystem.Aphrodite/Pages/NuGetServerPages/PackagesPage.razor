@@ -10,40 +10,28 @@
 
 <MCard Elevation=0 Rounded="@("xl")">
     <MCardText Class="pa-6">
-        <MRow>
-            <MCol>
-                <h6>Filters</h6>
-            </MCol>
-            <MSpacer></MSpacer>
-            <MCol Cols="@("auto")">
-                <MButton Rounded Color="primary" OnClick=this.LoadPackages Disabled=@this.LoadingPackages Loading=@this.LoadingPackages>
-                    Search
-                </MButton>
-                </MCol>
+        <PPageHeader Title="Packages" Subtitle=@($"{this.SearchResponse.TotalHits} packages in total.") OnSearch=this.LoadPackages ShowFiltersByDefault>
+            <LeftActions>
+                <MButton Rounded Color="primary"><MIcon Left>mdi-plus</MIcon>Create</MButton>
+            </LeftActions>
+            <Filters>
+                <MRow>
+                    <MCol Cols="12">
+                        <MTextField Label="Keyword" @bind-Value="@this.Keyword"
+                                    Color="primary" HideDetails="@("auto")"
+                                    Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
                 </MRow>
-                <MRow Class="mt-3">
-                <MCol Cols="12">
-                <MTextField Label="Keyword" @bind-Value="@this.Keyword"
-                            Color="primary" HideDetails="@("auto")"
-                            Clearable Filled Rounded Dense>
-                </MTextField>
-            </MCol>
-        </MRow>
+            </Filters>
+        </PPageHeader>
     </MCardText>
 </MCard>
 
-<MCard Elevation=0 Rounded="@("xl")" Class="mt-6 pa-5   ">
+<MCard Elevation=0 Rounded="@("xl")" Class="mt-6" Loading=@this.LoadingPackages>
     <MCardText>
-        @if (this.SearchResponse is null)
+        @if (this.SearchResponse.Data?.Any() ?? false)
         {
-            <MAlert Rounded=false Shaped Color="primary" Border="Borders.Left" Type="AlertTypes.Info">
-            Has no any package.
-            </MAlert>
-        }
-        else
-        {
-            <p>Total @this.SearchResponse.TotalHits pacakges.</p>
-            <p>Context @this.SearchResponse.Context.ToParameters()</p>
             @foreach (var package in this.SearchResponse.Data)
             {
                 <p>@package.PackageId</p>
@@ -60,17 +48,18 @@
                 <p>@package.LicenseUrl</p>
                 <p>@package.RegistrationIndexUrl</p>
                 <p>@package.TotalDownloads</p>
+                <hr />
             }
         }
     </MCardText>
 </MCard>
 
 @code {
-    protected bool LoadingPackages { get; set; }
+    protected StringBoolean LoadingPackages { get; set; }
     protected IList<RoleInformationResponse>? Roles { get; set; }
     protected string? Keyword { get; set; }
-    protected string? LocalSearch { get; set; }
-    protected SearchResponse? SearchResponse { get; set; }
+    protected string? LocalSearchKeyword { get; set; }
+    protected SearchResponse SearchResponse { get; set; } = SearchResponse.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,9 +69,9 @@
 
     protected async Task LoadPackages()
     {
-        this.LoadingPackages = true;
         try
         {
+            this.LoadingPackages = true;
             this.SearchResponse = await this.astraNuGetPackageClient.SearchAsync(this.Keyword);
         }
         catch (Exception ex)

@@ -9,43 +9,39 @@
 
 <MCard Elevation=0 Rounded="@("xl")">
     <MCardText Class="pa-6">
-        <MRow>
-            <MCol>
-                <h6>Filters</h6>
-            </MCol>
-            <MSpacer></MSpacer>
-            <MCol Cols="@("auto")">
-                <MButton Rounded Color="primary" OnClick=this.LoadUsers Disabled=@this.LoadingUsers Loading=@this.LoadingUsers>
-                    Search
-                </MButton>
-                </MCol>
+        <PPageHeader Title="Users" Subtitle=@($"{this.PaginatedUsers.OriginItemCount} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
+            <LeftActions>
+                <MButton Rounded Color="primary"><MIcon Left>mdi-plus</MIcon>Create</MButton>
+            </LeftActions>
+            <Filters>
+                <MRow>
+                    <MCol Sm=12 Md=3>
+                        <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
+                                    Color="primary" HideDetails="@("auto")" BackgroundColor="grey lighten-4"
+                                        Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
+                    <MCol Sm=12 Md=3>
+                        <MTextField Label="Name" @bind-Value="@this.UserName"
+                                    Color="primary" HideDetails="@("auto")"
+                                        Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
+                    <MCol Sm=12 Md=3>
+                        <MTextField Label="Email" @bind-Value="@this.Email"
+                                    Color="primary" HideDetails="@("auto")"
+                                        Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
+                    <MCol Sm=12 Md=3>
+                        <MTextField Label="Phone" @bind-Value="@this.PhoneNumber"
+                                    Color="primary" HideDetails="@("auto")"
+                                        Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
                 </MRow>
-                <MRow Class="mt-3">
-                <MCol Sm=12 Md=3>
-                <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
-                            Color="primary" HideDetails="@("auto")" BackgroundColor="grey lighten-4"
-                            Clearable Filled Rounded Dense>
-                </MTextField>
-            </MCol>
-            <MCol Sm=12 Md=3>
-                <MTextField Label="Name" @bind-Value="@this.UserName"
-                            Color="primary" HideDetails="@("auto")"
-                            Clearable Filled Rounded Dense>
-                </MTextField>
-            </MCol>
-            <MCol Sm=12 Md=3>
-                <MTextField Label="Email" @bind-Value="@this.Email"
-                            Color="primary" HideDetails="@("auto")"
-                            Clearable Filled Rounded Dense>
-                </MTextField>
-            </MCol>
-            <MCol Sm=12 Md=3>
-                <MTextField Label="Phone" @bind-Value="@this.PhoneNumber"
-                            Color="primary" HideDetails="@("auto")"
-                            Clearable Filled Rounded Dense>
-                </MTextField>
-            </MCol>
-        </MRow>
+            </Filters>
+        </PPageHeader>
     </MCardText>
 </MCard>
 
@@ -54,14 +50,14 @@
         <MSpacer></MSpacer>
         <MCol Cols="@("auto")">
             <MTextField Class="mx-3" Style="width:280px;" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
-                        @bind-Value="@this.LocalSearch" Placeholder="Search" Clearable Flat Dense Solo>
+                        @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Flat Dense Solo>
                 <PrependInnerContent>
                     <MIcon Size=16 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
                 </PrependInnerContent>
             </MTextField>
         </MCol>
     </MRow>
-    <MDataTable Headers="@this.userHeader" Search="@this.LocalSearch"
+    <MDataTable Headers="@this.userHeader" Search="@this.LocalSearchKeyword"
                 Items="@this.PaginatedUsers.Values"
                 TItem="UserInformationResponse"
                 Loading=@this.LoadingUsers
@@ -97,7 +93,7 @@
     protected string? UserName { get; set; }
     protected string? Email { get; set; }
     protected string? PhoneNumber { get; set; }
-    protected string? LocalSearch { get; set; }
+    protected string? LocalSearchKeyword { get; set; }
     protected PaginatedEnumerable<UserInformationResponse> PaginatedUsers { get; set; } = PaginatedEnumerable<UserInformationResponse>.Empty;
     protected readonly List<DataTableHeader<UserInformationResponse>> userHeader = new()
     {
@@ -116,9 +112,9 @@
 
     protected async Task LoadUsers()
     {
-        this.LoadingUsers = true;
         try
         {
+            this.LoadingUsers = true;
             var userSearch = new UserSearchRequest()
                 {
                     Id = this.Id,

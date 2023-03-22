@@ -4,6 +4,8 @@ namespace CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 
 public class SearchResponse
 {
+    public static SearchResponse Empty = new SearchResponse();
+
     [JsonPropertyName("@context")]
     public SearchContext Context { get; set; }
 
