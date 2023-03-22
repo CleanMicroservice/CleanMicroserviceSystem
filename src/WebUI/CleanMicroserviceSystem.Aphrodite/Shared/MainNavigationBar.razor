@@ -39,11 +39,11 @@
             <PermissionNavigator />
             <!-- NuGetServer -->
             <NuGetServerNavigator />
-        </MListItemGroup>
-        </MList>
-        </MNavigationDrawer>
+            </MListItemGroup>
+            </MList>
+            </MNavigationDrawer>
 
-        <MButton Small Fab Color="primary" Elevation="0" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position:fixed;left:{expandButtonLeft}px;")">
+            <MButton Small Fab Color="primary" Elevation="0" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position:fixed;left:{expandButtonLeft}px;")">
     <MIcon Class="white--text">
         @(navigationVisible is false || navigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
     </MIcon>
@@ -66,8 +66,13 @@
     private void SwitchNavigation()
     {
         if (navigationVisible)
-            navigationExpandOnHover = !navigationExpandOnHover;
+        {
+            navigationMini = !navigationMini;
+            navigationExpandOnHover = navigationMini;
+        }
         else
+        {
             navigationVisible = true;
+        }
     }
 }
