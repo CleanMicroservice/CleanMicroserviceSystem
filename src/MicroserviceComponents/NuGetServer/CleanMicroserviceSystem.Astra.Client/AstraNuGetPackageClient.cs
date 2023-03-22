@@ -24,8 +24,8 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
 
     public async Task<SearchResponse> SearchAsync(
         string q = null,
-        int? skip = 0,
-        int? take = 20,
+        int? skip = null,
+        int? take = null,
         bool? prerelease = true,
         bool? semVerLevel = true,
         CancellationToken cancellationToken = default)
