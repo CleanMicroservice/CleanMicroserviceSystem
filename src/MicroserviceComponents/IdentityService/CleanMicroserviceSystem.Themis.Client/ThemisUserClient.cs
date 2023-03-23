@@ -5,6 +5,7 @@ using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
 using CleanMicroserviceSystem.Themis.Contract.Users;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -38,8 +39,16 @@ public class ThemisUserClient : OceanusServiceClientBase
     {
         var uri = this.BuildUri("/api/User");
         var response = await this.httpClient.PostAsJsonAsync(uri, request);
-        var user = await response.Content.ReadFromJsonAsync<UserInformationResponse>();
-        return user;
+        if (response.IsSuccessStatusCode)
+        {
+            var user = await response.Content.ReadFromJsonAsync<UserInformationResponse>();
+            return user;
+        }
+        else
+        {
+            var result = await response.Content.ReadFromJsonAsync<IdentityResult>();
+            throw new InvalidOperationException(string.Join(";", result.Errors.Select(error => $"{error.Code} - {error.Description}")));
+        }
     }
 
     public async Task<UserInformationResponse?> GetUserAsync(int id)
