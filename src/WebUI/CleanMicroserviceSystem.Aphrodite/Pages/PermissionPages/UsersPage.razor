@@ -11,7 +11,14 @@
     <MCardText Class="pa-6">
         <PPageHeader Title="Users" Subtitle=@($"{this.Users.Count()} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
             <LeftActions>
-                <MButton Rounded Color="primary"><MIcon Left>mdi-plus</MIcon>Create</MButton>
+                <MButton Rounded Color="primary" OnClick="this.OnShowCreateUserModal"><MIcon Left>mdi-plus</MIcon>Create</MButton>
+                <PModal @bind-Value=@this.ShowCreateUserModal
+                        Title="Create User" Persistent MaxWidth="600"
+                        OnSave="this.OnCreateUserModal">
+                    <ChildContent>
+                        <CreateUserComponent UserRegisterRequest=@this.UserRegisterRequest />
+                    </ChildContent>
+                </PModal>
             </LeftActions>
             <Filters>
                 <MRow>
@@ -101,6 +108,7 @@
 
 @code {
     protected bool LoadingUsers { get; set; }
+    protected bool ShowCreateUserModal { get; set; }
     protected IList<RoleInformationResponse>? Roles { get; set; }
     protected int? Id { get; set; }
     protected string? Role { get; set; }
@@ -113,6 +121,7 @@
     protected int CurrentPageIndex { get; set; } = 1;
     protected int TotalPageCount => (int)Math.Ceiling(this.Users.Count() / (double)CurrentPageSize);
     protected List<UserInformationResponse> Users { get; set; } = new List<UserInformationResponse>();
+    protected UserRegisterRequest UserRegisterRequest { get; set; }
     protected readonly List<DataTableHeader<UserInformationResponse>> userHeader = new()
     {
         new() { Value = nameof(UserInformationResponse.Id), Text=nameof(UserInformationResponse.Id), Filterable = true, Sortable = true },
@@ -187,6 +196,53 @@
             else
             {
                 await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} delete failed.", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnShowCreateUserModal()
+    {
+        this.UserRegisterRequest = new();
+        this.ShowCreateUserModal = true;
+    }
+
+    protected async Task OnCreateUserModal()
+    {
+        if (string.IsNullOrWhiteSpace(this.UserRegisterRequest.UserName))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserRegisterRequest.Email))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Email is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserRegisterRequest.PhoneNumber))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Phone number is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+
+        this.UserRegisterRequest.Password = IdentityContract.DefaultUserPassword;
+        this.UserRegisterRequest.ConfirmPassword = IdentityContract.DefaultUserPassword;
+
+        try
+        {
+            var user = await this.themisUserClient.RegisterUserAsync(this.UserRegisterRequest);
+            if (user is null)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User create failed", AlertTypes.Warning);
+            }
+            else
+            {
+                this.Users.Add(user);
+                this.ShowCreateUserModal = false;
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} ({user.Id}) created.", AlertTypes.Success);
             }
         }
         catch (Exception ex)

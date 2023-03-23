@@ -64,7 +64,7 @@
     private string Password { get; set; }
     private bool ShowPassword { get; set; }
     private string? Message { get; set; }
-    private Func<string, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "It's empty.";
+    private Func<string, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "Filed shouldn't be empty.";
 
     private async Task Login()
     {

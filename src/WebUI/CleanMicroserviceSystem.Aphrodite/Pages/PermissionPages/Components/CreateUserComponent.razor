@@ -1,0 +1,25 @@
+﻿<MRow>
+    <MCol Cols="12">
+        <MTextField Label="Name" @bind-Value="@this.UserRegisterRequest.UserName"
+                    Color="primary" BackgroundColor="grey lighten-4"
+                    HideDetails="@("auto")" Clearable Outlined Dense>
+        </MTextField>
+    </MCol>
+    <MCol Cols="12">
+        <MTextField Label="Email" @bind-Value="@this.UserRegisterRequest.Email"
+                    Color="primary" BackgroundColor="grey lighten-4"
+                    HideDetails="@("auto")" Clearable Outlined Dense>
+        </MTextField>
+    </MCol>
+    <MCol Cols="12">
+        <MTextField Label="Phone" @bind-Value="@this.UserRegisterRequest.PhoneNumber"
+                    Color="primary" BackgroundColor="grey lighten-4"
+                    HideDetails="@("auto")" Clearable Outlined Dense>
+        </MTextField>
+    </MCol>
+</MRow>
+
+@code {
+    [Parameter]
+    public UserRegisterRequest UserRegisterRequest { get; set; }
+}

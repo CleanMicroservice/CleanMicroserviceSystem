@@ -14,6 +14,7 @@ public static class IdentityContract
 
     #region Users
 
+    public const string DefaultUserPassword = "Passw0rd";
     public const int SuperUserId = 1;
     public const string SuperUser = "Leon";
     public const int CommonUserId = 2;
