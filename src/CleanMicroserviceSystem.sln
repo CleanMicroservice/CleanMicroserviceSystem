@@ -103,8 +103,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{C340
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Gateway", "CommonLibrary\Gateway\CleanMicroserviceSystem.Gateway\CleanMicroserviceSystem.Gateway.csproj", "{F19A4BF5-BAF9-4F5C-AF04-4BF1E3ECDFB4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consul", "Consul", "{491F836A-9366-4AD9-AF47-A90E86B4BBCC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication.Domain", "CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj", "{DEED0639-182D-4D0C-824C-678B5D11D336}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Aphrodite.Application", "WebUI\CleanMicroserviceSystem.Aphrodite.Application\CleanMicroserviceSystem.Aphrodite.Application.csproj", "{6B663956-0DE0-46EC-A8E1-BC669BA416BC}"
@@ -116,8 +114,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Tethys.Contract", "ServiceTemplate\CleanMicroserviceSystem.Tethys.Contract\CleanMicroserviceSystem.Tethys.Contract.csproj", "{643EE18F-2327-4E24-86F4-4451418A90FF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.Contract", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Contract\CleanMicroserviceSystem.Themis.Contract.csproj", "{B1D91F92-F8C8-467C-8599-5ED6175727E2}"
-EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Consul-Installer", "MicroserviceComponents\Gateway\Consul\Consul-Installer\Consul-Installer.pyproj", "{0B289C6D-A077-4382-909A-E3074C9244C9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Authentication.Application", "CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Application\CleanMicroserviceSystem.Authentication.Application.csproj", "{B58C62D7-D7C9-4DB8-8BA4-A2A97BCE7585}"
 EndProject
@@ -416,10 +412,6 @@ Global
 		{B1D91F92-F8C8-467C-8599-5ED6175727E2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B1D91F92-F8C8-467C-8599-5ED6175727E2}.Release|x86.ActiveCfg = Release|Any CPU
 		{B1D91F92-F8C8-467C-8599-5ED6175727E2}.Release|x86.Build.0 = Release|Any CPU
-		{0B289C6D-A077-4382-909A-E3074C9244C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B289C6D-A077-4382-909A-E3074C9244C9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0B289C6D-A077-4382-909A-E3074C9244C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B289C6D-A077-4382-909A-E3074C9244C9}.Release|x86.ActiveCfg = Release|Any CPU
 		{B58C62D7-D7C9-4DB8-8BA4-A2A97BCE7585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B58C62D7-D7C9-4DB8-8BA4-A2A97BCE7585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B58C62D7-D7C9-4DB8-8BA4-A2A97BCE7585}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -531,14 +523,12 @@ Global
 		{CA7FCD89-4BE5-4A1B-B7DD-4A21FD126CD5} = {B89C6B87-07AD-4241-B424-231947297DFD}
 		{C340BD65-5EF9-49E3-8067-8840D24B5BDB} = {ADEF00F4-7359-4188-AC22-108E3C82205D}
 		{F19A4BF5-BAF9-4F5C-AF04-4BF1E3ECDFB4} = {C340BD65-5EF9-49E3-8067-8840D24B5BDB}
-		{491F836A-9366-4AD9-AF47-A90E86B4BBCC} = {B89C6B87-07AD-4241-B424-231947297DFD}
 		{DEED0639-182D-4D0C-824C-678B5D11D336} = {0943193A-7D5C-4464-9AA2-DBB4ADB9CB0E}
 		{6B663956-0DE0-46EC-A8E1-BC669BA416BC} = {DE964A1C-4E97-4249-8239-41FD53736B62}
 		{812FB5C9-0782-4D6B-9175-82F473571B64} = {DE964A1C-4E97-4249-8239-41FD53736B62}
 		{EB216915-821F-4651-804F-965C09DC5A94} = {057AEB14-2D18-4B84-A707-982A405600A3}
 		{643EE18F-2327-4E24-86F4-4451418A90FF} = {AB268A40-1B21-4364-94CF-F626BD664F99}
 		{B1D91F92-F8C8-467C-8599-5ED6175727E2} = {65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}
-		{0B289C6D-A077-4382-909A-E3074C9244C9} = {491F836A-9366-4AD9-AF47-A90E86B4BBCC}
 		{B58C62D7-D7C9-4DB8-8BA4-A2A97BCE7585} = {0943193A-7D5C-4464-9AA2-DBB4ADB9CB0E}
 		{2E5105A5-6740-4747-9095-651619A9BB73} = {C340BD65-5EF9-49E3-8067-8840D24B5BDB}
 		{B4D7E6EC-F0FD-4E83-AD2A-98B0CFC16F62} = {ADEF00F4-7359-4188-AC22-108E3C82205D}
