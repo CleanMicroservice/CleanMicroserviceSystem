@@ -9,7 +9,7 @@
 
 <MCard Elevation=0 Rounded="@("xl")">
     <MCardText Class="pa-6">
-        <PPageHeader Title="Users" Subtitle=@($"{this.PaginatedUsers.OriginItemCount} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
+        <PPageHeader Title="Users" Subtitle=@($"{this.Users.Count()} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
             <LeftActions>
                 <MButton Rounded Color="primary"><MIcon Left>mdi-plus</MIcon>Create</MButton>
             </LeftActions>
@@ -46,43 +46,57 @@
 </MCard>
 
 <MCard Elevation=0 Rounded="@("xl")" Class="mt-6">
-    <MRow>
-        <MSpacer></MSpacer>
-        <MCol Cols="@("auto")">
-            <MTextField Class="mx-3" Style="width:280px;" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
-                        @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Flat Dense Solo>
-                <PrependInnerContent>
-                    <MIcon Size=16 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
-                </PrependInnerContent>
-            </MTextField>
-        </MCol>
-    </MRow>
-    <MDataTable Headers="@this.userHeader" Search="@this.LocalSearchKeyword"
-                Items="@this.PaginatedUsers.Values"
-                TItem="UserInformationResponse"
-                Loading=@this.LoadingUsers
-                LoadingText="Loading ..."
-                MultiSort FixedHeader>
-        <ItemColContent>
-            @switch (context.Header.Value)
-            {
-                case nameof(UserInformationResponse.Enabled):
-                    <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false" OnClick="()=>this.ToggleUserEnabled(context.Item)">
-                        <span>@(context.Item.Enabled ? "Enabled" : "Disabled")</span>
-                    </MChip>
-                    break;
-                case "Actions":
-                    <MButtonGroup Dense Borderless Rounded>
-                    <MButton Depressed Small Color="primary">Edit</MButton>
-                        <MButton Depressed Small Color="red">Delete</MButton>
+    <MCardText>
+        <MRow>
+            <MSpacer></MSpacer>
+            <MCol Cols="@("auto")">
+                <MTextField Style="width:280px;" Color="primary" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
+                            @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Rounded Flat Dense Solo>
+                    <PrependInnerContent>
+                        <MIcon Size=16 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+            </MCol>
+        </MRow>
+        <MDataTable Headers="@this.userHeader" Search="@this.LocalSearchKeyword" Class="my-3"
+                    Items="@this.Users" Page=@this.CurrentPageIndex
+                    TItem="UserInformationResponse" ItemsPerPage=@this.CurrentPageSize
+                    Loading=@this.LoadingUsers LoadingText="Loading ..."
+                    MultiSort FixedHeader HideDefaultFooter>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case nameof(UserInformationResponse.Enabled):
+                        <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false" OnClick="()=>this.ToggleUserEnabled(context.Item)">
+                            <span>@(context.Item.Enabled.ToStatus())</span>
+                        </MChip>
+                        break;
+                    case "Actions":
+                        <MButtonGroup Dense Borderless Rounded>
+                        <MButton Depressed Small Color="primary">Edit</MButton>
+                            <MButton Depressed Small Color="red">Delete</MButton>
                         </MButtonGroup>
-                    break;
-                default:
-                    @context.Value
-                    break;
-            }
-        </ItemColContent>
-    </MDataTable>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
+        <MRow>
+            <MCol>
+                <MSelect @bind-Value=@this.CurrentPageSize Items=@this.ValidPageSizes
+                         ItemText=@(size => size.ToString()) ItemValue=@(size=>size)
+                         Color="primary" Style="max-width:120px;"
+                         Filled Rounded Dense HideDetails="@("auto")">
+                </MSelect>
+            </MCol>
+            <MSpacer></MSpacer>
+            <MCol>
+                <MPagination @bind-Value=@this.CurrentPageIndex Color="primary" Circle Length=@this.TotalPageCount></MPagination>
+            </MCol>
+        </MRow>
+    </MCardText>
 </MCard>
 
 @code {
@@ -94,7 +108,11 @@
     protected string? Email { get; set; }
     protected string? PhoneNumber { get; set; }
     protected string? LocalSearchKeyword { get; set; }
-    protected PaginatedEnumerable<UserInformationResponse> PaginatedUsers { get; set; } = PaginatedEnumerable<UserInformationResponse>.Empty;
+    protected List<int> ValidPageSizes = new List<int>() { 10, 20, 50, 100, 200 };
+    protected int CurrentPageSize { get; set; } = 20;
+    protected int CurrentPageIndex { get; set; } = 1;
+    protected int TotalPageCount => (int)Math.Ceiling(this.Users.Count() / (double)CurrentPageSize);
+    protected List<UserInformationResponse> Users { get; set; } = new List<UserInformationResponse>();
     protected readonly List<DataTableHeader<UserInformationResponse>> userHeader = new()
     {
         new() { Value = nameof(UserInformationResponse.Id), Text=nameof(UserInformationResponse.Id), Filterable = true, Sortable = true },
@@ -104,6 +122,7 @@
         new() { Value = nameof(UserInformationResponse.Enabled), Text=nameof(UserInformationResponse.Enabled), Filterable = true, Sortable = true },
         new() { Value = "Actions", Text="Actions", Filterable = false, Sortable = false},
     };
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -122,8 +141,10 @@
                     Email = this.Email,
                     PhoneNumber = this.PhoneNumber,
                 };
-            this.PaginatedUsers = (await this.themisUserClient.SearchUsersAsync(userSearch)) ??
-                PaginatedEnumerable<UserInformationResponse>.Empty;
+            var userResult = await this.themisUserClient.SearchUsersAsync(userSearch);
+            this.Users.Clear();
+            this.Users.AddRange(userResult?.Values ?? Enumerable.Empty<UserInformationResponse>());
+            await this.popupService.EnqueueSnackbarAsync($"Loaded {this.Users.Count()} users in total.", AlertTypes.Success);
         }
         catch (Exception ex)
         {
@@ -137,8 +158,16 @@
 
     protected async Task ToggleUserEnabled(UserInformationResponse user)
     {
-        var newStatus = !user.Enabled;
-        await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
-        user.Enabled = newStatus;
+        try
+        {
+            var newStatus = !user.Enabled;
+            await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
+            user.Enabled = newStatus;
+            await this.popupService.EnqueueSnackbarAsync($"Updated user [{user.UserName}] status to be {user.Enabled.ToStatus()}", AlertTypes.Success);
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
     }
 }
