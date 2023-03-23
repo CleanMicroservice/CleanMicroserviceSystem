@@ -67,14 +67,14 @@
                 @switch (context.Header.Value)
                 {
                     case nameof(UserInformationResponse.Enabled):
-                        <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false" OnClick="()=>this.ToggleUserEnabled(context.Item)">
+                        <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false" OnClick="()=>this.OnToggleUserEnable(context.Item)">
                             <span>@(context.Item.Enabled.ToStatus())</span>
                         </MChip>
                         break;
                     case "Actions":
                         <MButtonGroup Dense Borderless Rounded>
                         <MButton Depressed Small Color="primary">Edit</MButton>
-                            <MButton Depressed Small Color="red">Delete</MButton>
+                            <MButton Depressed Small Color="red" OnClick="()=>this.OnDeleteUser(context.Item)">Delete</MButton>
                         </MButtonGroup>
                         break;
                     default:
@@ -156,7 +156,7 @@
         }
     }
 
-    protected async Task ToggleUserEnabled(UserInformationResponse user)
+    protected async Task OnToggleUserEnable(UserInformationResponse user)
     {
         try
         {
@@ -164,6 +164,30 @@
             await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
             user.Enabled = newStatus;
             await this.popupService.EnqueueSnackbarAsync($"Updated user [{user.UserName}] status to be {user.Enabled.ToStatus()}", AlertTypes.Success);
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnDeleteUser(UserInformationResponse user)
+    {
+        try
+        {
+            var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to delete user: {user.UserName} ?", AlertTypes.Warning);
+            if (!confirmed) return;
+
+            var response = await this.themisUserClient.DeleteUserAsync(user.Id);
+            if (response?.IsSuccessStatusCode ?? false)
+            {
+                this.Users.Remove(user);
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} deleted.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} delete failed.", AlertTypes.Warning);
+            }
         }
         catch (Exception ex)
         {
