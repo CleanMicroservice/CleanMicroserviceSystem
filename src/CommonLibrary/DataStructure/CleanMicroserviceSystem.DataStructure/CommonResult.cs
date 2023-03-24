@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
+﻿namespace CleanMicroserviceSystem.DataStructure;
 
 public class CommonResult
 {

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Application;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;

@@ -1,6 +1,5 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.ApiResources;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;

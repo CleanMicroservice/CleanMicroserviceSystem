@@ -1,5 +1,4 @@
 ﻿using CleanMicroserviceSystem.DataStructure;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
@@ -9,7 +8,6 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Services;
 
 public class ApiResourceManager : IApiResourceManager
 {
-
     private readonly ILogger<ApiResourceManager> logger;
     private readonly IApiResourceRepository apiResourceRepository;
 

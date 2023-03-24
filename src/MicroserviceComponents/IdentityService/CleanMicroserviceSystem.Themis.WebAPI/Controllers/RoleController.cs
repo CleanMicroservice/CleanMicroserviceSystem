@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
-using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
