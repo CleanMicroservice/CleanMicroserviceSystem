@@ -36,6 +36,7 @@ public static class DependencyInjection
             .AddSingleton<CookieStorage>()
             .AddSingleton<JwtSecurityTokenHandler>()
             .AddSingleton<IAuthenticationTokenStore, AphroditeAuthenticationTokenStore>()
+            .AddSingleton<IAuthenticationTokenRefresher, AphroditeAuthenticationTokenRefresher>()
             .AddSingleton<AuthenticationStateProvider, AphroditeAuthenticationStateProvider>()
             .AddSingleton<AphroditeJwtSecurityTokenValidator>();
         _ = services.AddHttpClient(

@@ -14,6 +14,7 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
 
     private readonly ILogger<AphroditeAuthenticationStateProvider> logger;
     private readonly JwtSecurityTokenHandler jwtSecurityTokenHandler;
+    private readonly IAuthenticationTokenRefresher tokenRefresher;
     private readonly IAuthenticationTokenStore authenticationTokenStore;
     private readonly AphroditeJwtSecurityTokenValidator jwtSecurityTokenValidator;
     private AuthenticationState? authenticationState = default;
@@ -22,11 +23,13 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
     public AphroditeAuthenticationStateProvider(
         ILogger<AphroditeAuthenticationStateProvider> logger,
         JwtSecurityTokenHandler jwtSecurityTokenHandler,
+        IAuthenticationTokenRefresher tokenRefresher,
         IAuthenticationTokenStore authenticationTokenStore,
         AphroditeJwtSecurityTokenValidator jwtSecurityTokenValidator)
     {
         this.logger = logger;
         this.jwtSecurityTokenHandler = jwtSecurityTokenHandler;
+        this.tokenRefresher = tokenRefresher;
         this.authenticationTokenStore = authenticationTokenStore;
         this.jwtSecurityTokenValidator = jwtSecurityTokenValidator;
         this.authenticationTokenStore.TokenUpdated += this.AuthenticationTokenStoreTokenUpdated;
@@ -46,11 +49,11 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
         try
         {
             this.jwtSecurityToken = this.jwtSecurityTokenHandler.ReadJwtToken(token);
-            this.authenticationState = new AuthenticationState(
-                new ClaimsPrincipal(
-                    new ClaimsIdentity(
-                        this.jwtSecurityToken!.Claims,
-                        IdentityContract.JwtAuthenticationType)));
+            this.authenticationState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(
+                this.jwtSecurityToken!.Claims,
+                IdentityContract.JwtAuthenticationType)));
+            if (!this.tokenRefresher.IsRunning)
+                this.tokenRefresher.StartRefresher();
         }
         catch
         {
@@ -60,6 +63,8 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
 
     private void ClearState()
     {
+        if (this.tokenRefresher.IsRunning)
+            this.tokenRefresher.StopRefresher();
         this.jwtSecurityToken = default;
         this.authenticationState = AnonymousState;
     }
