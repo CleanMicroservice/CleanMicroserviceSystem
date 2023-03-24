@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication\CleanMicroserviceSystem.Authentication.csproj" />
+    <ProjectReference Include="..\..\..\CommonLibrary\DataStructure\CleanMicroserviceSystem.DataStructure\CleanMicroserviceSystem.DataStructure.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj" />
   </ItemGroup>
 

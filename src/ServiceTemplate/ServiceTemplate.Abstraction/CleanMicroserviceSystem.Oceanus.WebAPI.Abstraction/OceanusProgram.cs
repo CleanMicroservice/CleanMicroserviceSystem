@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
-using CleanMicroserviceSystem.Authentication.Configurations;
 using CleanMicroserviceSystem.Authentication.Extensions;
-using CleanMicroserviceSystem.Gateway.Configurations;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Gateway.Contract;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -49,10 +50,25 @@ public class OceanusProgram
         this.webAppBuilder.Services.AddHealthChecks();
         this.webAppBuilder.Services.AddJwtBearerAuthentication(this.configManager);
         this.webAppBuilder.Services.AddHttpContextAccessor();
-        this.webAppBuilder.Services.AddControllers();
         this.webAppBuilder.Services.AddEndpointsApiExplorer();
         this.webAppBuilder.Services.AddOceanusSwaggerGen();
         this.webAppBuilder.Services.AddOceanusServices(this.configManager);
+        this.webAppBuilder.Services
+            .AddControllers()
+            .ConfigureApiBehaviorOptions(options =>
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errorMessages = context.ModelState
+                        .Where(state => state.Value?.ValidationState == ModelValidationState.Invalid)
+                        .ToDictionary(state => state.Key, state => state!.Value!.Errors.Select(error => error.ErrorMessage));
+                    var result = new WebApiValidateResult()
+                    {
+                        Errors = errorMessages
+                    };
+                    return new UnprocessableEntityObjectResult(result);
+                };
+            });
         this.webApp = this.webAppBuilder.Build();
     }
 
