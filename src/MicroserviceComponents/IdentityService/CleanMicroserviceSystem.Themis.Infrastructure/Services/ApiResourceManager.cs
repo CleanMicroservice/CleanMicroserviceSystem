@@ -36,20 +36,20 @@ public class ApiResourceManager : IApiResourceManager
         return new CommonResult<ApiResource>() { Entity = resource };
     }
 
-    public async Task<CommonResult<ApiResource>> UpdateAsync(ApiResource resource)
+    public async Task<CommonResult> UpdateAsync(ApiResource resource)
     {
         this.logger.LogDebug($"Update api resource: {resource.Id}");
         resource = await this.apiResourceRepository.UpdateAsync(resource);
         _ = await this.apiResourceRepository.SaveChangesAsync();
-        return new CommonResult<ApiResource>() { Entity = resource };
+        return new CommonResult();
     }
 
-    public async Task<CommonResult<ApiResource>> DeleteAsync(ApiResource resource)
+    public async Task<CommonResult> DeleteAsync(ApiResource resource)
     {
         this.logger.LogDebug($"Update api resource: {resource.Id}");
         _ = await this.apiResourceRepository.RemoveAsync(resource);
         _ = await this.apiResourceRepository.SaveChangesAsync();
-        return new CommonResult<ApiResource>() { Entity = resource };
+        return new CommonResult();
     }
 
     public async Task<ApiResource?> FindByIdAsync(int resourceId)

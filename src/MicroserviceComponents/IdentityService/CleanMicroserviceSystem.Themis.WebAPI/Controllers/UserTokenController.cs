@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Application;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -68,13 +69,17 @@ public class UserTokenController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Post([FromBody] UserTokenLoginRequest request)
+    public async Task<ActionResult<string>> Post([FromBody] UserTokenLoginRequest request)
     {
         this.logger.LogInformation($"Sign in User: {request.UserName}");
         var result = await this.signInManager.PasswordSignInAsync(request.UserName, request.Password, true, false);
         if (!result.Succeeded)
         {
-            return this.BadRequest(result);
+            var commonResult = new CommonResult<string>();
+            if (result.IsNotAllowed) commonResult.Errors.Add(new(nameof(result.IsNotAllowed)));
+            if (result.IsLockedOut) commonResult.Errors.Add(new(nameof(result.IsLockedOut)));
+            if (result.RequiresTwoFactor) commonResult.Errors.Add(new(nameof(result.RequiresTwoFactor)));
+            return this.BadRequest(commonResult);
         }
 
         var user = await this.userManager.FindByNameAsync(request.UserName);
@@ -87,12 +92,12 @@ public class UserTokenController : ControllerBase
     /// Refresh user token
     /// </summary>
     [HttpPut]
-    public async Task<IActionResult> Put()
+    public async Task<ActionResult<string>> Put()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Refresh User token: {userName}");
         if (string.IsNullOrEmpty(userName))
-            return this.BadRequest(new ArgumentException());
+            return this.BadRequest();
 
         var user = await this.userManager.FindByNameAsync(userName);
         var claims = await this.GetClaimsAsync(user!);
@@ -109,7 +114,7 @@ public class UserTokenController : ControllerBase
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Sign out User: {userName}");
         if (string.IsNullOrEmpty(userName))
-            return this.BadRequest(new ArgumentException());
+            return this.BadRequest();
         await this.signInManager.SignOutAsync();
         return this.Ok();
     }

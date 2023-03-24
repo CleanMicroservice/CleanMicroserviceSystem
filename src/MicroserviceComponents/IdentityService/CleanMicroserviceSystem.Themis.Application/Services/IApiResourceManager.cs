@@ -13,7 +13,7 @@ public interface IApiResourceManager
 
     Task<CommonResult<ApiResource>> CreateAsync(ApiResource resource);
 
-    Task<CommonResult<ApiResource>> UpdateAsync(ApiResource resource);
+    Task<CommonResult> UpdateAsync(ApiResource resource);
 
-    Task<CommonResult<ApiResource>> DeleteAsync(ApiResource resource);
+    Task<CommonResult> DeleteAsync(ApiResource resource);
 }

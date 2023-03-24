@@ -1,9 +1,10 @@
-﻿using CleanMicroserviceSystem.Authentication.Domain;
+﻿using System.Security.Claims;
+using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
-using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<ClientInformationResponse>> Get(int id)
     {
         this.logger.LogInformation($"Get Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
@@ -60,7 +61,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpGet(nameof(Search))]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Search([FromQuery] ClientSearchRequest request)
+    public async Task<ActionResult<PaginatedEnumerable<ClientInformationResponse>>> Search([FromQuery] ClientSearchRequest request)
     {
         this.logger.LogInformation($"Search Clients: {request.Id}, {request.Name}, {request.Enabled}");
         var result = await this.clientManager.SearchAsync(
@@ -84,7 +85,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Post([FromBody] ClientCreateRequest request)
+    public async Task<ActionResult<ClientInformationResponse>> Post([FromBody] ClientCreateRequest request)
     {
         this.logger.LogInformation($"Create Client: {request.Name}");
         var newClient = new Client()
@@ -119,7 +120,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Put(int id, [FromBody] ClientUpdateRequest request)
+    public async Task<ActionResult<CommonResult>> Put(int id, [FromBody] ClientUpdateRequest request)
     {
         this.logger.LogInformation($"Update Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
@@ -143,15 +144,8 @@ public class ClientController : ControllerBase
             client.Secret = request.Secret;
         }
 
-        var result = await this.clientManager.UpdateAsync(client);
-        if (!result.Succeeded)
-        {
-            return this.BadRequest(result);
-        }
-        else
-        {
-            return this.Ok(result);
-        }
+        var commonResult = await this.clientManager.UpdateAsync(client);
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -168,7 +162,7 @@ public class ClientController : ControllerBase
         if (client is null)
             return this.NotFound();
         await this.clientManager.DeleteAsync(client);
-        return this.Ok(true);
+        return this.Ok();
     }
     #endregion
 
@@ -181,7 +175,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> GetClaims(int id)
+    public async Task<ActionResult<IEnumerable<ClaimInformationResponse>>> GetClaims(int id)
     {
         this.logger.LogInformation($"Get Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);

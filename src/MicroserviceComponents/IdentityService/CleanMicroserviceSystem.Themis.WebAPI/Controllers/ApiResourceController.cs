@@ -1,8 +1,8 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Contract.ApiResources;
-using CleanMicroserviceSystem.Themis.Contract.Users;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +34,7 @@ public class ApiResourceController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Get(int id)
+    public async Task<ActionResult<ApiResourceInformationResponse>> Get(int id)
     {
         this.logger.LogInformation($"Get API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
@@ -56,7 +56,7 @@ public class ApiResourceController : ControllerBase
     /// <returns></returns>
     [HttpGet(nameof(Search))]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Search([FromQuery] ApiResourceSearchRequest request)
+    public async Task<ActionResult<PaginatedEnumerable<ApiResourceInformationResponse>>> Search([FromQuery] ApiResourceSearchRequest request)
     {
         this.logger.LogInformation($"Search API Resources: {request.Id}, {request.Name}, {request.Enabled}");
         var result = await this.apiResourceManager.SearchAsync(
@@ -80,7 +80,7 @@ public class ApiResourceController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Post([FromBody] ApiResourceCreateRequest request)
+    public async Task<ActionResult<ApiResourceInformationResponse>> Post([FromBody] ApiResourceCreateRequest request)
     {
         this.logger.LogInformation($"Create API Resource: {request.Name}");
         var newResource = new ApiResource()
@@ -115,7 +115,7 @@ public class ApiResourceController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Put(int id, [FromBody] ApiResourceUpdateRequest request)
+    public async Task<ActionResult<CommonResult>> Put(int id, [FromBody] ApiResourceUpdateRequest request)
     {
         this.logger.LogInformation($"Update API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
@@ -136,14 +136,7 @@ public class ApiResourceController : ControllerBase
         }
 
         var result = await this.apiResourceManager.UpdateAsync(resource);
-        if (!result.Succeeded)
-        {
-            return this.BadRequest(result);
-        }
-        else
-        {
-            return this.Ok(result);
-        }
+        return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
     }
 
     /// <summary>
@@ -160,7 +153,7 @@ public class ApiResourceController : ControllerBase
         if (resource is null)
             return this.NotFound();
         await this.apiResourceManager.DeleteAsync(resource);
-        return this.Ok(true);
+        return this.Ok();
     }
     #endregion
 }

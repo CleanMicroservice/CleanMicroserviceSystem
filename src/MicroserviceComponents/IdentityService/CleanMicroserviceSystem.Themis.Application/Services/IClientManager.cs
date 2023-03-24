@@ -19,9 +19,9 @@ public interface IClientManager
 
     Task<CommonResult<Client>> CreateAsync(Client client);
 
-    Task<CommonResult<Client>> UpdateAsync(Client client);
+    Task<CommonResult> UpdateAsync(Client client);
 
-    Task<CommonResult<Client>> DeleteAsync(Client client);
+    Task<CommonResult> DeleteAsync(Client client);
 
     Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId);
 

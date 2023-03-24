@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
@@ -42,12 +43,12 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Get()
+    public async Task<ActionResult<UserInformationResponse>> Get()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Get current user: {userName}");
         if (string.IsNullOrEmpty(userName))
-            return this.BadRequest(new ArgumentException());
+            return this.BadRequest();
 
         var user = await this.userManager.FindByNameAsync(userName!);
         return user is null
@@ -69,12 +70,12 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPut]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Put([FromBody] UserUpdateRequest request)
+    public async Task<ActionResult<CommonResult>> Put([FromBody] UserUpdateRequest request)
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Update current user: {userName}");
         if (string.IsNullOrEmpty(userName))
-            return this.BadRequest(new ArgumentException());
+            return this.BadRequest();
 
         var user = await this.userManager.FindByNameAsync(userName!);
         if (user is null)
@@ -98,9 +99,11 @@ public class UserController : ControllerBase
         }
 
         var result = await this.userManager.UpdateAsync(user);
+        var commonResult = new CommonResult(
+            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
         if (!result.Succeeded)
         {
-            return this.BadRequest(result);
+            return this.BadRequest(commonResult);
         }
         else
         {
@@ -118,7 +121,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Get(string id)
+    public async Task<ActionResult<UserInformationResponse>> Get(string id)
     {
         this.logger.LogInformation($"Get User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -141,7 +144,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpGet(nameof(Search))]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Search([FromQuery] UserSearchRequest request)
+    public async Task<ActionResult<PaginatedEnumerable<UserInformationResponse>>> Search([FromQuery] UserSearchRequest request)
     {
         this.logger.LogInformation($"Search Users: {request.Id}, {request.UserName}, {request.Email}, {request.PhoneNumber}, {request.Start}, {request.Count}");
         var result = await this.oceanusUserRepository.Search(
@@ -166,7 +169,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Post([FromBody] UserRegisterRequest request)
+    public async Task<ActionResult<UserInformationResponse>> Post([FromBody] UserRegisterRequest request)
     {
         this.logger.LogInformation($"Create User: {request.UserName}");
         var newUser = new OceanusUser()
@@ -178,7 +181,9 @@ public class UserController : ControllerBase
         var result = await this.userManager.CreateAsync(newUser, request.Password);
         if (!result.Succeeded)
         {
-            return this.BadRequest(result);
+            var commonResult = new CommonResult<UserInformationResponse>(
+                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+            return this.BadRequest(commonResult);
         }
         else
         {
@@ -202,7 +207,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Put(string id, [FromBody] UserUpdateRequest request)
+    public async Task<ActionResult<CommonResult>> Put(string id, [FromBody] UserUpdateRequest request)
     {
         this.logger.LogInformation($"Update User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -239,14 +244,9 @@ public class UserController : ControllerBase
         }
 
         var result = await this.userManager.UpdateAsync(user);
-        if (!result.Succeeded)
-        {
-            return this.BadRequest(result);
-        }
-        else
-        {
-            return this.Ok(result);
-        }
+        var commonResult = new CommonResult(
+            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -256,14 +256,14 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<ActionResult> Delete(string id)
     {
         this.logger.LogInformation($"Delete User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound();
         await this.userManager.DeleteAsync(user);
-        return this.Ok(true);
+        return this.Ok();
     }
     #endregion
 
@@ -276,7 +276,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> GetClaims(string id)
+    public async Task<ActionResult<IEnumerable<ClaimInformationResponse>>> GetClaims(string id)
     {
         this.logger.LogInformation($"Get User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -300,7 +300,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Update User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -318,7 +318,9 @@ public class UserController : ControllerBase
                 var result = await this.userManager.RemoveClaimsAsync(user, claimsToRemove);
                 if (!result.Succeeded)
                 {
-                    return this.BadRequest(result);
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
         }
@@ -333,7 +335,9 @@ public class UserController : ControllerBase
                 var result = await this.userManager.AddClaimsAsync(user, claimsToAdd);
                 if (!result.Succeeded)
                 {
-                    return this.BadRequest(result);
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
         }
@@ -349,7 +353,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PostClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PostClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Create User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -366,7 +370,9 @@ public class UserController : ControllerBase
         if (claimsToAdd.Any())
         {
             var result = await this.userManager.AddClaimsAsync(user, claimsToAdd);
-            return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+            var commonResult = new CommonResult(
+                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+            return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
         }
 
         return this.NoContent();
@@ -380,7 +386,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> DeleteClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> DeleteClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Delete User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -396,7 +402,9 @@ public class UserController : ControllerBase
         if (claimsToRemove.Any())
         {
             var result = await this.userManager.RemoveClaimsAsync(user, claimsToRemove);
-            return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+            var commonResult = new CommonResult(
+                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+            return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
         }
 
         return this.NoContent();
@@ -412,7 +420,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/Roles")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> GetRoles(string id)
+    public async Task<ActionResult<IEnumerable<string>>> GetRoles(string id)
     {
         this.logger.LogInformation($"Get User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -432,7 +440,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}/Roles")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PutRoles(string id, [FromBody] IEnumerable<string> requests)
+    public async Task<ActionResult<CommonResult>> PutRoles(string id, [FromBody] IEnumerable<string> requests)
     {
         this.logger.LogInformation($"Update User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -453,7 +461,9 @@ public class UserController : ControllerBase
                 var result = await this.userManager.RemoveFromRolesAsync(user, rolesToRemove);
                 if (!result.Succeeded)
                 {
-                    return this.BadRequest(result);
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
         }
@@ -470,7 +480,9 @@ public class UserController : ControllerBase
                 var result = await this.userManager.AddToRolesAsync(user, rolesToAdd);
                 if (!result.Succeeded)
                 {
-                    return this.BadRequest(result);
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
         }
@@ -486,7 +498,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Roles")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PostRoles(string id, [FromBody] IEnumerable<string> requests)
+    public async Task<ActionResult<CommonResult>> PostRoles(string id, [FromBody] IEnumerable<string> requests)
     {
         this.logger.LogInformation($"Create User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -503,7 +515,9 @@ public class UserController : ControllerBase
             return this.NoContent();
 
         var result = await this.userManager.AddToRolesAsync(user, requests);
-        return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+        var commonResult = new CommonResult(
+            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -514,7 +528,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Roles")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> DeleteRoles(string id, [FromBody] IEnumerable<string> requests)
+    public async Task<ActionResult<CommonResult>> DeleteRoles(string id, [FromBody] IEnumerable<string> requests)
     {
         this.logger.LogInformation($"Delete User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
@@ -529,7 +543,9 @@ public class UserController : ControllerBase
             return this.NoContent();
 
         var result = await this.userManager.RemoveFromRolesAsync(user, requests);
-        return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+        var commonResult = new CommonResult(
+            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
     #endregion
 }

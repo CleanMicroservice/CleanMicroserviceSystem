@@ -31,25 +31,25 @@ public class ClientManager : IClientManager
         var result = new CommonResult<Client>() { Entity = client };
         if (client == null)
         {
-            result.Error = $"Can't find client with name {clientName}.";
+            result.Errors = new[] { new CommonResultError($"Can't find client with name {clientName}.") };
             return result;
         }
         var secret = clientSecret?.Sha256();
         if (client.Secret != secret)
         {
-            result.Error = $"Incorrect secret for client {clientName}.";
+            result.Errors = new[] { new CommonResultError($"Incorrect secret for client {clientName}.") };
             return result;
         }
         if (!client.Enabled)
         {
-            result.Error = $"Client {clientName} is locked.";
+            result.Errors = new[] { new CommonResultError($"Client {clientName} is locked.") };
             return result;
         }
 
         if (result.Succeeded)
             this.logger.LogDebug($"Client {clientName} signs in successfully.");
         else
-            this.logger.LogWarning($"Client {clientName} signs in failed.:{result.Error}");
+            this.logger.LogWarning($"Client {clientName} signs in failed.:{result}");
         return result;
     }
 
@@ -86,20 +86,20 @@ public class ClientManager : IClientManager
         return new CommonResult<Client>() { Entity = client };
     }
 
-    public async Task<CommonResult<Client>> UpdateAsync(Client client)
+    public async Task<CommonResult> UpdateAsync(Client client)
     {
         this.logger.LogDebug($"Update client {client.Id}");
         client = await this.clientRepository.UpdateAsync(client);
         _ = await this.clientRepository.SaveChangesAsync();
-        return new CommonResult<Client>() { Entity = client };
+        return new CommonResult();
     }
 
-    public async Task<CommonResult<Client>> DeleteAsync(Client client)
+    public async Task<CommonResult> DeleteAsync(Client client)
     {
         this.logger.LogDebug($"Delete client {client.Id}");
         _ = await this.clientRepository.RemoveAsync(client);
         _ = await this.clientRepository.SaveChangesAsync();
-        return new CommonResult<Client>() { Entity = client };
+        return new CommonResult();
     }
 
     public async Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId)

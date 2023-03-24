@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
+using CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Models;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
@@ -43,7 +44,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Get(string id)
+    public async Task<ActionResult<RoleInformationResponse>> Get(string id)
     {
         this.logger.LogInformation($"Get Role: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
@@ -63,7 +64,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpGet(nameof(Search))]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> Search([FromQuery] RoleSearchRequest request)
+    public async Task<ActionResult<PaginatedEnumerable<RoleInformationResponse>>> Search([FromQuery] RoleSearchRequest request)
     {
         this.logger.LogInformation($"Search Roles: {request.Id}, {request.RoleName}, {request.Start}, {request.Count}");
         var result = await this.oceanusRoleRepository.SearchAsync(
@@ -85,7 +86,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Post([FromBody] RoleCreateRequest request)
+    public async Task<ActionResult<RoleInformationResponse>> Post([FromBody] RoleCreateRequest request)
     {
         this.logger.LogInformation($"Create Role: {request.RoleName}");
         var newRole = new OceanusRole()
@@ -95,7 +96,9 @@ public class RoleController : ControllerBase
         var result = await this.roleManager.CreateAsync(newRole);
         if (!result.Succeeded)
         {
-            return this.BadRequest(result);
+            var commonResult = new CommonResult(
+                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+            return this.BadRequest(commonResult);
         }
         else
         {
@@ -116,7 +119,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Put(string id, [FromBody] RoleUpdateRequest request)
+    public async Task<ActionResult<CommonResult>> Put(string id, [FromBody] RoleUpdateRequest request)
     {
         this.logger.LogInformation($"Update Role: {request.RoleName}");
         var role = await this.roleManager.FindByIdAsync(id);
@@ -125,19 +128,9 @@ public class RoleController : ControllerBase
 
         role.Name = request.RoleName;
         var result = await this.roleManager.UpdateAsync(role);
-        if (!result.Succeeded)
-        {
-            return this.BadRequest(result);
-        }
-        else
-        {
-            role = await this.roleManager.FindByIdAsync(role.Id.ToString());
-            return this.Ok(new RoleInformationResponse()
-            {
-                Id = role!.Id,
-                RoleName = role!.Name
-            });
-        }
+        var commonResult = new CommonResult(
+            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -154,7 +147,7 @@ public class RoleController : ControllerBase
         if (role is null)
             return this.NotFound();
         await this.roleManager.DeleteAsync(role);
-        return this.Ok(true);
+        return this.Ok();
     }
     #endregion
 
@@ -167,7 +160,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> GetClaims(string id)
+    public async Task<ActionResult<IEnumerable<ClaimInformationResponse>>> GetClaims(string id)
     {
         this.logger.LogInformation($"Add Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
@@ -191,7 +184,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Update Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
@@ -202,46 +195,39 @@ public class RoleController : ControllerBase
         var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
         var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
 
+        var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
+        if (claimsToRemove.Any())
         {
-            var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
-            if (claimsToRemove.Any())
+            foreach (var claimToRemove in claimsToRemove)
             {
-                foreach (var claimToRemove in claimsToRemove)
+                var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
+                if (!result.Succeeded)
                 {
-                    var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
-                    if (!result.Succeeded)
-                    {
-                        return this.BadRequest(result);
-                    }
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
+                }
+            }
+        }
+        var claimsToAdd = requests
+            .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
+            .Select(claim => new Claim(claim.Type, claim.Value))
+            .ToArray();
+        if (claimsToAdd.Any())
+        {
+            foreach (var claimToAdd in claimsToAdd)
+            {
+                var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
+                if (!result.Succeeded)
+                {
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
         }
 
-        {
-            var claimsToAdd = requests
-                .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
-                .Select(claim => new Claim(claim.Type, claim.Value))
-                .ToArray();
-            if (claimsToAdd.Any())
-            {
-                foreach (var claimToAdd in claimsToAdd)
-                {
-                    var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
-                    if (!result.Succeeded)
-                    {
-                        return this.BadRequest(result);
-                    }
-                }
-            }
-        }
-
-        existingClaims = await this.roleManager.GetClaimsAsync(role);
-        var claims = existingClaims.Select(claim => new ClaimInformationResponse()
-        {
-            Type = claim.Type,
-            Value = claim.Value
-        });
-        return this.Ok(claims);
+        return this.Ok();
     }
 
     /// <summary>
@@ -252,7 +238,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Create Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
@@ -273,10 +259,12 @@ public class RoleController : ControllerBase
                 var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
                 if (!result.Succeeded)
                 {
-                    return this.BadRequest(result);
+                    var commonResult = new CommonResult(
+                            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
-            return this.Ok(true);
+            return this.Ok();
         }
 
         return this.NoContent();
@@ -290,7 +278,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Delete Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
@@ -310,10 +298,12 @@ public class RoleController : ControllerBase
                 var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
                 if (!result.Succeeded)
                 {
-                    return this.BadRequest(result);
+                    var commonResult = new CommonResult(
+                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                    return this.BadRequest(commonResult);
                 }
             }
-            return this.Ok(true);
+            return this.Ok();
         }
 
         return this.NoContent();
@@ -329,12 +319,22 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/Users")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<IActionResult> GetUsers(int id, [FromQuery] UserSearchRequest request)
+    public async Task<ActionResult<PaginatedEnumerable<UserInformationResponse>>> GetUsers(int id, [FromQuery] UserSearchRequest request)
     {
         this.logger.LogInformation($"Get Role Users: {id}");
-        var users = await this.oceanusRoleRepository.SearchUsersAsync(
+        var result = await this.oceanusRoleRepository.SearchUsersAsync(
             new[] { id }, request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
-        return this.Ok(users);
+        var users = result.Values.Select(user => new UserInformationResponse()
+        {
+            Id = user.Id,
+            UserName = user.UserName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Enabled = !(user.LockoutEnabled && user.LockoutEnd.HasValue && user.LockoutEnd.Value >= DateTime.UtcNow),
+        });
+        var paginatedUsers = new PaginatedEnumerable<UserInformationResponse>(
+            users, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedUsers);
     }
 
     /// <summary>
@@ -345,7 +345,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Users")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PostUsers(string id, [FromBody] IEnumerable<int> requests)
+    public async Task<ActionResult<CommonResult>> PostUsers(string id, [FromBody] IEnumerable<int> requests)
     {
         this.logger.LogInformation($"Create Role Users: {id}");
         if (!requests.Any())
@@ -368,11 +368,13 @@ public class RoleController : ControllerBase
             result = await this.userManager.AddToRoleAsync(user, role!.Name!);
             if (!result.Succeeded)
             {
-                return this.BadRequest(result);
+                var commonResult = new CommonResult(
+                    result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                return this.BadRequest(commonResult);
             }
         }
 
-        return this.Ok(result ?? default);
+        return this.Ok();
     }
 
     /// <summary>
@@ -383,7 +385,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Users")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> DeleteUsers(string id, [FromBody] IEnumerable<int> requests)
+    public async Task<ActionResult<CommonResult>> DeleteUsers(string id, [FromBody] IEnumerable<int> requests)
     {
         this.logger.LogInformation($"Delete Role Users: {id}");
         if (!requests.Any())
@@ -406,11 +408,13 @@ public class RoleController : ControllerBase
             result = await this.userManager.RemoveFromRoleAsync(user, role!.Name!);
             if (!result.Succeeded)
             {
-                return this.BadRequest(result);
+                var commonResult = new CommonResult(
+                    result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+                return this.BadRequest(commonResult);
             }
         }
 
-        return this.Ok(result ?? default);
+        return this.Ok();
     }
     #endregion
 }

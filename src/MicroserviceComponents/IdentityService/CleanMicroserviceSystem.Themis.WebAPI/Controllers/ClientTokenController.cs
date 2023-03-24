@@ -36,19 +36,18 @@ public class ClientTokenController : ControllerBase
             new Claim(ClaimTypes.Name, client.Name)
         };
         claims.AddRange(clientClaims?.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue))?.ToArray() ?? Enumerable.Empty<Claim>());
-
         return claims;
     }
 
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Post([FromBody] ClientTokenLoginRequest request)
+    public async Task<ActionResult<string>> Post([FromBody] ClientTokenLoginRequest request)
     {
         this.logger.LogInformation($"Sign in client: {request.Name}");
         var result = await this.clientManager.SignInAsync(request.Name, request.Secret);
         if (!result.Succeeded)
         {
-            return this.BadRequest(result.Error);
+            return this.BadRequest(result);
         }
         var client = result.Entity!;
         var claims = await this.GetClaimsAsync(client);
@@ -60,12 +59,12 @@ public class ClientTokenController : ControllerBase
     /// Refresh client token
     /// </summary>
     [HttpPut]
-    public async Task<IActionResult> Put()
+    public async Task<ActionResult<string>> Put()
     {
         var clientName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Refresh Client token: {clientName}");
         if (string.IsNullOrEmpty(clientName))
-            return this.BadRequest(new ArgumentException());
+            return this.BadRequest();
 
         var client = await this.clientManager.FindByNameAsync(clientName);
         var claims = await this.GetClaimsAsync(client!);
@@ -82,7 +81,7 @@ public class ClientTokenController : ControllerBase
         var clientName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Sign out Client: {clientName}");
         if (string.IsNullOrEmpty(clientName))
-            return this.BadRequest(new ArgumentException());
+            return this.BadRequest();
         await this.clientManager.SignOutAsync(clientName);
         return this.Ok();
     }
