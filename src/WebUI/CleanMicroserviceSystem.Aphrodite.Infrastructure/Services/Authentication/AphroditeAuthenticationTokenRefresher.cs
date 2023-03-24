@@ -1,6 +1,7 @@
 ﻿using CleanMicroserviceSystem.Aphrodite.Application.Configurations;
 using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Themis.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -19,12 +20,13 @@ public class AphroditeAuthenticationTokenRefresher : IAuthenticationTokenRefresh
     public AphroditeAuthenticationTokenRefresher(
         ILogger<AphroditeAuthenticationTokenRefresher> logger,
         IOptionsMonitor<GatewayAPIConfiguration> gatewayOptionsMonitor,
-        ThemisUserTokenClient themisUserTokenClient,
+        IServiceProvider serviceProvider,
         IAuthenticationTokenStore authenticationTokenStore)
     {
         this.logger = logger;
         this.gatewayOptionsMonitor = gatewayOptionsMonitor;
-        this.themisUserTokenClient = themisUserTokenClient;
+        using var serviceScope = serviceProvider.CreateScope();
+        this.themisUserTokenClient = serviceScope.ServiceProvider.GetRequiredService<ThemisUserTokenClient>();
         this.authenticationTokenStore = authenticationTokenStore;
 
         this.refreshTimer = new Timer(new TimerCallback(this.RefreshTokenCallBack), null, Timeout.Infinite, int.MaxValue);
