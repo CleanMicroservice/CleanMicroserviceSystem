@@ -256,7 +256,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult> Delete(string id)
+    public async Task<IActionResult> Delete(string id)
     {
         this.logger.LogInformation($"Delete User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
