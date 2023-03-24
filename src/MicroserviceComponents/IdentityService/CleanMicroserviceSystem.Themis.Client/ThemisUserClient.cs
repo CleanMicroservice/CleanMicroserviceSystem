@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
@@ -44,10 +45,22 @@ public class ThemisUserClient : OceanusServiceClientBase
             var user = await response.Content.ReadFromJsonAsync<UserInformationResponse>();
             return user;
         }
+        else if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
+        {
+            var result = await response.Content.ReadFromJsonAsync<WebApiValidateResult>();
+            throw new ArgumentException($"{response.StatusCode} : {string.Join("; ", result!.Errors!.Select(pair => $"{pair.Key} : {string.Join("; ", pair.Value)}"))}");
+        }
+        else if (response.StatusCode == HttpStatusCode.BadRequest)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            this.logger.LogWarning(content);
+            var result = await response.Content.ReadFromJsonAsync<CommonResult>();
+            throw new InvalidOperationException($"{response.StatusCode} : {string.Join("; ", result!.Errors.Select(error => $"{error.Code} - {error.Message}"))}");
+        }
         else
         {
-            var result = await response.Content.ReadFromJsonAsync<IdentityResult>();
-            throw new InvalidOperationException(string.Join(";", result.Errors.Select(error => $"{error.Code} - {error.Description}")));
+            var content = await response.Content.ReadAsStringAsync();
+            throw new InvalidOperationException($"{response.StatusCode} : {content}");
         }
     }
 
