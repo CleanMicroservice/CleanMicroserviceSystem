@@ -1,5 +1,4 @@
-﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
-using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
+﻿using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 using CleanMicroserviceSystem.Tethys.Infrastructure;
 
 namespace CleanMicroserviceSystem.Tethys.WebAPI;
@@ -10,10 +9,7 @@ public class TethysProgram : OceanusProgram
 
     public override void ConfigureServices()
     {
-        webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
-        {
-            ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
-        });
+        webAppBuilder.Services.AddInfrastructure(this.configManager);
         base.ConfigureServices();
     }
 }

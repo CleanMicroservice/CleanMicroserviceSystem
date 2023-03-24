@@ -5,19 +5,20 @@ using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Extensions;
 using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Astra.Infrastructure.Services;
 using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanMicroserviceSystem.Astra.Infrastructure;
 
 public static class DependencyInjection
 {
+    private const string NuGetServerConfigurationKey = "NuGetServerConfiguration";
+
     public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        OceanusDbConfiguration dbConfiguration,
-        NuGetServerConfiguration nuGetConfiguration)
+        this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("ServiceDB")!;
         _ = services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
@@ -30,24 +31,24 @@ public static class DependencyInjection
                 options.AddPolicy(IdentityContract.AstraAPIWritePolicyName, IdentityContract.AstraAPIWritePolicy);
             })
             .AddDbContext<DbContext, AstraDbContext>(options => options
-                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseSqlite(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies());
         _ = services
             .AddTransient<IUrlGenerator, BaGetUrlGenerator>()
             .AddBaGetDbContextProvider<BaGetDBContext>("Sqlite", (provider, options) => options
-                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseSqlite(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies())
             .Configure<BaGetOptions>(options =>
             {
-                options.ApiKey = nuGetConfiguration.ApiKey;
+                options.ApiKey = configuration.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey;
             })
             .AddBaGetApplication(bagetApplication =>
             {
                 _ = bagetApplication.AddFileStorage(options =>
                 {
-                    options.Path = nuGetConfiguration.PackagePath;
+                    options.Path = configuration.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.PackagePath;
                 });
             });
         return services;

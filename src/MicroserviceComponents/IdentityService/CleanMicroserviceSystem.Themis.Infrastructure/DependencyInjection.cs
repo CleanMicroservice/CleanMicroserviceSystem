@@ -1,5 +1,4 @@
 ﻿using CleanMicroserviceSystem.Authentication.Domain;
-using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Application.Services;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
@@ -7,6 +6,7 @@ using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
 using CleanMicroserviceSystem.Themis.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanMicroserviceSystem.Themis.Infrastructure;
@@ -14,9 +14,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        OceanusDbConfiguration dbConfiguration)
+        this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("ServiceDB")!; 
         services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
@@ -36,15 +36,15 @@ public static class DependencyInjection
             .AddScoped<IClientClaimRepository, ClientClaimRepository>()
             .AddScoped<IClientRepository, ClientRepository>()
             .AddDbContext<DbContext, ThemisDbContext>(options => options
-                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseSqlite(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies())
             .AddDbContext<IdentityDbContext>(options => options
-                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseSqlite(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies())
             .AddDbContext<ConfigurationDbContext>(options => options
-                .UseSqlite(dbConfiguration.ConnectionString)
+                .UseSqlite(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseLazyLoadingProxies())
             .AddIdentity<OceanusUser, OceanusRole>(options =>

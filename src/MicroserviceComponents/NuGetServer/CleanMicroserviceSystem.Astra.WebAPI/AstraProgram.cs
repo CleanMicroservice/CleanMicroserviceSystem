@@ -1,7 +1,5 @@
-﻿using CleanMicroserviceSystem.Astra.Application.Configurations;
-using CleanMicroserviceSystem.Astra.Infrastructure;
+﻿using CleanMicroserviceSystem.Astra.Infrastructure;
 using CleanMicroserviceSystem.Astra.Infrastructure.Persistence;
-using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 
@@ -13,13 +11,7 @@ public class AstraProgram : OceanusProgram
 
     public override void ConfigureServices()
     {
-        var nuGetServerConfiguration = this.configManager.GetRequiredSection("NuGetServerConfiguration")!.Get<NuGetServerConfiguration>()!;
-        this.webAppBuilder.Services.AddInfrastructure(
-            new OceanusDbConfiguration()
-            {
-                ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
-            },
-            nuGetServerConfiguration);
+        this.webAppBuilder.Services.AddInfrastructure(this.configManager);
         base.ConfigureServices();
     }
 

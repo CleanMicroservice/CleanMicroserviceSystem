@@ -3,6 +3,7 @@ using CleanMicroserviceSystem.Gateway.Extensions;
 using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Repository;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IO;
 using Microsoft.OpenApi.Models;
@@ -11,15 +12,18 @@ namespace CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Extensions;
 
 public static class OceanusServicesExtension
 {
+    private const string AgentServiceRegistrationConfigurationKey = "AgentServiceRegistrationConfiguration";
+
     public static IServiceCollection AddOceanusServices(
-        this IServiceCollection services,
-        AgentServiceRegistrationConfiguration agentServiceRegistrationConfiguration)
+        this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddScoped<IGenericOptionRepository, GenericOptionRepository>()
             .AddScoped<IWebAPILogRepository, WebAPILogRepository>()
             .AddScoped<RecyclableMemoryStreamManager>()
-            .AddGatewayServiceRegister(agentServiceRegistrationConfiguration);
+            .AddGatewayServiceRegister(configuration
+                .GetRequiredSection(AgentServiceRegistrationConfigurationKey)!
+                .Get<AgentServiceRegistrationConfiguration>()!);
 
         return services;
     }

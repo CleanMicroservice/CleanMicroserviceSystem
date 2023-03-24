@@ -1,6 +1,6 @@
-﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
-using CleanMicroserviceSystem.Tethys.Infrastructure.Persistence;
+﻿using CleanMicroserviceSystem.Tethys.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanMicroserviceSystem.Tethys.Infrastructure;
@@ -8,9 +8,9 @@ namespace CleanMicroserviceSystem.Tethys.Infrastructure;
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        OceanusDbConfiguration dbConfiguration)
+        this IServiceCollection services, IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("ServiceDB")!;
         return services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
@@ -19,7 +19,7 @@ public static class DependencyInjection
                     .AllowAnyHeader()))
             .AddDbContext<DbContext, TethysDbContext>(
                 options => options
-                    .UseSqlite(dbConfiguration.ConnectionString)
+                    .UseSqlite(connectionString)
                     .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                     .UseLazyLoadingProxies());
     }

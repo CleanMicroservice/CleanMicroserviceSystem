@@ -8,21 +8,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanMicroserviceSystem.Authentication.Extensions;
+
 public static class CleanMicroserviceSystemAuthenticationExtension
 {
+    private const string JwtBearerConfigurationKey = "JwtBearerConfiguration";
+
     public static IServiceCollection AddJwtBearerAuthentication(
-        this IServiceCollection services,
-        JwtBearerConfiguration configuration)
+        this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .Configure(new Action<JwtBearerConfiguration>(options =>
-            {
-                options.JwtAudience = configuration.JwtAudience;
-                options.JwtExpiryForUser = configuration.JwtExpiryForUser;
-                options.JwtExpiryForClient = configuration.JwtExpiryForClient;
-                options.JwtIssuer = configuration.JwtIssuer;
-                options.JwtSecurityKey = configuration.JwtSecurityKey;
-            }))
+            .Configure<JwtBearerConfiguration>(configuration.GetRequiredSection(JwtBearerConfigurationKey))
             .AddHybridAuthenticationSchemeProvider(new AuthenticationSchemeConfiguration[]
             {
                 new AuthenticationSchemeConfiguration(
@@ -39,6 +34,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
             })
             .AddJwtBearer(IdentityContract.UserJwtBearerScheme, "CleanMicroserviceSystem Bearer for User (IdentityServer)", options =>
             {
+                var jwtBearerConfiguration = configuration.GetRequiredSection(JwtBearerConfigurationKey)!.Get<JwtBearerConfiguration>()!;
                 options.Events = new JwtBearerEvents()
                 {
                     OnForbidden = context => Task.CompletedTask,
@@ -56,14 +52,15 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                     RequireAudience = true,
                     RequireSignedTokens = true,
                     RequireExpirationTime = true,
-                    ValidIssuer = configuration.JwtIssuer,
-                    ValidAudience = configuration.JwtAudience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JwtSecurityKey))
+                    ValidIssuer = jwtBearerConfiguration.JwtIssuer,
+                    ValidAudience = jwtBearerConfiguration.JwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerConfiguration.JwtSecurityKey))
                 };
                 options.Validate();
             })
             .AddJwtBearer(IdentityContract.ClientJwtBearerScheme, "CleanMicroserviceSystem Bearer for Client (IdentityServer)", options =>
             {
+                var jwtBearerConfiguration = configuration.GetRequiredSection(JwtBearerConfigurationKey)!.Get<JwtBearerConfiguration>()!;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ClockSkew = TimeSpan.Zero,
@@ -74,9 +71,9 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                     RequireAudience = true,
                     RequireSignedTokens = true,
                     RequireExpirationTime = true,
-                    ValidIssuer = configuration.JwtIssuer,
-                    ValidAudience = configuration.JwtAudience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.JwtSecurityKey)),
+                    ValidIssuer = jwtBearerConfiguration.JwtIssuer,
+                    ValidAudience = jwtBearerConfiguration.JwtAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerConfiguration.JwtSecurityKey)),
                 };
             });
 

@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Masa.Blazor" Version="1.0.0-preview.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0-preview.2.23153.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-preview.2.23128.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />

@@ -46,15 +46,13 @@ public class OceanusProgram
 
     public virtual void ConfigureServices()
     {
-        var jwtBearerConfiguration = this.configManager.GetRequiredSection("JwtBearerConfiguration")!.Get<JwtBearerConfiguration>()!;
-        var agentServiceRegistrationConfiguration = this.configManager.GetRequiredSection("AgentServiceRegistrationConfiguration")!.Get<AgentServiceRegistrationConfiguration>()!;
         this.webAppBuilder.Services.AddHealthChecks();
-        this.webAppBuilder.Services.AddJwtBearerAuthentication(jwtBearerConfiguration!);
+        this.webAppBuilder.Services.AddJwtBearerAuthentication(this.configManager);
         this.webAppBuilder.Services.AddHttpContextAccessor();
         this.webAppBuilder.Services.AddControllers();
         this.webAppBuilder.Services.AddEndpointsApiExplorer();
         this.webAppBuilder.Services.AddOceanusSwaggerGen();
-        this.webAppBuilder.Services.AddOceanusServices(agentServiceRegistrationConfiguration);
+        this.webAppBuilder.Services.AddOceanusServices(this.configManager);
         this.webApp = this.webAppBuilder.Build();
     }
 

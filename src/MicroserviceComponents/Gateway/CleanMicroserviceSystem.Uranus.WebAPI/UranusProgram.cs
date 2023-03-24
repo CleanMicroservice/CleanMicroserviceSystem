@@ -1,5 +1,4 @@
-﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
-using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
+﻿using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 using CleanMicroserviceSystem.Uranus.Infrastructure;
 using Ocelot.Middleware;
 
@@ -17,11 +16,7 @@ public class UranusProgram : OceanusProgram
 
     public override void ConfigureServices()
     {
-        var dbConfig = new OceanusDbConfiguration()
-        {
-            ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
-        };
-        _ = this.webAppBuilder.Services.AddInfrastructure(dbConfig);
+        this.webAppBuilder.Services.AddInfrastructure(this.configManager);
         base.ConfigureServices();
     }
 }

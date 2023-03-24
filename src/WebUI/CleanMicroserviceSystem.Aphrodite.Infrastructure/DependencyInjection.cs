@@ -8,17 +8,21 @@ using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.Themis.Client;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanMicroserviceSystem.Aphrodite.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection ConfigureServices(
-        this IServiceCollection services,
-        AphroditeConfiguration aphroditeConfiguration,
-        NuGetServerConfiguration nugetServerConfiguration)
+    private const string NuGetServerConfigurationKey = "NuGetServerConfiguration";
+    private const string GatewayAPIConfigurationKey = "GatewayAPIConfiguration";
+
+    public static IServiceCollection ConfigureServices(this WebAssemblyHostBuilder builder)
     {
+        var config = builder.Configuration;
+        var services = builder.Services;
         _ = services.AddMasaBlazor();
         _ = services.AddLogging();
         _ = services.AddAuthorizationCore(options =>
@@ -36,7 +40,7 @@ public static class DependencyInjection
             .AddSingleton<AphroditeJwtSecurityTokenValidator>();
         _ = services.AddHttpClient(
             ApiContract.AphroditeHttpClientName,
-            client => client.BaseAddress = new Uri(aphroditeConfiguration.WebUIBaseAddress));
+            client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
         _ = services
             .AddThemisClients(new ThemisClientConfiguration()
             {
@@ -45,12 +49,12 @@ public static class DependencyInjection
             .AddAstraClients(new AstraClientConfiguration()
             {
                 GatewayClientName = ApiContract.GatewayHttpClientName,
-                ApiKey = nugetServerConfiguration.ApiKey
+                ApiKey = config.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey
             })
             .AddTransient<DefaultAuthenticationDelegatingHandler>()
             .AddHttpClient<HttpClient>(
                 ApiContract.GatewayHttpClientName,
-                client => client.BaseAddress = new Uri(aphroditeConfiguration.GatewayBaseAddress))
+                client => client.BaseAddress = new Uri(config.GetRequiredSection(GatewayAPIConfigurationKey).Get<GatewayAPIConfiguration>()!.GatewayBaseAddress))
             .AddHttpMessageHandler<DefaultAuthenticationDelegatingHandler>();
         return services;
     }

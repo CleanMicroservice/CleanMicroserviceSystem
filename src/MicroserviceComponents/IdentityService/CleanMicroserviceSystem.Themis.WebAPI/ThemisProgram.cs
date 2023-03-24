@@ -1,5 +1,4 @@
-﻿using CleanMicroserviceSystem.Oceanus.Application.Abstraction.Configurations;
-using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
+﻿using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.DataSeed;
 using CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 using CleanMicroserviceSystem.Themis.Infrastructure;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
@@ -12,10 +11,7 @@ public class ThemisProgram : OceanusProgram
 
     public override void ConfigureServices()
     {
-        this.webAppBuilder.Services.AddInfrastructure(new OceanusDbConfiguration()
-        {
-            ConnectionString = this.configManager.GetConnectionString("ServiceDB")!
-        });
+        this.webAppBuilder.Services.AddInfrastructure(this.configManager);
         base.ConfigureServices();
     }
 
