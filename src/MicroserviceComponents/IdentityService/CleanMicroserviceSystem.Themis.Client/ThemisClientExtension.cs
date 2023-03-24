@@ -4,12 +4,9 @@ namespace CleanMicroserviceSystem.Themis.Client;
 
 public static class ThemisClientExtension
 {
-    public static IServiceCollection AddThemisClients(this IServiceCollection services, ThemisClientConfiguration configuration)
+    public static IServiceCollection AddThemisClients(this IServiceCollection services, Action<ThemisClientConfiguration> options)
     {
-        _ = services.Configure(new Action<ThemisClientConfiguration>(options =>
-        {
-            options.GatewayClientName = configuration.GatewayClientName;
-        }));
+        _ = services.Configure(options);
         services
             .AddScoped<ThemisApiResourceClient>()
             .AddScoped<ThemisClientClient>()

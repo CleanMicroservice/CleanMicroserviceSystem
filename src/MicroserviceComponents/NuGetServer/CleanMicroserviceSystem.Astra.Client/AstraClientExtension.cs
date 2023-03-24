@@ -4,13 +4,9 @@ namespace CleanMicroserviceSystem.Astra.Client;
 
 public static class AstraClientExtension
 {
-    public static IServiceCollection AddAstraClients(this IServiceCollection services, AstraClientConfiguration configuration)
+    public static IServiceCollection AddAstraClients(this IServiceCollection services, Action<AstraClientConfiguration> options)
     {
-        _ = services.Configure(new Action<AstraClientConfiguration>(options =>
-        {
-            options.GatewayClientName = configuration.GatewayClientName;
-            options.ApiKey = configuration.ApiKey;
-        }));
+        _ = services.Configure(options);
         services.AddScoped<AstraNuGetPackageClient>();
         return services;
     }

@@ -42,14 +42,15 @@ public static class DependencyInjection
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
         _ = services
-            .AddThemisClients(new ThemisClientConfiguration()
+            .Configure<GatewayAPIConfiguration>(options => config.GetRequiredSection(GatewayAPIConfigurationKey).Bind(options))
+            .AddThemisClients(options =>
             {
-                GatewayClientName = ApiContract.GatewayHttpClientName,
+                options.GatewayClientName = ApiContract.GatewayHttpClientName;
             })
-            .AddAstraClients(new AstraClientConfiguration()
+            .AddAstraClients(options =>
             {
-                GatewayClientName = ApiContract.GatewayHttpClientName,
-                ApiKey = config.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey
+                options.GatewayClientName = ApiContract.GatewayHttpClientName;
+                options.ApiKey = config.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey;
             })
             .AddTransient<DefaultAuthenticationDelegatingHandler>()
             .AddHttpClient<HttpClient>(
