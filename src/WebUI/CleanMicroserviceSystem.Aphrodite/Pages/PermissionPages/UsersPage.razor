@@ -11,10 +11,14 @@
     <MCardText Class="pa-6">
         <PPageHeader Title="Users" Subtitle=@($"{this.Users.Count()} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
             <LeftActions>
-                <MButton Rounded Color="primary" OnClick="this.OnShowCreateUserModal"><MIcon Left>mdi-plus</MIcon>Create</MButton>
+                <MButton Color="primary" Rounded Depressed
+                         OnClick="this.OnShowCreateUserModal">
+                    <MIcon Left>mdi-plus</MIcon>Create
+                </MButton>
                 <PModal @bind-Value=@this.ShowCreateUserModal
                         Title="Create User" Persistent MaxWidth="600"
-                        OnSave="this.OnCreateUserModal">
+                        OnSave="this.OnCreateUserModalSave"
+                        OnCancel="this.OnCreateUserModelCancel">
                     <ChildContent>
                         <CreateUserComponent UserRegisterRequest=@this.UserRegisterRequest />
                     </ChildContent>
@@ -210,7 +214,7 @@
         this.ShowCreateUserModal = true;
     }
 
-    protected async Task OnCreateUserModal()
+    protected async Task OnCreateUserModalSave()
     {
         if (string.IsNullOrWhiteSpace(this.UserRegisterRequest.UserName))
         {
@@ -249,5 +253,10 @@
         {
             await this.popupService.EnqueueSnackbarAsync(ex);
         }
+    }
+
+    protected async Task OnCreateUserModelCancel()
+    {
+        this.ShowCreateUserModal = false;
     }
 }
