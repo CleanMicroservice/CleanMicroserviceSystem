@@ -78,14 +78,18 @@
                 @switch (context.Header.Value)
                 {
                     case nameof(UserInformationResponse.Enabled):
-                        <MChip Color="@(context.Item.Enabled?"blue":"orange")" TextColor="white" Ripple="false" OnClick="()=>this.OnToggleUserEnable(context.Item)">
-                            <span>@(context.Item.Enabled.ToStatus())</span>
-                        </MChip>
+                        <MButton Icon Color="@(context.Item.Enabled?"success":"warning")" OnClick="()=>this.OnToggleUserEnable(context.Item)">
+                            <MIcon>@(context.Item.Enabled ? "mdi-check-bold" : "mdi-close-thick")</MIcon>
+                        </MButton>
                         break;
                     case "Actions":
                         <MButtonGroup Dense Borderless Rounded>
-                        <MButton Depressed Small Color="primary">Edit</MButton>
-                            <MButton Depressed Small Color="red" OnClick="()=>this.OnDeleteUser(context.Item)">Delete</MButton>
+                            <MButton Depressed Small Color="primary">
+                                <MIcon Color="white">mdi-square-edit-outline</MIcon>Edit
+                            </MButton>
+                            <MButton Depressed Small Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
+                                <MIcon Color="white">mdi-trash-can-outline</MIcon>Delete
+                            </MButton>
                         </MButtonGroup>
                         break;
                     default:
