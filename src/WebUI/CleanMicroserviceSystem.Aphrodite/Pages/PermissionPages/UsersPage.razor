@@ -69,8 +69,8 @@
                 </MTextField>
             </MCol>
         </MRow>
-        <MDataTable Headers="@this.userHeader" Search="@this.LocalSearchKeyword" Class="my-3"
-                    Items="@this.Users" Page=@this.CurrentPageIndex
+        <MDataTable Headers="@this.UserHeaders" Search="@this.LocalSearchKeyword" Class="my-3"
+                    Items="@this.Users" Page=@this.CurrentPageIndex ItemKey="item=>item.Id.ToString()"
                     TItem="UserInformationResponse" ItemsPerPage=@this.CurrentPageSize
                     Loading=@this.LoadingUsers LoadingText="Loading ..."
                     MultiSort FixedHeader HideDefaultFooter>
@@ -80,11 +80,14 @@
                     case nameof(UserInformationResponse.Enabled):
                         <MButton Icon Color="@(context.Item.Enabled?"success":"warning")" OnClick="()=>this.OnToggleUserEnable(context.Item)">
                             <MIcon>@(context.Item.Enabled ? "mdi-check-bold" : "mdi-close-thick")</MIcon>
-                        </MButton>
+                            </MButton>
                         break;
-                    case "Actions":
+                    case ActionsHeaderName:
                         <MButtonGroup Dense Borderless Rounded>
-                            <MButton Depressed Small Color="primary">
+                        <MButton Depressed Small Color="primary" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
+                                <MIcon Color="white">mdi-square-edit-outline</MIcon>Edit
+                            </MButton>
+                            <MButton Depressed Small Color="warning" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
                                 <MIcon Color="white">mdi-square-edit-outline</MIcon>Edit
                             </MButton>
                             <MButton Depressed Small Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
@@ -111,12 +114,22 @@
                 <MPagination @bind-Value=@this.CurrentPageIndex Color="primary" Circle Length=@this.TotalPageCount></MPagination>
             </MCol>
         </MRow>
+        <PModal @bind-Value=@this.ShowUpdateUserModal
+                Title=@($"Update User {this.CurrentUser?.UserName} ({this.CurrentUser?.Id})") Persistent MaxWidth="600"
+                OnSave="this.OnUpdateUserModalSave"
+                OnCancel="this.OnUpdateUserModelCancel"
+                OnDelete="this.OnUpdateUserModelDelete">
+            <ChildContent>
+                <UpdateUserComponent CurrentUser=@this.CurrentUser UserUpdateRequest=@this.UserUpdateRequest />
+            </ChildContent>
+        </PModal>
     </MCardText>
 </MCard>
 
 @code {
     protected bool LoadingUsers { get; set; }
     protected bool ShowCreateUserModal { get; set; }
+    protected bool ShowUpdateUserModal { get; set; }
     protected IList<RoleInformationResponse>? Roles { get; set; }
     protected int? Id { get; set; }
     protected string? Role { get; set; }
@@ -130,14 +143,17 @@
     protected int TotalPageCount => (int)Math.Ceiling(this.Users.Count() / (double)CurrentPageSize);
     protected List<UserInformationResponse> Users { get; set; } = new List<UserInformationResponse>();
     protected UserRegisterRequest UserRegisterRequest { get; set; }
-    protected readonly List<DataTableHeader<UserInformationResponse>> userHeader = new()
+    protected UserUpdateRequest UserUpdateRequest { get; set; }
+    protected UserInformationResponse CurrentUser { get; set; }
+    protected const string ActionsHeaderName = "Actions";
+    protected readonly List<DataTableHeader<UserInformationResponse>> UserHeaders = new()
     {
         new() { Value = nameof(UserInformationResponse.Id), Text=nameof(UserInformationResponse.Id), Filterable = true, Sortable = true },
         new() { Value = nameof(UserInformationResponse.UserName), Text=nameof(UserInformationResponse.UserName), Filterable = true, Sortable = true },
         new() { Value = nameof(UserInformationResponse.Email), Text=nameof(UserInformationResponse.Email), Filterable = true, Sortable = true },
         new() { Value = nameof(UserInformationResponse.PhoneNumber), Text=nameof(UserInformationResponse.PhoneNumber), Filterable = true, Sortable = true },
-        new() { Value = nameof(UserInformationResponse.Enabled), Text=nameof(UserInformationResponse.Enabled), Filterable = true, Sortable = true },
-        new() { Value = "Actions", Text="Actions", Filterable = false, Sortable = false},
+        new() { Value = nameof(UserInformationResponse.Enabled), Text=nameof(UserInformationResponse.Enabled), Filterable = true, Sortable = true, Align = DataTableHeaderAlign.Center, Groupable = true },
+        new() { Value = ActionsHeaderName, Text=ActionsHeaderName, Filterable = false, Sortable = false, Align = DataTableHeaderAlign.Center },
     };
 
     protected override async Task OnInitializedAsync()
@@ -177,10 +193,20 @@
     {
         try
         {
+            var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to toggle enable of: {user.UserName} ?", AlertTypes.Warning);
+            if (!confirmed) return;
+
             var newStatus = !user.Enabled;
-            await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
-            user.Enabled = newStatus;
-            await this.popupService.EnqueueSnackbarAsync($"Updated user [{user.UserName}] status to be {user.Enabled.ToStatus()}", AlertTypes.Success);
+            var response = await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
+            if (response?.IsSuccessStatusCode ?? false)
+            {
+                user.Enabled = newStatus;
+                await this.popupService.EnqueueSnackbarAsync($"Toggled user [{user.UserName}] status to be {user.Enabled.ToStatus()}", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Toggle user {user.UserName} status failed.", AlertTypes.Warning);
+            }
         }
         catch (Exception ex)
         {
@@ -188,22 +214,50 @@
         }
     }
 
-    protected async Task OnDeleteUser(UserInformationResponse user)
+    protected async Task<bool> OnDeleteUser(UserInformationResponse user)
     {
         try
         {
             var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to delete user: {user.UserName} ?", AlertTypes.Warning);
-            if (!confirmed) return;
+            if (!confirmed) return false;
 
             var response = await this.themisUserClient.DeleteUserAsync(user.Id);
             if (response?.IsSuccessStatusCode ?? false)
             {
                 this.Users.Remove(user);
                 await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} deleted.", AlertTypes.Success);
+                return true;
             }
             else
             {
                 await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} delete failed.", AlertTypes.Warning);
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+            return false;
+        }
+    }
+
+    protected async Task OnResetUserPassword(UserInformationResponse user)
+    {
+        try
+        {
+            var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to reset password of: {user.UserName} ?", AlertTypes.Warning);
+            if (!confirmed) return;
+
+            var newPassword = IdentityContract.DefaultUserPassword;
+            var resetPasswordRequest = new UserUpdateRequest() { NewPassword = newPassword, ConfirmPassword = newPassword };
+            var response = await this.themisUserClient.UpdateUserAsync(user.Id, resetPasswordRequest);
+            if (response?.IsSuccessStatusCode ?? false)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset failed.", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
@@ -220,7 +274,7 @@
 
     protected async Task OnCreateUserModalSave()
     {
-        if (string.IsNullOrWhiteSpace(this.UserRegisterRequest.UserName))
+        if (string.IsNullOrWhiteSpace(this.UserRegisterRequest!.UserName))
         {
             await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
             return;
@@ -262,5 +316,70 @@
     protected async Task OnCreateUserModelCancel()
     {
         this.ShowCreateUserModal = false;
+    }
+
+    protected async Task OnShowUpdateUserModal(UserInformationResponse user)
+    {
+        this.CurrentUser = user;
+        this.UserUpdateRequest = new()
+            {
+                Email = user.Email,
+                Enabled = user.Enabled,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+            };
+        this.ShowUpdateUserModal = true;
+    }
+
+    protected async Task OnUpdateUserModalSave()
+    {
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.UserName))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.Email))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Email is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.PhoneNumber))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Phone number is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+
+        try
+        {
+            var user = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
+            if (user is null)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User update failed", AlertTypes.Warning);
+            }
+            else
+            {
+                this.CurrentUser.Email = this.UserUpdateRequest.Email;
+                this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
+                this.CurrentUser.PhoneNumber = this.UserUpdateRequest.PhoneNumber;
+                this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;
+                this.ShowUpdateUserModal = false;
+                await this.popupService.EnqueueSnackbarAsync($"User {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnUpdateUserModelCancel()
+    {
+        this.ShowUpdateUserModal = false;
+    }
+
+    protected async Task OnUpdateUserModelDelete()
+    {
+        if (await this.OnDeleteUser(this.CurrentUser))
+            this.ShowUpdateUserModal = false;
     }
 }

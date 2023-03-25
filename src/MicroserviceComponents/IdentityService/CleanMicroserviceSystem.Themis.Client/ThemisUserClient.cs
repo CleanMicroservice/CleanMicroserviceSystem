@@ -52,8 +52,6 @@ public class ThemisUserClient : OceanusServiceClientBase
         }
         else if (response.StatusCode == HttpStatusCode.BadRequest)
         {
-            var content = await response.Content.ReadAsStringAsync();
-            this.logger.LogWarning(content);
             var result = await response.Content.ReadFromJsonAsync<CommonResult>();
             throw new InvalidOperationException($"{response.StatusCode} : {string.Join("; ", result!.Errors.Select(error => $"{error.Code} - {error.Message}"))}");
         }
