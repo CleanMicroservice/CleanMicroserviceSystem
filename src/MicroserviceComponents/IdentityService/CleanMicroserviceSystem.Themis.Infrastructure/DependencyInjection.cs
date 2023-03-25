@@ -5,6 +5,7 @@ using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
 using CleanMicroserviceSystem.Themis.Infrastructure.Repository;
 using CleanMicroserviceSystem.Themis.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("ServiceDB")!; 
+        var connectionString = configuration.GetConnectionString("ServiceDB")!;
         services
             .AddCors(options => options
                 .AddDefaultPolicy(builder => builder
@@ -59,7 +60,8 @@ public static class DependencyInjection
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
             })
-            .AddEntityFrameworkStores<IdentityDbContext>();
+            .AddEntityFrameworkStores<IdentityDbContext>()
+            .AddDefaultTokenProviders();
         return services;
     }
 }

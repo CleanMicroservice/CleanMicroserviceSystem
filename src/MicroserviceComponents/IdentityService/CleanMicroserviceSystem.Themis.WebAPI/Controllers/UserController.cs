@@ -41,7 +41,6 @@ public class UserController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
     public async Task<ActionResult<UserInformationResponse>> Get()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
@@ -68,7 +67,6 @@ public class UserController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPut]
-    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
     public async Task<ActionResult<CommonResult>> Put([FromBody] UserUpdateRequest request)
     {
         var userName = this.HttpContext.User?.Identity?.Name;
@@ -98,16 +96,26 @@ public class UserController : ControllerBase
         }
 
         var result = await this.userManager.UpdateAsync(user);
-        var commonResult = new CommonResult(
-            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-        if (!result.Succeeded)
+        var commonResult = new CommonResult(result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        if (!string.IsNullOrEmpty(request.NewPassword))
         {
-            return this.BadRequest(commonResult);
+            if (string.IsNullOrEmpty(request.CurrentPassword))
+            {
+                commonResult.Errors.Add(new CommonResultError("Current password is required to change password."));
+            }
+            else
+            {
+                result = await this.userManager.ChangePasswordAsync(user, request.CurrentPassword!, request.NewPassword!);
+                if(!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                    }
+                }
+            }
         }
-        else
-        {
-            return this.Ok(result);
-        }
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
     #endregion
 
@@ -245,7 +253,19 @@ public class UserController : ControllerBase
         var result = await this.userManager.UpdateAsync(user);
         var commonResult = new CommonResult(
             result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-        return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+        if (!string.IsNullOrEmpty(request.NewPassword))
+        {
+            var resetPasswordToken = await this.userManager.GeneratePasswordResetTokenAsync(user);
+            result = await this.userManager.ResetPasswordAsync(user, resetPasswordToken, request.NewPassword!);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+            }
+        }
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>

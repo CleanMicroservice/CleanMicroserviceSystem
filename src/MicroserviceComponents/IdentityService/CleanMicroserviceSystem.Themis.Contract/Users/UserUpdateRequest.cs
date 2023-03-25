@@ -2,6 +2,7 @@
 using CleanMicroserviceSystem.Oceanus.Contract.Abstraction;
 
 namespace CleanMicroserviceSystem.Themis.Contract.Users;
+
 public class UserUpdateRequest : ContractBase
 {
     public string? UserName { get; set; }
@@ -13,4 +14,14 @@ public class UserUpdateRequest : ContractBase
     public string? PhoneNumber { get; set; }
 
     public bool? Enabled { get; set; }
+
+    [DataType(DataType.Password)]
+    public string? CurrentPassword { get; set; }
+
+    [DataType(DataType.Password)]
+    public string? NewPassword { get; set; }
+
+    [DataType(DataType.Password)]
+    [Compare(nameof(NewPassword), ErrorMessage = "Confirm password does not match with Password.")]
+    public string? ConfirmPassword { get; set; }
 }
