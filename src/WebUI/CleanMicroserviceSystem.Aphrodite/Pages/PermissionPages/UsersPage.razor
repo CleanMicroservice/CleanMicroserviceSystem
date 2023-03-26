@@ -93,17 +93,41 @@
                         break;
                     case ActionsHeaderName:
                         <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
-                            <MButtonGroup Dense Borderless Rounded>
-                            <MButton Depressed Small Color="primary" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
-                                    <MIcon Color="white">mdi-square-edit-outline</MIcon>Edit
-                                </MButton>
-                                <MButton Depressed Small Color="warning" OnClick="()=>this.OnResetUserPassword(context.Item)">
-                                    <MIcon Color="white">mdi-lock-reset</MIcon>Reset Pass
-                                </MButton>
-                                <MButton Depressed Small Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
-                                    <MIcon Color="white">mdi-trash-can-outline</MIcon>Delete
-                                </MButton>
-                            </MButtonGroup>
+                            <MMenu Right Bottom Rounded="@("xl")">
+                                <ActivatorContent Context="menuContext">
+                                    <MButton Color="primary" Icon @attributes="@menuContext.Attrs">
+                                        <MIcon>mdi-dots-horizontal</MIcon>
+                                    </MButton>
+                                </ActivatorContent>
+                                <ChildContent>
+                                    <MList>
+                                        <MListItem Color="primary" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
+                                            <MListItemIcon>
+                                                <MIcon Color="primary">mdi-square-edit-outline</MIcon>
+                                            </MListItemIcon>
+                                            <MListItemContent>
+                                                <MListItemTitle>Edit</MListItemTitle>
+                                            </MListItemContent>
+                                        </MListItem>
+                                        <MListItem Color="warning" OnClick="()=>this.OnResetUserPassword(context.Item)">
+                                            <MListItemIcon>
+                                                <MIcon Color="warning">mdi-lock-reset</MIcon>
+                                            </MListItemIcon>
+                                            <MListItemContent>
+                                                <MListItemTitle>Reset Password</MListItemTitle>
+                                            </MListItemContent>
+                                        </MListItem>
+                                        <MListItem Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
+                                            <MListItemIcon>
+                                                <MIcon Color="error">mdi-trash-can-outline</MIcon>
+                                            </MListItemIcon>
+                                            <MListItemContent>
+                                                <MListItemTitle>Delete</MListItemTitle>
+                                            </MListItemContent>
+                                        </MListItem>
+                                    </MList>
+                                </ChildContent>
+                            </MMenu>
                         </AuthorizeView>
                         break;
                     default:
