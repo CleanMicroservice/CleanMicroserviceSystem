@@ -64,8 +64,7 @@ public class ThemisRoleClient : OceanusServiceClientBase
     public async Task<CommonResult?> DeleteRoleAsync(int id)
     {
         var uri = this.BuildUri($"/api/Role/{id}");
-        var response = await this.httpClient.DeleteAsync(uri);
-        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        var commonResult = await this.httpClient.DeleteFromJsonAsync<CommonResult>(uri);
         return commonResult;
     }
 

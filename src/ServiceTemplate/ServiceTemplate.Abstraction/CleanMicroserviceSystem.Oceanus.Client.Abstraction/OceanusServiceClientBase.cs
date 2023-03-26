@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Net.Http.Json;
+using System.Net;
+using CleanMicroserviceSystem.DataStructure;
+using Microsoft.Extensions.Logging;
 
 namespace CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 
@@ -23,4 +26,32 @@ public abstract class OceanusServiceClientBase
     }
 
     protected virtual Uri BuildUri(string uri) => new(this.baseUriPrefix, uri.TrimStart('/'));
+
+    protected virtual async Task<CommonResult?> GetCommonResult(HttpResponseMessage response)
+    {
+        if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
+        {
+            var result = await response.Content.ReadFromJsonAsync<WebApiValidateResult>();
+            throw new ArgumentException($"{response.StatusCode} : {result?.ToString()}");
+        }
+        else
+        {
+            var result = await response.Content.ReadFromJsonAsync<CommonResult>();
+            return result;
+        }
+    }
+
+    protected virtual async Task<CommonResult<TEntity>?> GetCommonResult<TEntity>(HttpResponseMessage response)
+    {
+        if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
+        {
+            var result = await response.Content.ReadFromJsonAsync<WebApiValidateResult>();
+            throw new ArgumentException($"{response.StatusCode} : {result?.ToString()}");
+        }
+        else
+        {
+            var result = await response.Content.ReadFromJsonAsync<CommonResult<TEntity>>();
+            return result;
+        }
+    }
 }

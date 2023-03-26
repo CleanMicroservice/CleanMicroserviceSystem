@@ -45,9 +45,6 @@ public class UserController : ControllerBase
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Get current user: {userName}");
-        if (string.IsNullOrEmpty(userName))
-            return this.BadRequest();
-
         var user = await this.userManager.FindByNameAsync(userName!);
         return user is null
             ? this.NotFound()
@@ -71,12 +68,9 @@ public class UserController : ControllerBase
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Update current user: {userName}");
-        if (string.IsNullOrEmpty(userName))
-            return this.BadRequest();
-
         var user = await this.userManager.FindByNameAsync(userName!);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find current User: {userName}")));
 
         if (!string.IsNullOrEmpty(request.UserName))
         {
@@ -106,7 +100,7 @@ public class UserController : ControllerBase
             else
             {
                 result = await this.userManager.ChangePasswordAsync(user, request.CurrentPassword!, request.NewPassword!);
-                if(!result.Succeeded)
+                if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
                     {
@@ -176,7 +170,7 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [AllowAnonymous]
-    public async Task<ActionResult<UserInformationResponse>> Post([FromBody] UserRegisterRequest request)
+    public async Task<ActionResult<CommonResult<UserInformationResponse>>> Post([FromBody] UserRegisterRequest request)
     {
         this.logger.LogInformation($"Create User: {request.UserName}");
         var newUser = new OceanusUser()
@@ -186,24 +180,28 @@ public class UserController : ControllerBase
             PhoneNumber = request.PhoneNumber,
         };
         var result = await this.userManager.CreateAsync(newUser, request.Password);
+        var commonResult = new CommonResult<UserInformationResponse>();
         if (!result.Succeeded)
         {
-            var commonResult = new CommonResult<UserInformationResponse>(
-                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-            return this.BadRequest(commonResult);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+            }
         }
         else
         {
             newUser = await this.userManager.FindByNameAsync(request.UserName);
-            return this.Ok(new UserInformationResponse()
+            commonResult.Entity = new UserInformationResponse()
             {
                 Id = newUser!.Id,
                 UserName = newUser!.UserName,
                 Email = newUser!.Email,
                 PhoneNumber = newUser!.PhoneNumber,
                 Enabled = !(newUser.LockoutEnabled && newUser.LockoutEnd.HasValue && newUser.LockoutEnd.Value >= DateTime.UtcNow),
-            });
+            };
         }
+
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -219,26 +217,14 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Update User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         if (!string.IsNullOrEmpty(request.UserName))
         {
-            var existedUser = await this.userManager.FindByNameAsync(request.UserName);
-            if (existedUser is not null &&
-                existedUser.Id != user.Id)
-            {
-                return this.BadRequest();
-            }
             user.UserName = request.UserName;
         }
         if (!string.IsNullOrEmpty(request.Email))
         {
-            var existedUser = await this.userManager.FindByEmailAsync(request.Email);
-            if (existedUser is not null &&
-                existedUser.Id != user.Id)
-            {
-                return this.BadRequest();
-            }
             user.Email = request.Email;
         }
         if (!string.IsNullOrEmpty(request.PhoneNumber))
@@ -275,14 +261,15 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<ActionResult<CommonResult>> Delete(string id)
     {
         this.logger.LogInformation($"Delete User: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
-        await this.userManager.DeleteAsync(user);
-        return this.Ok();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
+        var result = await this.userManager.DeleteAsync(user);
+        var commonResult = new CommonResult(result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        return this.Ok(commonResult);
     }
     #endregion
 
@@ -324,44 +311,43 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Update User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         var existingClaims = await this.userManager.GetClaimsAsync(user);
         var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
         var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var commonResult = new CommonResult();
 
+        var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
+        if (claimsToRemove.Any())
         {
-            var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
-            if (claimsToRemove.Any())
+            var result = await this.userManager.RemoveClaimsAsync(user, claimsToRemove);
+            if (!result.Succeeded)
             {
-                var result = await this.userManager.RemoveClaimsAsync(user, claimsToRemove);
-                if (!result.Succeeded)
+                foreach (var error in result.Errors)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
                 }
             }
         }
 
+        var claimsToAdd = requests
+            .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
+            .Select(claim => new Claim(claim.Type, claim.Value))
+            .ToArray();
+        if (claimsToAdd.Any())
         {
-            var claimsToAdd = requests
-                .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
-                .Select(claim => new Claim(claim.Type, claim.Value))
-                .ToArray();
-            if (claimsToAdd.Any())
+            var result = await this.userManager.AddClaimsAsync(user, claimsToAdd);
+            if (!result.Succeeded)
             {
-                var result = await this.userManager.AddClaimsAsync(user, claimsToAdd);
-                if (!result.Succeeded)
+                foreach (var error in result.Errors)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
                 }
             }
         }
 
-        return this.Ok();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -377,10 +363,11 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Create User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         var existingClaims = await this.userManager.GetClaimsAsync(user);
         var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var commonResult = new CommonResult();
 
         var claimsToAdd = requests
             .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
@@ -389,12 +376,13 @@ public class UserController : ControllerBase
         if (claimsToAdd.Any())
         {
             var result = await this.userManager.AddClaimsAsync(user, claimsToAdd);
-            var commonResult = new CommonResult(
-                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-            return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+            }
         }
 
-        return this.NoContent();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -410,10 +398,12 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Delete User Claims: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         var existingClaims = await this.userManager.GetClaimsAsync(user);
         var existingClaimMap = existingClaims.ToDictionary(claim => (claim.Type, claim.Value), claim => claim);
+        var commonResult = new CommonResult();
+
         var claimsToRemove = requests
             .Select(claim => existingClaimMap.TryGetValue((claim.Type, claim.Value), out var existingClaim) ? existingClaim : null)
             .OfType<Claim>()
@@ -421,12 +411,13 @@ public class UserController : ControllerBase
         if (claimsToRemove.Any())
         {
             var result = await this.userManager.RemoveClaimsAsync(user, claimsToRemove);
-            var commonResult = new CommonResult(
-                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-            return result.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+            }
         }
 
-        return this.NoContent();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
     #endregion
 
@@ -464,49 +455,48 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Update User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         var existingRoles = await this.userManager.GetRolesAsync(user);
         var existingRoleSet = existingRoles.ToHashSet();
         var requestRoleSet = requests.ToHashSet();
+        var commonResult = new CommonResult();
 
+        var rolesToRemove = existingRoleSet
+            .Except(requestRoleSet)
+            .Where(role => this.userManager.IsInRoleAsync(user, role).Result)
+            .ToArray();
+        if (rolesToRemove.Any())
         {
-            var rolesToRemove = existingRoleSet
-                .Except(requestRoleSet)
-                .Where(role => this.userManager.IsInRoleAsync(user, role).Result)
-                .ToArray();
-            if (rolesToRemove.Any())
+            var result = await this.userManager.RemoveFromRolesAsync(user, rolesToRemove);
+            if (!result.Succeeded)
             {
-                var result = await this.userManager.RemoveFromRolesAsync(user, rolesToRemove);
-                if (!result.Succeeded)
+                foreach (var error in result.Errors)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
                 }
             }
         }
 
+        var rolesToAdd = requestRoleSet
+            .Except(existingRoleSet)
+            .Where(role =>
+                this.roleManager.RoleExistsAsync(role).Result &&
+                !this.userManager.IsInRoleAsync(user, role).Result)
+            .ToArray();
+        if (rolesToAdd.Any())
         {
-            var rolesToAdd = requestRoleSet
-                .Except(existingRoleSet)
-                .Where(role =>
-                    this.roleManager.RoleExistsAsync(role).Result &&
-                    !this.userManager.IsInRoleAsync(user, role).Result)
-                .ToArray();
-            if (rolesToAdd.Any())
+            var result = await this.userManager.AddToRolesAsync(user, rolesToAdd);
+            if (!result.Succeeded)
             {
-                var result = await this.userManager.AddToRolesAsync(user, rolesToAdd);
-                if (!result.Succeeded)
+                foreach (var error in result.Errors)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
                 }
             }
         }
 
-        return this.Ok();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -522,16 +512,13 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Create User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         requests = requests
             .Where(role =>
                 this.roleManager.RoleExistsAsync(role).Result &&
                 !this.userManager.IsInRoleAsync(user, role).Result)
             .ToArray();
-
-        if (!requests.Any())
-            return this.NoContent();
 
         var result = await this.userManager.AddToRolesAsync(user, requests);
         var commonResult = new CommonResult(
@@ -552,14 +539,11 @@ public class UserController : ControllerBase
         this.logger.LogInformation($"Delete User Roles: {id}");
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
         requests = requests
             .Where(role => this.userManager.IsInRoleAsync(user, role).Result)
             .ToArray();
-
-        if (!requests.Any())
-            return this.NoContent();
 
         var result = await this.userManager.RemoveFromRolesAsync(user, requests);
         var commonResult = new CommonResult(

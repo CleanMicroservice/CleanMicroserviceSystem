@@ -29,37 +29,18 @@ public class ThemisUserClient : OceanusServiceClientBase
         return user;
     }
 
-    public async Task<HttpResponseMessage?> UpdateCurrentUserAsync(UserUpdateRequest request)
+    public async Task<CommonResult?> UpdateCurrentUserAsync(UserUpdateRequest request)
     {
         var uri = this.BuildUri("/api/User");
         var response = await this.httpClient.PutAsJsonAsync(uri, request);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
-    public async Task<UserInformationResponse?> RegisterUserAsync(UserRegisterRequest request)
+    public async Task<CommonResult<UserInformationResponse>?> RegisterUserAsync(UserRegisterRequest request)
     {
         var uri = this.BuildUri("/api/User");
         var response = await this.httpClient.PostAsJsonAsync(uri, request);
-        if (response.IsSuccessStatusCode)
-        {
-            var user = await response.Content.ReadFromJsonAsync<UserInformationResponse>();
-            return user;
-        }
-        else if (response.StatusCode == HttpStatusCode.UnprocessableEntity)
-        {
-            var result = await response.Content.ReadFromJsonAsync<WebApiValidateResult>();
-            throw new ArgumentException($"{response.StatusCode} : {string.Join("; ", result!.Errors!.Select(pair => $"{pair.Key} : {string.Join("; ", pair.Value)}"))}");
-        }
-        else if (response.StatusCode == HttpStatusCode.BadRequest)
-        {
-            var result = await response.Content.ReadFromJsonAsync<CommonResult>();
-            throw new InvalidOperationException($"{response.StatusCode} : {string.Join("; ", result!.Errors.Select(error => $"{error.Code} - {error.Message}"))}");
-        }
-        else
-        {
-            var content = await response.Content.ReadAsStringAsync();
-            throw new InvalidOperationException($"{response.StatusCode} : {content}");
-        }
+        return await this.GetCommonResult<UserInformationResponse>(response);
     }
 
     public async Task<UserInformationResponse?> GetUserAsync(int id)
@@ -83,18 +64,18 @@ public class ThemisUserClient : OceanusServiceClientBase
         return user;
     }
 
-    public async Task<HttpResponseMessage?> UpdateUserAsync(int id, UserUpdateRequest request)
+    public async Task<CommonResult?> UpdateUserAsync(int id, UserUpdateRequest request)
     {
         var uri = this.BuildUri($"/api/User/{id}");
         var response = await this.httpClient.PutAsJsonAsync(uri, request);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
-    public async Task<HttpResponseMessage?> DeleteUserAsync(int id)
+    public async Task<CommonResult?> DeleteUserAsync(int id)
     {
         var uri = this.BuildUri($"/api/User/{id}");
-        var response = await this.httpClient.DeleteAsync(uri);
-        return response;
+        var commonResult = await this.httpClient.DeleteFromJsonAsync<CommonResult>(uri);
+        return commonResult;
     }
 
     public async Task<IEnumerable<ClaimInformationResponse>?> GetUserClaimsAsync(int id)
@@ -104,25 +85,25 @@ public class ThemisUserClient : OceanusServiceClientBase
         return claims;
     }
 
-    public async Task<HttpResponseMessage> AddUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> AddUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
-    public async Task<HttpResponseMessage> UpdateUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> UpdateUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
         var response = await this.httpClient.PutAsJsonAsync(uri, requests);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
-    public async Task<HttpResponseMessage?> DeleteUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> DeleteUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
     public async Task<IEnumerable<RoleInformationResponse>?> GetUserRolesAsync(int id)
@@ -132,24 +113,24 @@ public class ThemisUserClient : OceanusServiceClientBase
         return roles;
     }
 
-    public async Task<HttpResponseMessage> AddUserRolesAsync(int id, IEnumerable<string> requests)
+    public async Task<CommonResult?> AddUserRolesAsync(int id, IEnumerable<string> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Roles");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
-    public async Task<HttpResponseMessage> UpdateUserRolesAsync(int id, IEnumerable<string> requests)
+    public async Task<CommonResult?> UpdateUserRolesAsync(int id, IEnumerable<string> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Roles");
         var response = await this.httpClient.PutAsJsonAsync(uri, requests);
-        return response;
+        return await this.GetCommonResult(response);
     }
 
-    public async Task<HttpResponseMessage?> DeleteUserRolesAsync(int id, IEnumerable<string> requests)
+    public async Task<CommonResult?> DeleteUserRolesAsync(int id, IEnumerable<string> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Roles");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
-        return response;
+        return await this.GetCommonResult(response);
     }
 }
