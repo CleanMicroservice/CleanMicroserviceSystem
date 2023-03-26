@@ -2,8 +2,15 @@
 
 public class CommonResult
 {
+    public readonly static CommonResult Success = new();
+
     public CommonResult()
         : this(new List<CommonResultError>())
+    {
+    }
+
+    public CommonResult(CommonResultError error)
+        : this(new List<CommonResultError>() { error })
     {
     }
 

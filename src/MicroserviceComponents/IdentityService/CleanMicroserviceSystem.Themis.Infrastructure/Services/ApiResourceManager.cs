@@ -39,7 +39,7 @@ public class ApiResourceManager : IApiResourceManager
         this.logger.LogDebug($"Update api resource: {resource.Id}");
         resource = await this.apiResourceRepository.UpdateAsync(resource);
         _ = await this.apiResourceRepository.SaveChangesAsync();
-        return new CommonResult();
+        return CommonResult.Success;
     }
 
     public async Task<CommonResult> DeleteAsync(ApiResource resource)
@@ -47,7 +47,7 @@ public class ApiResourceManager : IApiResourceManager
         this.logger.LogDebug($"Update api resource: {resource.Id}");
         _ = await this.apiResourceRepository.RemoveAsync(resource);
         _ = await this.apiResourceRepository.SaveChangesAsync();
-        return new CommonResult();
+        return CommonResult.Success;
     }
 
     public async Task<ApiResource?> FindByIdAsync(int resourceId)

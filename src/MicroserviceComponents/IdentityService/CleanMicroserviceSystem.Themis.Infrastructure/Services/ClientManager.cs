@@ -90,7 +90,7 @@ public class ClientManager : IClientManager
         this.logger.LogDebug($"Update client {client.Id}");
         client = await this.clientRepository.UpdateAsync(client);
         _ = await this.clientRepository.SaveChangesAsync();
-        return new CommonResult();
+        return CommonResult.Success;
     }
 
     public async Task<CommonResult> DeleteAsync(Client client)
@@ -98,7 +98,7 @@ public class ClientManager : IClientManager
         this.logger.LogDebug($"Delete client {client.Id}");
         _ = await this.clientRepository.RemoveAsync(client);
         _ = await this.clientRepository.SaveChangesAsync();
-        return new CommonResult();
+        return CommonResult.Success;
     }
 
     public async Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId)

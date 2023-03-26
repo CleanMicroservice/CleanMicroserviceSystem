@@ -79,7 +79,7 @@ public class ApiResourceController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<ApiResourceInformationResponse>> Post([FromBody] ApiResourceCreateRequest request)
+    public async Task<ActionResult<CommonResult<ApiResourceInformationResponse>>> Post([FromBody] ApiResourceCreateRequest request)
     {
         this.logger.LogInformation($"Create API Resource: {request.Name}");
         var newResource = new ApiResource()
@@ -89,20 +89,22 @@ public class ApiResourceController : ControllerBase
             Description = request.Description,
         };
         var result = await this.apiResourceManager.CreateAsync(newResource);
+        var commonResult = new CommonResult<ApiResourceInformationResponse>(result.Errors);
         if (!result.Succeeded)
         {
-            return this.BadRequest(result);
+            return this.BadRequest(commonResult);
         }
         else
         {
             newResource = await this.apiResourceManager.FindByIdAsync(newResource.Id);
-            return this.Ok(new ApiResourceInformationResponse()
+            commonResult.Entity = new ApiResourceInformationResponse()
             {
-                Id = newResource.Id,
+                Id = newResource!.Id,
                 Name = newResource.Name,
                 Enabled = newResource.Enabled,
                 Description = newResource.Description,
-            });
+            };
+            return this.Ok(commonResult);
         }
     }
 
@@ -119,7 +121,7 @@ public class ApiResourceController : ControllerBase
         this.logger.LogInformation($"Update API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Api Resource with id: {id}")));
 
         if (request.Enabled.HasValue)
         {
@@ -134,8 +136,8 @@ public class ApiResourceController : ControllerBase
             resource.Name = request.Name;
         }
 
-        var result = await this.apiResourceManager.UpdateAsync(resource);
-        return result.Succeeded ? this.Ok(result) : this.BadRequest(result);
+        var commonResult = await this.apiResourceManager.UpdateAsync(resource);
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -145,14 +147,14 @@ public class ApiResourceController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<ActionResult<CommonResult>> Delete(int id)
     {
         this.logger.LogInformation($"Delete API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
             return this.NotFound();
-        await this.apiResourceManager.DeleteAsync(resource);
-        return this.Ok();
+        var commonResult = await this.apiResourceManager.DeleteAsync(resource);
+        return this.Ok(commonResult);
     }
     #endregion
 }

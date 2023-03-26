@@ -21,12 +21,12 @@ public class ThemisApiResourceClient : OceanusServiceClientBase
         this.Logger = logger;
     }
 
-    public async Task<ApiResourceInformationResponse?> CreateApiResourceAsync(ApiResourceCreateRequest request)
+    public async Task<CommonResult<ApiResourceInformationResponse>?> CreateApiResourceAsync(ApiResourceCreateRequest request)
     {
         var uri = this.BuildUri("/api/ApiResource");
         var response = await this.httpClient.PostAsJsonAsync(uri, request);
-        var apiResource = await response.Content.ReadFromJsonAsync<ApiResourceInformationResponse>();
-        return apiResource;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult<ApiResourceInformationResponse>>();
+        return commonResult;
     }
 
     public async Task<ApiResourceInformationResponse?> GetApiResourceAsync(int id)
@@ -49,17 +49,18 @@ public class ThemisApiResourceClient : OceanusServiceClientBase
         return apiResource;
     }
 
-    public async Task<HttpResponseMessage?> UpdateApiResourceAsync(int id, ApiResourceUpdateRequest request)
+    public async Task<CommonResult?> UpdateApiResourceAsync(int id, ApiResourceUpdateRequest request)
     {
         var uri = this.BuildUri($"/api/ApiResource/{id}");
         var response = await this.httpClient.PutAsJsonAsync(uri, request);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage?> DeleteApiResourceAsync(int id)
+    public async Task<CommonResult?> DeleteApiResourceAsync(int id)
     {
         var uri = this.BuildUri($"/api/ApiResource/{id}");
-        var response = await this.httpClient.DeleteAsync(uri);
-        return response;
+        var commonResult = await this.httpClient.DeleteFromJsonAsync<CommonResult>(uri);
+        return commonResult;
     }
 }
