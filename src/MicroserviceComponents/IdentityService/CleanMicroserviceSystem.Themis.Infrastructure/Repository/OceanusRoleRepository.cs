@@ -36,7 +36,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
     }
 
     public async Task<PaginatedEnumerable<OceanusUser>> SearchUsersAsync(
-        IEnumerable<int> roleIds,
+        int roleId,
         int? id,
         string? userName,
         string? email,
@@ -45,7 +45,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         int? count)
     {
         var users = this.AsQueryable()
-            .Where(role => roleIds.Contains(role.Id))
+            .Where(role => roleId == role.Id)
             .Join(this.dbContext.Set<IdentityUserRole<int>>(), role => role.Id, map => map.RoleId, (role, map) => new { Role = role, map.UserId })
             .Join(this.dbContext.Set<OceanusUser>(), tuple => tuple.UserId, user => user.Id, (map, user) => user);
 
@@ -57,6 +57,25 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
             users = users.Where(user => EF.Functions.Like(user.Email, $"%{email}%"));
         if (!string.IsNullOrEmpty(phoneNumber))
             users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
+
+        var originCounts = await users.CountAsync();
+        users = users.OrderBy(user => user.Id);
+        if (start.HasValue)
+            users = users.Skip(start.Value);
+        if (count.HasValue)
+            users = users.Take(count.Value);
+        return new PaginatedEnumerable<OceanusUser>(users.ToArray(), start, count, originCounts);
+    }
+
+    public async Task<PaginatedEnumerable<OceanusUser>> GetUsersAsync(
+        int roleId,
+        int? start,
+        int? count)
+    {
+        var users = this.AsQueryable()
+            .Where(role => roleId == role.Id)
+            .Join(this.dbContext.Set<IdentityUserRole<int>>(), role => role.Id, map => map.RoleId, (role, map) => new { Role = role, map.UserId })
+            .Join(this.dbContext.Set<OceanusUser>(), tuple => tuple.UserId, user => user.Id, (map, user) => user);
 
         var originCounts = await users.CountAsync();
         users = users.OrderBy(user => user.Id);

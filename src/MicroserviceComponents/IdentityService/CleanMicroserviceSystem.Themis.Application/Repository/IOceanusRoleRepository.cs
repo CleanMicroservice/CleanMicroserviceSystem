@@ -13,11 +13,16 @@ public interface IOceanusRoleRepository : IRepositoryBase<OceanusRole>
         int? count);
 
     Task<PaginatedEnumerable<OceanusUser>> SearchUsersAsync(
-        IEnumerable<int> roleIds,
+        int roleId,
         int? id,
         string? userName,
         string? email,
         string? phoneNumber,
+        int? start,
+        int? count);
+
+    Task<PaginatedEnumerable<OceanusUser>> GetUsersAsync(
+        int roleId,
         int? start,
         int? count);
 }

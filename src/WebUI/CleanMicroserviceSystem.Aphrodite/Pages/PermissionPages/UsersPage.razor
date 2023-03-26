@@ -11,18 +11,20 @@
     <MCardText Class="pa-6">
         <PPageHeader Title="Users" Subtitle=@($"{this.Users.Count()} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
             <LeftActions>
-                <MButton Color="primary" Rounded Depressed
-                         OnClick="this.OnShowCreateUserModal">
-                    <MIcon Left>mdi-plus</MIcon>Create
-                </MButton>
-                <PModal @bind-Value=@this.ShowCreateUserModal
-                        Title="Create User" Persistent MaxWidth="600"
-                        OnSave="this.OnCreateUserModalSave"
-                        OnCancel="this.OnCreateUserModelCancel">
-                    <ChildContent>
-                        <CreateUserComponent UserRegisterRequest=@this.UserRegisterRequest />
-                    </ChildContent>
-                </PModal>
+                <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
+                    <MButton Color="primary" Rounded Depressed
+                             OnClick="this.OnShowCreateUserModal">
+                        <MIcon Left>mdi-plus</MIcon>Create
+                    </MButton>
+                    <PModal @bind-Value=@this.ShowCreateUserModal
+                            Title="Create User" Persistent MaxWidth="600"
+                            OnSave="this.OnCreateUserModalSave"
+                            OnCancel="this.OnCreateUserModelCancel">
+                        <ChildContent>
+                            <CreateUserComponent UserRegisterRequest=@this.UserRegisterRequest />
+                        </ChildContent>
+                    </PModal>
+                </AuthorizeView>
             </LeftActions>
             <Filters>
                 <MRow>
@@ -83,17 +85,19 @@
                             </MButton>
                         break;
                     case ActionsHeaderName:
-                        <MButtonGroup Dense Borderless Rounded>
-                        <MButton Depressed Small Color="primary" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
-                                <MIcon Color="white">mdi-square-edit-outline</MIcon>Edit
-                            </MButton>
-                            <MButton Depressed Small Color="warning" OnClick="()=>this.OnResetUserPassword(context.Item)">
-                                <MIcon Color="white">mdi-lock-reset</MIcon>Reset Pass
-                            </MButton>
-                            <MButton Depressed Small Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
-                                <MIcon Color="white">mdi-trash-can-outline</MIcon>Delete
-                            </MButton>
-                        </MButtonGroup>
+                        <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
+                            <MButtonGroup Dense Borderless Rounded>
+                            <MButton Depressed Small Color="primary" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
+                                    <MIcon Color="white">mdi-square-edit-outline</MIcon>Edit
+                                </MButton>
+                                <MButton Depressed Small Color="warning" OnClick="()=>this.OnResetUserPassword(context.Item)">
+                                    <MIcon Color="white">mdi-lock-reset</MIcon>Reset Pass
+                                </MButton>
+                                <MButton Depressed Small Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
+                                    <MIcon Color="white">mdi-trash-can-outline</MIcon>Delete
+                                </MButton>
+                            </MButtonGroup>
+                        </AuthorizeView>
                         break;
                     default:
                         @context.Value

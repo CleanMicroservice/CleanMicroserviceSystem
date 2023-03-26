@@ -437,9 +437,21 @@ public class UserController : ControllerBase
         if (user is null)
             return this.NotFound();
 
-        var result = await this.userManager.GetRolesAsync(user);
-        var roles = result.Select(role => new RoleInformationResponse() { RoleName = role }).ToArray();
-        return this.Ok(roles);
+        var roleNames = await this.userManager.GetRolesAsync(user);
+        var roles = new List<OceanusRole>();
+        foreach (var roleName in roleNames)
+        {
+            var role = await this.roleManager.FindByNameAsync(roleName);
+            roles.Add(role!);
+        }
+        var result = roles
+            .Select(role => new RoleInformationResponse()
+            {
+                Id = role.Id,
+                RoleName = role.Name
+            })
+            .ToArray();
+        return this.Ok(result);
     }
 
     /// <summary>

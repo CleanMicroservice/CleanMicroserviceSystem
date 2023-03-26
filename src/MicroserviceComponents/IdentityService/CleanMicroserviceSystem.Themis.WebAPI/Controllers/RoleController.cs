@@ -334,7 +334,7 @@ public class RoleController : ControllerBase
     {
         this.logger.LogInformation($"Get Role Users: {id}");
         var result = await this.oceanusRoleRepository.SearchUsersAsync(
-            new[] { id }, request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
+            id, request.Id, request.UserName, request.Email, request.PhoneNumber, request.Start, request.Count);
         var users = result.Values.Select(user => new UserInformationResponse()
         {
             Id = user.Id,
@@ -401,7 +401,7 @@ public class RoleController : ControllerBase
         if (role is null)
             return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
-        var existingUsers = await this.oceanusRoleRepository.SearchUsersAsync(new[] { id }, null, null, null, null, null, null);
+        var existingUsers = await this.oceanusRoleRepository.GetUsersAsync(id , null, null);
         var existingUserSet = existingUsers.Values.Select(user => user.Id).ToHashSet();
         var requestUserSet = requests.ToHashSet();
         var commonResult = new CommonResult();
