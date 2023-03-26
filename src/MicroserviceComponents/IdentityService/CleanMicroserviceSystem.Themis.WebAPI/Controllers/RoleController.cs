@@ -387,6 +387,64 @@ public class RoleController : ControllerBase
     }
 
     /// <summary>
+    /// Update role users
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="requests"></param>
+    /// <returns></returns>
+    [HttpPut("{id}/Users")]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+    public async Task<ActionResult<CommonResult>> PutUsers(int id, [FromBody] IEnumerable<int> requests)
+    {
+        this.logger.LogInformation($"Update Role Users: {id}");
+        var role = await this.roleManager.FindByIdAsync(id.ToString());
+        if (role is null)
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
+
+        var existingUsers = await this.oceanusRoleRepository.SearchUsersAsync(new[] { id }, null, null, null, null, null, null);
+        var existingUserSet = existingUsers.Values.Select(user => user.Id).ToHashSet();
+        var requestUserSet = requests.ToHashSet();
+        var commonResult = new CommonResult();
+
+        var usersToRemove = existingUsers.Values.Where(user => !requestUserSet.Contains(user.Id)).ToArray();
+        foreach (var userToRemove in usersToRemove)
+        {
+            var result = await this.userManager.RemoveFromRoleAsync(userToRemove, role!.Name!);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+            }
+        }
+
+        var userIdsToAdd = requests
+            .Where(userId => !existingUserSet.Contains(userId))
+            .ToArray();
+        foreach (var userId in requests)
+        {
+            var user = await this.userManager.FindByIdAsync(userId.ToString());
+            if (user is null ||
+                await this.userManager.IsInRoleAsync(user, role!.Name!))
+            {
+                continue;
+            }
+
+            var result = await this.userManager.AddToRoleAsync(user, role!.Name!);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+            }
+        }
+
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+    }
+
+    /// <summary>
     /// Delete role users
     /// </summary>
     /// <param name="id"></param>

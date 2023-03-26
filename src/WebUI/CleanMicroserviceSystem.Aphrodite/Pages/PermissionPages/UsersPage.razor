@@ -197,15 +197,15 @@
             if (!confirmed) return;
 
             var newStatus = !user.Enabled;
-            var response = await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
-            if (response?.IsSuccessStatusCode ?? false)
+            var commonResult = await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
+            if (commonResult?.Succeeded ?? false)
             {
                 user.Enabled = newStatus;
                 await this.popupService.EnqueueSnackbarAsync($"Toggled user [{user.UserName}] status to be {user.Enabled.ToStatus()}", AlertTypes.Success);
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"Toggle user {user.UserName} status failed.", AlertTypes.Warning);
+                await this.popupService.EnqueueSnackbarAsync($"Toggle user {user.UserName} status failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
@@ -221,8 +221,8 @@
             var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to delete user: {user.UserName} ?", AlertTypes.Warning);
             if (!confirmed) return false;
 
-            var response = await this.themisUserClient.DeleteUserAsync(user.Id);
-            if (response?.IsSuccessStatusCode ?? false)
+            var commonResult = await this.themisUserClient.DeleteUserAsync(user.Id);
+            if (commonResult?.Succeeded ?? false)
             {
                 this.Users.Remove(user);
                 await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} deleted.", AlertTypes.Success);
@@ -230,7 +230,7 @@
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} delete failed.", AlertTypes.Warning);
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} delete failed: {commonResult?.ToString()}", AlertTypes.Warning);
                 return false;
             }
         }
@@ -250,14 +250,14 @@
 
             var newPassword = IdentityContract.DefaultUserPassword;
             var resetPasswordRequest = new UserUpdateRequest() { NewPassword = newPassword, ConfirmPassword = newPassword };
-            var response = await this.themisUserClient.UpdateUserAsync(user.Id, resetPasswordRequest);
-            if (response?.IsSuccessStatusCode ?? false)
+            var commonResult = await this.themisUserClient.UpdateUserAsync(user.Id, resetPasswordRequest);
+            if (commonResult?.Succeeded ?? false)
             {
                 await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset.", AlertTypes.Success);
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset failed.", AlertTypes.Warning);
+                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
@@ -295,16 +295,17 @@
 
         try
         {
-            var user = await this.themisUserClient.RegisterUserAsync(this.UserRegisterRequest);
-            if (user is null)
+            var commonResult = await this.themisUserClient.RegisterUserAsync(this.UserRegisterRequest);
+            if (commonResult?.Succeeded ?? false)
             {
-                await this.popupService.EnqueueSnackbarAsync($"User create failed", AlertTypes.Warning);
-            }
-            else
-            {
+                var user = commonResult.Entity!;
                 this.Users.Add(user);
                 this.ShowCreateUserModal = false;
                 await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} ({user.Id}) created.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {this.UserRegisterRequest.UserName} create failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
@@ -351,12 +352,8 @@
 
         try
         {
-            var user = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
-            if (user is null)
-            {
-                await this.popupService.EnqueueSnackbarAsync($"User update failed", AlertTypes.Warning);
-            }
-            else
+            var commonResult = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
+            if (commonResult?.Succeeded ?? false)
             {
                 this.CurrentUser.Email = this.UserUpdateRequest.Email;
                 this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
@@ -364,6 +361,10 @@
                 this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;
                 this.ShowUpdateUserModal = false;
                 await this.popupService.EnqueueSnackbarAsync($"User {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
