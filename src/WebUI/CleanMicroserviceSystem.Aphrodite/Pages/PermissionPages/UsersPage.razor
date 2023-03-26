@@ -80,9 +80,16 @@
                 @switch (context.Header.Value)
                 {
                     case nameof(UserInformationResponse.Enabled):
-                        <MButton Icon Color="@(context.Item.Enabled?"success":"warning")" OnClick="()=>this.OnToggleUserEnable(context.Item)">
-                            <MIcon>@(context.Item.Enabled ? "mdi-check-bold" : "mdi-close-thick")</MIcon>
-                            </MButton>
+                        <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
+                            <Authorized>
+                                <MButton Icon Color="@(context.Item.Enabled?"success":"warning")" OnClick="()=>this.OnToggleUserEnable(context.Item)">
+                                    <MIcon>@(context.Item.Enabled ? "mdi-check-bold" : "mdi-close-thick")</MIcon>
+                                    </MButton>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <MIcon Color="@(context.Item.Enabled?"success":"warning")">@(context.Item.Enabled ? "mdi-check-bold" : "mdi-close-thick")</MIcon>
+                                </NotAuthorized>
+                            </AuthorizeView>
                         break;
                     case ActionsHeaderName:
                         <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
