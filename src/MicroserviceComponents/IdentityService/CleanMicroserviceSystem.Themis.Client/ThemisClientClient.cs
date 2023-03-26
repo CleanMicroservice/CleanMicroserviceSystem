@@ -47,18 +47,19 @@ public class ThemisClientClient : OceanusServiceClientBase
         return client;
     }
 
-    public async Task<HttpResponseMessage?> UpdateClientAsync(int id, ClientUpdateRequest request)
+    public async Task<CommonResult?> UpdateClientAsync(int id, ClientUpdateRequest request)
     {
         var uri = this.BuildUri($"/api/Client/{id}");
         var response = await this.httpClient.PutAsJsonAsync(uri, request);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage?> DeleteClientAsync(int id)
+    public async Task<CommonResult?> DeleteClientAsync(int id)
     {
         var uri = this.BuildUri($"/api/Client/{id}");
-        var response = await this.httpClient.DeleteAsync(uri);
-        return response;
+        var commonResult = await this.httpClient.DeleteFromJsonAsync<CommonResult>(uri);
+        return commonResult;
     }
 
     public async Task<IEnumerable<ClaimInformationResponse>?> GetClientClaimsAsync(int id)
@@ -68,24 +69,27 @@ public class ThemisClientClient : OceanusServiceClientBase
         return claims;
     }
 
-    public async Task<HttpResponseMessage> AddClientClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> AddClientClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Client/{id}/Claims");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage> UpdateClientClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> UpdateClientClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Client/{id}/Claims");
         var response = await this.httpClient.PutAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage?> DeleteClientClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> DeleteClientClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Client/{id}/Claims");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 }

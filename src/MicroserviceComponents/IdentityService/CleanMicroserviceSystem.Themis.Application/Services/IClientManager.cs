@@ -24,7 +24,7 @@ public interface IClientManager
 
     Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId);
 
-    Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims);
+    Task<CommonResult> AddClaimsAsync(IEnumerable<ClientClaim> claims);
 
-    Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds);
+    Task<CommonResult> RemoveClaimsAsync(IEnumerable<int> claimIds);
 }

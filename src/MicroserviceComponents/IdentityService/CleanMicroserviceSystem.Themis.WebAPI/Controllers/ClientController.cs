@@ -2,6 +2,7 @@
 using CleanMicroserviceSystem.Authentication.Domain;
 using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Application.Services;
+using CleanMicroserviceSystem.Themis.Contract.ApiResources;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
@@ -84,7 +85,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<ClientInformationResponse>> Post([FromBody] ClientCreateRequest request)
+    public async Task<ActionResult<CommonResult<ClientInformationResponse>>> Post([FromBody] ClientCreateRequest request)
     {
         this.logger.LogInformation($"Create Client: {request.Name}");
         var newClient = new Client()
@@ -94,20 +95,22 @@ public class ClientController : ControllerBase
             Description = request.Description,
         };
         var result = await this.clientManager.CreateAsync(newClient);
+        var commonResult = new CommonResult<ClientInformationResponse>(result.Errors);
         if (!result.Succeeded)
         {
-            return this.BadRequest(result);
+            return this.BadRequest(commonResult);
         }
         else
         {
             newClient = await this.clientManager.FindByIdAsync(newClient.Id);
-            return this.Ok(new ClientInformationResponse()
+            commonResult.Entity = new ClientInformationResponse()
             {
-                Id = newClient.Id,
+                Id = newClient!.Id,
                 Name = newClient.Name,
                 Enabled = newClient.Enabled,
                 Description = newClient.Description,
-            });
+            };
+            return this.Ok(commonResult);
         }
     }
 
@@ -124,7 +127,7 @@ public class ClientController : ControllerBase
         this.logger.LogInformation($"Update Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Client with id: {id}")));
 
         if (request.Enabled.HasValue)
         {
@@ -154,14 +157,14 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<ActionResult<CommonResult>> Delete(int id)
     {
         this.logger.LogInformation($"Delete Client: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
-            return this.NotFound();
-        await this.clientManager.DeleteAsync(client);
-        return this.Ok();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Client with id: {id}")));
+        var commonResult = await this.clientManager.DeleteAsync(client);
+        return this.Ok(commonResult);
     }
     #endregion
 
@@ -203,11 +206,12 @@ public class ClientController : ControllerBase
         this.logger.LogInformation($"Update Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Client with id: {id}")));
 
         var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
         var existingClaimSet = existingClaims.Select(claim => (claim.ClaimType, claim.ClaimValue)).ToHashSet();
         var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var commonResult = new CommonResult();
 
         var claimsToRemove = existingClaims
             .Where(claim => !requestClaimSet.Contains((claim.ClaimType, claim.ClaimValue)))
@@ -215,7 +219,11 @@ public class ClientController : ControllerBase
             .ToArray();
         if (claimsToRemove.Any())
         {
-            _ = await this.clientManager.RemoveClaimsAsync(claimsToRemove);
+            var result = await this.clientManager.RemoveClaimsAsync(claimsToRemove);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(error);
+            }
         }
 
         var claimsToAdd = requests
@@ -224,10 +232,14 @@ public class ClientController : ControllerBase
             .ToArray();
         if (claimsToAdd.Any())
         {
-            _ = await this.clientManager.AddClaimsAsync(claimsToAdd);
+            var result = await this.clientManager.AddClaimsAsync(claimsToAdd);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(error);
+            }
         }
 
-        return this.Ok();
+        return this.Ok(commonResult);
     }
 
     /// <summary>
@@ -238,12 +250,12 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Create Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Client with id: {id}")));
 
         var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
         var existingClaimSet = existingClaims.Select(claim => (claim.ClaimType, claim.ClaimValue)).ToHashSet();
@@ -251,13 +263,16 @@ public class ClientController : ControllerBase
             .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
             .Select(claim => new ClientClaim() { ClientId = client.Id, ClaimType = claim.Type, ClaimValue = claim.Value })
             .ToArray();
+        var commonResult = new CommonResult();
         if (claimsToAdd.Any())
         {
-            _ = await this.clientManager.AddClaimsAsync(claimsToAdd);
-            return this.Ok();
+            var result = await this.clientManager.AddClaimsAsync(claimsToAdd);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(error);
+            }
         }
-
-        return this.NoContent();
+        return this.Ok(commonResult);
     }
 
     /// <summary>
@@ -268,26 +283,29 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
     {
         this.logger.LogInformation($"Delete Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
         if (client is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Client with id: {id}")));
 
         var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
         var claimsToRemoveSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
         var claimsToRemove = existingClaims
             .Where(claim => claimsToRemoveSet.Contains((claim.ClaimType, claim.ClaimValue)))
             .ToArray();
+        var commonResult = new CommonResult();
         if (claimsToRemove.Any())
         {
             var claimToRemoveIds = claimsToRemove.Select(claim => claim.Id);
-            _ = await this.clientManager.RemoveClaimsAsync(claimToRemoveIds);
-            return this.Ok();
+            var result = await this.clientManager.RemoveClaimsAsync(claimToRemoveIds);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(error);
+            }
         }
-
-        return this.NoContent();
+        return this.Ok(commonResult);
     }
     #endregion
 }

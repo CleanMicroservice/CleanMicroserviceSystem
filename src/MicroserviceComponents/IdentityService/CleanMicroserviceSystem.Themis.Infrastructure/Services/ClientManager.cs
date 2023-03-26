@@ -88,7 +88,7 @@ public class ClientManager : IClientManager
     public async Task<CommonResult> UpdateAsync(Client client)
     {
         this.logger.LogDebug($"Update client {client.Id}");
-        client = await this.clientRepository.UpdateAsync(client);
+        _ = await this.clientRepository.UpdateAsync(client);
         _ = await this.clientRepository.SaveChangesAsync();
         return CommonResult.Success;
     }
@@ -107,15 +107,15 @@ public class ClientManager : IClientManager
         return this.clientClaimRepository.AsQueryable().Where(claim => claim.ClientId == clientId);
     }
 
-    public async Task<int> AddClaimsAsync(IEnumerable<ClientClaim> claims)
+    public async Task<CommonResult> AddClaimsAsync(IEnumerable<ClientClaim> claims)
     {
         this.logger.LogDebug($"Add client claims: {string.Join(";", claims.Select(claim => $"{claim.ClientId}:{claim.ClaimType}"))}");
         var result = await this.clientClaimRepository.AddRangeAsync(claims);
         _ = await this.clientClaimRepository.SaveChangesAsync();
-        return result;
+        return CommonResult.Success;
     }
 
-    public async Task<int> RemoveClaimsAsync(IEnumerable<int> claimIds)
+    public async Task<CommonResult> RemoveClaimsAsync(IEnumerable<int> claimIds)
     {
         this.logger.LogDebug($"Remove client claims: {string.Join(";", claimIds)}");
         foreach (var claimId in claimIds)
@@ -124,7 +124,7 @@ public class ClientManager : IClientManager
             if (claim is null) continue;
             _ = await this.clientClaimRepository.RemoveAsync(claim);
         }
-        var result = await this.clientClaimRepository.SaveChangesAsync();
-        return result;
+        _ = await this.clientClaimRepository.SaveChangesAsync();
+        return CommonResult.Success;
     }
 }

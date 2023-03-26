@@ -37,7 +37,7 @@ public class ApiResourceManager : IApiResourceManager
     public async Task<CommonResult> UpdateAsync(ApiResource resource)
     {
         this.logger.LogDebug($"Update api resource: {resource.Id}");
-        resource = await this.apiResourceRepository.UpdateAsync(resource);
+        _ = await this.apiResourceRepository.UpdateAsync(resource);
         _ = await this.apiResourceRepository.SaveChangesAsync();
         return CommonResult.Success;
     }

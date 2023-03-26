@@ -152,7 +152,7 @@ public class ApiResourceController : ControllerBase
         this.logger.LogInformation($"Delete API Resource: {id}");
         var resource = await this.apiResourceManager.FindByIdAsync(id);
         if (resource is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Api Resource with id: {id}")));
         var commonResult = await this.apiResourceManager.DeleteAsync(resource);
         return this.Ok(commonResult);
     }
