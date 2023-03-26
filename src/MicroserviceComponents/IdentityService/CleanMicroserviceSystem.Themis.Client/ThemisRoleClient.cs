@@ -19,12 +19,12 @@ public class ThemisRoleClient : OceanusServiceClientBase
     {
     }
 
-    public async Task<RoleInformationResponse?> CreateRoleAsync(RoleCreateRequest request)
+    public async Task<CommonResult<RoleInformationResponse>?> CreateRoleAsync(RoleCreateRequest request)
     {
         var uri = this.BuildUri("/api/Role");
         var response = await this.httpClient.PostAsJsonAsync(uri, request);
-        var role = await response.Content.ReadFromJsonAsync<RoleInformationResponse>();
-        return role;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult<RoleInformationResponse>>();
+        return commonResult;
     }
 
     public async Task<IEnumerable<RoleInformationResponse>?> GetRolesAsync()
@@ -53,18 +53,20 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return role;
     }
 
-    public async Task<HttpResponseMessage?> UpdateRoleAsync(int id, RoleUpdateRequest request)
+    public async Task<CommonResult?> UpdateRoleAsync(int id, RoleUpdateRequest request)
     {
         var uri = this.BuildUri($"/api/Role/{id}");
         var response = await this.httpClient.PutAsJsonAsync(uri, request);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage?> DeleteRoleAsync(int id)
+    public async Task<CommonResult?> DeleteRoleAsync(int id)
     {
         var uri = this.BuildUri($"/api/Role/{id}");
         var response = await this.httpClient.DeleteAsync(uri);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
     public async Task<IEnumerable<ClaimInformationResponse>?> GetRoleClaimsAsync(int id)
@@ -74,25 +76,28 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return claims;
     }
 
-    public async Task<HttpResponseMessage> AddRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> AddRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage> UpdateRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> UpdateRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");
         var response = await this.httpClient.PutAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage?> DeleteRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> DeleteRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
     public async Task<IEnumerable<RoleInformationResponse>?> GetRoleUsersAsync(int id)
@@ -102,17 +107,19 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return roles;
     }
 
-    public async Task<HttpResponseMessage> AddRoleUsersAsync(int id, IEnumerable<int> requests)
+    public async Task<CommonResult?> AddRoleUsersAsync(int id, IEnumerable<int> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Users");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 
-    public async Task<HttpResponseMessage?> DeleteRoleUsersAsync(int id, IEnumerable<int> requests)
+    public async Task<CommonResult?> DeleteRoleUsersAsync(int id, IEnumerable<int> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Users");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);
-        return response;
+        var commonResult = await response.Content.ReadFromJsonAsync<CommonResult>();
+        return commonResult;
     }
 }

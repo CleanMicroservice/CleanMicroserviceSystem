@@ -85,29 +85,33 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<RoleInformationResponse>> Post([FromBody] RoleCreateRequest request)
+    public async Task<ActionResult<CommonResult<RoleInformationResponse>>> Post([FromBody] RoleCreateRequest request)
     {
         this.logger.LogInformation($"Create Role: {request.RoleName}");
         var newRole = new OceanusRole()
         {
             Name = request.RoleName
         };
+        var commonResult = new CommonResult<RoleInformationResponse>();
         var result = await this.roleManager.CreateAsync(newRole);
         if (!result.Succeeded)
         {
-            var commonResult = new CommonResult(
-                result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-            return this.BadRequest(commonResult);
+            foreach (var error in result.Errors)
+            {
+                commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+            }
         }
         else
         {
             newRole = await this.roleManager.FindByNameAsync(newRole.Name);
-            return this.Ok(new RoleInformationResponse()
+            commonResult.Entity = new RoleInformationResponse()
             {
                 Id = newRole!.Id,
                 RoleName = newRole!.Name,
-            });
+            };
         }
+
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -123,7 +127,7 @@ public class RoleController : ControllerBase
         this.logger.LogInformation($"Update Role: {request.RoleName}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
         role.Name = request.RoleName;
         var result = await this.roleManager.UpdateAsync(role);
@@ -139,14 +143,15 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> Delete(string id)
+    public async Task<ActionResult<CommonResult>> Delete(string id)
     {
         this.logger.LogInformation($"Delete Role: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
-            return this.NotFound();
-        await this.roleManager.DeleteAsync(role);
-        return this.Ok();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
+        var result = await this.roleManager.DeleteAsync(role);
+        var commonResult = new CommonResult(result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
+        return this.Ok(commonResult);
     }
     #endregion
 
@@ -188,11 +193,12 @@ public class RoleController : ControllerBase
         this.logger.LogInformation($"Update Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
         var existingClaims = await this.roleManager.GetClaimsAsync(role);
         var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
         var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var commonResult = new CommonResult();
 
         var claimsToRemove = existingClaims.Where(claim => !requestClaimSet.Contains((claim.Type, claim.Value))).ToArray();
         if (claimsToRemove.Any())
@@ -202,9 +208,10 @@ public class RoleController : ControllerBase
                 var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
                 if (!result.Succeeded)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    foreach (var error in result.Errors)
+                    {
+                        commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                    }
                 }
             }
         }
@@ -219,14 +226,15 @@ public class RoleController : ControllerBase
                 var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
                 if (!result.Succeeded)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    foreach (var error in result.Errors)
+                    {
+                        commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                    }
                 }
             }
         }
 
-        return this.Ok();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -242,10 +250,11 @@ public class RoleController : ControllerBase
         this.logger.LogInformation($"Create Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
         if (role is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
         var existingClaims = await this.roleManager.GetClaimsAsync(role);
         var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
+        var commonResult = new CommonResult();
 
         var claimsToAdd = requests
             .Where(claim => !existingClaimSet.Contains((claim.Type, claim.Value)))
@@ -258,15 +267,15 @@ public class RoleController : ControllerBase
                 var result = await this.roleManager.AddClaimAsync(role, claimToAdd);
                 if (!result.Succeeded)
                 {
-                    var commonResult = new CommonResult(
-                            result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    foreach (var error in result.Errors)
+                    {
+                        commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                    }
                 }
             }
-            return this.Ok();
         }
 
-        return this.NoContent();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -282,10 +291,12 @@ public class RoleController : ControllerBase
         this.logger.LogInformation($"Delete Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
         if (role is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
         var existingClaims = await this.roleManager.GetClaimsAsync(role);
         var existingClaimMap = existingClaims.ToDictionary(claim => (claim.Type, claim.Value), claim => claim);
+        var commonResult = new CommonResult();
+
         var claimsToRemove = requests
             .Select(claim => existingClaimMap.TryGetValue((claim.Type, claim.Value), out var existingClaim) ? existingClaim : null)
             .OfType<Claim>()
@@ -297,15 +308,16 @@ public class RoleController : ControllerBase
                 var result = await this.roleManager.RemoveClaimAsync(role, claimToRemove);
                 if (!result.Succeeded)
                 {
-                    var commonResult = new CommonResult(
-                        result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                    return this.BadRequest(commonResult);
+                    foreach (var error in result.Errors)
+                    {
+                        commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                    }
                 }
             }
-            return this.Ok();
         }
 
-        return this.NoContent();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+
     }
     #endregion
 
@@ -347,14 +359,11 @@ public class RoleController : ControllerBase
     public async Task<ActionResult<CommonResult>> PostUsers(string id, [FromBody] IEnumerable<int> requests)
     {
         this.logger.LogInformation($"Create Role Users: {id}");
-        if (!requests.Any())
-            return this.NoContent();
-
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
-        IdentityResult? result = default;
+        var commonResult = new CommonResult();
         foreach (var userId in requests)
         {
             var user = await this.userManager.FindByIdAsync(userId.ToString());
@@ -364,16 +373,17 @@ public class RoleController : ControllerBase
                 continue;
             }
 
-            result = await this.userManager.AddToRoleAsync(user, role!.Name!);
+            var result = await this.userManager.AddToRoleAsync(user, role!.Name!);
             if (!result.Succeeded)
             {
-                var commonResult = new CommonResult(
-                    result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                return this.BadRequest(commonResult);
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
             }
         }
 
-        return this.Ok();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -387,14 +397,11 @@ public class RoleController : ControllerBase
     public async Task<ActionResult<CommonResult>> DeleteUsers(string id, [FromBody] IEnumerable<int> requests)
     {
         this.logger.LogInformation($"Delete Role Users: {id}");
-        if (!requests.Any())
-            return this.NoContent();
-
         var role = await this.roleManager.FindByIdAsync(id);
         if (role is null)
-            return this.NotFound();
+            return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
-        IdentityResult? result = default;
+        var commonResult = new CommonResult();
         foreach (var userId in requests)
         {
             var user = await this.userManager.FindByIdAsync(userId.ToString());
@@ -404,16 +411,17 @@ public class RoleController : ControllerBase
                 continue;
             }
 
-            result = await this.userManager.RemoveFromRoleAsync(user, role!.Name!);
+            var result = await this.userManager.RemoveFromRoleAsync(user, role!.Name!);
             if (!result.Succeeded)
             {
-                var commonResult = new CommonResult(
-                    result.Errors.Select(error => new CommonResultError(error.Code, error.Description)).ToList());
-                return this.BadRequest(commonResult);
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
             }
         }
 
-        return this.Ok();
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
     #endregion
 }
