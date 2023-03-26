@@ -4,6 +4,7 @@ using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
 using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -43,5 +44,50 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         if (count.HasValue)
             users = users.Take(count.Value);
         return new PaginatedEnumerable<OceanusUser>(users.ToArray(), start, count, originCounts);
+    }
+
+    public async Task<PaginatedEnumerable<OceanusRole>> SearchRolesAsync(
+        int userId,
+        int? id,
+        string? roleName,
+        int? start,
+        int? count)
+    {
+        var roles = this.AsQueryable()
+            .Where(user => userId == user.Id)
+            .Join(this.dbContext.Set<IdentityUserRole<int>>(), user => user.Id, map => map.UserId, (user, map) => new { User = user, map.RoleId })
+            .Join(this.dbContext.Set<OceanusRole>(), tuple => tuple.RoleId, role => role.Id, (map, role) => role);
+
+        if (id.HasValue)
+            roles = roles.Where(role => role.Id == id);
+        if (!string.IsNullOrEmpty(roleName))
+            roles = roles.Where(role => EF.Functions.Like(role.Name, $"%{roleName}%"));
+
+        var originCounts = await roles.CountAsync();
+        roles = roles.OrderBy(user => user.Id);
+        if (start.HasValue)
+            roles = roles.Skip(start.Value);
+        if (count.HasValue)
+            roles = roles.Take(count.Value);
+        return new PaginatedEnumerable<OceanusRole>(roles.ToArray(), start, count, originCounts);
+    }
+
+    public async Task<PaginatedEnumerable<OceanusRole>> GetRolesAsync(
+        int userId,
+        int? start,
+        int? count)
+    {
+        var roles = this.AsQueryable()
+            .Where(user => userId == user.Id)
+            .Join(this.dbContext.Set<IdentityUserRole<int>>(), user => user.Id, map => map.UserId, (user, map) => new { User = user, map.RoleId })
+            .Join(this.dbContext.Set<OceanusRole>(), tuple => tuple.RoleId, role => role.Id, (map, role) => role);
+
+        var originCounts = await roles.CountAsync();
+        roles = roles.OrderBy(user => user.Id);
+        if (start.HasValue)
+            roles = roles.Skip(start.Value);
+        if (count.HasValue)
+            roles = roles.Take(count.Value);
+        return new PaginatedEnumerable<OceanusRole>(roles.ToArray(), start, count, originCounts);
     }
 }
