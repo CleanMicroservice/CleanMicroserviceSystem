@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-03-26T16:12:24.733Z
+__export_date: 2023-03-27T02:39:53.272Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_3f4e407afa854239935befaddd0a3d4a
@@ -579,7 +579,7 @@ resources:
     _type: request_group
   - _id: req_d13aeb5363454d9c8c7af03e86c2f6e8
     parentId: fld_1d15cb0708244848bbed034ababbe711
-    modified: 1677550039650
+    modified: 1679884520569
     created: 1677476791818
     url: "{{ _.ThemisAddress }}api/ClientToken"
     name: Refresh
@@ -595,8 +595,8 @@ resources:
     authentication:
       type: bearer
       prefix: bearer
-      token: "{% response 'raw', 'req_99d6d8440874404c8aa191bd8e08df69', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_99d6d8440874404c8aa191bd8e08df69',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
     metaSortKey: -1671019686187
     isPrivate: false
@@ -609,7 +609,7 @@ resources:
     _type: request
   - _id: req_71d02e6ad0074ab2abc0946823685d54
     parentId: fld_1d15cb0708244848bbed034ababbe711
-    modified: 1677550046089
+    modified: 1679884530541
     created: 1677477018925
     url: "{{ _.ThemisAddress }}api/ClientToken"
     name: Logout
@@ -625,8 +625,8 @@ resources:
     authentication:
       type: bearer
       prefix: bearer
-      token: "{% response 'raw', 'req_99d6d8440874404c8aa191bd8e08df69', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_99d6d8440874404c8aa191bd8e08df69',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
     metaSortKey: -1671019686137
     isPrivate: false
     settingStoreCookies: true
@@ -679,7 +679,7 @@ resources:
     _type: request_group
   - _id: req_ad860fa2fe6a47b58829b3ea5da33c9f
     parentId: fld_c2d69352e09e409a918395ea93313e96
-    modified: 1677485580989
+    modified: 1679884549308
     created: 1671019895653
     url: "{{ _.ThemisAddress }}api/UserToken"
     name: Refresh
@@ -691,8 +691,8 @@ resources:
     authentication:
       type: bearer
       prefix: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
     metaSortKey: -1671019651050
     isPrivate: false
@@ -705,7 +705,7 @@ resources:
     _type: request
   - _id: req_a5c8461187914ee380b373c9fbd24f0b
     parentId: fld_c2d69352e09e409a918395ea93313e96
-    modified: 1676626327388
+    modified: 1679884554661
     created: 1671020114439
     url: "{{ _.ThemisAddress }}api/UserToken"
     name: Logout
@@ -717,8 +717,8 @@ resources:
     authentication:
       type: bearer
       prefix: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
     metaSortKey: -1671019615863
     isPrivate: false
     settingStoreCookies: true
@@ -776,7 +776,7 @@ resources:
     _type: request_group
   - _id: req_24da21f2afad4c589bccf973a7e6e014
     parentId: fld_8638968512e24d29b172dec3d098e4d7
-    modified: 1676023548191
+    modified: 1679884567511
     created: 1671019580676
     url: "{{ _.ThemisAddress }}api/User"
     name: GetCurrentUser
@@ -787,8 +787,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580676
@@ -812,7 +812,7 @@ resources:
     _type: request_group
   - _id: req_159d78a3373640368915345540fd518e
     parentId: fld_8638968512e24d29b172dec3d098e4d7
-    modified: 1679845660816
+    modified: 1679884572422
     created: 1671020273621
     url: "{{ _.ThemisAddress }}api/User"
     name: UpdateCurrentUser
@@ -835,8 +835,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670842118461
@@ -850,7 +850,7 @@ resources:
     _type: request
   - _id: req_1d6110a1d19b4de197aa1a42ba548e04
     parentId: fld_c6d72b80733b4425bdafcac53570b7ae
-    modified: 1674196489665
+    modified: 1679884578695
     created: 1671020795975
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}"
     name: GetUser
@@ -861,8 +861,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1670930849568.5
@@ -886,7 +886,7 @@ resources:
     _type: request_group
   - _id: req_ab86609d4be54a23a0a6c67ebf936221
     parentId: fld_c6d72b80733b4425bdafcac53570b7ae
-    modified: 1678084817853
+    modified: 1679884584807
     created: 1671021355929
     url: "{{ _.ThemisAddress }}api/User/Search"
     name: SearchUsers
@@ -925,8 +925,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1670930849543.5
@@ -940,7 +940,7 @@ resources:
     _type: request
   - _id: req_de776681d3d84f428635ee1e4e551049
     parentId: fld_c6d72b80733b4425bdafcac53570b7ae
-    modified: 1679845677149
+    modified: 1679884590495
     created: 1671020858206
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}"
     name: UpdateUser
@@ -963,8 +963,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670930849518.5
@@ -978,7 +978,7 @@ resources:
     _type: request
   - _id: req_0ef51fddecb649cd9d25bb6391d486b1
     parentId: fld_c6d72b80733b4425bdafcac53570b7ae
-    modified: 1679845704190
+    modified: 1679884596335
     created: 1671020928808
     url: "{{ _.ThemisAddress }}api/User/{% response 'body',
       'req_c120757ce499434785498dd2fa9eb067', 'b64::JC5lbnRpdHkuaWQ=::46b',
@@ -991,8 +991,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670886483989.75
@@ -1006,7 +1006,7 @@ resources:
     _type: request
   - _id: req_7b94e8d4f65345ed9e0d22cf9c747a4e
     parentId: fld_4069dcd1e08241a59822bc1a6649cd73
-    modified: 1674196506549
+    modified: 1679884603848
     created: 1671027527413
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Claims"
     name: GetUserClaims
@@ -1017,8 +1017,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580651
@@ -1042,7 +1042,7 @@ resources:
     _type: request_group
   - _id: req_6c3a83ccca1c428c9fafe4738f8ac39c
     parentId: fld_4069dcd1e08241a59822bc1a6649cd73
-    modified: 1674196509505
+    modified: 1679884608758
     created: 1671027583548
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Claims"
     name: UpdateUserClaims
@@ -1079,8 +1079,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580601
@@ -1094,7 +1094,7 @@ resources:
     _type: request
   - _id: req_9bf8f949ed594065bf85b9507b211ddd
     parentId: fld_4069dcd1e08241a59822bc1a6649cd73
-    modified: 1674196512128
+    modified: 1679884613943
     created: 1671027723967
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Claims"
     name: AddUserClaims
@@ -1127,8 +1127,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670975215084.75
@@ -1142,7 +1142,7 @@ resources:
     _type: request
   - _id: req_4d5ede455d054f5ea7fc34d30adcac3f
     parentId: fld_4069dcd1e08241a59822bc1a6649cd73
-    modified: 1674196514891
+    modified: 1679884618345
     created: 1671027761829
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Claims"
     name: DeleteUserClaims
@@ -1175,8 +1175,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670953032326.625
@@ -1190,7 +1190,7 @@ resources:
     _type: request
   - _id: req_70e890a4de864116ba49009b6d7d09ec
     parentId: fld_340f30671a4c4771b1a665c6ebd27069
-    modified: 1674196518144
+    modified: 1679884624066
     created: 1671027956110
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Roles"
     name: GetUserRoles
@@ -1201,8 +1201,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580651
@@ -1226,7 +1226,7 @@ resources:
     _type: request_group
   - _id: req_e4f8d8dced434c4a9d23d7d3f7741bcc
     parentId: fld_340f30671a4c4771b1a665c6ebd27069
-    modified: 1674196520621
+    modified: 1679884629105
     created: 1671027971337
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Roles"
     name: UpdateUserRoles
@@ -1246,8 +1246,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580601
@@ -1261,7 +1261,7 @@ resources:
     _type: request
   - _id: req_fce0c8adee8e4e329dfa083923cb67f6
     parentId: fld_340f30671a4c4771b1a665c6ebd27069
-    modified: 1674196523033
+    modified: 1679884634137
     created: 1671027978383
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Roles"
     name: AddUserRoles
@@ -1281,8 +1281,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580551
@@ -1296,7 +1296,7 @@ resources:
     _type: request
   - _id: req_db4e4462fc644f108277275f7b8bb384
     parentId: fld_340f30671a4c4771b1a665c6ebd27069
-    modified: 1674196525575
+    modified: 1679884639401
     created: 1671027988661
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Roles"
     name: DeleteUserRoles
@@ -1316,8 +1316,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580501
@@ -1331,7 +1331,7 @@ resources:
     _type: request
   - _id: req_d5c64b803b694a369af7d640e302e3cc
     parentId: fld_993a077994da401ea458678ad975c2d5
-    modified: 1676626291271
+    modified: 1679884645922
     created: 1671028547321
     url: "{{ _.ThemisAddress }}api/Role/Search"
     name: SearchRole
@@ -1360,8 +1360,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019581001
@@ -1395,7 +1395,7 @@ resources:
     _type: request_group
   - _id: req_ad20acf04fd146f5b8ca5fd94ca5d48a
     parentId: fld_993a077994da401ea458678ad975c2d5
-    modified: 1674196532196
+    modified: 1679884650657
     created: 1671028547314
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}"
     name: GetRole
@@ -1406,8 +1406,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580951
@@ -1421,7 +1421,7 @@ resources:
     _type: request
   - _id: req_f34225660afb4f49bd11229fd4daee9e
     parentId: fld_993a077994da401ea458678ad975c2d5
-    modified: 1674196534495
+    modified: 1679884654842
     created: 1671028547317
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}"
     name: UpdateRole
@@ -1439,8 +1439,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580926
@@ -1454,7 +1454,7 @@ resources:
     _type: request
   - _id: req_d06218edd5204ab2bc393948ffb2b286
     parentId: fld_993a077994da401ea458678ad975c2d5
-    modified: 1674196537056
+    modified: 1679884659809
     created: 1671028547358
     url: "{{ _.ThemisAddress }}api/Role"
     name: CreateRole
@@ -1472,8 +1472,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580913.5
@@ -1487,7 +1487,7 @@ resources:
     _type: request
   - _id: req_31e6b9e5c8f0495fa508344d9c74450f
     parentId: fld_993a077994da401ea458678ad975c2d5
-    modified: 1679845797608
+    modified: 1679884664889
     created: 1671028547319
     url: "{{ _.ThemisAddress }}api/Role/{% response 'body',
       'req_d06218edd5204ab2bc393948ffb2b286', 'b64::JC5lbnRpdHkuaWQ=::46b',
@@ -1500,8 +1500,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580907.25
@@ -1515,7 +1515,7 @@ resources:
     _type: request
   - _id: req_014670712c0448a4b607fd606a87cb41
     parentId: fld_0a5955d910844bddbfeb47cec407870f
-    modified: 1674196542380
+    modified: 1679884670337
     created: 1671253833398
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Users"
     name: SearchRoleUsers
@@ -1554,8 +1554,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580701
@@ -1579,7 +1579,7 @@ resources:
     _type: request_group
   - _id: req_c95277fba1ed4a609cc07c6269e04436
     parentId: fld_0a5955d910844bddbfeb47cec407870f
-    modified: 1679846785518
+    modified: 1679884675074
     created: 1671250362854
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Users"
     name: AddRoleUsers
@@ -1600,8 +1600,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580551
@@ -1615,7 +1615,7 @@ resources:
     _type: request
   - _id: req_a554b09f24ea45448345638c30cbb0c2
     parentId: fld_0a5955d910844bddbfeb47cec407870f
-    modified: 1679846795713
+    modified: 1679884679198
     created: 1679846791659
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Users"
     name: UpdateRoleUsers
@@ -1636,8 +1636,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580526
@@ -1651,7 +1651,7 @@ resources:
     _type: request
   - _id: req_d07f9b1566a3485e9e6a4cb0f647d937
     parentId: fld_0a5955d910844bddbfeb47cec407870f
-    modified: 1677838713537
+    modified: 1679884683509
     created: 1671250362867
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Users"
     name: DeleteRoleUsers
@@ -1670,8 +1670,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580501
@@ -1685,7 +1685,7 @@ resources:
     _type: request
   - _id: req_348c81ba9a78463cb723105a893f7d7c
     parentId: fld_0fa3600c118a41bea422fa8babbca219
-    modified: 1674196553043
+    modified: 1679884689342
     created: 1671028547326
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Claims"
     name: GetRoleClaims
@@ -1696,8 +1696,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580651
@@ -1721,7 +1721,7 @@ resources:
     _type: request_group
   - _id: req_46a793acb00c44b0bb6dfa76b8a6bb8e
     parentId: fld_0fa3600c118a41bea422fa8babbca219
-    modified: 1674196556307
+    modified: 1679884694684
     created: 1671028547328
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Claims"
     name: UpdateRoleClaims
@@ -1758,8 +1758,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580601
@@ -1773,7 +1773,7 @@ resources:
     _type: request
   - _id: req_71fd92ab642d4079a3f9f80741ec9957
     parentId: fld_0fa3600c118a41bea422fa8babbca219
-    modified: 1674196559303
+    modified: 1679884699446
     created: 1671028547330
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Claims"
     name: AddUserClaims
@@ -1798,7 +1798,15 @@ resources:
         	{
             "type": "Claim_OS.RELEASE",
             "value": "{% os 'release', '' %}"
-          }
+          },
+        	{
+        		"type": "ThemisAPI",
+        		"value": "Write"
+        	},
+        	{
+        		"type": "ThemisAPI",
+        		"value": "Read"
+        	}
         ]
     parameters: []
     headers:
@@ -1806,8 +1814,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670975215084.75
@@ -1821,7 +1829,7 @@ resources:
     _type: request
   - _id: req_290abb70ee85458db8fb0ede471fbad1
     parentId: fld_0fa3600c118a41bea422fa8babbca219
-    modified: 1674196561800
+    modified: 1679884704308
     created: 1671028547335
     url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Claims"
     name: DeleteUserClaims
@@ -1854,8 +1862,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1670953032326.625
@@ -1869,7 +1877,7 @@ resources:
     _type: request
   - _id: req_0f8651ab96624832b2faf767edf8cfaa
     parentId: fld_5c655e3faedf4902913ffd9f8334fada
-    modified: 1679847034662
+    modified: 1679884711318
     created: 1676642432843
     url: "{{ _.ThemisAddress }}api/Client/Search"
     name: SearchClient
@@ -1898,8 +1906,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019581001
@@ -1933,7 +1941,7 @@ resources:
     _type: request_group
   - _id: req_6ab607e116074129a9b5addc01291141
     parentId: fld_5c655e3faedf4902913ffd9f8334fada
-    modified: 1679847037472
+    modified: 1679884718021
     created: 1676642432839
     url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}"
     name: GetClient
@@ -1944,8 +1952,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580976
@@ -1959,7 +1967,7 @@ resources:
     _type: request
   - _id: req_51c12fcfd05b4b379b44fb0a2a8fdf52
     parentId: fld_5c655e3faedf4902913ffd9f8334fada
-    modified: 1679847036058
+    modified: 1679884723388
     created: 1676642432841
     url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}"
     name: UpdateClient
@@ -1977,8 +1985,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580951
@@ -1992,7 +2000,7 @@ resources:
     _type: request
   - _id: req_41fe895635eb48b085de55d288371058
     parentId: fld_5c655e3faedf4902913ffd9f8334fada
-    modified: 1679847040330
+    modified: 1679884728148
     created: 1676642432842
     url: "{{ _.ThemisAddress }}api/Client/{% response 'body',
       'req_a4cdb215d8c746d68473df4405782831', 'b64::JC5lbnRpdHkuaWQ=::46b',
@@ -2005,8 +2013,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580926
@@ -2020,7 +2028,7 @@ resources:
     _type: request
   - _id: req_a4cdb215d8c746d68473df4405782831
     parentId: fld_5c655e3faedf4902913ffd9f8334fada
-    modified: 1679847038842
+    modified: 1679884732405
     created: 1676642432844
     url: "{{ _.ThemisAddress }}api/Client"
     name: CreateClient
@@ -2041,8 +2049,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580901
@@ -2056,7 +2064,7 @@ resources:
     _type: request
   - _id: req_7a86cd4b04fc496cab5c608b48c3fcdb
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676709682057
+    modified: 1679884737744
     created: 1676642905332
     url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
     name: GetClientClaims
@@ -2067,8 +2075,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580938.5
@@ -2092,7 +2100,7 @@ resources:
     _type: request_group
   - _id: req_feec1e1992674e7690a1756281fc9571
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676716473280
+    modified: 1679884742727
     created: 1676642915194
     url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
     name: CreateClientClaims
@@ -2125,8 +2133,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580888.5
@@ -2140,7 +2148,7 @@ resources:
     _type: request
   - _id: req_6a89843bcfae496a96b594870360339c
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676709735278
+    modified: 1679884748487
     created: 1676709710700
     url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
     name: UpdateClientClaims
@@ -2177,8 +2185,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580863.5
@@ -2192,7 +2200,7 @@ resources:
     _type: request
   - _id: req_325719792ed74332ab67e43854355101
     parentId: fld_485582b2f58c4739801d1640f8b4a3cc
-    modified: 1676716532076
+    modified: 1679884754039
     created: 1676642921573
     url: "{{ _.ThemisAddress }}api/Client/{{ _.ClientId }}/Claims"
     name: DeleteClientClaims
@@ -2225,8 +2233,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580838.5
@@ -2240,7 +2248,7 @@ resources:
     _type: request
   - _id: req_5a09787a177f407db5e6faee5b6d15ea
     parentId: fld_e141df506f834ef291fc47f59f4356e7
-    modified: 1679847088643
+    modified: 1679884761712
     created: 1676645062191
     url: "{{ _.ThemisAddress }}api/ApiResource/Search"
     name: SearchApiResource
@@ -2269,8 +2277,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019581001
@@ -2304,7 +2312,7 @@ resources:
     _type: request_group
   - _id: req_7ee74f60980c4cc5944fcc416594068e
     parentId: fld_e141df506f834ef291fc47f59f4356e7
-    modified: 1679847091818
+    modified: 1679884766432
     created: 1676645062193
     url: "{{ _.ThemisAddress }}api/ApiResource"
     name: CreateApiResource
@@ -2325,8 +2333,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580988.5
@@ -2340,7 +2348,7 @@ resources:
     _type: request
   - _id: req_138ad3f3dcf4443197bcb22265061535
     parentId: fld_e141df506f834ef291fc47f59f4356e7
-    modified: 1679847109261
+    modified: 1679884771616
     created: 1676645062190
     url: "{{ _.ThemisAddress }}api/ApiResource/{% response 'body',
       'req_7ee74f60980c4cc5944fcc416594068e', 'b64::JC5lbnRpdHkuaWQ=::46b',
@@ -2353,8 +2361,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580982.25
@@ -2368,7 +2376,7 @@ resources:
     _type: request
   - _id: req_08addebe42264ba9b740350160b33e7c
     parentId: fld_e141df506f834ef291fc47f59f4356e7
-    modified: 1679847090244
+    modified: 1679884776720
     created: 1676645062189
     url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}"
     name: UpdateApiResource
@@ -2386,8 +2394,8 @@ resources:
         value: application/json
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       disabled: false
       prefix: bearer
     metaSortKey: -1671019580976
@@ -2401,7 +2409,7 @@ resources:
     _type: request
   - _id: req_0247cc55bc644fe29b6873d4a316352b
     parentId: fld_e141df506f834ef291fc47f59f4356e7
-    modified: 1679847082226
+    modified: 1679884781688
     created: 1676645062188
     url: "{{ _.ThemisAddress }}api/ApiResource/{{ _.ApiResourceId }}"
     name: GetApiResource
@@ -2412,8 +2420,8 @@ resources:
     headers: []
     authentication:
       type: bearer
-      token: "{% response 'raw', 'req_0944cd0c44ea4cb9a354c569c7b55dfd', '',
-        'when-expired', 1500 %}"
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
       prefix: bearer
       disabled: false
     metaSortKey: -1671019580951
@@ -2463,7 +2471,7 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1679845631346
+    modified: 1679884545570
     created: 1670678556534
     name: Default Jar
     cookies:
@@ -2479,10 +2487,10 @@ resources:
         hostOnly: true
         creation: 2023-03-06T02:51:11.872Z
         lastAccessed: 2023-03-26T15:47:11.345Z
-        id: "1164794189035927"
+        id: "7048247266089347"
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-Fe4dHCXQfGGxdA4Gwfi9dT0cqIJRnET8nPOEOjE_CeKr4h4G6UQDqTEAK5G7CawD15Cs6kjkbe__FMcZbRERKtqyBGH1jUC1cajudmLBvZF0SK9Eb47wi2KqcHDmW3pDtX0mMr4s-3RwusVifXx96PweOdmcQTQTUFsGwba85NR-ECQsyeMgFpIEt5Aa7vHy_68Rm33zV15qIQq0hwwBoyLeTNNBXgI0X2bc6ZwaL2BdSNHvNktzXUBtLvJSKgBlKXTiYBagZ9qh2D8bPAqEMNA8D0RUsunBh75AOizCkEBpGMzY7OxhYIGSb-244dkwV_5l3vglX3F9Spw7HT0Eip6zc3uJMOu-Cl2Q6_TDBoINSyUM8abWRy6xUDd2jA07_H7zO6uPtlpzTMYWxVOh_CDu6ZKOAN7DY-FzfkYSmDA67NO7DjDTMI8RieovWl6yT5BCNiAuBOJj3qGtWv3YBbFwxh7nljbiKPPkcThaxNduPyaPmxiVsgwgXP7oFQAdpjC2KV04Mz1Y2p4In3ok7A0kwZXlX6S3Lz-IiIwXvFdJ7CvWy_A48sGslZOdPOxiGNM0qrj3dZ8sDgyLHnYjWdimB3XFxmgpdqYrJyF39d7rB2lIG4lif4g6C5k_Ks0cGCR9jDcIiko0yc7V2ZouCGXOUF87jkbW2vx5dPqCjgQ9MabJ15TPwl6Q1RpMbtRznkWcGiI3lFvPYicP-eH3DAkYzIZupKyL3SkZztBDAiJHtZZR97zoMSCXDiXDr6Y5hM33raKU8aaJqUDbq2kSXthH99vvyMMDnNaEiPQJwf2xvTjXBTayZqhZmAs2Y2XQFn6KwLoBKJNZAf7xR1OVUL-vzLjjMS3EpuR996KAxKLqe-JZJke3cazx6bUB1wQatzPfO_PBkNZTEZYIpwYcgJjkfVakHyCvAcE5lfrERrnOlZyQemiGwEmjDLM6GwOg_AaclO9sSD_rGGkThZDXoxpf2ZH5WXeDOP3XyWTHEVn7GAZi0sd6u1FpZLTvEYqEOsi0ovTZ1EvsNlW9mN14MtsOaZiu8eJvkksZDQAa30Tg
-        expires: 2023-04-08T11:45:46.000Z
+        value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-HCW83os7efo0256b-5zsq406lRVF1efvw7wFBGBBkmBgPTBbh1gssuYTxorrZYly26eHyLvJJu5x72e_o1B9ls9GkgpC4OhztyYlr-TOWXrlIyp2iToLNAKkzcOYAxTOP4xI4rKwxHzHXdQyZkLjlCI4jOg6lOK18VbUqA2nuBMMVz8xY4e3_Fpxco2lcE7E3aGaYzQ2ScrJRbWfyTXfSKztwkOqw6dTzE3A3Y3bNnvJsRWplZvnvUp610fa4jyRzPolqiyenzYpDZd1TtPkAzYVwj87uVUDyXFuDNLUAOh8Ihg9S2C3ET35nUPuXPjZ27UdYUPKS8sK-RKkmmrIhTBjSQz0juN1J2nUV7uOeGgK6U2HaXeV03nN7K-A_apCCMo3Vd48uaZnJfFLAlll-ipOIO5Q9PFZuJJV37jwkqNTiHH72qRDStx_p4dUblzdJs4Ugg6dunw66ZBV67Qt9H_0OfF5z-_k33RfJ5M9fA-mpZ7dEPBoZQFhPiv48ywSr1vSB4BZl5eM9fE1yg6cVvuUh4AhUCt34lWCjHVy6sMol7MNnypOV3sc2MgdIdqH1LcnLWdVp5ZA-6KpWf8nIpj0D-9q4XBdwOq6waGYECyq0AyttNDSBNxcJCO09kPSv41oBZkix_G2hluFcedIBQWCngXOTgReytzmGx-co1TgpfkOzl9PQ87Dm4-t_d8kND31P0prAsYq6pgnkggWqeC5sgJZJuHbh2PkbudlucBFrJkCZbcXyn-PiXAXFxFFQy6BhylF33hg9nwDGpdvF_5lGvoplUb_2SUVoiPLURI25Iu4Adf-rqPWe_JFBmr03jpmTvJxqa-fzgh9DrIQEGgqEUso8jypYETlLlssUYduiV2snV0I3OeR_buj07z2vXiWFZDsatCYcX_N_UBGZMUKgnoMLmP3VO7m6fYh8r-hSTHHR8ELPRMp5UfuGDC2vuSHHexWayg89TnhnjvTcIDXm_FI-QEagfsn8d6UIiTEfMWwIL5Cmyv4PJAFeEaVHt8ohNEwEUWjsXYETlMCpav3fjbkiONFNqJS3TEke880PfdCcGB8N6EfqjjbTf9BpTKeB0niWcpd7MM1A4FqjwcnTFARohUU1F0qt48HD2VetOs_JRLNNnXSw0cuVCrv7OiVtY2v3RoFbZU5lnHNCF-ARfGxSYp5QGMjZuWlP1uQ2AbC0DmLAqtsTzeUEUAvd9XwnfUeS02bR6T1Y9YrL1
+        expires: 2023-04-10T02:35:45.000Z
         domain: 10.1.100.73
         path: /
         secure: true
@@ -2491,8 +2499,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-03-08T09:54:30.887Z
-        lastAccessed: 2023-03-25T11:45:46.323Z
-        id: "7960676884262097"
+        lastAccessed: 2023-03-27T02:35:45.570Z
+        id: "37152468371471414"
       - key: Identity.External
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -2504,7 +2512,7 @@ resources:
         hostOnly: true
         creation: 2023-03-24T09:38:36.000Z
         lastAccessed: 2023-03-25T11:45:08.342Z
-        id: "7409214282959213"
+        id: "7946093231888127"
       - key: Identity.TwoFactorUserId
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -2516,7 +2524,7 @@ resources:
         hostOnly: true
         creation: 2023-03-24T09:38:36.000Z
         lastAccessed: 2023-03-25T11:45:08.342Z
-        id: "9066739820371159"
+        id: "9455088854213993"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
