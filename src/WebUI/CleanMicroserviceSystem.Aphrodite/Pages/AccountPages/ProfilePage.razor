@@ -13,7 +13,7 @@
             <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>@Message</MAlert>
         }
         <MRow>
-            <MCol>
+            <MCol Cols=@("auto")>
                 <MCard Flat Rounded="@("xl")" Loading=CardLoading>
                     <MCardText>
                         <MRow>
@@ -52,7 +52,6 @@
                 </MCard>
             </MCol>
             <MSpacer></MSpacer>
-            <MCol></MCol>
         </MRow>
     </Authorized>
 </AuthorizeView>
