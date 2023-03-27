@@ -31,25 +31,25 @@
                     @if (!string.IsNullOrEmpty(Message))
                     {
                         <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
-                    @Message
-                </MAlert>
-                }
-                <MTextField BackgroundColor="grey lighten-4"
-                            @bind-Value="UserName" Label="UserName"
-                            Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                Clearable Flat Solo Dense>
-                </MTextField>
-                <MTextField BackgroundColor="grey lighten-4"
-                            @bind-Value="Password" Label="Password"
-                            AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
-                            Type="@(ShowPassword ? "text" : "password")"
-                            OnAppendClick="() => ShowPassword = !ShowPassword"
-                            Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                Clearable Flat Solo Dense>
-                </MTextField>
-            </MCardText>
-            <MCardActions>
-                <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
+                        @Message
+                    </MAlert>
+                    }
+                    <MTextField BackgroundColor="grey lighten-4"
+                    @bind-Value="UserName" Label="UserName"
+                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
+                                    Clearable Flat Solo Dense>
+                    </MTextField>
+                    <MTextField BackgroundColor="grey lighten-4"
+                                @bind-Value="Password" Label="Password"
+                                AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
+                                Type="@(ShowPassword ? "text" : "password")"
+                                OnAppendClick="() => ShowPassword = !ShowPassword"
+                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
+                                    Clearable Flat Solo Dense>
+                    </MTextField>
+                </MCardText>
+                <MCardActions>
+                    <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
                 </MCardActions>
             </ChildContent>
         </MCard>
@@ -87,18 +87,17 @@
 
         try
         {
-            var response = await this.themisUserTokenClient.LoginUserAsync(this.UserName, this.Password);
-            var content = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var commonResult = await this.themisUserTokenClient.LoginUserAsync(this.UserName, this.Password);
+            if (commonResult?.Succeeded ?? false)
             {
                 this.logger.LogInformation($"Login [{this.UserName}] successfully.");
-                await tokenStore.UpdateTokenAsync(content);
+                await tokenStore.UpdateTokenAsync(commonResult!.Entity!);
                 this.navigationManager.NavigateTo(RouterContract.DefaultUri);
             }
             else
             {
-                this.logger.LogWarning($"Login [{this.UserName}] failed: \n{content}");
-                this.Message = content;
+                this.logger.LogWarning($"Login [{this.UserName}] failed: \n{commonResult!.ToString()}");
+                this.Message = commonResult.ToString();
             }
         }
         catch (Exception ex)

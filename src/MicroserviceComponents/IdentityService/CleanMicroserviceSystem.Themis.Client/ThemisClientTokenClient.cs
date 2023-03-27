@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using CleanMicroserviceSystem.Themis.Contract.Clients;
 using Microsoft.Extensions.Logging;
@@ -16,25 +17,25 @@ public class ThemisClientTokenClient : OceanusServiceClientBase
     {
     }
 
-    public async Task<HttpResponseMessage> LoginClientAsync(string clientName, string secret)
+    public async Task<CommonResult<string>?> LoginClientAsync(string clientName, string secret)
     {
         var uri = this.BuildUri("/api/ClientToken");
         var request = new ClientTokenLoginRequest() { Name = clientName, Secret = secret };
         var response = await this.httpClient.PostAsJsonAsync(uri, request);
-        return response;
+        return await this.GetCommonResult<string>(response);
     }
 
-    public async Task<HttpResponseMessage> RefreshClientTokenAsync()
+    public async Task<CommonResult<string>?> RefreshClientTokenAsync()
     {
         var uri = this.BuildUri("/api/ClientToken");
         var response = await this.httpClient.PutAsync(uri, null);
-        return response;
+        return await this.GetCommonResult<string>(response);
     }
 
-    public async Task<HttpResponseMessage> LogoutClientAsync()
+    public async Task<CommonResult?> LogoutClientAsync()
     {
         var uri = this.BuildUri("/api/ClientToken");
         var response = await this.httpClient.DeleteAsync(uri);
-        return response;
+        return await this.GetCommonResult(response);
     }
 }

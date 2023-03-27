@@ -63,16 +63,15 @@ public class AphroditeAuthenticationTokenRefresher : IAuthenticationTokenRefresh
     public virtual async Task RefreshTokenAsync()
     {
         this.logger.LogInformation($"Refresh Token ...");
-        var response = await themisUserTokenClient.RefreshUserTokenAsync();
-        var content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
+        var commonResult = await themisUserTokenClient.RefreshUserTokenAsync();
+        if (commonResult?.Succeeded ?? false)
         {
-            this.logger.LogWarning($"Failed to refresh Token: ({(int)response.StatusCode}) {response.StatusCode} => {content}");
+            this.logger.LogInformation($"Refresh and update Token successfully.");
+            await this.authenticationTokenStore.UpdateTokenAsync(commonResult!.Entity!);
         }
         else
         {
-            this.logger.LogInformation($"Refresh and update Token successfully.");
-            await this.authenticationTokenStore.UpdateTokenAsync(content);
+            this.logger.LogWarning($"Failed to refresh Token: ({commonResult!}");
         }
     }
 }

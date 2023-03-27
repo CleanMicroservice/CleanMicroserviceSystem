@@ -73,19 +73,22 @@ public class UserTokenController : ControllerBase
     {
         this.logger.LogInformation($"Sign in User: {request.UserName}");
         var result = await this.signInManager.PasswordSignInAsync(request.UserName, request.Password, true, false);
+        var commonResult = new CommonResult<string>();
         if (!result.Succeeded)
         {
-            var commonResult = new CommonResult<string>();
             if (result.IsNotAllowed) commonResult.Errors.Add(new(nameof(result.IsNotAllowed)));
             if (result.IsLockedOut) commonResult.Errors.Add(new(nameof(result.IsLockedOut)));
             if (result.RequiresTwoFactor) commonResult.Errors.Add(new(nameof(result.RequiresTwoFactor)));
-            return this.BadRequest(commonResult);
+        }
+        else
+        {
+            var user = await this.userManager.FindByNameAsync(request.UserName);
+            var claims = await this.GetClaimsAsync(user!);
+            var token = this.jwtBearerTokenGenerator.GenerateUserSecurityToken(claims);
+            commonResult.Entity = token;
         }
 
-        var user = await this.userManager.FindByNameAsync(request.UserName);
-        var claims = await this.GetClaimsAsync(user!);
-        var token = this.jwtBearerTokenGenerator.GenerateUserSecurityToken(claims);
-        return this.Ok(token);
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 
     /// <summary>
@@ -96,26 +99,21 @@ public class UserTokenController : ControllerBase
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Refresh User token: {userName}");
-        if (string.IsNullOrEmpty(userName))
-            return this.BadRequest();
-
-        var user = await this.userManager.FindByNameAsync(userName);
+        var user = await this.userManager.FindByNameAsync(userName!);
         var claims = await this.GetClaimsAsync(user!);
         var token = this.jwtBearerTokenGenerator.GenerateUserSecurityToken(claims);
-        return this.Ok(token);
+        return this.Ok(new CommonResult<string>(token));
     }
 
     /// <summary>
     /// Logout user
     /// </summary>
     [HttpDelete]
-    public async Task<IActionResult> Delete()
+    public async Task<ActionResult> Delete()
     {
         var userName = this.HttpContext.User?.Identity?.Name;
         this.logger.LogInformation($"Sign out User: {userName}");
-        if (string.IsNullOrEmpty(userName))
-            return this.BadRequest();
         await this.signInManager.SignOutAsync();
-        return this.Ok();
+        return this.Ok(CommonResult.Success);
     }
 }
