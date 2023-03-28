@@ -1,15 +1,21 @@
-﻿@inherits LayoutComponentBase
+﻿@using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services;
+@inherits LayoutComponentBase
 @inject ILogger<MainLayout> logger
+@inject PageTabsService pageTabService
 
 <MApp>
-    <MainAppBar />
-    <MainNavigationBar />
+    <PPageTabsProvider>
+        <MainAppBar />
+        <MainNavigationBar />
 
-    <MMain Class="grey lighten-4">
-        <div class="ma-5">
-            @Body
-        </div>
-    </MMain>
+        <MMain Class="grey lighten-4">
+            <PPageContainer PageTabs="pageTabService.PageTabsComponent" SelfPatterns="pageTabService.SelfPatterns">
+                <div class="ma-5">
+                    @Body
+                </div>
+            </PPageContainer>
+        </MMain>
+    </PPageTabsProvider>
 </MApp>
 
 @code {

@@ -1,10 +1,16 @@
-﻿<MAppBar Color="white" Class="rounded-b-xl mx-5" App Elevation="0">
-    <MRow NoGutters Justify="@JustifyTypes.SpaceBetween">
-        <MCol></MCol>
-        <MSpacer></MSpacer>
-        <MCol Class="mx-3" Cols="@("auto")">
-            <MTextField Class="d-none d-md-flex" Style="width:280px;" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
-                        @bind-Value="SearchInput" Placeholder="Search" Clearable Flat Dense Solo>
+﻿@inject PageTabsService pageTabsService
+
+<MAppBar Color="white" Class="rounded-b-xl mb-0 mx-5" App Elevation="0">
+    <MRow>
+        <MCol>
+            <PPageTabs @ref="pageTabsService.PageTabsComponent">
+            </PPageTabs>
+        </MCol>
+        <MCol Class="px-3" Cols="@("auto")">
+            <MTextField Value="@this.SearchInput" Class="d-none d-lg-flex"
+                        Style="width:280px;" BackgroundColor="grey lighten-4"
+                        HideDetails="@("auto")" Placeholder="Search"
+                        Clearable Flat Dense Solo>
                 <PrependInnerContent>
                     <MIcon Size=20 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
                 </PrependInnerContent>
