@@ -2,7 +2,7 @@
     <MListItem Href="@this.TargetUri">
         <ItemContent>
             <MListItemIcon>
-                <MIcon>@this.Icon</MIcon>
+                <MIcon Color="@(GetIconColor(context.Active))">@this.Icon</MIcon>
             </MListItemIcon>
             <MListItemContent>
                 <MListItemTitle>@this.Title</MListItemTitle>
@@ -12,6 +12,14 @@
 </MBorder>
 
 @code {
+    public const string IconActiveColor = "primary";
+    public const string IconInactiveColor = "neutral-lighten-1";
+
+    public static string GetIconColor(bool active)
+    {
+        return active ? IconActiveColor : IconInactiveColor;
+    }
+
     [Parameter]
     public string TargetUri { get; set; }
 
