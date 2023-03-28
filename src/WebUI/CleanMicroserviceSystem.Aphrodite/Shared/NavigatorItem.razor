@@ -1,17 +1,16 @@
-﻿<MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
-    <MListItem Href="@this.TargetUri">
-        <ItemContent>
-            <MListItemIcon>
-                <MIcon Color="@(GetIconColor(context.Active))">@this.Icon</MIcon>
-            </MListItemIcon>
-            <MListItemContent>
-                <MListItemTitle>@this.Title</MListItemTitle>
-            </MListItemContent>
-        </ItemContent>
-    </MListItem>
-</MBorder>
+﻿<MListItem Href="@this.TargetUri" ActiveClass="@ItemActiveClass">
+    <ItemContent>
+        <MListItemIcon>
+            <MIcon Color="@(GetIconColor(context.Active))">@this.Icon</MIcon>
+        </MListItemIcon>
+        <MListItemContent>
+            <MListItemTitle>@this.Title</MListItemTitle>
+        </MListItemContent>
+    </ItemContent>
+</MListItem>
 
 @code {
+    public const string ItemActiveClass = "primary--text";
     public const string IconActiveColor = "primary";
     public const string IconInactiveColor = "neutral-lighten-1";
 
