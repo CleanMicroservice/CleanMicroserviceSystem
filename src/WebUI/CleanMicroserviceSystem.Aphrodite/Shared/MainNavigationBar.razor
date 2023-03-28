@@ -10,7 +10,7 @@
         <MCol Align="@("center")">
             <MImage Src="/img/Logo.png"
                     MinWidth=LogoMinSize MaxWidth=LogoMaxSize MinHeight=LogoMinSize MaxHeight=LogoMaxSize
-                    @onclick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)" />
+            @onclick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)" />
         </MCol>
         <MSpacer></MSpacer>
     </MRow>
@@ -26,10 +26,10 @@
     </MRow>
     }
 
-    <MList Nav Dense Rounded>
+    <MList Routable Nav Dense Rounded>
         <MListItemGroup @bind-Value="navigationSelectedItem" Color="primary">
             <!-- Home -->
-            <MListItem Link OnClick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)">
+            <MListItem ActiveClass="@NavigatorBase.ActiveClass" Link Href="@RouterContract.DefaultUri">
                 <MListItemIcon>
                     <MIcon>mdi-home</MIcon>
                 </MListItemIcon>
@@ -39,11 +39,11 @@
             <PermissionNavigator />
             <!-- NuGetServer -->
             <NuGetServerNavigator />
-            </MListItemGroup>
-            </MList>
-            </MNavigationDrawer>
+        </MListItemGroup>
+    </MList>
+</MNavigationDrawer>
 
-            <MButton Small Fab Color="primary" Elevation="0" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position:fixed;left:{expandButtonLeft}px;")">
+<MButton Small Fab Color="primary" Elevation="0" OnClick=SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position:fixed;left:{expandButtonLeft}px;")">
     <MIcon Class="white--text">
         @(navigationVisible is false || navigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
     </MIcon>

@@ -16,14 +16,14 @@
                     </ActivatorContent>
                     <ChildContent>
                         <!-- User -->
-                        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.UsersUri)">
+                        <MListItem ActiveClass="@NavigatorBase.ActiveClass" Link Href="@RouterContract.UsersUri">
                             <MListItemIcon>
                                 <MIcon>mdi-shield-account</MIcon>
                             </MListItemIcon>
                             <MListItemTitle>User</MListItemTitle>
                         </MListItem>
                         <!-- Role -->
-                        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.RolesUri)">
+                        <MListItem ActiveClass="@NavigatorBase.ActiveClass" Link Href="@RouterContract.RolesUri">
                             <MListItemIcon>
                                 <MIcon>mdi-account-group</MIcon>
                             </MListItemIcon>
@@ -40,7 +40,7 @@
                     </ActivatorContent>
                     <ChildContent>
                         <!-- Client -->
-                        <MListItem Link OnClick="()=>this.NavigationManager.NavigateTo(RouterContract.ClientsUri)">
+                        <MListItem ActiveClass="@NavigatorBase.ActiveClass" Link Href="@RouterContract.ClientsUri">
                             <MListItemIcon>
                                 <MIcon>mdi-application-array</MIcon>
                             </MListItemIcon>
