@@ -1,0 +1,93 @@
+﻿@page "/permission/user/edit/{id}"
+@attribute [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+@inherits AphroditePageBase
+@inject ILogger<UserEditPage> logger
+@inject IPopupService popupService
+@inject ThemisUserClient themisUserClient
+
+<PageTitle>Edit User</PageTitle>
+
+<h1>@this.Id</h1>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    protected UserInformationResponse? CurrentUser { get; set; }
+
+    protected UserUpdateRequest? UserUpdateRequest { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        this.logger.LogWarning(this.Id);
+        if (string.IsNullOrEmpty(this.Id) || !int.TryParse(this.Id, out var userId))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Invalid user id: {this.Id}", AlertTypes.Error);
+        }
+        else
+        {
+            var user = await this.themisUserClient.GetUserAsync(userId);
+            if (user is null)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Not found user {userId}", AlertTypes.Error);
+            }
+            {
+                this.CurrentUser = user!;
+                this.UserUpdateRequest = new()
+                    {
+                        Email = this.CurrentUser.Email,
+                        Enabled = this.CurrentUser.Enabled,
+                        UserName = this.CurrentUser.UserName,
+                        PhoneNumber = this.CurrentUser.PhoneNumber,
+                    };
+            }
+        }
+
+        await base.OnParametersSetAsync();
+    }
+
+    protected async Task OnUpdateUser()
+    {
+        var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update user: {this.UserUpdateRequest!.UserName} ({this.CurrentUser!.Id}) ?", AlertTypes.Warning);
+        if (confirmed)
+        {
+            
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest!.UserName))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.Email))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Email is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.PhoneNumber))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Phone number is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+
+        try
+        {
+            var commonResult = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
+            if (commonResult?.Succeeded ?? false)
+            {
+                this.CurrentUser.Email = this.UserUpdateRequest.Email;
+                this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
+                this.CurrentUser.PhoneNumber = this.UserUpdateRequest.PhoneNumber;
+                this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;
+                await this.popupService.EnqueueSnackbarAsync($"User {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+}

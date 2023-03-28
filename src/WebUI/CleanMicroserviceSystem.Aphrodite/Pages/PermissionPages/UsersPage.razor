@@ -101,34 +101,34 @@
                                 </ActivatorContent>
                                 <ChildContent>
                                     <MList Dense>
-                                        <MListItem Color="primary" OnClick="()=>this.OnShowUpdateUserModal(context.Item)">
-                                            <MListItemIcon>
-                                                <MIcon Color="primary">mdi-square-edit-outline</MIcon>
-                                            </MListItemIcon>
-                                            <MListItemContent>
-                                                <MListItemTitle>Edit</MListItemTitle>
-                                            </MListItemContent>
-                                        </MListItem>
-                                        <MListItem Color="warning" OnClick="()=>this.OnResetUserPassword(context.Item)">
-                                            <MListItemIcon>
-                                                <MIcon Color="warning">mdi-lock-reset</MIcon>
-                                            </MListItemIcon>
-                                            <MListItemContent>
-                                                <MListItemTitle>Reset Password</MListItemTitle>
-                                            </MListItemContent>
-                                        </MListItem>
-                                        <MListItem Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
-                                            <MListItemIcon>
-                                                <MIcon Color="error">mdi-trash-can-outline</MIcon>
-                                            </MListItemIcon>
-                                            <MListItemContent>
-                                                <MListItemTitle>Delete</MListItemTitle>
-                                            </MListItemContent>
-                                        </MListItem>
-                                    </MList>
-                                </ChildContent>
-                            </MMenu>
-                        </AuthorizeView>
+                                    <MListItem Color="primary" Href=@($"{RouterContract.UsersEditUri}/{context.Item.Id}")>
+                                        <MListItemIcon>
+                                            <MIcon Color="primary">mdi-square-edit-outline</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>Edit</MListItemTitle>
+                                        </MListItemContent>
+                                    </MListItem>
+                                    <MListItem Color="warning" OnClick="()=>this.OnResetUserPassword(context.Item)">
+                                        <MListItemIcon>
+                                            <MIcon Color="warning">mdi-lock-reset</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>Reset Password</MListItemTitle>
+                                        </MListItemContent>
+                                    </MListItem>
+                                    <MListItem Color="error" OnClick="()=>this.OnDeleteUser(context.Item)">
+                                        <MListItemIcon>
+                                            <MIcon Color="error">mdi-trash-can-outline</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>Delete</MListItemTitle>
+                                        </MListItemContent>
+                                    </MListItem>
+                                </MList>
+                            </ChildContent>
+                        </MMenu>
+                    </AuthorizeView>
                         break;
                     default:
                         @context.Value
@@ -149,22 +149,12 @@
                 <MPagination @bind-Value=@this.CurrentPageIndex Color="primary" Circle Length=@this.TotalPageCount></MPagination>
             </MCol>
         </MRow>
-        <PModal @bind-Value=@this.ShowUpdateUserModal
-                Title=@($"Update User {this.CurrentUser?.UserName} ({this.CurrentUser?.Id})") Persistent MaxWidth="600"
-                OnSave="this.OnUpdateUserModalSave"
-                OnCancel="this.OnUpdateUserModelCancel"
-                OnDelete="this.OnUpdateUserModelDelete">
-            <ChildContent>
-                <UpdateUserComponent CurrentUser=@this.CurrentUser UserUpdateRequest=@this.UserUpdateRequest />
-            </ChildContent>
-        </PModal>
     </MCardText>
 </MCard>
 
 @code {
     protected bool LoadingUsers { get; set; }
     protected bool ShowCreateUserModal { get; set; }
-    protected bool ShowUpdateUserModal { get; set; }
     protected IList<RoleInformationResponse>? Roles { get; set; }
     protected int? Id { get; set; }
     protected string? Role { get; set; }
@@ -178,8 +168,6 @@
     protected int TotalPageCount => (int)Math.Ceiling(this.Users.Count() / (double)CurrentPageSize);
     protected List<UserInformationResponse> Users { get; set; } = new List<UserInformationResponse>();
     protected UserRegisterRequest UserRegisterRequest { get; set; }
-    protected UserUpdateRequest UserUpdateRequest { get; set; }
-    protected UserInformationResponse CurrentUser { get; set; }
     protected const string ActionsHeaderName = "Actions";
     protected readonly List<DataTableHeader<UserInformationResponse>> UserHeaders = new()
     {
@@ -352,70 +340,5 @@
     protected async Task OnCreateUserModelCancel()
     {
         this.ShowCreateUserModal = false;
-    }
-
-    protected async Task OnShowUpdateUserModal(UserInformationResponse user)
-    {
-        this.CurrentUser = user;
-        this.UserUpdateRequest = new()
-            {
-                Email = user.Email,
-                Enabled = user.Enabled,
-                UserName = user.UserName,
-                PhoneNumber = user.PhoneNumber,
-            };
-        this.ShowUpdateUserModal = true;
-    }
-
-    protected async Task OnUpdateUserModalSave()
-    {
-        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.UserName))
-        {
-            await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
-            return;
-        }
-        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.Email))
-        {
-            await this.popupService.EnqueueSnackbarAsync($"Email is not allowed to be empty.", AlertTypes.Warning);
-            return;
-        }
-        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.PhoneNumber))
-        {
-            await this.popupService.EnqueueSnackbarAsync($"Phone number is not allowed to be empty.", AlertTypes.Warning);
-            return;
-        }
-
-        try
-        {
-            var commonResult = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
-            if (commonResult?.Succeeded ?? false)
-            {
-                this.CurrentUser.Email = this.UserUpdateRequest.Email;
-                this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
-                this.CurrentUser.PhoneNumber = this.UserUpdateRequest.PhoneNumber;
-                this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;
-                this.ShowUpdateUserModal = false;
-                await this.popupService.EnqueueSnackbarAsync($"User {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
-            }
-            else
-            {
-                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
-            }
-        }
-        catch (Exception ex)
-        {
-            await this.popupService.EnqueueSnackbarAsync(ex);
-        }
-    }
-
-    protected async Task OnUpdateUserModelCancel()
-    {
-        this.ShowUpdateUserModal = false;
-    }
-
-    protected async Task OnUpdateUserModelDelete()
-    {
-        if (await this.OnDeleteUser(this.CurrentUser))
-            this.ShowUpdateUserModal = false;
     }
 }

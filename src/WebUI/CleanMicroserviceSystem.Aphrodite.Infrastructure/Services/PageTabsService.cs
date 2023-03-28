@@ -9,8 +9,8 @@ public class PageTabsService
 
     public string[] SelfPatterns = new string[]
     {
-        RouterContract.UsersEditUri,
-        RouterContract.RolesEditUri,
-        RouterContract.ClientsEditUri,
+        RouterContract.UsersEditUriPattern,
+        RouterContract.RolesEditUriPattern,
+        RouterContract.ClientsEditUriPattern,
     };
 }
