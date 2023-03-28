@@ -1,0 +1,23 @@
+﻿<MBorder Value=false Offset Width=4 Class="rounded-r-1" Border="Borders.Right">
+    <MListItem Href="@this.TargetUri">
+        <ItemContent>
+            <MListItemIcon>
+                <MIcon>@this.Icon</MIcon>
+            </MListItemIcon>
+            <MListItemContent>
+                <MListItemTitle>@this.Title</MListItemTitle>
+            </MListItemContent>
+        </ItemContent>
+    </MListItem>
+</MBorder>
+
+@code {
+    [Parameter]
+    public string TargetUri { get; set; }
+
+    [Parameter]
+    public string Icon { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+}

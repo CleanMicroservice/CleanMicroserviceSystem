@@ -27,21 +27,9 @@
     }
 
     <MList Routable Nav Dense Rounded>
-        <MListItemGroup @bind-Value="navigationSelectedItem" Color="primary">
-            <!-- Home -->
-            <MListItem ActiveClass="@NavigatorBase.ItemActiveClass" Link Href="@RouterContract.DefaultUri">
-                <ItemContent>
-                    <MListItemIcon>
-                        <MIcon>mdi-home</MIcon>
-                    </MListItemIcon>
-                    <MListItemTitle>Home</MListItemTitle>
-                </ItemContent>
-            </MListItem>
-            <!-- Permissions -->
-            <PermissionNavigator />
-            <!-- NuGetServer -->
-            <NuGetServerNavigator />
-        </MListItemGroup>
+        <NavigatorItem Icon="mdi-home" Title="Home" TargetUri="@RouterContract.DefaultUri"/>
+        <PermissionNavigator />
+        <NuGetServerNavigator />
     </MList>
 </MNavigationDrawer>
 
@@ -64,7 +52,6 @@
     private bool navigationExpandOnHover { get; set; } = false;
     private bool navigationMini { get; set; } = false;
     private bool navigationVisible { get; set; } = true;
-    private StringNumber navigationSelectedItem = 0;
     private void SwitchNavigation()
     {
         if (navigationVisible)

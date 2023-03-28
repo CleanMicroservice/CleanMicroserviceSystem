@@ -4,13 +4,7 @@
 <AuthorizeView Policy="@IdentityContract.AstraAPIReadPolicyName">
     <Authorized>
 -->
-<!-- Packages -->
-<MListItem ActiveClass="@NavigatorBase.ItemActiveClass" Link Href="@RouterContract.PackagesUri">
-    <MListItemIcon>
-        <MIcon>mdi-package-variant-closed</MIcon>
-    </MListItemIcon>
-    <MListItemTitle>Packages</MListItemTitle>
-</MListItem>
+<NavigatorItem Icon="mdi-package-variant-closed" Title="Packages" TargetUri="@RouterContract.PackagesUri"></NavigatorItem>
 <!--
     </Authorized>
 </AuthorizeView>

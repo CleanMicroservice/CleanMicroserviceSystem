@@ -1,0 +1,21 @@
+﻿<MListGroup Group=@this.Group NoAction SubGroup>
+    <ActivatorContent>
+        <MListItemContent>
+            <MListItemTitle>@this.Title</MListItemTitle>
+        </MListItemContent>
+    </ActivatorContent>
+    <ChildContent>
+        @ChildContent
+    </ChildContent>
+</MListGroup>
+
+@code {
+    [Parameter]
+    public List<string>? Group { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

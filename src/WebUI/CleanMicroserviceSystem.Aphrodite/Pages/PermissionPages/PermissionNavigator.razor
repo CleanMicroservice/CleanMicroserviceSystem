@@ -2,57 +2,40 @@
 
 <AuthorizeView Policy="@IdentityContract.ThemisAPIReadPolicyName">
     <Authorized>
-        <MListGroup NoAction PrependIcon="mdi-security">
-            <ActivatorContent>
-                <MListItemTitle>Permissions</MListItemTitle>
-            </ActivatorContent>
-            <ChildContent>
-                <!-- Identity -->
-                <MListGroup NoAction SubGroup Value="true">
-                    <ActivatorContent>
-                        <MListItemContent>
-                            <MListItemTitle>Identity</MListItemTitle>
-                        </MListItemContent>
-                    </ActivatorContent>
-                    <ChildContent>
-                        <!-- User -->
-                        <MListItem ActiveClass="@NavigatorBase.ItemActiveClass" Link Href="@RouterContract.UsersUri">
-                            <MListItemIcon>
-                                <MIcon>mdi-shield-account</MIcon>
-                            </MListItemIcon>
-                            <MListItemTitle>User</MListItemTitle>
-                        </MListItem>
-                        <!-- Role -->
-                        <MListItem ActiveClass="@NavigatorBase.ItemActiveClass" Link Href="@RouterContract.RolesUri">
-                            <MListItemIcon>
-                                <MIcon>mdi-account-group</MIcon>
-                            </MListItemIcon>
-                            <MListItemTitle>Role</MListItemTitle>
-                        </MListItem>
-                    </ChildContent>
-                    </MListGroup>
-                    <!-- Application -->
-                    <MListGroup NoAction SubGroup Value="true">
-                    <ActivatorContent>
-                        <MListItemContent>
-                            <MListItemTitle>Application</MListItemTitle>
-                        </MListItemContent>
-                    </ActivatorContent>
-                    <ChildContent>
-                        <!-- Client -->
-                        <MListItem ActiveClass="@NavigatorBase.ItemActiveClass" Link Href="@RouterContract.ClientsUri">
-                            <MListItemIcon>
-                                <MIcon>mdi-application-array</MIcon>
-                            </MListItemIcon>
-                            <MListItemTitle>Client</MListItemTitle>
-                        </MListItem>
-                    </ChildContent>
-                    </MListGroup>
-                </ChildContent>
-                </MListGroup>
-            </Authorized>
-            </AuthorizeView>
+        <NavigatorGroup Group="@this.PermissionGroup" Icon="mdi-security" Title="Permissions">
+            <NavigatorSubGroup Group=@this.IdentityGroup Title="Identity">
+                <NavigatorItem Icon="mdi-shield-account" Title="User" TargetUri="@RouterContract.UsersUri" />
+                <NavigatorItem Icon="mdi-account-group" Title="Role" TargetUri="@RouterContract.RolesUri" />
+            </NavigatorSubGroup>
+            <NavigatorSubGroup Group=@this.ApplicationGroup Title="Application">
+                <NavigatorItem Icon="mdi-application-array" Title="Client" TargetUri="@RouterContract.ClientsUri" />
+            </NavigatorSubGroup>
+        </NavigatorGroup>
+    </Authorized>
+</AuthorizeView>
 
-            @code {
+@code {
+    private List<string> PermissionGroup = new List<string>()
+    {
+        RouterContract.UsersUri,
+        RouterContract.UsersEditUri,
+        RouterContract.RolesUri,
+        RouterContract.RolesEditUri,
+        RouterContract.ClientsUri,
+        RouterContract.ClientsEditUri,
+    };
 
+    private List<string> IdentityGroup = new List<string>()
+    {
+        RouterContract.UsersUri,
+        RouterContract.UsersEditUri,
+        RouterContract.RolesUri,
+        RouterContract.RolesEditUri,
+    };
+
+    private List<string> ApplicationGroup = new List<string>()
+    {
+        RouterContract.ClientsUri,
+        RouterContract.ClientsEditUri,
+    };
 }
