@@ -8,7 +8,7 @@
 
 <PageTitle>Packages</PageTitle>
 
-<MCard Elevation=0 Rounded="@("xl")">
+<MCard Elevation=0 Rounded=@("xl")>
     <MCardText Class="pa-6">
         <PPageHeader Title="Packages" Subtitle=@($"{this.SearchResponse.TotalHits} packages in total.") OnSearch=this.LoadPackages ShowFiltersByDefault>
             <LeftActions>
@@ -18,7 +18,7 @@
                 <MRow>
                     <MCol Cols="12">
                         <MTextField Label="Keyword" @bind-Value="@this.Keyword"
-                                    Color="primary" HideDetails="@("auto")"
+                                    Color="primary" HideDetails=@("auto")
                                     Clearable Filled Rounded Dense>
                         </MTextField>
                     </MCol>
@@ -28,7 +28,7 @@
     </MCardText>
 </MCard>
 
-<MCard Elevation=0 Rounded="@("xl")" Class="mt-6" Loading=@this.LoadingPackages>
+<MCard Elevation=0 Rounded=@("xl") Class="mt-6" Loading=@this.LoadingPackages>
     <MCardText>
         @if (this.SearchResponse.Data?.Any() ?? false)
         {

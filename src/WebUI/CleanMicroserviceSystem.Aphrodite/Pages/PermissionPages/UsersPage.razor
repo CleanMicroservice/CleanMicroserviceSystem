@@ -7,7 +7,7 @@
 
 <PageTitle>Users</PageTitle>
 
-<MCard Elevation=0 Rounded="@("xl")">
+<MCard Elevation=0 Rounded=@("xl")>
     <MCardText Class="pa-6">
         <PPageHeader Title="Users" Subtitle=@($"{this.Users.Count()} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
             <LeftActions>
@@ -30,25 +30,25 @@
                 <MRow>
                     <MCol Sm=12 Md=3>
                         <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
-                                    Color="primary" HideDetails="@("auto")" BackgroundColor="grey lighten-4"
+                                    Color="primary" HideDetails=@("auto") BackgroundColor="grey lighten-4"
                                         Clearable Filled Rounded Dense>
                         </MTextField>
                     </MCol>
                     <MCol Sm=12 Md=3>
                         <MTextField Label="Name" @bind-Value="@this.UserName"
-                                    Color="primary" HideDetails="@("auto")"
+                                    Color="primary" HideDetails=@("auto")
                                         Clearable Filled Rounded Dense>
                         </MTextField>
                     </MCol>
                     <MCol Sm=12 Md=3>
                         <MTextField Label="Email" @bind-Value="@this.Email"
-                                    Color="primary" HideDetails="@("auto")"
+                                    Color="primary" HideDetails=@("auto")
                                         Clearable Filled Rounded Dense>
                         </MTextField>
                     </MCol>
                     <MCol Sm=12 Md=3>
                         <MTextField Label="Phone" @bind-Value="@this.PhoneNumber"
-                                    Color="primary" HideDetails="@("auto")"
+                                    Color="primary" HideDetails=@("auto")
                                         Clearable Filled Rounded Dense>
                         </MTextField>
                     </MCol>
@@ -58,12 +58,12 @@
     </MCardText>
 </MCard>
 
-<MCard Elevation=0 Rounded="@("xl")" Class="mt-6">
+<MCard Elevation=0 Rounded=@("xl") Class="mt-6">
     <MCardText>
         <MRow>
             <MSpacer></MSpacer>
-            <MCol Cols="@("auto")">
-                <MTextField Style="width:280px;" Color="primary" BackgroundColor="grey lighten-4" HideDetails="@("auto")"
+            <MCol Cols=@("auto")>
+                <MTextField Style="width:280px;" Color="primary" BackgroundColor="grey lighten-4" HideDetails=@("auto")
                             @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Rounded Flat Dense Solo>
                     <PrependInnerContent>
                         <MIcon Size=16 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
@@ -93,7 +93,7 @@
                         break;
                     case ActionsHeaderName:
                         <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
-                            <MMenu Right Bottom Rounded="@("xl")">
+                            <MMenu Right Bottom Rounded=@("xl")>
                                 <ActivatorContent Context="menuContext">
                                     <MButton Color="primary" Icon @attributes="@menuContext.Attrs">
                                         <MIcon>mdi-dots-horizontal</MIcon>
@@ -141,7 +141,7 @@
                 <MSelect @bind-Value=@this.CurrentPageSize Items=@this.ValidPageSizes
                          ItemText=@(size => size.ToString()) ItemValue=@(size=>size)
                          Color="primary" Style="max-width:120px;"
-                         Filled Rounded Dense HideDetails="@("auto")">
+                         Filled Rounded Dense HideDetails=@("auto")>
                 </MSelect>
             </MCol>
             <MSpacer></MSpacer>

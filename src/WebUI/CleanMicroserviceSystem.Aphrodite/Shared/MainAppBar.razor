@@ -6,17 +6,17 @@
             <PPageTabs @ref="pageTabsService.PageTabsComponent">
             </PPageTabs>
         </MCol>
-        <MCol Class="px-3" Cols="@("auto")">
+        <MCol Class="px-3" Cols=@("auto")>
             <MTextField Value="@this.SearchInput" Class="d-none d-lg-flex"
                         Style="width:280px;" BackgroundColor="grey lighten-4"
-                        HideDetails="@("auto")" Placeholder="Search"
+                        HideDetails=@("auto") Placeholder="Search"
                         Clearable Flat Dense Solo>
                 <PrependInnerContent>
                     <MIcon Size=20 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
                 </PrependInnerContent>
             </MTextField>
         </MCol>
-        <MCol Cols="@("auto")">
+        <MCol Cols=@("auto")>
             <AvatarComponent />
         </MCol>
     </MRow>
