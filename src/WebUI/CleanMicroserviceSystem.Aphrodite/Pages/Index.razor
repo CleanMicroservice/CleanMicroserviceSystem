@@ -2,7 +2,20 @@
 @attribute [AllowAnonymous]
 @inherits AphroditePageBase
 
-<PageTitle>Home - Aphrodite</PageTitle>
+<PageTitle>Aphrodite</PageTitle>
+
+<MCard Rounded=@("xl")>
+    <MCarousel ShowArrowsOnHover>
+        <MCarouselItem Class="white"></MCarouselItem>
+        <MCarouselItem Class="white"></MCarouselItem>
+        <MCarouselItem Class="white"></MCarouselItem>
+    </MCarousel>
+</MCard>
 
 @code {
+    protected override async Task OnInitializedAsync()
+    {
+        this.PageTabsProvider.UpdateTabTitle(this.NavigationManager.GetAbsolutePath(), "Home");
+        await base.OnInitializedAsync();
+    }
 }
