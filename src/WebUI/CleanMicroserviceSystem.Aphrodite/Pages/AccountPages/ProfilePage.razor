@@ -2,36 +2,42 @@
 @attribute [Authorize()]
 @inherits AphroditePageBase
 @inject ILogger<ProfilePage> logger
+@inject IPopupService popupService
 @inject ThemisUserClient themisUserClient
 
 <PageTitle>Profile</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        @if (!string.IsNullOrEmpty(Message))
-        {
-            <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>@Message</MAlert>
-        }
         <MRow>
             <MCol Cols=@("auto")>
                 <MCard Flat Rounded=@("xl") Loading=CardLoading>
                     <MCardText>
                         <MRow>
-                            <MCol Class="text-center">
-                                <MAvatar Size="64" Class="mb-3">
-                                    <MImage Src="/img/Avatar.png"></MImage>
-                                </MAvatar>
-                                <p class="text-h5">@(this.UserInformation?.UserName ?? "-")</p>
+                            <MCol Align=@("center") Class="text-center">
+                                <MContainer>
+                                    <MAvatar Size="64" Class="mb-3">
+                                        <MImage Src="/img/Avatar.png"></MImage>
+                                    </MAvatar>
+                                    <p class="text-h5">@(this.CurrentUser?.UserName ?? "-")</p>
+                                </MContainer>
                             </MCol>
                             <MDivider Vertical />
                             <MCol>
+                                <MRow Justify=@("end")>
+                                    <MCol Class="pa-1" Cols=@("auto")>
+                                        <MButton Disabled=@(this.CurrentUser is null) Icon Small Color="primary" OnClick="this.OnShowUpdateUserModal">
+                                            <MIcon>mdi-square-edit-outline</MIcon>
+                                        </MButton>
+                                    </MCol>
+                                </MRow>
                                 <MList TwoLine>
                                     <MListItem>
                                         <MListItemIcon>
                                             <MIcon Color="primary">mdi-phone</MIcon>
                                         </MListItemIcon>
                                         <MListItemContent>
-                                            <MListItemTitle>@(this.UserInformation?.PhoneNumber ?? "-")</MListItemTitle>
+                                            <MListItemTitle>@(this.CurrentUser?.PhoneNumber ?? "-")</MListItemTitle>
                                                 <MListItemSubtitle>Phone</MListItemSubtitle>
                                             </MListItemContent>
                                         </MListItem>
@@ -41,25 +47,34 @@
                                             <MIcon Color="primary">mdi-email</MIcon>
                                         </MListItemIcon>
                                         <MListItemContent>
-                                            <MListItemTitle>@(this.UserInformation?.Email ?? "-")</MListItemTitle>
-                                            <MListItemSubtitle>Email</MListItemSubtitle>
-                                        </MListItemContent>
-                                    </MListItem>
-                                </MList>
-                            </MCol>
-                        </MRow>
-                    </MCardText>
-                </MCard>
-            </MCol>
-            <MSpacer></MSpacer>
-        </MRow>
+                                            <MListItemTitle>@(this.CurrentUser?.Email ?? "-")</MListItemTitle>
+                                                <MListItemSubtitle>Email</MListItemSubtitle>
+                                            </MListItemContent>
+                                        </MListItem>
+                                    </MList>
+                                </MCol>
+                            </MRow>
+                        </MCardText>
+                    </MCard>
+                </MCol>
+                <MSpacer></MSpacer>
+            </MRow>
+            <PModal @bind-Value=@this.ShowUpdateUserModal
+                    Title=@($"Update User {this.CurrentUser?.UserName} ({this.CurrentUser?.Id})") Persistent MaxWidth="600"
+                OnSave="this.OnUpdateUserModalSave"
+                OnCancel="this.OnUpdateUserModelCancel">
+            <ChildContent>
+                <UpdateCurrentUserComponent CurrentUser=@this.CurrentUser UserUpdateRequest=@this.UserUpdateRequest />
+            </ChildContent>
+        </PModal>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    protected string Message { get; set; }
+    protected bool ShowUpdateUserModal { get; set; }
     private StringBoolean CardLoading { get; set; }
-    protected UserInformationResponse? UserInformation { get; set; }
+    protected UserInformationResponse? CurrentUser { get; set; }
+    protected UserUpdateRequest? UserUpdateRequest { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,21 +82,21 @@
         this.CardLoading = true;
         try
         {
-            this.UserInformation = await this.themisUserClient.GetCurrentUserAsync();
-            if (this.UserInformation is null)
+            this.CurrentUser = await this.themisUserClient.GetCurrentUserAsync();
+            if (this.CurrentUser is null)
             {
                 this.logger.LogWarning($"Get null user information.");
-                this.Message = "Can not get current user information.";
+                await this.popupService.EnqueueSnackbarAsync("Can not get current user's information.", AlertTypes.Error);
             }
             else
             {
-                this.logger.LogInformation($"Get user information [{this.UserInformation.UserName}] successfully.");
+                this.logger.LogInformation($"Get user information [{this.CurrentUser.UserName}] successfully.");
             }
         }
         catch (Exception ex)
         {
             this.logger.LogError(ex, $"Get user information failed.");
-            this.Message = ex.Message;
+            await this.popupService.EnqueueSnackbarAsync(ex);
         }
         finally
         {
@@ -89,5 +104,63 @@
         }
 
         await base.OnInitializedAsync();
+    }
+
+    protected async Task OnShowUpdateUserModal()
+    {
+        this.UserUpdateRequest = new()
+            {
+                Email = this.CurrentUser!.Email,
+                Enabled = this.CurrentUser.Enabled,
+                UserName = this.CurrentUser.UserName,
+                PhoneNumber = this.CurrentUser.PhoneNumber,
+            };
+        this.ShowUpdateUserModal = true;
+    }
+
+    protected async Task OnUpdateUserModalSave()
+    {
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.UserName))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.Email))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Email is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.PhoneNumber))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Phone number is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+
+        try
+        {
+            var commonResult = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
+            if (commonResult?.Succeeded ?? false)
+            {
+                this.CurrentUser.Email = this.UserUpdateRequest.Email;
+                this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
+                this.CurrentUser.PhoneNumber = this.UserUpdateRequest.PhoneNumber;
+                this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;
+                this.ShowUpdateUserModal = false;
+                await this.popupService.EnqueueSnackbarAsync($"User {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnUpdateUserModelCancel()
+    {
+        this.ShowUpdateUserModal = false;
     }
 }

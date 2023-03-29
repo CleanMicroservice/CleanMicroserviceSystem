@@ -7,7 +7,7 @@
             </PPageTabs>
         </MCol>
         <MCol Class="px-3" Cols=@("auto")>
-            <MTextField Value="@this.SearchInput" Class="d-none d-lg-flex"
+            <MTextField @bind-Value="@this.SearchInput" Class="d-none d-lg-flex"
                         Style="width:280px;" BackgroundColor="grey lighten-4"
                         HideDetails=@("auto") Placeholder="Search"
                         Clearable Flat Dense Solo>

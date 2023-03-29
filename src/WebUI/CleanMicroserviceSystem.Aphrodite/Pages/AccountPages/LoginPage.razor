@@ -34,18 +34,16 @@
                         @Message
                     </MAlert>
                     }
-                    <MTextField BackgroundColor="grey lighten-4"
-                    @bind-Value="UserName" Label="UserName"
-                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                    Clearable Flat Solo Dense>
+                    <MTextField @bind-Value="@this.UserName" Label="UserName"
+                                Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                                BackgroundColor="grey lighten-4" Clearable Flat Solo Dense>
                     </MTextField>
-                    <MTextField BackgroundColor="grey lighten-4"
-                                @bind-Value="Password" Label="Password"
+                    <MTextField @bind-Value="@this.Password" Label="Password"
                                 AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
                                 Type="@(ShowPassword ? "text" : "password")"
                                 OnAppendClick="() => ShowPassword = !ShowPassword"
-                                Rules="new List<Func<string, StringBoolean>>(){notEmptyRule}"
-                                    Clearable Flat Solo Dense>
+                                Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                                BackgroundColor="grey lighten-4" Clearable Flat Solo Dense>
                     </MTextField>
                 </MCardText>
                 <MCardActions>
@@ -56,15 +54,19 @@
     </MCol>
 </MRow>
 
+@*
+    TODO: Windows Domain Login: https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/windowsauth?view=aspnetcore-7.0&tabs=visual-studio
+*@
+
 @code {
     private StringBoolean CardLoading { get; set; }
     private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
-    private string UserName { get; set; }
-    private string Password { get; set; }
+    private string? UserName { get; set; }
+    private string? Password { get; set; }
     private bool ShowPassword { get; set; }
     private string? Message { get; set; }
-    private Func<string, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "Filed shouldn't be empty.";
+    private Func<string?, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "Filed shouldn't be empty.";
 
     private async Task Login()
     {
