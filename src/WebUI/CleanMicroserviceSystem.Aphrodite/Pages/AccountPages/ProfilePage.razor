@@ -120,7 +120,7 @@
 
     protected async Task OnUpdateUserModalSave()
     {
-        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest.UserName))
+        if (string.IsNullOrWhiteSpace(this.UserUpdateRequest!.UserName))
         {
             await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
             return;
@@ -138,10 +138,10 @@
 
         try
         {
-            var commonResult = await this.themisUserClient.UpdateUserAsync(this.CurrentUser.Id, this.UserUpdateRequest);
+            var commonResult = await this.themisUserClient.UpdateCurrentUserAsync(this.UserUpdateRequest);
             if (commonResult?.Succeeded ?? false)
             {
-                this.CurrentUser.Email = this.UserUpdateRequest.Email;
+                this.CurrentUser!.Email = this.UserUpdateRequest.Email;
                 this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
                 this.CurrentUser.PhoneNumber = this.UserUpdateRequest.PhoneNumber;
                 this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;

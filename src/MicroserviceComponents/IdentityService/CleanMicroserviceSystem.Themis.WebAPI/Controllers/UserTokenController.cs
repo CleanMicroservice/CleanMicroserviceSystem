@@ -76,6 +76,7 @@ public class UserTokenController : ControllerBase
         var commonResult = new CommonResult<string>();
         if (!result.Succeeded)
         {
+            commonResult.Errors.Add(new CommonResultError($"User {request.UserName} login failed."));
             if (result.IsNotAllowed) commonResult.Errors.Add(new(nameof(result.IsNotAllowed)));
             if (result.IsLockedOut) commonResult.Errors.Add(new(nameof(result.IsLockedOut)));
             if (result.RequiresTwoFactor) commonResult.Errors.Add(new(nameof(result.RequiresTwoFactor)));
