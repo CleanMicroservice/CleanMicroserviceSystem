@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Uranus.Domain\CleanMicroserviceSystem.Uranus.Domain.csproj" />
   </ItemGroup>
 

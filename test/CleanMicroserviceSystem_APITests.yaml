@@ -224,7 +224,7 @@ resources:
     method: PUT
     body:
       mimeType: application/octet-stream
-      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
     parameters: []
     headers:
       - name: Content-Type
@@ -410,7 +410,7 @@ resources:
     method: PUT
     body:
       mimeType: application/octet-stream
-      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Application.Abstraction.1.0.0.nupkg
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Application.Abstraction.1.0.0.nupkg
     parameters: []
     headers:
       - name: Content-Type

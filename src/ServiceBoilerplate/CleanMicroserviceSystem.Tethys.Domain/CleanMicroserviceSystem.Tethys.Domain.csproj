@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Contract.Abstraction\CleanMicroserviceSystem.Oceanus.Contract.Abstraction.csproj" />
+    <ProjectReference Include="..\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj" />
   </ItemGroup>
 
 </Project>

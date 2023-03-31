@@ -12,9 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj" />
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj" />
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction\CleanMicroserviceSystem.Oceanus.Domain.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Application\CleanMicroserviceSystem.Themis.Application.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Domain\CleanMicroserviceSystem.Themis.Domain.csproj" />
   </ItemGroup>

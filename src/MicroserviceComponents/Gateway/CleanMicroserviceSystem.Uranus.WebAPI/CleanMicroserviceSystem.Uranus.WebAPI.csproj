@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Uranus.Infrastructure\CleanMicroserviceSystem.Uranus.Infrastructure.csproj" />
   </ItemGroup>
 

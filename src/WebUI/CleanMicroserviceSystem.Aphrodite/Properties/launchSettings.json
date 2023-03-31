@@ -3,7 +3,6 @@
         "https": {
             "commandName": "Project",
             "dotnetRunMessages": true,
-            "launchBrowser": true,
             "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
             "launchUrl": "https://localhost:10000",
             "applicationUrl": "https://localhost:10000",

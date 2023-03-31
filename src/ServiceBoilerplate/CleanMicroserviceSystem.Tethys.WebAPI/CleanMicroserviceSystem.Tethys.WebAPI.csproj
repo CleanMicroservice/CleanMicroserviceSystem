@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
+    <ProjectReference Include="..\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Tethys.Infrastructure\CleanMicroserviceSystem.Tethys.Infrastructure.csproj" />
   </ItemGroup>
 

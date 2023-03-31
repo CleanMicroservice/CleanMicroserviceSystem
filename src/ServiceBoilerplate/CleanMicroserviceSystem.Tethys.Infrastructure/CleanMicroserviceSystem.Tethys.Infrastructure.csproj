@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj" />
+    <ProjectReference Include="..\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction\CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Tethys.Application\CleanMicroserviceSystem.Tethys.Application.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Tethys.Domain\CleanMicroserviceSystem.Tethys.Domain.csproj" />
   </ItemGroup>

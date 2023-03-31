@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\CommonLibrary\DataStructure\CleanMicroserviceSystem.DataStructure\CleanMicroserviceSystem.DataStructure.csproj" />
     <ProjectReference Include="..\..\..\CommonLibrary\Gateway\CleanMicroserviceSystem.Gateway.Contract\CleanMicroserviceSystem.Gateway.Contract.csproj" />
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Contract\CleanMicroserviceSystem.Themis.Contract.csproj" />
   </ItemGroup>
 

@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CommonLibrary\DataStructure\CleanMicroserviceSystem.DataStructure\CleanMicroserviceSystem.DataStructure.csproj" />
-    <ProjectReference Include="..\..\..\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Astra.Contract\CleanMicroserviceSystem.Astra.Contract.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Astra.Domain\CleanMicroserviceSystem.Astra.Domain.csproj" />
   </ItemGroup>
