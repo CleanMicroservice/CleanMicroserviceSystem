@@ -7,7 +7,7 @@
 
 <PageTitle>Users</PageTitle>
 
-<MCard Elevation=0 Rounded=@("xl")>
+<MCard Flat Rounded=@("xl")>
     <MCardText Class="pa-6">
         <PPageHeader Title="Users" Subtitle=@($"{this.Users.Count()} users in total.") OnSearch=this.LoadUsers ShowFiltersByDefault>
             <LeftActions>
@@ -30,7 +30,7 @@
                 <MRow>
                     <MCol Sm=12 Md=3>
                         <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
-                                    Color="primary" HideDetails=@("auto") BackgroundColor="grey lighten-4"
+                                    Color="primary" HideDetails=@("auto")
                                         Clearable Filled Rounded Dense>
                         </MTextField>
                     </MCol>
@@ -58,15 +58,15 @@
     </MCardText>
 </MCard>
 
-<MCard Elevation=0 Rounded=@("xl") Class="mt-6">
+<MCard Flat Rounded=@("xl") Class="mt-6">
     <MCardText>
         <MRow>
             <MSpacer></MSpacer>
             <MCol Cols=@("auto")>
-                <MTextField Style="width:280px;" Color="primary" BackgroundColor="grey lighten-4" HideDetails=@("auto")
-                            @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Rounded Flat Dense Solo>
+                <MTextField Style="width:280px;" Color="primary" BackgroundColor="grey lighten-4"
+                            HideDetails=@("auto") @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Rounded Flat Dense Solo>
                     <PrependInnerContent>
-                        <MIcon Size=16 Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                        <MIcon Class="neutral-lighten-1--text">mdi-magnify</MIcon>
                     </PrependInnerContent>
                 </MTextField>
             </MCol>

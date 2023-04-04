@@ -11,7 +11,7 @@
     <Authorized>
         <MRow>
             <MCol Cols=@("auto")>
-                <MCard Flat Rounded=@("xl") Loading=CardLoading>
+                <MCard Flat Rounded=@("xl") Loading=this.CardLoading>
                     <MCardText>
                         <MRow>
                             <MCol Align=@("center") Class="text-center">
@@ -72,7 +72,7 @@
 
 @code {
     protected bool ShowUpdateUserModal { get; set; }
-    private StringBoolean CardLoading { get; set; }
+    protected StringBoolean CardLoading { get; set; }
     protected UserInformationResponse? CurrentUser { get; set; }
     protected UserUpdateRequest? UserUpdateRequest { get; set; }
 
