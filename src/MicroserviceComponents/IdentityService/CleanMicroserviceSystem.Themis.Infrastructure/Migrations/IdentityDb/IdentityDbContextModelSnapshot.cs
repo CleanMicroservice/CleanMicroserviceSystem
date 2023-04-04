@@ -201,13 +201,20 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                             Id = 2,
                             ClaimType = "ThemisAPI",
                             ClaimValue = "Write",
-                            RoleId = 2
+                            RoleId = 1
                         },
                         new
                         {
                             Id = 3,
                             ClaimType = "ThemisAPI",
                             ClaimValue = "Read",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Write",
                             RoleId = 2
                         });
                 });

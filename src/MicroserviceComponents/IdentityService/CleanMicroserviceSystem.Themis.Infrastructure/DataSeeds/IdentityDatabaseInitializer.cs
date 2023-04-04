@@ -79,8 +79,9 @@ public static class IdentityDatabaseInitializer
         builder.Entity<IdentityRoleClaim<int>>().HasData(new[]
         {
             new IdentityRoleClaim<int> { Id = 1, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
-            new IdentityRoleClaim<int> { Id = 2, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Write },
-            new IdentityRoleClaim<int> { Id = 3, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read }
+            new IdentityRoleClaim<int> { Id = 2, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Write },
+            new IdentityRoleClaim<int> { Id = 3, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
+            new IdentityRoleClaim<int> { Id = 4, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Write },
         });
 
         return builder;

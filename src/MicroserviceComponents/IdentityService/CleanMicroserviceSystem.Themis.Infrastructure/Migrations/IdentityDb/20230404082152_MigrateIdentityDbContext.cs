@@ -184,8 +184,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 values: new object[,]
                 {
                     { 1, "ThemisAPI", "Read", 1 },
-                    { 2, "ThemisAPI", "Write", 2 },
-                    { 3, "ThemisAPI", "Read", 2 }
+                    { 2, "ThemisAPI", "Write", 1 },
+                    { 3, "ThemisAPI", "Read", 2 },
+                    { 4, "ThemisAPI", "Write", 2 }
                 });
 
             migrationBuilder.InsertData(
