@@ -1,47 +1,47 @@
 ﻿<MRow>
     <MCol Cols="12">
         <MTextField Label="Name" @bind-Value="@this.UserUpdateRequest.UserName"
-                    Color="primary" BackgroundColor="grey lighten-4" PrependInnerIcon="mdi-account"
-                    HideDetails=@("auto") Clearable Outlined Dense>
+                    Color="primary" PrependInnerIcon="mdi-account"
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
         </MTextField>
     </MCol>
     <MCol Cols="12">
         <MTextField Label="Email" @bind-Value="@this.UserUpdateRequest.Email"
-                    Color="primary" BackgroundColor="grey lighten-4" PrependInnerIcon="mdi-email"
-                    HideDetails=@("auto") Clearable Outlined Dense>
+                    Color="primary" PrependInnerIcon="mdi-email"
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
         </MTextField>
     </MCol>
     <MCol Cols="12">
         <MTextField Label="Phone" @bind-Value="@this.UserUpdateRequest.PhoneNumber"
-                    Color="primary" BackgroundColor="grey lighten-4" PrependInnerIcon="mdi-phone"
-                    HideDetails=@("auto") Clearable Outlined Dense>
+                    Color="primary" PrependInnerIcon="mdi-phone"
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
         </MTextField>
     </MCol>
     <MCol Cols="12">
         <MTextField Label="Current Password" @bind-Value="@this.UserUpdateRequest.CurrentPassword"
-                    Color="primary" BackgroundColor="grey lighten-4" PrependInnerIcon="mdi-lock"
+                    Color="primary" PrependInnerIcon="mdi-lock"
                     AppendIcon="@(ShowCurrentPassword ? "mdi-eye" : "mdi-eye-off")"
                     Type="@(ShowCurrentPassword ? "text" : "password")"
                     OnAppendClick="() => ShowCurrentPassword = !ShowCurrentPassword"
-                    HideDetails=@("auto") Clearable Outlined Dense>
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
         </MTextField>
     </MCol>
     <MCol Cols="12">
         <MTextField Label="New Password" @bind-Value="@this.UserUpdateRequest.NewPassword"
-                    Color="primary" BackgroundColor="grey lighten-4" PrependInnerIcon="mdi-lock-question"
+                    Color="primary" PrependInnerIcon="mdi-lock-question"
                     AppendIcon="@(ShowNewPassword ? "mdi-eye" : "mdi-eye-off")"
                     Type="@(ShowNewPassword ? "text" : "password")"
                     OnAppendClick="() => ShowNewPassword = !ShowNewPassword"
-                    HideDetails=@("auto") Clearable Outlined Dense>
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
         </MTextField>
     </MCol>
     <MCol Cols="12">
         <MTextField Label="Confirm Password" @bind-Value="@this.UserUpdateRequest.ConfirmPassword"
-                    Color="primary" BackgroundColor="grey lighten-4" PrependInnerIcon="mdi-lock-question"
+                    Color="primary" PrependInnerIcon="mdi-lock-question"
                     AppendIcon="@(ShowConfirmPassword ? "mdi-eye" : "mdi-eye-off")"
                     Type="@(ShowConfirmPassword ? "text" : "password")"
                     OnAppendClick="() => ShowConfirmPassword = !ShowConfirmPassword"
-                    HideDetails=@("auto") Clearable Outlined Dense>
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
         </MTextField>
     </MCol>
 </MRow>
