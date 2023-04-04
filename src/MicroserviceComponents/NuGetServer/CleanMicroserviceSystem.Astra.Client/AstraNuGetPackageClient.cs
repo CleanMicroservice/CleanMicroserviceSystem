@@ -38,7 +38,7 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         if (semVerLevel.HasValue) queryString += QueryString.Create(nameof(semVerLevel), NuGetServerContract.SemVerLevel);
 
         var uri = this.BuildUri($"/v3/search{queryString.ToUriComponent()}");
-        var searchResponse = await this.httpClient.GetFromJsonAsync<SearchResponse>(uri);
+        var searchResponse = await this.httpClient.GetFromJsonAsync<SearchResponse>(uri, cancellationToken);
         return searchResponse;
     }
 
@@ -49,7 +49,8 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
     {
         var uri = this.BuildUri($"/api/v2/package");
         var content = new StreamContent(stream);
-        var responseMessage = await this.httpClient.PutAsync(uri, content);
+        content.Headers.Add(NuGetServerContract.ApiKeyHeader, apiKey);
+        var responseMessage = await this.httpClient.PutAsync(uri, content, cancellationToken);
         return responseMessage;
     }
 
@@ -59,8 +60,10 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         string packageVersion,
         CancellationToken cancellationToken = default)
     {
-        var uri = this.BuildUri($"/api/v2/package");
-        var responseMessage = await this.httpClient.DeleteAsync(uri);
+        var uri = this.BuildUri($"/api/v2/package/{packageId}/{packageVersion}");
+        var content = new StringContent(string.Empty);
+        content.Headers.Add(NuGetServerContract.ApiKeyHeader, apiKey);
+        var responseMessage = await this.httpClient.DeleteAsync(uri, content, cancellationToken);
         return responseMessage;
     }
 
@@ -70,8 +73,10 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         string packageVersion,
         CancellationToken cancellationToken = default)
     {
-        var uri = this.BuildUri($"/api/v2/package");
-        var responseMessage = await this.httpClient.PostAsync(uri, null);
+        var uri = this.BuildUri($"/api/v2/package/{packageId}/{packageVersion}");
+        var content = new StringContent(string.Empty);
+        content.Headers.Add(NuGetServerContract.ApiKeyHeader, apiKey);
+        var responseMessage = await this.httpClient.PostAsync(uri, content);
         return responseMessage;
     }
 }
