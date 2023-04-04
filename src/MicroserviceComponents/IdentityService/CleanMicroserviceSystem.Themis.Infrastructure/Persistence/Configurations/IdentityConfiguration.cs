@@ -11,4 +11,11 @@ public static class IdentityConfiguration
         userClaimBuilder.HasIndex(nameof(IdentityUserClaim<int>.ClaimType), nameof(IdentityUserClaim<int>.ClaimValue));
         return modelBuilder;
     }
+
+    public static ModelBuilder ConfigureRoleClaim(this ModelBuilder modelBuilder)
+    {
+        var userClaimBuilder = modelBuilder.Entity<IdentityRoleClaim<int>>();
+        userClaimBuilder.HasIndex(nameof(IdentityRoleClaim<int>.ClaimType), nameof(IdentityRoleClaim<int>.ClaimValue));
+        return modelBuilder;
+    }
 }

@@ -284,7 +284,7 @@ public class UserController : ControllerBase
     public async Task<ActionResult<PaginatedEnumerable<ClaimInformationResponse>>> SearchClaims([FromQuery] ClaimSearchRequest request)
     {
         this.logger.LogInformation($"Search User Claims ...");
-        var result = await this.oceanusUserRepository.SearchUserClaims(
+        var result = await this.oceanusUserRepository.SearchClaims(
             request.UserId, request.Type, request.Value, request.Start, request.Count);
 
         var claims = result.Values.Select(claim => new ClaimInformationResponse()

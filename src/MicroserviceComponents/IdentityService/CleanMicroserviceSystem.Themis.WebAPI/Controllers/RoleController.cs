@@ -160,6 +160,28 @@ public class RoleController : ControllerBase
     /// <summary>
     /// Get role claims
     /// </summary>
+    /// <returns></returns>
+    [HttpGet("Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
+    public async Task<ActionResult<PaginatedEnumerable<ClaimInformationResponse>>> SearchClaims([FromQuery] ClaimSearchRequest request)
+    {
+        this.logger.LogInformation($"Search User Claims ...");
+        var result = await this.oceanusRoleRepository.SearchClaims(
+            request.UserId, request.Type, request.Value, request.Start, request.Count);
+
+        var claims = result.Values.Select(claim => new ClaimInformationResponse()
+        {
+            Type = claim.Type,
+            Value = claim.Value,
+        });
+        var paginatedClaims = new PaginatedEnumerable<ClaimInformationResponse>(
+            claims, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedClaims);
+    }
+
+    /// <summary>
+    /// Get role claims
+    /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/Claims")]

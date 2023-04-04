@@ -7,7 +7,7 @@ namespace CleanMicroserviceSystem.Themis.Application.Repository;
 
 public interface IOceanusUserRepository : IRepositoryBase<OceanusUser>
 {
-    Task<PaginatedEnumerable<Claim>> SearchUserClaims(
+    Task<PaginatedEnumerable<Claim>> SearchClaims(
         int? userId, string? type, string? value, int? start, int? count);
 
     Task<PaginatedEnumerable<OceanusRole>> GetRolesAsync(int userId, int? start, int? count);

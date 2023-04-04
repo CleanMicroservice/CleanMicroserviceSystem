@@ -20,7 +20,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
     {
     }
 
-    public async Task<PaginatedEnumerable<Claim>> SearchUserClaims(
+    public async Task<PaginatedEnumerable<Claim>> SearchClaims(
         int? userId,
         string? type,
         string? value,

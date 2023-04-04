@@ -37,6 +37,7 @@ public class IdentityDbContext : IdentityDbContext<OceanusUser, OceanusRole, int
         base.OnModelCreating(builder);
         builder
             .ConfigureUserClaim()
+            .ConfigureRoleClaim()
             .InitializeIdentityData();
     }
 }
