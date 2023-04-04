@@ -285,7 +285,7 @@ public class UserController : ControllerBase
     {
         this.logger.LogInformation($"Search User Claims ...");
         var result = await this.oceanusUserRepository.SearchClaims(
-            request.UserId, request.Type, request.Value, request.Start, request.Count);
+            request.IdentityId, request.Type, request.Value, request.Start, request.Count);
 
         var claims = result.Values.Select(claim => new ClaimInformationResponse()
         {

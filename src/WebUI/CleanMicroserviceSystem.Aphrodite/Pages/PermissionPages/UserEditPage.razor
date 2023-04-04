@@ -180,7 +180,7 @@
             this.UserRoles.Clear();
             this.UserRoles.AddRange(userRoles?.Select(role => role.RoleName!) ?? Enumerable.Empty<string>());
 
-            var allClaims = await this.themisUserClient.SearchUserClaimsAsync(new ClaimSearchRequest());
+            var allClaims = await this.themisUserClient.SearchClaimsAsync(new ClaimSearchRequest());
             var claimTreeModels = (allClaims?.Values ?? Enumerable.Empty<ClaimInformationResponse>())
                 .GroupBy(claim => claim.Type)
                 .Select(group => new UserClaimTreeModel()

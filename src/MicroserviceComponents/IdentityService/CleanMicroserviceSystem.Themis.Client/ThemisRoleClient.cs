@@ -66,6 +66,19 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return await this.GetCommonResult(response);
     }
 
+    public async Task<PaginatedEnumerable<ClaimInformationResponse>?> SearchClaimsAsync(ClaimSearchRequest request)
+    {
+        var queryString = new QueryString();
+        if (request.IdentityId.HasValue) queryString += QueryString.Create(nameof(request.IdentityId), request.IdentityId.ToString());
+        if (request.Count.HasValue) queryString += QueryString.Create(nameof(request.Count), request.Count.ToString());
+        if (request.Start.HasValue) queryString += QueryString.Create(nameof(request.Start), request.Start.ToString());
+        if (!string.IsNullOrEmpty(request.Type)) queryString += QueryString.Create(nameof(request.Type), request.Type.ToString());
+        if (!string.IsNullOrEmpty(request.Value)) queryString += QueryString.Create(nameof(request.Value), request.Value.ToString());
+        var uri = this.BuildUri($"/api/Role/Claims{queryString.ToUriComponent()}");
+        var claims = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<ClaimInformationResponse>>(uri);
+        return claims;
+    }
+
     public async Task<IEnumerable<ClaimInformationResponse>?> GetRoleClaimsAsync(int id)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");

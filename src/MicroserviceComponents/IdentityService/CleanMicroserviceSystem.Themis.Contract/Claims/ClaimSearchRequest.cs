@@ -4,7 +4,7 @@ namespace CleanMicroserviceSystem.Themis.Contract.Claims;
 
 public class ClaimSearchRequest : ContractBase
 {
-    public int? UserId { get; set; } = default;
+    public int? IdentityId { get; set; } = default;
 
     public string? Type { get; set; } = default;
 
