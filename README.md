@@ -76,6 +76,14 @@
 3. Select `CleanMicroserviceSystem.Tethys.Infrastructure` as Default project in Package Manager Console;
 4. Input below commands and execute;
 
+## Screenshots
+
+![](doc/screenshots/Login.png)
+
+![](doc/screenshots/Users.png)
+
+![](doc/screenshots/EditUser.png)
+
 ### Commands
 
 | Command                  | Description                                                                                                 |
