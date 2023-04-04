@@ -4,6 +4,7 @@
 @inherits AphroditePageBase
 @inject ILogger<PackagesPage> logger
 @inject IPopupService popupService
+@inject IOptions<NuGetServerConfiguration> nuGetServerOptions
 @inject AstraNuGetPackageClient astraNuGetPackageClient
 
 <PageTitle>Packages</PageTitle>
@@ -12,7 +13,9 @@
     <MCardText Class="pa-6">
         <PPageHeader Title="Packages" Subtitle=@($"{this.SearchResponse.TotalHits} packages in total.") OnSearch=this.LoadPackages ShowFiltersByDefault>
             <LeftActions>
-                <MButton Rounded Color="primary"><MIcon Left>mdi-plus</MIcon>Create</MButton>
+                <AuthorizeView Policy="@IdentityContract.AstraAPIWritePolicyName">
+                    <MButton Rounded Color="primary" OnClick=@this.OnUploadPackage><MIcon Left>mdi-plus</MIcon>Create</MButton>
+                </AuthorizeView>
             </LeftActions>
             <Filters>
                 <MRow>
@@ -42,25 +45,56 @@
                     <MCard Flat Rounded=@("xl") Class="my-2">
                         <MCardTitle>
                             <MRow>
-                                <MCol Cols=@("auto")><p class="h6 text-no-wrap">@package.PackageId</p></MCol>
-                                <MSpacer></MSpacer>
+                                <MCol Cols=@("auto")><span class="font-weight-black h6 text-no-wrap text-truncate">@package.PackageId</span></MCol>
+                                <MCol><span class="subtitle-1 text-truncate text--disabled">@string.Join(", ", package.Authors??Enumerable.Empty<string>())</span></MCol>
                                 <MCol Cols=@("auto")>
                                     <MChip Color="primary" Outlined TextColor="white">@package.Version</MChip>
                                 </MCol>
                             </MRow>
                         </MCardTitle>
-                        <MCardSubtitle>@string.Join(", ", package.Authors??Enumerable.Empty<string>())</MCardSubtitle>
+                        <MCardSubtitle>
+                            <AuthorizeView Policy=@IdentityContract.AstraAPIWritePolicyName>
+                                <Authorized>
+                                    @foreach (var version in package.Versions?.Select(version => version.Version) ?? Enumerable.Empty<string>())
+                                    {
+                                        <MChip Class="ma-1" Color="primary" TextColor="white" Outlined Small
+                                              Close OnCloseClick="()=>this.OnDeletePackageVersion(package, version)">
+                                            @version
+                                        </MChip>
+                                    }
+                                </Authorized>
+                                <NotAuthorized>
+                                    @foreach (var version in package.Versions?.Select(version => version.Version) ?? Enumerable.Empty<string>())
+                                    {
+                                        <MChip Class="ma-1" Color="primary" TextColor="white" Outlined Small>@version</MChip>
+                                    }
+                                </NotAuthorized>
+                            </AuthorizeView>
+                        </MCardSubtitle>
                         <MCardText>
-                            @foreach (var version in package.Versions?.Select(version => version.Version) ?? Enumerable.Empty<string>())
-                            {
-                                <MChip Class="ma-1" Color="secondary" Small TextColor="white">@version</MChip>
-                            }
-                            <MDivider></MDivider>
                             @package.Description
-                            @foreach (var tag in package.Tags ?? Enumerable.Empty<string>())
-                            {
-                                <MChip Class="ma-1" Color="primary" XSmall>@tag</MChip>
-                            }
+                            <MExpansionPanels Flat>
+                            <MExpansionPanel>
+                                <MExpansionPanelHeader Class="pa-0">Learn more</MExpansionPanelHeader>
+                                <MExpansionPanelContent>
+                                    <MRow>
+                                        @if (package.Tags?.Any() ?? false)
+                                            {
+                                                <MCol Cols=12 Class="pa-1">
+                                                    @foreach (var tag in package.Tags)
+                                                    {
+                                                        <MChip Class="ma-1" Label Color="secondary" XSmall>@tag</MChip>
+                                                    }
+                                                </MCol>
+                                            }
+                                            <MCol Cols=12 Class="pa-1"><span class="text-no-wrap text-truncate">@nameof(@package.IconUrl): @package.IconUrl</span></MCol>
+                                            <MCol Cols=12 Class="pa-1"><span class="text-no-wrap text-truncate">@nameof(@package.LicenseUrl): @package.LicenseUrl</span></MCol>
+                                            <MCol Cols=12 Class="pa-1"><span class="text-no-wrap text-truncate">@nameof(@package.ProjectUrl): @package.ProjectUrl</span></MCol>
+                                            <MCol Cols=12 Class="pa-1"><span class="text-no-wrap text-truncate">@nameof(@package.RegistrationIndexUrl): @package.RegistrationIndexUrl</span></MCol>
+                                        </MRow>
+                                    </MExpansionPanelContent>
+                                </MExpansionPanel>
+                            </MExpansionPanels>
                         </MCardText>
                     </MCard>
                 </MCol>
@@ -96,6 +130,39 @@
         finally
         {
             this.LoadingPackages = false;
+        }
+    }
+
+    protected async Task OnUploadPackage()
+    {
+        // TODO: Upload package;
+    }
+
+    protected async Task OnDeletePackageVersion(SearchResult package, string version)
+    {
+        try
+        {
+            var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to delete package: {package.PackageId}, version: {version} ?", AlertTypes.Warning);
+            if (!confirmed) return;
+
+            var response = await this.astraNuGetPackageClient.DeleteAsync(
+                this.nuGetServerOptions.Value.ApiKey, package.PackageId, version);
+            if (response.IsSuccessStatusCode)
+            {
+                package.Versions = package.Versions
+                    .Where(vers => !vers.Version.Equals(version, StringComparison.OrdinalIgnoreCase))
+                    .ToList()
+                    .AsReadOnly();
+                await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} deleted.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} delete failed.", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
         }
     }
 }
