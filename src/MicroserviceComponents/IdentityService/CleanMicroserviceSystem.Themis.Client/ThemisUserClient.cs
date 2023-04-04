@@ -83,21 +83,21 @@ public class ThemisUserClient : OceanusServiceClientBase
         return claims;
     }
 
-    public async Task<CommonResult?> AddUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> AddUserClaimsAsync(int id, IEnumerable<ClaimUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
         return await this.GetCommonResult(response);
     }
 
-    public async Task<CommonResult?> UpdateUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> UpdateUserClaimsAsync(int id, IEnumerable<ClaimUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
         var response = await this.httpClient.PutAsJsonAsync(uri, requests);
         return await this.GetCommonResult(response);
     }
 
-    public async Task<CommonResult?> DeleteUserClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> DeleteUserClaimsAsync(int id, IEnumerable<ClaimUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);

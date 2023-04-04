@@ -201,7 +201,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<IActionResult> PutClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<IActionResult> PutClaims(int id, [FromBody] IEnumerable<ClaimUpdateRequest> requests)
     {
         this.logger.LogInformation($"Update Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
@@ -250,7 +250,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<CommonResult>> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PostClaims(int id, [FromBody] IEnumerable<ClaimUpdateRequest> requests)
     {
         this.logger.LogInformation($"Create Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);
@@ -283,7 +283,7 @@ public class ClientController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<CommonResult>> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> DeleteClaims(int id, [FromBody] IEnumerable<ClaimUpdateRequest> requests)
     {
         this.logger.LogInformation($"Delete Client Claims: {id}");
         var client = await this.clientManager.FindByIdAsync(id);

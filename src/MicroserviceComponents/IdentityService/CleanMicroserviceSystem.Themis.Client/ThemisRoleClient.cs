@@ -73,21 +73,21 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return claims;
     }
 
-    public async Task<CommonResult?> AddRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> AddRoleClaimsAsync(int id, IEnumerable<ClaimUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");
         var response = await this.httpClient.PostAsJsonAsync(uri, requests);
         return await this.GetCommonResult(response);
     }
 
-    public async Task<CommonResult?> UpdateRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> UpdateRoleClaimsAsync(int id, IEnumerable<ClaimUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");
         var response = await this.httpClient.PutAsJsonAsync(uri, requests);
         return await this.GetCommonResult(response);
     }
 
-    public async Task<CommonResult?> DeleteRoleClaimsAsync(int id, IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<CommonResult?> DeleteRoleClaimsAsync(int id, IEnumerable<ClaimUpdateRequest> requests)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Claims");
         var response = await this.httpClient.DeleteAsJsonAsync(uri, requests);

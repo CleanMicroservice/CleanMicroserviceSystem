@@ -2,7 +2,7 @@
 
 namespace CleanMicroserviceSystem.Themis.Contract.Claims;
 
-public class ClaimsUpdateRequest : ContractBase
+public class ClaimUpdateRequest : ContractBase
 {
     public string Type { get; set; }
 

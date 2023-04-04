@@ -188,7 +188,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPut("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<CommonResult>> PutClaims(string id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PutClaims(string id, [FromBody] IEnumerable<ClaimUpdateRequest> requests)
     {
         this.logger.LogInformation($"Update Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id);
@@ -245,7 +245,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpPost("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<CommonResult>> PostClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> PostClaims(int id, [FromBody] IEnumerable<ClaimUpdateRequest> requests)
     {
         this.logger.LogInformation($"Create Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
@@ -286,7 +286,7 @@ public class RoleController : ControllerBase
     /// <returns></returns>
     [HttpDelete("{id}/Claims")]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<CommonResult>> DeleteClaims(int id, [FromBody] IEnumerable<ClaimsUpdateRequest> requests)
+    public async Task<ActionResult<CommonResult>> DeleteClaims(int id, [FromBody] IEnumerable<ClaimUpdateRequest> requests)
     {
         this.logger.LogInformation($"Delete Role Claims: {id}");
         var role = await this.roleManager.FindByIdAsync(id.ToString());
