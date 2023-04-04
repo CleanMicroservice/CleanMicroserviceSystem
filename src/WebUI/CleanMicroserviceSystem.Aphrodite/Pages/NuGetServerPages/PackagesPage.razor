@@ -45,7 +45,7 @@
                                 <MCol Cols=@("auto")><p class="h6 text-no-wrap">@package.PackageId</p></MCol>
                                 <MSpacer></MSpacer>
                                 <MCol Cols=@("auto")>
-                                    <MChip Class="mr-2" Color="primary" Outlined TextColor="white">@package.Version</MChip>
+                                    <MChip Color="primary" Outlined TextColor="white">@package.Version</MChip>
                                 </MCol>
                             </MRow>
                         </MCardTitle>
@@ -53,13 +53,13 @@
                         <MCardText>
                             @foreach (var version in package.Versions?.Select(version => version.Version) ?? Enumerable.Empty<string>())
                             {
-                                <MChip Class="ma-2" Color="secondary" Small TextColor="white">@version</MChip>
+                                <MChip Class="ma-1" Color="secondary" Small TextColor="white">@version</MChip>
                             }
                             <MDivider></MDivider>
                             @package.Description
                             @foreach (var tag in package.Tags ?? Enumerable.Empty<string>())
                             {
-                                <MChip Class="ma-2" Color="primary" XSmall>@tag</MChip>
+                                <MChip Class="ma-1" Color="primary" XSmall>@tag</MChip>
                             }
                         </MCardText>
                     </MCard>
