@@ -187,19 +187,30 @@ public class UserController : ControllerBase
             {
                 commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
             }
+            return this.BadRequest(commonResult);
         }
-        else
+
+        newUser = await this.userManager.FindByNameAsync(request.UserName);
+
+        // TODO: Split logic by intermediator
+        result = await this.userManager.AddToRoleAsync(newUser, IdentityContract.CommonRole);
+        if (!result.Succeeded)
         {
-            newUser = await this.userManager.FindByNameAsync(request.UserName);
-            commonResult.Entity = new UserInformationResponse()
+            foreach (var error in result.Errors)
             {
-                Id = newUser!.Id,
-                UserName = newUser!.UserName,
-                Email = newUser!.Email,
-                PhoneNumber = newUser!.PhoneNumber,
-                Enabled = !(newUser.LockoutEnabled && newUser.LockoutEnd.HasValue && newUser.LockoutEnd.Value >= DateTime.UtcNow),
-            };
+                commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+            }
+            return this.BadRequest(commonResult);
         }
+
+        commonResult.Entity = new UserInformationResponse()
+        {
+            Id = newUser!.Id,
+            UserName = newUser!.UserName,
+            Email = newUser!.Email,
+            PhoneNumber = newUser!.PhoneNumber,
+            Enabled = !(newUser.LockoutEnabled && newUser.LockoutEnd.HasValue && newUser.LockoutEnd.Value >= DateTime.UtcNow),
+        };
 
         return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }

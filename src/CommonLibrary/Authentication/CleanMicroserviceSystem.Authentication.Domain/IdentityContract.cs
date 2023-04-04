@@ -15,10 +15,10 @@ public static class IdentityContract
     #region Users
 
     public const string DefaultUserPassword = "Passw0rd";
-    public const int SuperUserId = 1;
-    public const string SuperUser = "Leon";
-    public const int CommonUserId = 2;
-    public const string CommonUser = "Mathilda";
+    public const int AdminUserId = 1;
+    public const string AdminUser = "Leon";
+    public const int OperatorUserId = 2;
+    public const string OperatorUser = "Mathilda";
     #endregion
 
     #region Roles
@@ -27,6 +27,8 @@ public static class IdentityContract
     public const string AdministratorRole = "Administrator";
     public const int OperatorRoleId = 2;
     public const string OperatorRole = "Operator";
+    public const int CommonRoleId = 3;
+    public const string CommonRole = "Common";
     #endregion
 
     #region Headers

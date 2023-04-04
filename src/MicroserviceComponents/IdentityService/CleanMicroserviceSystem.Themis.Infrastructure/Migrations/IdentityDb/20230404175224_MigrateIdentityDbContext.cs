@@ -166,7 +166,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 values: new object[,]
                 {
                     { 1, "8ef3768d-cdd3-43a4-9338-c549cec56942", "Administrator", "ADMINISTRATOR" },
-                    { 2, "43daf209-df6b-499c-83e5-94ea05cf8997", "Operator", "OPERATOR" }
+                    { 2, "43daf209-df6b-499c-83e5-94ea05cf8997", "Operator", "OPERATOR" },
+                    { 3, "ae075bb1-39d2-4c3a-a054-526e0ad7512c", "Common", "COMMON" }
                 });
 
             migrationBuilder.InsertData(
@@ -185,8 +186,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 {
                     { 1, "ThemisAPI", "Read", 1 },
                     { 2, "ThemisAPI", "Write", 1 },
-                    { 3, "ThemisAPI", "Read", 2 },
-                    { 4, "ThemisAPI", "Write", 2 }
+                    { 3, "AstraAPI", "Write", 1 },
+                    { 4, "ThemisAPI", "Read", 2 },
+                    { 5, "AstraAPI", "Read", 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -194,8 +196,10 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Leon", "Read", 1 },
-                    { 2, "Leon", "Write", 1 }
+                    { 1, "AdminUser", "Read", 1 },
+                    { 2, "AdminUser", "Write", 1 },
+                    { 3, "OperatorUser", "Read", 2 },
+                    { 4, "OperatorUser", "Write", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -205,7 +209,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 {
                     { 1, 1 },
                     { 2, 1 },
-                    { 2, 2 }
+                    { 3, 1 },
+                    { 2, 2 },
+                    { 3, 2 }
                 });
 
             migrationBuilder.CreateIndex(

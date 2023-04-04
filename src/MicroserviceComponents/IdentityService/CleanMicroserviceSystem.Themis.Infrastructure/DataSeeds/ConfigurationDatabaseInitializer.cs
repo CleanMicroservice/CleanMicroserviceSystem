@@ -15,7 +15,7 @@ public static class ConfigurationDatabaseInitializer
                 Id = 1,
                 Enabled = true,
                 CreatedOn = DateTime.UtcNow,
-                CreatedBy = IdentityContract.SuperUserId,
+                CreatedBy = IdentityContract.AdminUserId,
                 Name = IdentityContract.ThemisAPIResource,
                 Description = IdentityContract.ThemisAPIResource
             }});
@@ -25,7 +25,7 @@ public static class ConfigurationDatabaseInitializer
                 Id = 1,
                 Enabled = true,
                 CreatedOn = DateTime.UtcNow,
-                CreatedBy = IdentityContract.SuperUserId,
+                CreatedBy = IdentityContract.AdminUserId,
                 Name = IdentityContract.TethysClient,
                 Description = IdentityContract.TethysClient,
                 Secret = "TethysSecret".Sha256(),

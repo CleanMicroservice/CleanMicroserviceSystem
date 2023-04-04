@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20230404082152_MigrateIdentityDbContext")]
+    [Migration("20230404175224_MigrateIdentityDbContext")]
     partial class MigrateIdentityDbContext
     {
         /// <inheritdoc />
@@ -64,6 +64,13 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                             ConcurrencyStamp = "43daf209-df6b-499c-83e5-94ea05cf8997",
                             Name = "Operator",
                             NormalizedName = "OPERATOR"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "ae075bb1-39d2-4c3a-a054-526e0ad7512c",
+                            Name = "Common",
+                            NormalizedName = "COMMON"
                         });
                 });
 
@@ -209,16 +216,23 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         new
                         {
                             Id = 3,
+                            ClaimType = "AstraAPI",
+                            ClaimValue = "Write",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
                             ClaimType = "ThemisAPI",
                             ClaimValue = "Read",
                             RoleId = 2
                         },
                         new
                         {
-                            Id = 4,
-                            ClaimType = "ThemisAPI",
-                            ClaimValue = "Write",
-                            RoleId = 2
+                            Id = 5,
+                            ClaimType = "AstraAPI",
+                            ClaimValue = "Read",
+                            RoleId = 3
                         });
                 });
 
@@ -249,16 +263,30 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         new
                         {
                             Id = 1,
-                            ClaimType = "Leon",
+                            ClaimType = "AdminUser",
                             ClaimValue = "Read",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClaimType = "Leon",
+                            ClaimType = "AdminUser",
                             ClaimValue = "Write",
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "OperatorUser",
+                            ClaimValue = "Read",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "OperatorUser",
+                            ClaimValue = "Write",
+                            UserId = 2
                         });
                 });
 
@@ -310,8 +338,18 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         },
                         new
                         {
+                            UserId = 1,
+                            RoleId = 3
+                        },
+                        new
+                        {
                             UserId = 2,
                             RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 3
                         });
                 });
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20230404082156_MigrateConfigurationDbContext")]
+    [Migration("20230404175229_MigrateConfigurationDbContext")]
     partial class MigrateConfigurationDbContext
     {
         /// <inheritdoc />
@@ -65,7 +65,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 4, 4, 8, 21, 56, 327, DateTimeKind.Utc).AddTicks(6446),
+                            CreatedOn = new DateTime(2023, 4, 4, 17, 52, 29, 583, DateTimeKind.Utc).AddTicks(4181),
                             Description = "ThemisAPI",
                             Enabled = true,
                             Name = "ThemisAPI"
@@ -116,7 +116,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 4, 4, 8, 21, 56, 327, DateTimeKind.Utc).AddTicks(6502),
+                            CreatedOn = new DateTime(2023, 4, 4, 17, 52, 29, 583, DateTimeKind.Utc).AddTicks(4236),
                             Description = "Tethys",
                             Enabled = true,
                             Name = "Tethys",

@@ -23,6 +23,8 @@
   - PersistedGrantDbContext
 
 ```
+Drop-Database -Context ThemisDBContext
+
 ## To remove existed mrigration ode files
 remove-migration -Context ConfigurationDbContext
 remove-migration -Context IdentityDbContext
