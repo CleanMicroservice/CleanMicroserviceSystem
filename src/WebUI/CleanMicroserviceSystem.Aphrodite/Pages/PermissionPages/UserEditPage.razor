@@ -8,7 +8,7 @@
 
 <PageTitle>Edit User</PageTitle>
 
-<MCard Elevation=0 Rounded=@("xl")>
+<MCard Flat Rounded=@("xl") Loading=this.CardLoading>
     <MCardTitle>
         <MRow>
             <MCol>Edit User</MCol>
@@ -48,16 +48,25 @@
 
 <MRow Class="mt-2">
     <MCol Md="6" Sm="12">
-        <MCard Elevation=0 Rounded=@("xl")>
+        <MCard Flat Rounded=@("xl") Loading=this.CardLoading>
             <MCardTitle>
                 <MRow>
-                    <MCol>Roles</MCol>
+                    <MCol Cols=@("auto")>Roles</MCol>
                     <MSpacer></MSpacer>
-                    <MCol Cols=@("auto")>
+                    <MCol OrderLg=3 Cols=@("auto")>
                         <MButton Color="primary" Rounded Depressed
                                  OnClick="this.OnUpdateUserRoles">
                             <MIcon Class="mr-2">mdi-account-group</MIcon>Save
                         </MButton>
+                    </MCol>
+                    <MCol Cols=12 Lg=@("auto")>
+                        <MTextField Color="primary" BackgroundColor="grey lighten-4" HideDetails=@("auto")
+                                    Placeholder="Search Roles" @bind-Value="@this.LocalRolesSearchKeyword"
+                                    Clearable Rounded Flat Dense Solo>
+                            <PrependInnerContent>
+                                <MIcon Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                            </PrependInnerContent>
+                        </MTextField>
                     </MCol>
                 </MRow>
             </MCardTitle>
@@ -66,6 +75,7 @@
                 <MTreeview TItem="RoleInformationResponse" TKey="string"
                            Items="this.AllRoles" @bind-Value="this.UserRoles"
                            Selectable OpenAll Rounded Hoverable Dense
+                           Search=@this.LocalRolesSearchKeyword
                            SelectedColor="primary" SelectionType=SelectionType.Independent
                            ItemText="role=>role.RoleName" ItemKey="role=>role.RoleName"
                            ItemChildren="role=>null">
@@ -74,27 +84,37 @@
         </MCard>
     </MCol>
     <MCol Md="6" Sm="12">
-        <MCard Elevation=0 Rounded=@("xl")>
+        <MCard Flat Rounded=@("xl") Loading=this.CardLoading>
             <MCardTitle>
                 <MRow>
-                    <MCol>Claims</MCol>
+                    <MCol Cols=@("auto")>Claims</MCol>
                     <MSpacer></MSpacer>
-                    <MCol Cols=@("auto")>
+                    <MCol OrderLg=3 Cols=@("auto")>
                         <MButton Color="primary" Rounded Depressed
                                  OnClick="this.OnUpdateUserClaims">
-                            <MIcon Class="mr-2">mdi-account-group</MIcon>Save
+                            <MIcon Class="mr-2">mdi-security</MIcon>Save
                         </MButton>
+                    </MCol>
+                    <MCol Cols=12 Lg=@("auto")>
+                        <MTextField Color="primary" BackgroundColor="grey lighten-4" HideDetails=@("auto")
+                                    Placeholder="Search Roles" @bind-Value="@this.LocalClaimsSearchKeyword"
+                                    Clearable Rounded Flat Dense Solo>
+                            <PrependInnerContent>
+                                <MIcon Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                            </PrependInnerContent>
+                        </MTextField>
                     </MCol>
                 </MRow>
             </MCardTitle>
             <MCardSubtitle>Selected claims: @this.UserClaims.Count</MCardSubtitle>
             <MCardText>
-                <MTreeview TItem="ClaimInformationResponse" TKey="ClaimInformationResponse"
+                <MTreeview TItem="UserClaimTreeModel" TKey="(string, string)"
                            Items="this.AllClaims" @bind-Value="this.UserClaims"
                            Selectable OpenAll Rounded Hoverable Dense
-                           SelectedColor="primary" SelectionType=SelectionType.Independent
-                           ItemText=@(claim=>string.Format("{0}: {1}", claim.Type, claim.Value)) ItemKey="claim=>claim"
-                           ItemChildren="claim=>null">
+                           Search=@this.LocalClaimsSearchKeyword
+                           SelectedColor="primary" SelectionType=SelectionType.Leaf
+                           ItemText=@(claim=>$"{claim.Type}: {claim.Value}") ItemKey="claim=>new (claim.Type, claim.Value)"
+                           ItemChildren="claim=>claim.Children">
                 </MTreeview>
             </MCardText>
         </MCard>
@@ -105,12 +125,24 @@
     [Parameter]
     public string? Id { get; set; }
 
+    public class UserClaimTreeModel
+    {
+        public string Type { get; set; }
+
+        public string Value { get; set; }
+
+        public List<UserClaimTreeModel> Children { get; set; }
+    }
+
+    protected StringBoolean CardLoading { get; set; }
+    protected string? LocalRolesSearchKeyword { get; set; }
+    protected string? LocalClaimsSearchKeyword { get; set; }
     protected UserInformationResponse CurrentUser { get; set; } = new UserInformationResponse();
     protected UserUpdateRequest UserUpdateRequest { get; set; } = new UserUpdateRequest();
     protected List<RoleInformationResponse> AllRoles { get; set; } = new List<RoleInformationResponse>();
     protected List<string> UserRoles { get; set; } = new List<string>();
-    protected List<ClaimInformationResponse> AllClaims { get; set; } = new List<ClaimInformationResponse>();
-    protected List<ClaimInformationResponse> UserClaims { get; set; } = new List<ClaimInformationResponse>();
+    protected List<UserClaimTreeModel> AllClaims { get; set; } = new List<UserClaimTreeModel>();
+    protected List<(string ClaimType, string ClaimValue)> UserClaims { get; set; } = new List<(string, string)>();
 
     protected override async Task OnParametersSetAsync()
     {
@@ -124,6 +156,7 @@
 
         try
         {
+            this.CardLoading = true;
             var user = await this.themisUserClient.GetUserAsync(userId);
             if (user is null)
             {
@@ -148,16 +181,27 @@
             this.UserRoles.AddRange(userRoles?.Select(role => role.RoleName!) ?? Enumerable.Empty<string>());
 
             var allClaims = await this.themisUserClient.SearchUserClaimsAsync(new ClaimSearchRequest());
+            var claimTreeModels = (allClaims?.Values ?? Enumerable.Empty<ClaimInformationResponse>())
+                .GroupBy(claim => claim.Type)
+                .Select(group => new UserClaimTreeModel()
+                    {
+                        Type = group.Key,
+                        Children = group.Select(claim => new UserClaimTreeModel() { Type = claim.Type, Value = claim.Value }).ToList(),
+                    });
             this.AllClaims.Clear();
-            this.AllClaims.AddRange(allClaims?.Values ?? Enumerable.Empty<ClaimInformationResponse>());
+            this.AllClaims.AddRange(claimTreeModels);
 
             var userClaims = await this.themisUserClient.GetUserClaimsAsync(userId);
             this.UserClaims.Clear();
-            this.UserClaims.AddRange(userClaims ?? Enumerable.Empty<ClaimInformationResponse>());
+            this.UserClaims.AddRange((userClaims ?? Enumerable.Empty<ClaimInformationResponse>()).Select(claim => (claim.Type, claim.Value)));
         }
         catch (Exception ex)
         {
             await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+        finally
+        {
+            this.CardLoading = false;
         }
     }
 
@@ -233,7 +277,7 @@
 
         try
         {
-            var userClaimRequests = this.UserClaims.Select(claim => new ClaimUpdateRequest() { Type = claim.Type, Value = claim.Value }).ToArray();
+            var userClaimRequests = this.UserClaims.Select(claim => new ClaimUpdateRequest() { Type = claim.ClaimType, Value = claim.ClaimValue}).ToArray();
             var commonResult = await this.themisUserClient.UpdateUserClaimsAsync(this.CurrentUser.Id, userClaimRequests);
             if (commonResult?.Succeeded ?? false)
             {
