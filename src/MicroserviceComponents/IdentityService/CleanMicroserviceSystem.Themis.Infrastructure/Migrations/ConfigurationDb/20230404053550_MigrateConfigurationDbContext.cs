@@ -76,12 +76,12 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
             migrationBuilder.InsertData(
                 table: "ApiResources",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name" },
-                values: new object[] { 1, 1, new DateTime(2023, 2, 18, 9, 56, 19, 465, DateTimeKind.Utc).AddTicks(7835), "ThemisAPI", true, null, null, "ThemisAPI" });
+                values: new object[] { 1, 1, new DateTime(2023, 4, 4, 5, 35, 50, 702, DateTimeKind.Utc).AddTicks(5738), "ThemisAPI", true, null, null, "ThemisAPI" });
 
             migrationBuilder.InsertData(
                 table: "Clients",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name", "Secret" },
-                values: new object[] { 1, 1, new DateTime(2023, 2, 18, 9, 56, 19, 465, DateTimeKind.Utc).AddTicks(7901), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
+                values: new object[] { 1, 1, new DateTime(2023, 4, 4, 5, 35, 50, 702, DateTimeKind.Utc).AddTicks(5795), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
 
             migrationBuilder.InsertData(
                 table: "ClientClaims",
@@ -99,9 +99,14 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientClaims_ClientId_ClaimType",
+                name: "IX_ClientClaims_ClaimType_ClaimValue",
                 table: "ClientClaims",
-                columns: new[] { "ClientId", "ClaimType" });
+                columns: new[] { "ClaimType", "ClaimValue" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientClaims_ClientId",
+                table: "ClientClaims",
+                column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_Name",

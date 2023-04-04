@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20230218095619_MigrateConfigurationDbContext")]
+    [Migration("20230404053550_MigrateConfigurationDbContext")]
     partial class MigrateConfigurationDbContext
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.3")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.2.23128.3")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
@@ -65,7 +65,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 18, 9, 56, 19, 465, DateTimeKind.Utc).AddTicks(7835),
+                            CreatedOn = new DateTime(2023, 4, 4, 5, 35, 50, 702, DateTimeKind.Utc).AddTicks(5738),
                             Description = "ThemisAPI",
                             Enabled = true,
                             Name = "ThemisAPI"
@@ -116,7 +116,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 2, 18, 9, 56, 19, 465, DateTimeKind.Utc).AddTicks(7901),
+                            CreatedOn = new DateTime(2023, 4, 4, 5, 35, 50, 702, DateTimeKind.Utc).AddTicks(5795),
                             Description = "Tethys",
                             Enabled = true,
                             Name = "Tethys",
@@ -142,7 +142,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId", "ClaimType");
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ClaimType", "ClaimValue");
 
                     b.ToTable("ClientClaims");
 

@@ -219,6 +219,11 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_ClaimType_ClaimValue",
+                table: "AspNetUserClaims",
+                columns: new[] { "ClaimType", "ClaimValue" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
                 table: "AspNetUserClaims",
                 column: "UserId");
