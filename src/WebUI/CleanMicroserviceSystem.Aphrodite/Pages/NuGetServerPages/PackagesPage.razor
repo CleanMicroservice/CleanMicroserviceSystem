@@ -147,18 +147,12 @@
 
             var response = await this.astraNuGetPackageClient.DeleteAsync(
                 this.nuGetServerOptions.Value.ApiKey, package.PackageId, version);
-            if (response.IsSuccessStatusCode)
-            {
-                package.Versions = package.Versions
-                    .Where(vers => !vers.Version.Equals(version, StringComparison.OrdinalIgnoreCase))
-                    .ToList()
-                    .AsReadOnly();
-                await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} deleted.", AlertTypes.Success);
-            }
-            else
-            {
-                await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} delete failed.", AlertTypes.Warning);
-            }
+            response.EnsureSuccessStatusCode();
+            package.Versions = package.Versions
+                .Where(vers => !vers.Version.Equals(version, StringComparison.OrdinalIgnoreCase))
+                .ToList()
+                .AsReadOnly();
+            await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} deleted.", AlertTypes.Success);
         }
         catch (Exception ex)
         {
