@@ -2,8 +2,6 @@
 
 public abstract class AuditableEntity<TKey> : Entity<TKey>, IAuditableEntity<TKey>
 {
-    public TKey Id { get; set; }
-
     public int CreatedBy { get; set; }
 
     public DateTime CreatedOn { get; set; }
