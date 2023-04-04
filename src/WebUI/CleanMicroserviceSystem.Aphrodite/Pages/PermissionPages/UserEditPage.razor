@@ -22,7 +22,7 @@
         </MRow>
     </MCardTitle>
     <MCardSubtitle>User Id: @this.CurrentUser?.Id</MCardSubtitle>
-    <MCardText Class="pa-6">
+    <MCardText>
         <MRow>
             <MCol Sm=12 Md=4>
                 <MTextField Label="Name" @bind-Value="@this.UserUpdateRequest.UserName"
@@ -61,11 +61,14 @@
                     </MCol>
                 </MRow>
             </MCardTitle>
-            <MCardSubtitle>User Id: @this.CurrentUser?.Id</MCardSubtitle>
-            <MCardText Class="pa-6">
-                <MTreeview TItem="RoleInformationResponse" TKey="string" Items="this.AllRoles" @bind-Value="this.UserRoles"
-                           Selectable OpenAll Rounded Hoverable SelectedColor="primary" SelectionType=SelectionType.Independent
-                           ItemText="role=>role.RoleName" ItemKey="role=>role.RoleName" ItemChildren="role=>null">
+            <MCardSubtitle>Selected roles: @this.UserRoles.Count</MCardSubtitle>
+            <MCardText>
+                <MTreeview TItem="RoleInformationResponse" TKey="string"
+                           Items="this.AllRoles" @bind-Value="this.UserRoles"
+                           Selectable OpenAll Rounded Hoverable Dense
+                           SelectedColor="primary" SelectionType=SelectionType.Independent
+                           ItemText="role=>role.RoleName" ItemKey="role=>role.RoleName"
+                           ItemChildren="role=>null">
                 </MTreeview>
             </MCardText>
         </MCard>
@@ -84,9 +87,15 @@
                     </MCol>
                 </MRow>
             </MCardTitle>
-            <MCardSubtitle>User Id: @this.CurrentUser?.Id</MCardSubtitle>
-            <MCardText Class="pa-6">
-                @* TODO: User claims control*@
+            <MCardSubtitle>Selected claims: @this.UserClaims.Count</MCardSubtitle>
+            <MCardText>
+                <MTreeview TItem="ClaimInformationResponse" TKey="ClaimInformationResponse"
+                           Items="this.AllClaims" @bind-Value="this.UserClaims"
+                           Selectable OpenAll Rounded Hoverable Dense
+                           SelectedColor="primary" SelectionType=SelectionType.Independent
+                           ItemText=@(claim=>string.Format("{0}: {1}", claim.Type, claim.Value)) ItemKey="claim=>claim"
+                           ItemChildren="claim=>null">
+                </MTreeview>
             </MCardText>
         </MCard>
     </MCol>
@@ -100,6 +109,7 @@
     protected UserUpdateRequest UserUpdateRequest { get; set; } = new UserUpdateRequest();
     protected List<RoleInformationResponse> AllRoles { get; set; } = new List<RoleInformationResponse>();
     protected List<string> UserRoles { get; set; } = new List<string>();
+    protected List<ClaimInformationResponse> AllClaims { get; set; } = new List<ClaimInformationResponse>();
     protected List<ClaimInformationResponse> UserClaims { get; set; } = new List<ClaimInformationResponse>();
 
     protected override async Task OnParametersSetAsync()
@@ -137,7 +147,10 @@
             this.UserRoles.Clear();
             this.UserRoles.AddRange(userRoles?.Select(role => role.RoleName!) ?? Enumerable.Empty<string>());
 
-            // TODO: Get all distinct claims
+            var allClaims = await this.themisUserClient.SearchUserClaimsAsync(new ClaimSearchRequest());
+            this.AllClaims.Clear();
+            this.AllClaims.AddRange(allClaims?.Values ?? Enumerable.Empty<ClaimInformationResponse>());
+
             var userClaims = await this.themisUserClient.GetUserClaimsAsync(userId);
             this.UserClaims.Clear();
             this.UserClaims.AddRange(userClaims ?? Enumerable.Empty<ClaimInformationResponse>());

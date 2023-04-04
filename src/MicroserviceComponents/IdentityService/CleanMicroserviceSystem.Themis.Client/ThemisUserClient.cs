@@ -76,6 +76,19 @@ public class ThemisUserClient : OceanusServiceClientBase
         return commonResult;
     }
 
+    public async Task<PaginatedEnumerable<ClaimInformationResponse>?> SearchUserClaimsAsync(ClaimSearchRequest request)
+    {
+        var queryString = new QueryString();
+        if (request.UserId.HasValue) queryString += QueryString.Create(nameof(request.UserId), request.UserId.ToString());
+        if (request.Count.HasValue) queryString += QueryString.Create(nameof(request.Count), request.Count.ToString());
+        if (request.Start.HasValue) queryString += QueryString.Create(nameof(request.Start), request.Start.ToString());
+        if (!string.IsNullOrEmpty(request.Type)) queryString += QueryString.Create(nameof(request.Type), request.Type.ToString());
+        if (!string.IsNullOrEmpty(request.Value)) queryString += QueryString.Create(nameof(request.Value), request.Value.ToString());
+        var uri = this.BuildUri($"/api/User/Claims{queryString.ToUriComponent()}");
+        var claims = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<ClaimInformationResponse>>(uri);
+        return claims;
+    }
+
     public async Task<IEnumerable<ClaimInformationResponse>?> GetUserClaimsAsync(int id)
     {
         var uri = this.BuildUri($"/api/User/{id}/Claims");
