@@ -278,6 +278,28 @@ public class UserController : ControllerBase
     /// <summary>
     /// Get user claims
     /// </summary>
+    /// <returns></returns>
+    [HttpGet("Claims")]
+    [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
+    public async Task<ActionResult<PaginatedEnumerable<ClaimInformationResponse>>> SearchClaims([FromQuery] ClaimSearchRequest request)
+    {
+        this.logger.LogInformation($"Search User Claims ...");
+        var result = await this.oceanusUserRepository.SearchUserClaims(
+            request.UserId, request.Type, request.Value, request.Start, request.Count);
+
+        var claims = result.Values.Select(claim => new ClaimInformationResponse()
+        {
+            Type = claim.Type,
+            Value = claim.Value,
+        });
+        var paginatedClaims = new PaginatedEnumerable<ClaimInformationResponse>(
+            claims, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedClaims);
+    }
+
+    /// <summary>
+    /// Get user claims
+    /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/Claims")]

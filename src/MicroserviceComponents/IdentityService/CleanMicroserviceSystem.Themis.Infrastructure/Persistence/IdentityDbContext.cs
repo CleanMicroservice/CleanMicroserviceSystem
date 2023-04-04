@@ -1,5 +1,6 @@
 ﻿using CleanMicroserviceSystem.Themis.Domain.Entities.Identity;
 using CleanMicroserviceSystem.Themis.Infrastructure.DataSeeds;
+using CleanMicroserviceSystem.Themis.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -34,7 +35,8 @@ public class IdentityDbContext : IdentityDbContext<OceanusUser, OceanusRole, int
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder.InitializeIdentityData();
+        builder
+            .ConfigureUserClaim()
+            .InitializeIdentityData();
     }
 }

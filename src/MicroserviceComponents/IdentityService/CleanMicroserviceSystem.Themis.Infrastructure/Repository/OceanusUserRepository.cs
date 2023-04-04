@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Security.Claims;
 using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Infrastructure.Abstraction.Repository;
 using CleanMicroserviceSystem.Themis.Application.Repository;
@@ -17,6 +18,33 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         IdentityDbContext dbContext)
         : base(logger, dbContext)
     {
+    }
+
+    public async Task<PaginatedEnumerable<Claim>> SearchUserClaims(
+        int? userId,
+        string? type,
+        string? value,
+        int? start,
+        int? count)
+    {
+        var userClaims = this.dbContext.Set<IdentityUserClaim<int>>().AsQueryable();
+
+        if (userId.HasValue)
+            userClaims = userClaims.Where(userClaim => userClaim.UserId == userId);
+        if (!string.IsNullOrEmpty(type))
+            userClaims = userClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimType, $"%{type}%"));
+        if (!string.IsNullOrEmpty(value))
+            userClaims = userClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimValue, $"%{value}%"));
+
+        var claims = userClaims.Select(userClaim => new { userClaim.ClaimType, userClaim.ClaimValue }).Distinct();
+        var originCounts = await claims.CountAsync();
+        claims = claims.OrderBy(claim => claim.ClaimType).ThenBy(claim => claim.ClaimValue);
+        if (start.HasValue)
+            claims = claims.Skip(start.Value);
+        if (count.HasValue)
+            claims = claims.Take(count.Value);
+        var result = claims.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue));
+        return new PaginatedEnumerable<Claim>(result, start, count, originCounts);
     }
 
     public async Task<PaginatedEnumerable<OceanusUser>> Search(
