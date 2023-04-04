@@ -4,60 +4,155 @@
 @inject ILogger<UserEditPage> logger
 @inject IPopupService popupService
 @inject ThemisUserClient themisUserClient
+@inject ThemisRoleClient themisRoleClient
 
 <PageTitle>Edit User</PageTitle>
 
-@*
-    TODO: Tabs to update roles and claims
-*@
+<MCard Elevation=0 Rounded=@("xl")>
+    <MCardTitle>
+        <MRow>
+            <MCol>Edit User</MCol>
+            <MSpacer></MSpacer>
+            <MCol Cols=@("auto")>
+                <MButton Color="primary" Rounded Depressed
+                         OnClick="this.OnUpdateUser">
+                    <MIcon Class="mr-2">mdi-shield-account</MIcon>Save
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardTitle>
+    <MCardSubtitle>User Id: @this.CurrentUser?.Id</MCardSubtitle>
+    <MCardText Class="pa-6">
+        <MRow>
+            <MCol Sm=12 Md=4>
+                <MTextField Label="Name" @bind-Value="@this.UserUpdateRequest.UserName"
+                            Color="primary" HideDetails=@("auto")
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCol>
+            <MCol Sm=12 Md=4>
+                <MTextField Label="Email" @bind-Value="@this.UserUpdateRequest.Email"
+                            Color="primary" HideDetails=@("auto")
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCol>
+            <MCol Sm=12 Md=4>
+                <MTextField Label="Phone" @bind-Value="@this.UserUpdateRequest.PhoneNumber"
+                            Color="primary" HideDetails=@("auto")
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
 
-
-<h1>@this.Id</h1>
+<MRow Class="mt-2">
+    <MCol Md="6" Sm="12">
+        <MCard Elevation=0 Rounded=@("xl")>
+            <MCardTitle>
+                <MRow>
+                    <MCol>Roles</MCol>
+                    <MSpacer></MSpacer>
+                    <MCol Cols=@("auto")>
+                        <MButton Color="primary" Rounded Depressed
+                                 OnClick="this.OnUpdateUserRoles">
+                            <MIcon Class="mr-2">mdi-account-group</MIcon>Save
+                        </MButton>
+                    </MCol>
+                </MRow>
+            </MCardTitle>
+            <MCardSubtitle>User Id: @this.CurrentUser?.Id</MCardSubtitle>
+            <MCardText Class="pa-6">
+                <MTreeview TItem="RoleInformationResponse" TKey="string" Items="this.AllRoles" @bind-Value="this.UserRoles"
+                           Selectable OpenAll Rounded Hoverable SelectedColor="primary" SelectionType=SelectionType.Independent
+                           ItemText="role=>role.RoleName" ItemKey="role=>role.RoleName" ItemChildren="role=>null">
+                </MTreeview>
+            </MCardText>
+        </MCard>
+    </MCol>
+    <MCol Md="6" Sm="12">
+        <MCard Elevation=0 Rounded=@("xl")>
+            <MCardTitle>
+                <MRow>
+                    <MCol>Claims</MCol>
+                    <MSpacer></MSpacer>
+                    <MCol Cols=@("auto")>
+                        <MButton Color="primary" Rounded Depressed
+                                 OnClick="this.OnUpdateUserClaims">
+                            <MIcon Class="mr-2">mdi-account-group</MIcon>Save
+                        </MButton>
+                    </MCol>
+                </MRow>
+            </MCardTitle>
+            <MCardSubtitle>User Id: @this.CurrentUser?.Id</MCardSubtitle>
+            <MCardText Class="pa-6">
+                @* TODO: User claims control*@
+            </MCardText>
+        </MCard>
+    </MCol>
+</MRow>
 
 @code {
     [Parameter]
     public string? Id { get; set; }
 
-    protected UserInformationResponse? CurrentUser { get; set; }
-
-    protected UserUpdateRequest? UserUpdateRequest { get; set; }
+    protected UserInformationResponse CurrentUser { get; set; } = new UserInformationResponse();
+    protected UserUpdateRequest UserUpdateRequest { get; set; } = new UserUpdateRequest();
+    protected List<RoleInformationResponse> AllRoles { get; set; } = new List<RoleInformationResponse>();
+    protected List<string> UserRoles { get; set; } = new List<string>();
+    protected List<ClaimInformationResponse> UserClaims { get; set; } = new List<ClaimInformationResponse>();
 
     protected override async Task OnParametersSetAsync()
     {
-        this.logger.LogWarning(this.Id);
+        await base.OnParametersSetAsync();
+
         if (string.IsNullOrEmpty(this.Id) || !int.TryParse(this.Id, out var userId))
         {
             await this.popupService.EnqueueSnackbarAsync($"Invalid user id: {this.Id}", AlertTypes.Error);
+            return;
         }
-        else
+
+        try
         {
             var user = await this.themisUserClient.GetUserAsync(userId);
             if (user is null)
             {
                 await this.popupService.EnqueueSnackbarAsync($"Not found user {userId}", AlertTypes.Error);
+                return;
             }
-            {
-                this.CurrentUser = user!;
-                this.UserUpdateRequest = new()
-                    {
-                        Email = this.CurrentUser.Email,
-                        Enabled = this.CurrentUser.Enabled,
-                        UserName = this.CurrentUser.UserName,
-                        PhoneNumber = this.CurrentUser.PhoneNumber,
-                    };
-            }
-        }
 
-        await base.OnParametersSetAsync();
+            this.CurrentUser = user!;
+            this.UserUpdateRequest = new()
+                {
+                    Email = this.CurrentUser.Email,
+                    UserName = this.CurrentUser.UserName,
+                    PhoneNumber = this.CurrentUser.PhoneNumber,
+                };
+
+            var allRoles = await this.themisRoleClient.GetRolesAsync();
+            this.AllRoles.Clear();
+            this.AllRoles.AddRange(allRoles ?? Enumerable.Empty<RoleInformationResponse>());
+
+            var userRoles = await this.themisUserClient.GetUserRolesAsync(userId);
+            this.UserRoles.Clear();
+            this.UserRoles.AddRange(userRoles?.Select(role => role.RoleName!) ?? Enumerable.Empty<string>());
+
+            // TODO: Get all distinct claims
+            var userClaims = await this.themisUserClient.GetUserClaimsAsync(userId);
+            this.UserClaims.Clear();
+            this.UserClaims.AddRange(userClaims ?? Enumerable.Empty<ClaimInformationResponse>());
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
     }
 
     protected async Task OnUpdateUser()
     {
         var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update user: {this.UserUpdateRequest!.UserName} ({this.CurrentUser!.Id}) ?", AlertTypes.Warning);
-        if (confirmed)
-        {
-            
-        }
+        if (!confirmed) return;
+
         if (string.IsNullOrWhiteSpace(this.UserUpdateRequest!.UserName))
         {
             await this.popupService.EnqueueSnackbarAsync($"User name is not allowed to be empty.", AlertTypes.Warning);
@@ -82,12 +177,58 @@
                 this.CurrentUser.Email = this.UserUpdateRequest.Email;
                 this.CurrentUser.UserName = this.UserUpdateRequest.UserName;
                 this.CurrentUser.PhoneNumber = this.UserUpdateRequest.PhoneNumber;
-                this.CurrentUser.Enabled = this.UserUpdateRequest.Enabled!.Value;
                 await this.popupService.EnqueueSnackbarAsync($"User {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
             }
             else
             {
                 await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnUpdateUserRoles()
+    {
+        var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update user roles: {this.CurrentUser!.UserName} ({this.CurrentUser!.Id}) ?", AlertTypes.Warning);
+        if (!confirmed) return;
+
+        try
+        {
+            var commonResult = await this.themisUserClient.UpdateUserRolesAsync(this.CurrentUser.Id, this.UserRoles);
+            if (commonResult?.Succeeded ?? false)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User roles {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User roles {this.CurrentUser.UserName} ({this.CurrentUser.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnUpdateUserClaims()
+    {
+        var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update user claims: {this.CurrentUser!.UserName} ({this.CurrentUser!.Id}) ?", AlertTypes.Warning);
+        if (!confirmed) return;
+
+        try
+        {
+            var userClaimRequests = this.UserClaims.Select(claim => new ClaimUpdateRequest() { Type = claim.Type, Value = claim.Value }).ToArray();
+            var commonResult = await this.themisUserClient.UpdateUserClaimsAsync(this.CurrentUser.Id, userClaimRequests);
+            if (commonResult?.Succeeded ?? false)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User claims {this.CurrentUser.UserName} ({this.CurrentUser.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"User claims {this.CurrentUser.UserName} ({this.CurrentUser.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
