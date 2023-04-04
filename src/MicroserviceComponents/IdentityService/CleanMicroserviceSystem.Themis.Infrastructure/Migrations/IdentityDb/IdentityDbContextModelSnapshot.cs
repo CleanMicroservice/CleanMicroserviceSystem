@@ -184,6 +184,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 
                     b.HasIndex("RoleId");
 
+                    b.HasIndex("ClaimType", "ClaimValue");
+
                     b.ToTable("AspNetRoleClaims", (string)null);
 
                     b.HasData(

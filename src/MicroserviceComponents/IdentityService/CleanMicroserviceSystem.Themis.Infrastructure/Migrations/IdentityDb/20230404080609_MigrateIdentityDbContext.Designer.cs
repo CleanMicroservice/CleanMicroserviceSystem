@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20230404053540_MigrateIdentityDbContext")]
+    [Migration("20230404080609_MigrateIdentityDbContext")]
     partial class MigrateIdentityDbContext
     {
         /// <inheritdoc />
@@ -186,6 +186,8 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("ClaimType", "ClaimValue");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
 

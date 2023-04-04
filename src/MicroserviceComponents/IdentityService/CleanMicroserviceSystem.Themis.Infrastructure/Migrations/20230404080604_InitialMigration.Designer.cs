@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations
 {
     [DbContext(typeof(ThemisDbContext))]
-    [Migration("20230404053526_InitialMigration")]
+    [Migration("20230404080604_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

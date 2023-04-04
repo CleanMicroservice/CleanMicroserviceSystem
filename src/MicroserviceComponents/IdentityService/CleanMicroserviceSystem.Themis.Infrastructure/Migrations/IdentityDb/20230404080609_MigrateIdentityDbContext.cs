@@ -208,6 +208,11 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_ClaimType_ClaimValue",
+                table: "AspNetRoleClaims",
+                columns: new[] { "ClaimType", "ClaimValue" });
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
