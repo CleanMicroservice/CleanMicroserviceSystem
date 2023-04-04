@@ -3,6 +3,7 @@ using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using CleanMicroserviceSystem.Themis.Contract.Claims;
 using CleanMicroserviceSystem.Themis.Contract.Roles;
+using CleanMicroserviceSystem.Themis.Contract.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -107,10 +108,10 @@ public class ThemisRoleClient : OceanusServiceClientBase
         return await this.GetCommonResult(response);
     }
 
-    public async Task<IEnumerable<RoleInformationResponse>?> GetRoleUsersAsync(int id)
+    public async Task<PaginatedEnumerable<UserInformationResponse>?> GetRoleUsersAsync(int id)
     {
         var uri = this.BuildUri($"/api/Role/{id}/Users");
-        var roles = await this.httpClient.GetFromJsonAsync<IEnumerable<RoleInformationResponse>>(uri);
+        var roles = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<UserInformationResponse>>(uri);
         return roles;
     }
 

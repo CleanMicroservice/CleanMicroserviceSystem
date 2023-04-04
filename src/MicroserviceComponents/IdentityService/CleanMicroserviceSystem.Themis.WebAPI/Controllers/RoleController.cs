@@ -423,7 +423,8 @@ public class RoleController : ControllerBase
         if (role is null)
             return this.NotFound(new CommonResult(new CommonResultError($"Can not find Role with id: {id}")));
 
-        var existingUsers = await this.oceanusRoleRepository.GetUsersAsync(id , null, null);
+        var existingUsers = await this.oceanusRoleRepository.SearchUsersAsync(
+            id, null, null, null, null, null, null);
         var existingUserSet = existingUsers.Values.Select(user => user.Id).ToHashSet();
         var requestUserSet = requests.ToHashSet();
         var commonResult = new CommonResult();

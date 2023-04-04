@@ -48,6 +48,13 @@ public class ThemisUserClient : OceanusServiceClientBase
         return user;
     }
 
+    public async Task<IEnumerable<UserInformationResponse>?> GetUsersAsync()
+    {
+        var uri = this.BuildUri($"/api/User/Search");
+        var user = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<UserInformationResponse>>(uri);
+        return user?.Values;
+    }
+
     public async Task<PaginatedEnumerable<UserInformationResponse>?> SearchUsersAsync(UserSearchRequest request)
     {
         var queryString = new QueryString();
@@ -117,10 +124,10 @@ public class ThemisUserClient : OceanusServiceClientBase
         return await this.GetCommonResult(response);
     }
 
-    public async Task<IEnumerable<RoleInformationResponse>?> GetUserRolesAsync(int id)
+    public async Task<PaginatedEnumerable<RoleInformationResponse>?> GetUserRolesAsync(int id)
     {
         var uri = this.BuildUri($"/api/User/{id}/Roles");
-        var roles = await this.httpClient.GetFromJsonAsync<IEnumerable<RoleInformationResponse>>(uri);
+        var roles = await this.httpClient.GetFromJsonAsync<PaginatedEnumerable<RoleInformationResponse>>(uri);
         return roles;
     }
 

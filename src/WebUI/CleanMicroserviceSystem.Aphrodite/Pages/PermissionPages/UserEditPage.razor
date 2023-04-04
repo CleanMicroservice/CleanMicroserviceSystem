@@ -178,7 +178,7 @@
 
             var userRoles = await this.themisUserClient.GetUserRolesAsync(userId);
             this.UserRoles.Clear();
-            this.UserRoles.AddRange(userRoles?.Select(role => role.RoleName!) ?? Enumerable.Empty<string>());
+            this.UserRoles.AddRange((userRoles?.Values ?? Enumerable.Empty<RoleInformationResponse>()).Select(role => role.RoleName!));
 
             var allClaims = await this.themisUserClient.SearchClaimsAsync(new ClaimSearchRequest());
             var claimTreeModels = (allClaims?.Values ?? Enumerable.Empty<ClaimInformationResponse>())
@@ -277,7 +277,7 @@
 
         try
         {
-            var userClaimRequests = this.UserClaims.Select(claim => new ClaimUpdateRequest() { Type = claim.ClaimType, Value = claim.ClaimValue}).ToArray();
+            var userClaimRequests = this.UserClaims.Select(claim => new ClaimUpdateRequest() { Type = claim.ClaimType, Value = claim.ClaimValue }).ToArray();
             var commonResult = await this.themisUserClient.UpdateUserClaimsAsync(this.CurrentUser.Id, userClaimRequests);
             if (commonResult?.Succeeded ?? false)
             {

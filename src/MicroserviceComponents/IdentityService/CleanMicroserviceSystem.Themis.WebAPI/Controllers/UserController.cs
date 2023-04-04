@@ -452,22 +452,19 @@ public class UserController : ControllerBase
     /// <returns></returns>
     [HttpGet("{id}/Roles")]
     [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
-    public async Task<ActionResult<IEnumerable<string>>> GetRoles(string id)
+    public async Task<ActionResult<PaginatedEnumerable<RoleInformationResponse>>> GetRoles(int id, [FromQuery] RoleSearchRequest request)
     {
-        this.logger.LogInformation($"Get User Roles: {id}");
-        var user = await this.userManager.FindByIdAsync(id);
-        if (user is null)
-            return this.NotFound();
-
-        var roles = await this.oceanusUserRepository.GetRolesAsync(user.Id, null, null);
-        var result = roles.Values
-            .Select(role => new RoleInformationResponse()
-            {
-                Id = role.Id,
-                RoleName = role.Name
-            })
-            .ToArray();
-        return this.Ok(result);
+        this.logger.LogInformation($"Get Role Users: {id}");
+        var result = await this.oceanusUserRepository.SearchRolesAsync(
+            id, request.Id, request.RoleName, request.Start, request.Count);
+        var roles = result.Values.Select(role => new RoleInformationResponse()
+        {
+            Id = role.Id,
+            RoleName = role.Name,
+        });
+        var paginatedRoles = new PaginatedEnumerable<RoleInformationResponse>(
+            roles, result.StartItemIndex, result.PageSize, result.OriginItemCount);
+        return this.Ok(paginatedRoles);
     }
 
     /// <summary>

@@ -1,0 +1,270 @@
+﻿@page "/permission/role/edit/{id}"
+@attribute [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+@inherits AphroditePageBase
+@inject ILogger<RoleEditPage> logger
+@inject IPopupService popupService
+@inject ThemisUserClient themisUserClient
+@inject ThemisRoleClient themisRoleClient
+
+<PageTitle>Edit Role</PageTitle>
+
+<MCard Flat Rounded=@("xl") Loading=this.CardLoading>
+    <MCardTitle>
+        <MRow>
+            <MCol>Edit Role</MCol>
+            <MSpacer></MSpacer>
+            <MCol Cols=@("auto")>
+                <MButton Color="primary" Rounded Depressed
+                         OnClick="this.OnUpdateRole">
+                    <MIcon Class="mr-2">mdi-account-group</MIcon>Save
+                </MButton>
+            </MCol>
+        </MRow>
+    </MCardTitle>
+    <MCardSubtitle>Role Id: @this.CurrentRole?.Id</MCardSubtitle>
+    <MCardText>
+        <MRow>
+            <MCol Sm=12 Md=4>
+                <MTextField Label="Name" @bind-Value="@this.RoleUpdateRequest.RoleName"
+                            Color="primary" HideDetails=@("auto")
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
+
+<MRow Class="mt-2">
+    <MCol Md="6" Sm="12">
+        <MCard Flat Rounded=@("xl") Loading=this.CardLoading>
+            <MCardTitle>
+                <MRow>
+                    <MCol Cols=@("auto")>Users</MCol>
+                    <MSpacer></MSpacer>
+                    <MCol OrderLg=3 Cols=@("auto")>
+                        <MButton Color="primary" Rounded Depressed
+                                 OnClick="this.OnUpdateRoleUsers">
+                            <MIcon Class="mr-2">mdi-shield-account</MIcon>Save
+                        </MButton>
+                    </MCol>
+                    <MCol Cols=12 Lg=@("auto")>
+                        <MTextField Color="primary" BackgroundColor="grey lighten-4" HideDetails=@("auto")
+                                    Placeholder="Search Users" @bind-Value="@this.LocalUsersSearchKeyword"
+                                    Clearable Rounded Flat Dense Solo>
+                            <PrependInnerContent>
+                                <MIcon Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                            </PrependInnerContent>
+                        </MTextField>
+                    </MCol>
+                </MRow>
+            </MCardTitle>
+            <MCardSubtitle>Selected roles: @this.RoleUsers.Count</MCardSubtitle>
+            <MCardText>
+                <MTreeview TItem="UserInformationResponse" TKey="int"
+                           Items="this.AllUsers" @bind-Value="this.RoleUsers"
+                           Selectable OpenAll Rounded Hoverable Dense
+                           Search=@this.LocalUsersSearchKeyword
+                           SelectedColor="primary" SelectionType=SelectionType.Independent
+                           ItemText="user=>user.UserName" ItemKey="user=>user.Id"
+                           ItemChildren="user=>null">
+                </MTreeview>
+            </MCardText>
+        </MCard>
+    </MCol>
+    <MCol Md="6" Sm="12">
+        <MCard Flat Rounded=@("xl") Loading=this.CardLoading>
+            <MCardTitle>
+                <MRow>
+                    <MCol Cols=@("auto")>Claims</MCol>
+                    <MSpacer></MSpacer>
+                    <MCol OrderLg=3 Cols=@("auto")>
+                        <MButton Color="primary" Rounded Depressed
+                                 OnClick="this.OnUpdateRoleClaims">
+                            <MIcon Class="mr-2">mdi-security</MIcon>Save
+                        </MButton>
+                    </MCol>
+                    <MCol Cols=12 Lg=@("auto")>
+                        <MTextField Color="primary" BackgroundColor="grey lighten-4" HideDetails=@("auto")
+                                    Placeholder="Search Roles" @bind-Value="@this.LocalClaimsSearchKeyword"
+                                    Clearable Rounded Flat Dense Solo>
+                            <PrependInnerContent>
+                                <MIcon Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                            </PrependInnerContent>
+                        </MTextField>
+                    </MCol>
+                </MRow>
+            </MCardTitle>
+            <MCardSubtitle>Selected claims: @this.RoleClaims.Count</MCardSubtitle>
+            <MCardText>
+                <MTreeview TItem="RoleClaimTreeModel" TKey="(string, string)"
+                           Items="this.AllClaims" @bind-Value="this.RoleClaims"
+                           Selectable OpenAll Rounded Hoverable Dense
+                           Search=@this.LocalClaimsSearchKeyword
+                           SelectedColor="primary" SelectionType=SelectionType.Leaf
+                           ItemText=@(claim=>$"{claim.Type}: {claim.Value}") ItemKey="claim=>new (claim.Type, claim.Value)"
+                           ItemChildren="claim=>claim.Children">
+                </MTreeview>
+            </MCardText>
+        </MCard>
+    </MCol>
+</MRow>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    public class RoleClaimTreeModel
+    {
+        public string Type { get; set; }
+
+        public string Value { get; set; }
+
+        public List<RoleClaimTreeModel> Children { get; set; }
+    }
+
+    protected StringBoolean CardLoading { get; set; }
+    protected string? LocalUsersSearchKeyword { get; set; }
+    protected string? LocalClaimsSearchKeyword { get; set; }
+    protected RoleInformationResponse CurrentRole { get; set; } = new RoleInformationResponse();
+    protected RoleUpdateRequest RoleUpdateRequest { get; set; } = new RoleUpdateRequest();
+    protected List<UserInformationResponse> AllUsers { get; set; } = new List<UserInformationResponse>();
+    protected List<int> RoleUsers { get; set; } = new List<int>();
+    protected List<RoleClaimTreeModel> AllClaims { get; set; } = new List<RoleClaimTreeModel>();
+    protected List<(string ClaimType, string ClaimValue)> RoleClaims { get; set; } = new List<(string, string)>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (string.IsNullOrEmpty(this.Id) || !int.TryParse(this.Id, out var roleId))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Invalid role id: {this.Id}", AlertTypes.Error);
+            return;
+        }
+
+        try
+        {
+            this.CardLoading = true;
+            var role = await this.themisRoleClient.GetRoleAsync(roleId);
+            if (role is null)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Not found role {roleId}", AlertTypes.Error);
+                return;
+            }
+
+            this.CurrentRole = role!;
+            this.RoleUpdateRequest = new()
+                {
+                    RoleName = this.CurrentRole.RoleName,
+                };
+
+            var allUsers = await this.themisUserClient.GetUsersAsync();
+            this.AllUsers.Clear();
+            this.AllUsers.AddRange(allUsers ?? Enumerable.Empty<UserInformationResponse>());
+
+            var roleUsers = await this.themisRoleClient.GetRoleUsersAsync(roleId);
+            this.RoleUsers.Clear();
+            this.RoleUsers.AddRange((roleUsers?.Values ?? Enumerable.Empty<UserInformationResponse>()).Select(user => user.Id!));
+
+            var allClaims = await this.themisRoleClient.SearchClaimsAsync(new ClaimSearchRequest());
+            var claimTreeModels = (allClaims?.Values ?? Enumerable.Empty<ClaimInformationResponse>())
+                .GroupBy(claim => claim.Type)
+                .Select(group => new RoleClaimTreeModel()
+                    {
+                        Type = group.Key,
+                        Children = group.Select(claim => new RoleClaimTreeModel() { Type = claim.Type, Value = claim.Value }).ToList(),
+                    });
+            this.AllClaims.Clear();
+            this.AllClaims.AddRange(claimTreeModels);
+
+            var roleClaims = await this.themisRoleClient.GetRoleClaimsAsync(roleId);
+            this.RoleClaims.Clear();
+            this.RoleClaims.AddRange((roleClaims ?? Enumerable.Empty<ClaimInformationResponse>()).Select(claim => (claim.Type, claim.Value)));
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+        finally
+        {
+            this.CardLoading = false;
+        }
+    }
+
+    protected async Task OnUpdateRole()
+    {
+        var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update role: {this.RoleUpdateRequest!.RoleName} ({this.CurrentRole!.Id}) ?", AlertTypes.Warning);
+        if (!confirmed) return;
+
+        if (string.IsNullOrWhiteSpace(this.RoleUpdateRequest!.RoleName))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Role name is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+
+        try
+        {
+            var commonResult = await this.themisRoleClient.UpdateRoleAsync(this.CurrentRole.Id, this.RoleUpdateRequest);
+            if (commonResult?.Succeeded ?? false)
+            {
+                this.CurrentRole.RoleName = this.RoleUpdateRequest.RoleName;
+                await this.popupService.EnqueueSnackbarAsync($"Role {this.CurrentRole.RoleName} ({this.CurrentRole.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role {this.RoleUpdateRequest.RoleName} ({this.CurrentRole.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnUpdateRoleUsers()
+    {
+        var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update role users: {this.CurrentRole!.RoleName} ({this.CurrentRole!.Id}) ?", AlertTypes.Warning);
+        if (!confirmed) return;
+
+        try
+        {
+            var commonResult = await this.themisRoleClient.UpdateRoleUsersAsync(this.CurrentRole.Id, this.RoleUsers);
+            if (commonResult?.Succeeded ?? false)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role users {this.CurrentRole.RoleName} ({this.CurrentRole.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role users {this.CurrentRole.RoleName} ({this.CurrentRole.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnUpdateRoleClaims()
+    {
+        var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to update role claims: {this.CurrentRole!.RoleName} ({this.CurrentRole!.Id}) ?", AlertTypes.Warning);
+        if (!confirmed) return;
+
+        try
+        {
+            var roleClaimRequests = this.RoleClaims.Select(claim => new ClaimUpdateRequest() { Type = claim.ClaimType, Value = claim.ClaimValue }).ToArray();
+            var commonResult = await this.themisRoleClient.UpdateRoleClaimsAsync(this.CurrentRole.Id, roleClaimRequests);
+            if (commonResult?.Succeeded ?? false)
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role claims {this.CurrentRole.RoleName} ({this.CurrentRole.Id}) updated.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role claims {this.CurrentRole.RoleName} ({this.CurrentRole.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+}
