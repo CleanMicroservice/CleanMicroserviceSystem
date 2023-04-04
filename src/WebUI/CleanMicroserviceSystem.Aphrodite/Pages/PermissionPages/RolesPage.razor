@@ -2,14 +2,239 @@
 @attribute [Authorize(Policy = IdentityContract.ThemisAPIReadPolicyName)]
 @inherits AphroditePageBase
 @inject ILogger<RolesPage> logger
+@inject IPopupService popupService
+@inject ThemisRoleClient themisRoleClient
 
 <PageTitle>Roles</PageTitle>
 
-<h3>RolesPage</h3>
+<MCard Flat Rounded=@("xl")>
+    <MCardText Class="pa-6">
+        <PPageHeader Title="Roles" Subtitle=@($"{this.Roles.Count()} roles in total.") OnSearch=this.LoadRoles ShowFiltersByDefault>
+            <LeftActions>
+                <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
+                    <MButton Color="primary" Rounded Depressed
+                             OnClick="this.OnShowCreateRoleModal">
+                        <MIcon Left>mdi-plus</MIcon>Create
+                    </MButton>
+                    <PModal @bind-Value=@this.ShowCreateRoleModal
+                            Title="Create Role" Persistent MaxWidth="600"
+                            OnSave="this.OnCreateRoleModalSave"
+                            OnCancel="this.OnCreateRoleModelCancel">
+                        <ChildContent>
+                            <CreateRoleComponent RoleCreateRequest=@this.RoleCreateRequest />
+                        </ChildContent>
+                    </PModal>
+                </AuthorizeView>
+            </LeftActions>
+            <Filters>
+                <MRow>
+                    <MCol Sm=12 Md=3>
+                        <MTextField Label="Id" @bind-Value="@this.Id" Type="number" TValue="int?"
+                                    Color="primary" HideDetails=@("auto")
+                                        Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
+                    <MCol Sm=12 Md=3>
+                        <MTextField Label="Name" @bind-Value="@this.RoleName"
+                                    Color="primary" HideDetails=@("auto")
+                                        Clearable Filled Rounded Dense>
+                        </MTextField>
+                    </MCol>
+                </MRow>
+            </Filters>
+        </PPageHeader>
+    </MCardText>
+</MCard>
+
+<MCard Flat Rounded=@("xl") Class="mt-6">
+    <MCardText>
+        <MRow>
+            <MSpacer></MSpacer>
+            <MCol Cols=@("auto")>
+                <MTextField Style="width:280px;" Color="primary" BackgroundColor="grey lighten-4"
+                            HideDetails=@("auto") @bind-Value="@this.LocalSearchKeyword" Placeholder="Search" Clearable Rounded Flat Dense Solo>
+                    <PrependInnerContent>
+                        <MIcon Class="neutral-lighten-1--text">mdi-magnify</MIcon>
+                    </PrependInnerContent>
+                </MTextField>
+            </MCol>
+        </MRow>
+        <MDataTable Headers="@this.RoleHeaders" Search="@this.LocalSearchKeyword" Class="my-3"
+                    Items="@this.Roles" Page=@this.CurrentPageIndex ItemKey="item=>item.Id.ToString()"
+                    TItem="RoleInformationResponse" ItemsPerPage=@this.CurrentPageSize
+                    Loading=@this.LoadingRoles LoadingText="Loading ..."
+                    MultiSort FixedHeader HideDefaultFooter>
+            <ItemColContent>
+                @switch (context.Header.Value)
+                {
+                    case ActionsHeaderName:
+                        <AuthorizeView Context="authorizeContext" Policy="@IdentityContract.ThemisAPIWritePolicyName">
+                            <MMenu Right Bottom Rounded=@("xl")>
+                                <ActivatorContent Context="menuContext">
+                                    <MButton Color="primary" Icon @attributes="@menuContext.Attrs">
+                                        <MIcon>mdi-dots-horizontal</MIcon>
+                                    </MButton>
+                                </ActivatorContent>
+                                <ChildContent>
+                                    <MList Dense>
+                                    <MListItem Color="primary" Href=@($"{RouterContract.RolesEditUri}/{context.Item.Id}")>
+                                        <MListItemIcon>
+                                            <MIcon Color="primary">mdi-square-edit-outline</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>Edit</MListItemTitle>
+                                        </MListItemContent>
+                                    </MListItem>
+                                    <MListItem Color="error" OnClick="()=>this.OnDeleteRole(context.Item)">
+                                        <MListItemIcon>
+                                            <MIcon Color="error">mdi-trash-can-outline</MIcon>
+                                        </MListItemIcon>
+                                        <MListItemContent>
+                                            <MListItemTitle>Delete</MListItemTitle>
+                                        </MListItemContent>
+                                    </MListItem>
+                                </MList>
+                            </ChildContent>
+                        </MMenu>
+                    </AuthorizeView>
+                        break;
+                    default:
+                        @context.Value
+                        break;
+                }
+            </ItemColContent>
+        </MDataTable>
+        <MRow>
+            <MCol>
+                <MSelect @bind-Value=@this.CurrentPageSize Items=@this.ValidPageSizes
+                         ItemText=@(size => size.ToString()) ItemValue=@(size=>size)
+                         Color="primary" Style="max-width:120px;"
+                         Filled Rounded Dense HideDetails=@("auto")>
+                </MSelect>
+            </MCol>
+            <MSpacer></MSpacer>
+            <MCol>
+                <MPagination @bind-Value=@this.CurrentPageIndex Color="primary" Circle Length=@this.TotalPageCount></MPagination>
+            </MCol>
+        </MRow>
+    </MCardText>
+</MCard>
 
 @code {
+    protected bool LoadingRoles { get; set; }
+    protected bool ShowCreateRoleModal { get; set; }
+    protected int? Id { get; set; }
+    protected string? RoleName { get; set; }
+    protected string? LocalSearchKeyword { get; set; }
+    protected List<int> ValidPageSizes = new List<int>() { 10, 20, 50, 100, 200 };
+    protected int CurrentPageSize { get; set; } = 20;
+    protected int CurrentPageIndex { get; set; } = 1;
+    protected int TotalPageCount => (int)Math.Ceiling(this.Roles.Count() / (double)CurrentPageSize);
+    protected List<RoleInformationResponse> Roles { get; set; } = new List<RoleInformationResponse>();
+    protected RoleCreateRequest RoleCreateRequest { get; set; }
+    protected const string ActionsHeaderName = "Actions";
+    protected readonly List<DataTableHeader<RoleInformationResponse>> RoleHeaders = new()
+    {
+        new() { Value = nameof(RoleInformationResponse.Id), Text=nameof(RoleInformationResponse.Id), Filterable = true, Sortable = true },
+        new() { Value = nameof(RoleInformationResponse.RoleName), Text=nameof(RoleInformationResponse.RoleName), Filterable = true, Sortable = true },
+        new() { Value = ActionsHeaderName, Text=ActionsHeaderName, Filterable = false, Sortable = false, Align = DataTableHeaderAlign.Center },
+    };
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        await this.LoadRoles();
+    }
+
+    protected async Task LoadRoles()
+    {
+        try
+        {
+            this.LoadingRoles = true;
+            var RoleSearch = new RoleSearchRequest()
+                {
+                    Id = this.Id,
+                    RoleName = this.RoleName,
+                };
+            var RoleResult = await this.themisRoleClient.SearchRolesAsync(RoleSearch);
+            this.Roles.Clear();
+            this.Roles.AddRange(RoleResult?.Values ?? Enumerable.Empty<RoleInformationResponse>());
+            await this.popupService.EnqueueSnackbarAsync($"Loaded {this.Roles.Count()} roles in total.", AlertTypes.Success);
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+        finally
+        {
+            this.LoadingRoles = false;
+        }
+    }
+
+    protected async Task<bool> OnDeleteRole(RoleInformationResponse Role)
+    {
+        try
+        {
+            var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to delete role: {Role.RoleName} ?", AlertTypes.Warning);
+            if (!confirmed) return false;
+
+            var commonResult = await this.themisRoleClient.DeleteRoleAsync(Role.Id);
+            if (commonResult?.Succeeded ?? false)
+            {
+                this.Roles.Remove(Role);
+                await this.popupService.EnqueueSnackbarAsync($"Role {Role.RoleName} deleted.", AlertTypes.Success);
+                return true;
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role {Role.RoleName} delete failed: {commonResult?.ToString()}", AlertTypes.Warning);
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+            return false;
+        }
+    }
+
+    protected async Task OnShowCreateRoleModal()
+    {
+        this.RoleCreateRequest = new();
+        this.ShowCreateRoleModal = true;
+    }
+
+    protected async Task OnCreateRoleModalSave()
+    {
+        if (string.IsNullOrWhiteSpace(this.RoleCreateRequest!.RoleName))
+        {
+            await this.popupService.EnqueueSnackbarAsync($"Role name is not allowed to be empty.", AlertTypes.Warning);
+            return;
+        }
+
+        try
+        {
+            var commonResult = await this.themisRoleClient.CreateRoleAsync(this.RoleCreateRequest);
+            if (commonResult?.Succeeded ?? false)
+            {
+                var Role = commonResult.Entity!;
+                this.Roles.Add(Role);
+                this.ShowCreateRoleModal = false;
+                await this.popupService.EnqueueSnackbarAsync($"Role {Role.RoleName} ({Role.Id}) created.", AlertTypes.Success);
+            }
+            else
+            {
+                await this.popupService.EnqueueSnackbarAsync($"Role {this.RoleCreateRequest.RoleName} create failed: {commonResult?.ToString()}", AlertTypes.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnCreateRoleModelCancel()
+    {
+        this.ShowCreateRoleModal = false;
     }
 }

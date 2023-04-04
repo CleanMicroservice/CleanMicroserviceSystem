@@ -1,0 +1,13 @@
+﻿<MRow>
+    <MCol Cols="12">
+        <MTextField Label="Name" @bind-Value="@this.RoleCreateRequest.RoleName"
+                    Color="primary" PrependInnerIcon="mdi-account-group"
+                    HideDetails=@("auto") Clearable Filled Rounded Dense>
+        </MTextField>
+    </MCol>
+</MRow>
+
+@code {
+    [Parameter]
+    public RoleCreateRequest RoleCreateRequest { get; set; }
+}
