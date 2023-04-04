@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-03-27T02:39:53.272Z
+__export_date: 2023-04-04T09:22:43.083Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_3f4e407afa854239935befaddd0a3d4a
@@ -224,7 +224,7 @@ resources:
     method: PUT
     body:
       mimeType: application/octet-stream
-      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
     parameters: []
     headers:
       - name: Content-Type
@@ -410,7 +410,7 @@ resources:
     method: PUT
     body:
       mimeType: application/octet-stream
-      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Application.Abstraction.1.0.0.nupkg
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Application.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Application.Abstraction.1.0.0.nupkg
     parameters: []
     headers:
       - name: Content-Type
@@ -1004,9 +1004,45 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
+  - _id: req_3d9607f03de34950ab66aa158b117bf2
+    parentId: fld_4069dcd1e08241a59822bc1a6649cd73
+    modified: 1680580351616
+    created: 1680580131164
+    url: "{{ _.ThemisAddress }}api/User/Claims"
+    name: GetAllUserClaims
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019580701
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_4069dcd1e08241a59822bc1a6649cd73
+    parentId: fld_77eac74c36b6414793f16358bbd4923a
+    modified: 1671027948315
+    created: 1671027492774
+    name: Claims
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1671019580713.5
+    _type: request_group
   - _id: req_7b94e8d4f65345ed9e0d22cf9c747a4e
     parentId: fld_4069dcd1e08241a59822bc1a6649cd73
-    modified: 1679884603848
+    modified: 1680580125225
     created: 1671027527413
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Claims"
     name: GetUserClaims
@@ -1030,19 +1066,9 @@ resources:
     settingRebuildPath: true
     settingFollowRedirects: global
     _type: request
-  - _id: fld_4069dcd1e08241a59822bc1a6649cd73
-    parentId: fld_77eac74c36b6414793f16358bbd4923a
-    modified: 1671027948315
-    created: 1671027492774
-    name: Claims
-    description: ""
-    environment: {}
-    environmentPropertyOrder: null
-    metaSortKey: -1671019580713.5
-    _type: request_group
   - _id: req_6c3a83ccca1c428c9fafe4738f8ac39c
     parentId: fld_4069dcd1e08241a59822bc1a6649cd73
-    modified: 1679884608758
+    modified: 1680586247614
     created: 1671027583548
     url: "{{ _.ThemisAddress }}api/User/{{ _.UserId }}/Claims"
     name: UpdateUserClaims
@@ -1685,9 +1711,9 @@ resources:
     _type: request
   - _id: req_348c81ba9a78463cb723105a893f7d7c
     parentId: fld_0fa3600c118a41bea422fa8babbca219
-    modified: 1679884689342
+    modified: 1680595701625
     created: 1671028547326
-    url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Claims"
+    url: "{{ _.ThemisAddress }}api/Role/Claims"
     name: GetRoleClaims
     description: ""
     method: GET
@@ -1719,6 +1745,32 @@ resources:
     environmentPropertyOrder: null
     metaSortKey: -1671019580713.5
     _type: request_group
+  - _id: req_278e2fe71b9147ac8a94c954478f814b
+    parentId: fld_0fa3600c118a41bea422fa8babbca219
+    modified: 1680596122838
+    created: 1680595696811
+    url: "{{ _.ThemisAddress }}api/Role/{{ _.RoleId }}/Claims"
+    name: GetAllRoleClaims
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication:
+      type: bearer
+      token: "{% response 'body', 'req_0944cd0c44ea4cb9a354c569c7b55dfd',
+        'b64::JC5lbnRpdHk=::46b', 'when-expired', 1500 %}"
+      prefix: bearer
+      disabled: false
+    metaSortKey: -1671019580626
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
   - _id: req_46a793acb00c44b0bb6dfa76b8a6bb8e
     parentId: fld_0fa3600c118a41bea422fa8babbca219
     modified: 1679884694684
@@ -2471,13 +2523,13 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1679884545570
+    modified: 1680596600537
     created: 1670678556534
     name: Default Jar
     cookies:
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8MG_LuO_HnRDrhvoEfUNNG2Z5r4k03_6ItRtpW83iAHOiyW6q5moi3Pvoj3lvvSgeou747qQyklpRXYJNxEsk3Qb75pD11FaoXR_Aqwm5ks0nSJ3bB5hJ3YBdImNDAxA3bKNOlefpnHeDmIk-jN9uFdDPcmeIfa7YxhQZUb1jlHShmsUGxpskHHngbmNne77JpXS7q4ZX8Id3ppN3qE5ZxjR493I2UtFojGI17KqmDRS924TYuIvV6JHiTP2BWhqOuG4mzS2PrNgpUCEWjrqFN6Z_X1iDjS2sttBzWcSFuU3JKZ5KVgXHI6RfCrGuCHD8635Mk0Qp-tMyJEQjEqYAf8xWWENLx5jTS28ZmRhXqsCjCTyv8NyGIzk-K5UdYot8SXNRLYqmPTtCLVK55X4zp6IJFxhzSjXCBPV64MKAG5Kv_vnZCWFOU8Mapeb6G92GM22LYZ06W88hMRwhnRecp_qQh23KVVu-1sA8oHTljQfBFJWbgf7SO1C0p9Wh8_DTus6HmsMtvs_yUFJJ2RJWiAxtsJhEwkMSCIB-SrdFRyzSecR-Kael-7LN1sgy2hXX-rrXiUsqYJ_eTH0m1fVgrlhFLQyScht-E44mqeFkoPYrGZ11eYHqe8mszXy-x8s276h8fqc5Xa04Mkuz35j5eyzX4pQu_YeGC4Vztzy1W-qV-aH-69e4gxrec0pGTGJZdWMWg3U6rlFeZTrnuw3lRpmXLLDSDNgNHEKz1NKR1OesGIwgORs26WST_2bilx2EJzksGi-Mf1iEJ9O1cIEvYpTj_e6nGyY1Aj3n5-IoxzXczmssrbgzds9_RAkJcuMi32Lig4usXfLPnaiQCS7gghy7txxxgZQWf7-HpBGoCjCiwikOC2Z1IbjxIWl0xB2HeAvm7RDSHxIVUkC8NGfyVE-GhFPsTydG3nLTist42OrFt6j-kJDjHkFz_G_NWUzEwo7xRRH4qTN4qRjZt2LL6S5uL_UeWBrhmbxN102QNKAsixfShhUNjfJwwrjPjUXU6GdQYfgyEqXQ9vD5OarrEyMHaNwTzpKu4nnKzgE_C-I_YFF1Wo_7Y19KV_KMbxR2g
-        expires: 2023-04-09T15:47:11.000Z
+        value: CfDJ8MG_LuO_HnRDrhvoEfUNNG0twi1aQO9sajCNLjBx4UIRUcd9gprNseNKyJvDPTJTFAnXEtS_OS8NoCc8mFDtBC3kudzgo50JxRubCI8qvERJ48FjCfFxixcgGZAehZSHYvb1uyPj1wMmWXNQuc9IWti1J8VJU0nkHwPqusgLbJ2prnzSuPv0ZFw50IepmY2wH0PvI5EGVCpklEx6V5bzrneDlztLV8_EMnAvdjcPLk-Fryf_NwovkzlDWZ4xT8_0blWmFzVS0PjqaOCE184CyVo2f8zKEvIZJDUUhAVUn8_IQ7tCxt_XlEiuroKQzEHmUf9Yphthg1kGd8jXXqRoFDArKRNSBncmXGP-tUi-4n5j_l6oKcbRoziPy6XaUDmOjFj3bhgaQtFfwQ0ezOU-eTDjHvrxxavUh7mAuO2ITxsiz_-KRvofa5TodIGHUsuvOy3t9tIoc374yXN12x91ptV8AfO1FqwHZOygj5pKfNk56gI5H-nIyoVB05x0wnOt93OoSFJi8yhVI4dUK2Oi6D8BOBm3gehOOdJZorpuKu5Ty4BkNyGRwCmbJ514HCo0yj9X666qvsERrbbXSPZeLVWMHey0ME2nvtg-E-lLsBt4iy-AcD56qkJwTofjUGZG0lFt5FJzf1CVwvxhjcuPt2sH7ucksE3uGMK7MMJMtaMlCC6QDwhP3zcIcRD-tYeSnbV52nqEeP1ppVfTYoPKS-Kvi9DSHKKBOq_XXKDEaXMdt5Vcg_GtyAeln7HE8n3hFQW6l0aCrEAj3mkjBrnoIcjbt67_RGuFh2GGoe6gO7ei-V-Szxg2Kc0cYTSiYcTcDi1hFb4sAxgF7kTQDh4IaWISTCHZMA0cTPw31NmCx6PBJZSlBjKPaFWSRBOafNuH5h0FnFrEkRKN3yBrtEKL5KqCtQ_mHMtUAIzYZMxUhrVChAhAm8F_cClfD3u8wVrIbwt59KEORiJLuP2CLMlVX7TGrA4-3XFR2BjdIB5S8fli7VhVYSyMJrLu_5naLr0dou2UnrosHGD09Jq-Xbgurs6gJ0fo3RG4PLbyOcdkeD-iEkuEUfq-9yqL_oarFBBhSw
+        expires: 2023-04-18T08:08:39.000Z
         domain: localhost
         path: /
         secure: true
@@ -2486,11 +2538,11 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-03-06T02:51:11.872Z
-        lastAccessed: 2023-03-26T15:47:11.345Z
-        id: "7048247266089347"
+        lastAccessed: 2023-04-04T08:08:39.760Z
+        id: "001850009263832053"
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-HCW83os7efo0256b-5zsq406lRVF1efvw7wFBGBBkmBgPTBbh1gssuYTxorrZYly26eHyLvJJu5x72e_o1B9ls9GkgpC4OhztyYlr-TOWXrlIyp2iToLNAKkzcOYAxTOP4xI4rKwxHzHXdQyZkLjlCI4jOg6lOK18VbUqA2nuBMMVz8xY4e3_Fpxco2lcE7E3aGaYzQ2ScrJRbWfyTXfSKztwkOqw6dTzE3A3Y3bNnvJsRWplZvnvUp610fa4jyRzPolqiyenzYpDZd1TtPkAzYVwj87uVUDyXFuDNLUAOh8Ihg9S2C3ET35nUPuXPjZ27UdYUPKS8sK-RKkmmrIhTBjSQz0juN1J2nUV7uOeGgK6U2HaXeV03nN7K-A_apCCMo3Vd48uaZnJfFLAlll-ipOIO5Q9PFZuJJV37jwkqNTiHH72qRDStx_p4dUblzdJs4Ugg6dunw66ZBV67Qt9H_0OfF5z-_k33RfJ5M9fA-mpZ7dEPBoZQFhPiv48ywSr1vSB4BZl5eM9fE1yg6cVvuUh4AhUCt34lWCjHVy6sMol7MNnypOV3sc2MgdIdqH1LcnLWdVp5ZA-6KpWf8nIpj0D-9q4XBdwOq6waGYECyq0AyttNDSBNxcJCO09kPSv41oBZkix_G2hluFcedIBQWCngXOTgReytzmGx-co1TgpfkOzl9PQ87Dm4-t_d8kND31P0prAsYq6pgnkggWqeC5sgJZJuHbh2PkbudlucBFrJkCZbcXyn-PiXAXFxFFQy6BhylF33hg9nwDGpdvF_5lGvoplUb_2SUVoiPLURI25Iu4Adf-rqPWe_JFBmr03jpmTvJxqa-fzgh9DrIQEGgqEUso8jypYETlLlssUYduiV2snV0I3OeR_buj07z2vXiWFZDsatCYcX_N_UBGZMUKgnoMLmP3VO7m6fYh8r-hSTHHR8ELPRMp5UfuGDC2vuSHHexWayg89TnhnjvTcIDXm_FI-QEagfsn8d6UIiTEfMWwIL5Cmyv4PJAFeEaVHt8ohNEwEUWjsXYETlMCpav3fjbkiONFNqJS3TEke880PfdCcGB8N6EfqjjbTf9BpTKeB0niWcpd7MM1A4FqjwcnTFARohUU1F0qt48HD2VetOs_JRLNNnXSw0cuVCrv7OiVtY2v3RoFbZU5lnHNCF-ARfGxSYp5QGMjZuWlP1uQ2AbC0DmLAqtsTzeUEUAvd9XwnfUeS02bR6T1Y9YrL1
-        expires: 2023-04-10T02:35:45.000Z
+        value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-GH6zxa6HRo1crbfnDdNAeUYKTgp598DNrCnNesFDchW9I2XM0IfzM1I01ko41bXNv7HohAQ_4mNG1kt_E9_U7h6Vx_FivKhzxFG32zHY-KLBSxTRYC3eNFjrVz_7AHPuf5uiaHelVeUIwV9IxAut-E1pgTrj1yXPvsUwMwayfJ2eX-Afn7y_RMkMTbbYMmeshDlvsPci3xaPnu8V9ht3ioSF9w9QfckxndKGAxWZFivHYRh_lewqp4_7uFWMdEIxE2sbkUB3lTGQQ2lp1n77djJvmVrSuShZRsPVRQL0FwF1KRJLWwUojr30yrjYPrqh2gIl5eSFsF7cPhQEhYtfhDVoqTUW29UBAhG6iKUyvaIGHTgdVHI44xWySIzdu9xgxPs37474isr2mP0QJ9dOpVfDxxo05BLPZ8zsu75vrmBfV4-LZPsT9HNfNCxkbFn5RWRvvA9LQ0tcN1f9ft642bJ9ScFTMYqk7WEDKCw-p-otiuQhPzlrtFFaaXZpNqVwjO081H61URE3D_tOHlELQq-rSTZCvmi-LBWVxTuQlOWqBH8fe7-PUx2xw1WUW1UyU0_z6mS_Ll0R6mgOpDzMqEvONNMRsaEX7LUZ28O2n18b93v1tfT0c3lcHCls1B2fe3QnpRXJBtpO-fLvZ1oR3mpnYd8VX4Hx5dHaMs6B05Eo2uUOtzbSEU771EBINTW5ZyObl2Vc3N6UfE2sIdb7HsDEAJZ3JGrQ__QEtmN4LqizwtwymzDvO-QNSLrV_kH8ig9lLu3IUmyk-dTEgyow9Dg09xtlMbfXJiPKRMz1meUiKHr1XIH3Sa8z23FXvaQjrW113JqOCM6A4z_tsnOnY90-BGx9TGFQGXCSl5vfJXCLbOZ7b1E9PAlX5RFowWmVW-hd_SvfkQtlogMB-PeL3GUXfSqk1NO0Sgo8QdHE_NGkOZMoYfKZxnnKnfZQEP9dEhf25U8wnYosDxkN9pbYlNE5Ps7MP-E25W_n83pEX5NTVojHPpPzbs9OdI-O3XPNQxcXg1ZcGzNI9VGP_PhjXBzGyCFXBxxJ-K8H5nIeoYWNQj09GycdpPWaqZJ5V-OCo
+        expires: 2023-04-18T08:23:20.000Z
         domain: 10.1.100.73
         path: /
         secure: true
@@ -2499,8 +2551,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-03-08T09:54:30.887Z
-        lastAccessed: 2023-03-27T02:35:45.570Z
-        id: "37152468371471414"
+        lastAccessed: 2023-04-04T08:23:20.537Z
+        id: "5561811948666013"
       - key: Identity.External
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -2512,7 +2564,7 @@ resources:
         hostOnly: true
         creation: 2023-03-24T09:38:36.000Z
         lastAccessed: 2023-03-25T11:45:08.342Z
-        id: "7946093231888127"
+        id: "41665981928721085"
       - key: Identity.TwoFactorUserId
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -2524,7 +2576,7 @@ resources:
         hostOnly: true
         creation: 2023-03-24T09:38:36.000Z
         lastAccessed: 2023-03-25T11:45:08.342Z
-        id: "9455088854213993"
+        id: "9875862710647818"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
