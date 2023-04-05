@@ -1,0 +1,13 @@
+﻿<MRow>
+    <MCol Cols=12>
+        <MFileInput TValue="List<IBrowserFile>" @bind-Value=this.BrowserFiles
+                    Chips Clearable Color="primary" Multiple Counter=true ShowSize
+                    Accept="NuGet Package/*.nupkg" Label="Select package files ...">
+        </MFileInput>
+    </MCol>
+</MRow>
+
+@code {
+    [Parameter]
+    public List<IBrowserFile> BrowserFiles { get; set; }
+}

@@ -1,5 +1,4 @@
 ﻿@page "/nugetserver/packages"
-@using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 @* @attribute [Authorize(Policy = IdentityContract.AstraAPIReadPolicyName)] *@
 @inherits AphroditePageBase
 @inject ILogger<PackagesPage> logger
@@ -14,7 +13,17 @@
         <PPageHeader Title="Packages" Subtitle=@($"{this.SearchResponse.TotalHits} packages in total.") OnSearch=this.LoadPackages ShowFiltersByDefault>
             <LeftActions>
                 <AuthorizeView Policy="@IdentityContract.AstraAPIWritePolicyName">
-                    <MButton Rounded Color="primary" OnClick=@this.OnUploadPackage><MIcon Left>mdi-plus</MIcon>Create</MButton>
+                    <MButton Rounded Color="primary" OnClick=@this.OnShowUploadPackageModal>
+                        <MIcon Left>mdi-plus</MIcon>Create
+                    </MButton>
+                    <PModal @bind-Value=@this.ShowUploadPackageModal
+                            Title="Upload Packages" Persistent MaxWidth="600"
+                            OnSave="this.OnUploadPackageModalSave"
+                            OnCancel="this.OnUploadPackageModalCancel">
+                        <ChildContent>
+                            <UploadPackagesComponent BrowserFiles=@this.PackageFiles />
+                        </ChildContent>
+                    </PModal>
                 </AuthorizeView>
             </LeftActions>
             <Filters>
@@ -108,7 +117,9 @@
     protected IList<RoleInformationResponse>? Roles { get; set; }
     protected string? Keyword { get; set; }
     protected string? LocalSearchKeyword { get; set; }
+    protected bool ShowUploadPackageModal { get; set; } = false;
     protected SearchResponse SearchResponse { get; set; } = SearchResponse.Empty;
+    protected List<IBrowserFile> PackageFiles { get; set; } = new List<IBrowserFile>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -133,9 +144,9 @@
         }
     }
 
-    protected async Task OnUploadPackage()
+    protected async Task OnShowUploadPackageModal()
     {
-        // TODO: Upload package;
+        this.ShowUploadPackageModal = true;
     }
 
     protected async Task OnDeletePackageVersion(SearchResult package, string version)
@@ -158,5 +169,35 @@
         {
             await this.popupService.EnqueueSnackbarAsync(ex);
         }
+    }
+
+    protected async Task OnUploadPackageModalSave()
+    {
+        var successed = new List<string>();
+        var failedExceptions = new Dictionary<string, Exception>();
+        foreach (var packageFile in this.PackageFiles)
+        {
+            try
+            {
+                var stream = packageFile.OpenReadStream();
+                var response = await this.astraNuGetPackageClient.PublishAsync(
+                    this.nuGetServerOptions.Value.ApiKey, stream);
+                response.EnsureSuccessStatusCode();
+                successed.Add(packageFile.Name);
+            }
+            catch (Exception ex)
+            {
+                failedExceptions.Add(packageFile.Name, ex);
+            }
+        }
+        this.ShowUploadPackageModal = false;
+        await this.popupService.EnqueueSnackbarAsync(
+            $"Upload {successed.Count} packages successfully: {string.Join(", ", successed)}; {failedExceptions.Count} packages failed: {string.Join(", ", failedExceptions.Select(failed => $"{failed.Key}: {failed.Value?.Message}"))}",
+            !failedExceptions.Any() ? AlertTypes.Success : !successed.Any() ? AlertTypes.Error : AlertTypes.Warning);
+    }
+
+    protected async Task OnUploadPackageModalCancel()
+    {
+        this.ShowUploadPackageModal = false;
     }
 }
