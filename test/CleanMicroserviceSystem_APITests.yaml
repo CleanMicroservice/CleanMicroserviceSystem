@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-04-04T09:22:43.083Z
+__export_date: 2023-04-05T07:50:09.621Z
 __export_source: insomnia.desktop.app:v2022.7.0-alpha.0
 resources:
   - _id: req_3f4e407afa854239935befaddd0a3d4a
@@ -216,7 +216,7 @@ resources:
     _type: request
   - _id: req_27d64bd0bf924bf9b42b598a45efb243
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679215375352
+    modified: 1680641279242
     created: 1679044579300
     url: "{{ _.AstraAddress }}api/v2/package"
     name: PackagePublish
@@ -224,7 +224,7 @@ resources:
     method: PUT
     body:
       mimeType: application/octet-stream
-      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceTemplate\ServiceTemplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
+      fileName: D:\src\GitHub\CleanMicroserviceSystem\src\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\bin\Debug\CleanMicroserviceSystem.Oceanus.Client.Abstraction.1.0.0.nupkg
     parameters: []
     headers:
       - name: Content-Type
@@ -232,7 +232,7 @@ resources:
         id: pair_420ee60e17604ab992dc8e195d874b23
       - id: pair_27c1df0e46344cf1bfb5414a14f165ed
         name: X-NuGet-ApiKey
-        value: ASTRANUGETSERVERAPIKEY
+        value: "{{ _.NuGetServerApiKey }}"
         description: ""
     authentication: {}
     metaSortKey: -1679044579300
@@ -256,7 +256,7 @@ resources:
     _type: request_group
   - _id: req_ddcd171292754838b079bed5cc6dd30b
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679215381598
+    modified: 1680641283375
     created: 1679045111525
     url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
       }}"
@@ -268,7 +268,7 @@ resources:
     headers:
       - id: pair_32cedf62af9b42b296c790d2ed93f8e5
         name: X-NuGet-ApiKey
-        value: ASTRANUGETSERVERAPIKEY
+        value: "{{ _.NuGetServerApiKey }}"
         description: ""
     authentication: {}
     metaSortKey: -1679044158507.5
@@ -282,7 +282,7 @@ resources:
     _type: request
   - _id: req_c83ed1bed7ca49c38c3472fea4ce80c0
     parentId: fld_ad5c1c2980ed49c686b7eb3fbb3f9451
-    modified: 1679215385132
+    modified: 1680641286253
     created: 1679045218993
     url: "{{ _.AstraAddress }}api/v2/package/{{ _.PackageId }}/{{ _.PackageVersion
       }}"
@@ -294,7 +294,7 @@ resources:
     headers:
       - id: pair_4f47e1d23a574ef1bc32d225ec79c529
         name: X-NuGet-ApiKey
-        value: ASTRANUGETSERVERAPIKEY
+        value: "{{ _.NuGetServerApiKey }}"
         description: ""
     authentication: {}
     metaSortKey: -1679043948111.25
@@ -402,7 +402,7 @@ resources:
     _type: request
   - _id: req_6b14e6e5cf414450817b8dd00d1f26d1
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679215408701
+    modified: 1680641292116
     created: 1679045601143
     url: "{{ _.AstraAddress }}api/v2/symbol"
     name: SymbolPublish
@@ -418,7 +418,7 @@ resources:
         id: pair_16295a6728a643b39cb2c94b9a01317e
       - id: pair_57093624cb9542d28eb5c2185af45460
         name: X-NuGet-ApiKey
-        value: ASTRANUGETSERVERAPIKEY
+        value: "{{ _.NuGetServerApiKey }}"
         description: ""
     authentication: {}
     metaSortKey: -1679045601143
@@ -442,10 +442,10 @@ resources:
     _type: request_group
   - _id: req_ff27caceba5c4ef3a328c4ef17fb2808
     parentId: fld_f2e3796eb34e4ac1bba45b2fa496170c
-    modified: 1679215421208
+    modified: 1680641361751
     created: 1679068676910
     url: "{{ _.AstraAddress }}api/download/symbols/{{ _.PackageFile }}/{{
-      _.NuGetApiKey }}/{{ _.PackageFile }}"
+      _.PackageId }}/{{ _.PackageFile }}"
     name: SymbolDownload
     description: ""
     method: GET
@@ -1480,7 +1480,7 @@ resources:
     _type: request
   - _id: req_d06218edd5204ab2bc393948ffb2b286
     parentId: fld_993a077994da401ea458678ad975c2d5
-    modified: 1679884659809
+    modified: 1680630584035
     created: 1671028547358
     url: "{{ _.ThemisAddress }}api/Role"
     name: CreateRole
@@ -2487,7 +2487,7 @@ resources:
     _type: request
   - _id: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1679068971535
+    modified: 1680641273797
     created: 1670678556532
     name: Base Environment
     data:
@@ -2499,9 +2499,8 @@ resources:
       ClientName: Tethys
       ClientSecret: TethysSecret
       ApiResourceId: "1"
-      PackageId: CleanMicroserviceSystem.Oceanus.Application.Abstraction
-      PackageFile: CleanMicroserviceSystem.Oceanus.Application.Abstraction.dll
-      NuGetApiKey: FakeNuGetAPIKeyWhichMustLongerThan32
+      PackageId: CleanMicroserviceSystem.Oceanus.Client.Abstraction
+      PackageFile: CleanMicroserviceSystem.Oceanus.Client.Abstraction.dll
       PackageVersion: 1.0.0
     dataPropertyOrder:
       "&":
@@ -2515,7 +2514,6 @@ resources:
         - ApiResourceId
         - PackageId
         - PackageFile
-        - NuGetApiKey
         - PackageVersion
     color: null
     isPrivate: false
@@ -2523,13 +2521,13 @@ resources:
     _type: environment
   - _id: jar_f2f5af96ed406eb4cba22db9ad7f52014a5fef57
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
-    modified: 1680596600537
+    modified: 1680630581736
     created: 1670678556534
     name: Default Jar
     cookies:
       - key: .AspNetCore.Identity.Application
-        value: CfDJ8MG_LuO_HnRDrhvoEfUNNG0twi1aQO9sajCNLjBx4UIRUcd9gprNseNKyJvDPTJTFAnXEtS_OS8NoCc8mFDtBC3kudzgo50JxRubCI8qvERJ48FjCfFxixcgGZAehZSHYvb1uyPj1wMmWXNQuc9IWti1J8VJU0nkHwPqusgLbJ2prnzSuPv0ZFw50IepmY2wH0PvI5EGVCpklEx6V5bzrneDlztLV8_EMnAvdjcPLk-Fryf_NwovkzlDWZ4xT8_0blWmFzVS0PjqaOCE184CyVo2f8zKEvIZJDUUhAVUn8_IQ7tCxt_XlEiuroKQzEHmUf9Yphthg1kGd8jXXqRoFDArKRNSBncmXGP-tUi-4n5j_l6oKcbRoziPy6XaUDmOjFj3bhgaQtFfwQ0ezOU-eTDjHvrxxavUh7mAuO2ITxsiz_-KRvofa5TodIGHUsuvOy3t9tIoc374yXN12x91ptV8AfO1FqwHZOygj5pKfNk56gI5H-nIyoVB05x0wnOt93OoSFJi8yhVI4dUK2Oi6D8BOBm3gehOOdJZorpuKu5Ty4BkNyGRwCmbJ514HCo0yj9X666qvsERrbbXSPZeLVWMHey0ME2nvtg-E-lLsBt4iy-AcD56qkJwTofjUGZG0lFt5FJzf1CVwvxhjcuPt2sH7ucksE3uGMK7MMJMtaMlCC6QDwhP3zcIcRD-tYeSnbV52nqEeP1ppVfTYoPKS-Kvi9DSHKKBOq_XXKDEaXMdt5Vcg_GtyAeln7HE8n3hFQW6l0aCrEAj3mkjBrnoIcjbt67_RGuFh2GGoe6gO7ei-V-Szxg2Kc0cYTSiYcTcDi1hFb4sAxgF7kTQDh4IaWISTCHZMA0cTPw31NmCx6PBJZSlBjKPaFWSRBOafNuH5h0FnFrEkRKN3yBrtEKL5KqCtQ_mHMtUAIzYZMxUhrVChAhAm8F_cClfD3u8wVrIbwt59KEORiJLuP2CLMlVX7TGrA4-3XFR2BjdIB5S8fli7VhVYSyMJrLu_5naLr0dou2UnrosHGD09Jq-Xbgurs6gJ0fo3RG4PLbyOcdkeD-iEkuEUfq-9yqL_oarFBBhSw
-        expires: 2023-04-18T08:08:39.000Z
+        value: CfDJ8MG_LuO_HnRDrhvoEfUNNG3MB-TSI3jtSi8XxZsQnNMt5rvzXOok1xxmtU97lKOc6AwEcTgcszTkMEStpLdx9pqtUxZuVcTwMTNuXs9wvh0ItqoPNKTM3jutkdEb71pgl5EAxM1AZ86EBQwQ-YER77MLbk8e9QSpZvJYxODRKfdtQPxjI0KDas4bEaWRxFPc7CVqWleYnWc3qCWYSqqu0P2J4yUxJI6CMUaeDZaTJXLvb7XRk2kPEUuutH1Htg78oADoOx3svc3aca8Di7wLQLYFcYCphYhA6YTux7O_ZYla6OwQl_t2Kxnj4oIUeKV6GI6YYEh1Lccc-8YrQH1wI7oHW9XgAhpKDfuHU1ooK9M5aK6lR76ouaCx13o7NbhLUyXRpwlWjIu4baKdWVMZ-CPwfGm9cFGGN2lQnk-xbfNuMEjCjadcLxTAEM9sZ7MxWKBVPKAW0Giqvs_kHSB-gQfiUITyE8iKHHWs5rManLiVRFby2CMAwcFlg7NieYFDeusRAM6aWnyMkE-oraN0NLVSiaERtWpn65GIRselLGRi5Vk_n0UXY-I-wiJmUULIcns7UeyJhAgBQLTDFnpGI-_ikg6cjwkywCnAQAsOW2V7MIA-b9GC9IuNsrAuV66vEpUZlR-U3nmOwYUVj1o22vjSL8QEDv0HSaoXave7SaBAFPOpyY3cIu5AuIRr57a6h3IVtCJDn0dZfPf8dMtUJfC0zMluWappDxM1W-yBiIrvkEpFW7GzDdg3ToNd1M_7wghDuAAOf3Aowz7xI6jRfIan3xWOO31KGlR30X5tnfgJ4ZnBCznDj0O2lhol2iBXg3nfYW_hChoC4ctd87q6APMJCT2R0pTOhmfofQvcfStdo9OL0xEZRsZfI-ixKm3uoxiPeq8ybtERrFkMBbcs7W_889KZ-1PVJ_sv6aY2_4mZ2YX4D7OdJvBFpB8bQuSUmsFx29jmdie2K6GU0HCdq4tZ0VNc2nTnGVkB4LAp2NOnf_pdzNu1z3CTUNFHP6-epdKwFABhr9q2lwNvS2xnUqxQhKAOQwNAo0Wk2YttOqPJStKnYD_ApWOkUMrbn-GU29byxtwtylPqYYUwdQd683A
+        expires: 2023-04-18T17:49:41.000Z
         domain: localhost
         path: /
         secure: true
@@ -2538,8 +2536,8 @@ resources:
           - samesite=lax
         hostOnly: true
         creation: 2023-03-06T02:51:11.872Z
-        lastAccessed: 2023-04-04T08:08:39.760Z
-        id: "001850009263832053"
+        lastAccessed: 2023-04-04T17:49:41.736Z
+        id: "19909185520326544"
       - key: .AspNetCore.Identity.Application
         value: CfDJ8GMIdgZ2EDBLp6sOZYmZf-GH6zxa6HRo1crbfnDdNAeUYKTgp598DNrCnNesFDchW9I2XM0IfzM1I01ko41bXNv7HohAQ_4mNG1kt_E9_U7h6Vx_FivKhzxFG32zHY-KLBSxTRYC3eNFjrVz_7AHPuf5uiaHelVeUIwV9IxAut-E1pgTrj1yXPvsUwMwayfJ2eX-Afn7y_RMkMTbbYMmeshDlvsPci3xaPnu8V9ht3ioSF9w9QfckxndKGAxWZFivHYRh_lewqp4_7uFWMdEIxE2sbkUB3lTGQQ2lp1n77djJvmVrSuShZRsPVRQL0FwF1KRJLWwUojr30yrjYPrqh2gIl5eSFsF7cPhQEhYtfhDVoqTUW29UBAhG6iKUyvaIGHTgdVHI44xWySIzdu9xgxPs37474isr2mP0QJ9dOpVfDxxo05BLPZ8zsu75vrmBfV4-LZPsT9HNfNCxkbFn5RWRvvA9LQ0tcN1f9ft642bJ9ScFTMYqk7WEDKCw-p-otiuQhPzlrtFFaaXZpNqVwjO081H61URE3D_tOHlELQq-rSTZCvmi-LBWVxTuQlOWqBH8fe7-PUx2xw1WUW1UyU0_z6mS_Ll0R6mgOpDzMqEvONNMRsaEX7LUZ28O2n18b93v1tfT0c3lcHCls1B2fe3QnpRXJBtpO-fLvZ1oR3mpnYd8VX4Hx5dHaMs6B05Eo2uUOtzbSEU771EBINTW5ZyObl2Vc3N6UfE2sIdb7HsDEAJZ3JGrQ__QEtmN4LqizwtwymzDvO-QNSLrV_kH8ig9lLu3IUmyk-dTEgyow9Dg09xtlMbfXJiPKRMz1meUiKHr1XIH3Sa8z23FXvaQjrW113JqOCM6A4z_tsnOnY90-BGx9TGFQGXCSl5vfJXCLbOZ7b1E9PAlX5RFowWmVW-hd_SvfkQtlogMB-PeL3GUXfSqk1NO0Sgo8QdHE_NGkOZMoYfKZxnnKnfZQEP9dEhf25U8wnYosDxkN9pbYlNE5Ps7MP-E25W_n83pEX5NTVojHPpPzbs9OdI-O3XPNQxcXg1ZcGzNI9VGP_PhjXBzGyCFXBxxJ-K8H5nIeoYWNQj09GycdpPWaqZJ5V-OCo
         expires: 2023-04-18T08:23:20.000Z
@@ -2552,7 +2550,7 @@ resources:
         hostOnly: true
         creation: 2023-03-08T09:54:30.887Z
         lastAccessed: 2023-04-04T08:23:20.537Z
-        id: "5561811948666013"
+        id: "18730438767234547"
       - key: Identity.External
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -2564,7 +2562,7 @@ resources:
         hostOnly: true
         creation: 2023-03-24T09:38:36.000Z
         lastAccessed: 2023-03-25T11:45:08.342Z
-        id: "41665981928721085"
+        id: "9747527709949564"
       - key: Identity.TwoFactorUserId
         expires: 1970-01-01T00:00:00.000Z
         domain: localhost
@@ -2576,7 +2574,7 @@ resources:
         hostOnly: true
         creation: 2023-03-24T09:38:36.000Z
         lastAccessed: 2023-03-25T11:45:08.342Z
-        id: "9875862710647818"
+        id: "6399424623985228"
     _type: cookie_jar
   - _id: spc_8fbfd9b37a1844e2a4019384da546afd
     parentId: wrk_1e7c9ad9513f4430bd5766c87c3e24fd
@@ -2588,72 +2586,80 @@ resources:
     _type: api_spec
   - _id: env_bd78d43cb4934b1f8297ad93f0265fbf
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1679624668826
+    modified: 1680641231269
     created: 1670678668397
     name: LocalHost-Dev
     data:
       UranusAddress: https://localhost:11001/
       ThemisAddress: https://localhost:11002/
       AstraAddress: http://localhost:11003/
+      NuGetServerApiKey: ASTRA_NUGET_SERVER_API_KEY_DEVELOPMENT
     dataPropertyOrder:
       "&":
         - UranusAddress
         - ThemisAddress
         - AstraAddress
+        - NuGetServerApiKey
     color: null
     isPrivate: false
     metaSortKey: 1670678668397
     _type: environment
   - _id: env_f07c58410ac8492bb945212789dc8160
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1679417773009
+    modified: 1680641237149
     created: 1671867367448
     name: Gateway-Dev
     data:
       UranusAddress: https://localhost:11001/
       ThemisAddress: https://localhost:11001/Ocelot/Themis/
       AstraAddress: https://localhost:11001/Ocelot/Astra/
+      NuGetServerApiKey: ASTRA_NUGET_SERVER_API_KEY_DEVELOPMENT
     dataPropertyOrder:
       "&":
         - UranusAddress
         - ThemisAddress
         - AstraAddress
+        - NuGetServerApiKey
     color: null
     isPrivate: false
     metaSortKey: 1670678668447
     _type: environment
   - _id: env_5409ae96b6af4fb2b8b005b669c4c3cf
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1679417777860
+    modified: 1680641223434
     created: 1678068150556
     name: Gateway-Prod
     data:
       UranusAddress: https://10.1.100.73:21001/
       ThemisAddress: https://10.1.100.73:21001/Ocelot/Themis/
       AstraAddress: https://10.1.100.73:21001/Ocelot/Astra/
+      NuGetServerApiKey: ASTRA_NUGET_SERVER_API_KEY_PRODUCTION
     dataPropertyOrder:
       "&":
         - UranusAddress
         - ThemisAddress
         - AstraAddress
+        - NuGetServerApiKey
     color: null
     isPrivate: false
     metaSortKey: 1672084266132
     _type: environment
   - _id: env_4efb973bcfc94886846de35e40f6de5c
     parentId: env_050b58c95b3a9d28450b502aad2ce5879566fe0f
-    modified: 1679417782845
+    modified: 1680641225382
     created: 1679416825114
     name: Server-Prod
     data:
       UranusAddress: https://10.1.100.73:21001/
       ThemisAddress: https://10.1.100.73:21002/
       AstraAddress: http://10.1.100.73:21003/
+      NuGetServerApiKey: ASTRA_NUGET_SERVER_API_KEY_PRODUCTION
     dataPropertyOrder:
       "&":
         - UranusAddress
         - ThemisAddress
         - AstraAddress
+        - NuGetServerApiKey
     color: null
     isPrivate: false
     metaSortKey: 1672787064974.5
