@@ -185,6 +185,7 @@
 
     protected async Task LoadUsers()
     {
+        this.logger.LogInformation($"Loading users ...");
         try
         {
             this.LoadingUsers = true;
@@ -198,10 +199,12 @@
             var userResult = await this.themisUserClient.SearchUsersAsync(userSearch);
             this.Users.Clear();
             this.Users.AddRange(userResult?.Values ?? Enumerable.Empty<UserInformationResponse>());
+            this.logger.LogInformation($"Loaded {Users.Count} users.");
             await this.popupService.EnqueueSnackbarAsync($"Loaded {this.Users.Count()} users in total.", AlertTypes.Success);
         }
         catch (Exception ex)
         {
+            this.logger.LogError(ex, $"Failed to load users.");
             await this.popupService.EnqueueSnackbarAsync(ex);
         }
         finally
@@ -218,19 +221,25 @@
             if (!confirmed) return;
 
             var newStatus = !user.Enabled;
+            this.logger.LogInformation($"Toggle user {user.UserName} ({user.Id}) 's status to be: {newStatus} ...");
             var commonResult = await this.themisUserClient.UpdateUserAsync(user.Id, new UserUpdateRequest() { Enabled = newStatus });
             if (commonResult?.Succeeded ?? false)
             {
                 user.Enabled = newStatus;
-                await this.popupService.EnqueueSnackbarAsync($"Toggled user [{user.UserName}] status to be {user.Enabled.ToStatus()}", AlertTypes.Success);
+                var message = $"Toggled user [{user.UserName}] status to be {user.Enabled.ToStatus()}";
+                this.logger.LogInformation(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Success);
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"Toggle user {user.UserName} status failed: {commonResult?.ToString()}", AlertTypes.Warning);
+                var message = $"Toggle user {user.UserName} status failed: {commonResult?.ToString()}";
+                this.logger.LogError(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Warning);
             }
         }
         catch (Exception ex)
         {
+            this.logger.LogInformation(ex, $"Failed to toggle user {user.UserName} ({user.Id}) 's status.");
             await this.popupService.EnqueueSnackbarAsync(ex);
         }
     }
@@ -242,21 +251,27 @@
             var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to delete user: {user.UserName} ?", AlertTypes.Warning);
             if (!confirmed) return false;
 
+            this.logger.LogInformation($"Delete user {user.UserName} ({user.Id}) ...");
             var commonResult = await this.themisUserClient.DeleteUserAsync(user.Id);
             if (commonResult?.Succeeded ?? false)
             {
                 this.Users.Remove(user);
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} deleted.", AlertTypes.Success);
+                var message = $"User {user.UserName} deleted.";
+                this.logger.LogInformation(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Success);
                 return true;
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} delete failed: {commonResult?.ToString()}", AlertTypes.Warning);
+                var message = $"User {user.UserName} delete failed: {commonResult?.ToString()}";
+                this.logger.LogError(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Warning);
                 return false;
             }
         }
         catch (Exception ex)
         {
+            this.logger.LogInformation(ex, $"Failed to delete user {user.UserName} ({user.Id})");
             await this.popupService.EnqueueSnackbarAsync(ex);
             return false;
         }
@@ -269,20 +284,26 @@
             var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to reset password of: {user.UserName} ?", AlertTypes.Warning);
             if (!confirmed) return;
 
+            this.logger.LogInformation($"Reset user {user.UserName} ({user.Id}) 's password ...");
             var newPassword = IdentityContract.DefaultUserPassword;
             var resetPasswordRequest = new UserUpdateRequest() { NewPassword = newPassword, ConfirmPassword = newPassword };
             var commonResult = await this.themisUserClient.UpdateUserAsync(user.Id, resetPasswordRequest);
             if (commonResult?.Succeeded ?? false)
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset.", AlertTypes.Success);
+                var message = $"User {user.UserName} password reset.";
+                this.logger.LogInformation(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Success);
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} password reset failed: {commonResult?.ToString()}", AlertTypes.Warning);
+                var message = $"User {user.UserName} password reset failed: {commonResult?.ToString()}";
+                this.logger.LogError(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Warning);
             }
         }
         catch (Exception ex)
         {
+            this.logger.LogInformation(ex, $"Failed to reset user {user.UserName} ({user.Id}) 's password.");
             await this.popupService.EnqueueSnackbarAsync(ex);
         }
     }
@@ -316,21 +337,27 @@
 
         try
         {
+            this.logger.LogInformation($"Register user {UserRegisterRequest.UserName} ...");
             var commonResult = await this.themisUserClient.RegisterUserAsync(this.UserRegisterRequest);
             if (commonResult?.Succeeded ?? false)
             {
                 var user = commonResult.Entity!;
                 this.Users.Add(user);
                 this.ShowCreateUserModal = false;
-                await this.popupService.EnqueueSnackbarAsync($"User {user.UserName} ({user.Id}) created.", AlertTypes.Success);
+                var message = $"User {user.UserName} ({user.Id}) created.";
+                this.logger.LogInformation(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Success);
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {this.UserRegisterRequest.UserName} create failed: {commonResult?.ToString()}", AlertTypes.Warning);
+                var message = $"User {this.UserRegisterRequest.UserName} create failed: {commonResult?.ToString()}";
+                this.logger.LogError(message);
+                await this.popupService.EnqueueSnackbarAsync(message, AlertTypes.Warning);
             }
         }
         catch (Exception ex)
         {
+            this.logger.LogInformation(ex, $"Failed to register user {this.UserRegisterRequest.UserName}");
             await this.popupService.EnqueueSnackbarAsync(ex);
         }
     }
