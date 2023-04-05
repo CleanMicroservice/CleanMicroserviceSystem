@@ -44,6 +44,7 @@ public class DownloadsImporter
                 }
 
                 package.Downloads = packageDownloads[packageId][packageVersion];
+                this._context.Packages.Update(package);
             }
 
             _ = await this._context.SaveChangesAsync(cancellationToken);

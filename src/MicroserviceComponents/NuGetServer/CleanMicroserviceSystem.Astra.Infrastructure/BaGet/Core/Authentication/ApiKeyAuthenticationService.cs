@@ -21,6 +21,9 @@ public class ApiKeyAuthenticationService : IAuthenticationService
 
     private bool Authenticate(string apiKey)
     {
-        return this._apiKey == null || this._apiKey == apiKey;
+        if (this._apiKey is null) return true;
+
+        var apiKeys = apiKey?.Split(',');
+        return apiKeys?.Any(key => this._apiKey.Equals(key)) ?? false;
     }
 }

@@ -126,6 +126,7 @@ public class PackageDatabase : IPackageDatabase
         if (package != null)
         {
             action(package);
+            this._context.Packages.Update(package);
             _ = await this._context.SaveChangesAsync(cancellationToken);
 
             return true;
