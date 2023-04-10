@@ -23,7 +23,13 @@ public static class DependencyInjection
     {
         var config = builder.Configuration;
         var services = builder.Services;
-        _ = services.AddMasaBlazor();
+        _ = services.AddMasaBlazor(options =>
+        {
+            options.ConfigureTheme(theme =>
+            {
+                theme.Dark = false;
+            });
+        });
         _ = services.AddLogging();
         _ = services.AddAuthorizationCore(options =>
         {
