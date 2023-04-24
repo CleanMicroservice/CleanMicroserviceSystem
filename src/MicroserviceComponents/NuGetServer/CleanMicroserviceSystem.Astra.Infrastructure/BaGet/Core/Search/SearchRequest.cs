@@ -6,6 +6,8 @@ public class SearchRequest
 
     public int? Take { get; set; }
 
+    public bool IncludeUnlisted { get; set; }
+
     public bool IncludePrerelease { get; set; }
 
     public bool IncludeSemVer2 { get; set; }

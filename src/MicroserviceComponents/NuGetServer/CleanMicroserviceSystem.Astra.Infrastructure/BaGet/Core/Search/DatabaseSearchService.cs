@@ -32,6 +32,7 @@ public class DatabaseSearchService : ISearchService
             search,
             request.IncludePrerelease,
             request.IncludeSemVer2,
+            request.IncludeUnlisted,
             request.PackageType,
             frameworks);
 
@@ -60,6 +61,7 @@ public class DatabaseSearchService : ISearchService
             search,
             request.IncludePrerelease,
             request.IncludeSemVer2,
+            request.IncludeUnlisted,
             request.PackageType,
             frameworks);
 
@@ -83,6 +85,7 @@ public class DatabaseSearchService : ISearchService
             search,
             request.IncludePrerelease,
             request.IncludeSemVer2,
+            includeUnlisted: false,
             request.PackageType,
             frameworks: null);
 
@@ -110,6 +113,7 @@ public class DatabaseSearchService : ISearchService
             search,
             request.IncludePrerelease,
             request.IncludeSemVer2,
+            includeUnlisted: false,
             packageType: null,
             frameworks: null);
 
@@ -154,6 +158,7 @@ public class DatabaseSearchService : ISearchService
         IQueryable<Package> query,
         bool includePrerelease,
         bool includeSemVer2,
+        bool includeUnlisted,
         string? packageType,
         IReadOnlyList<string>? frameworks)
     {
@@ -169,7 +174,10 @@ public class DatabaseSearchService : ISearchService
         if (frameworks != null)
             query = query.Where(p => p.TargetFrameworks.Any(f => frameworks.Contains(f.Moniker)));
 
-        return query.Where(p => p.Listed);
+        if (!includeUnlisted)
+            query = query.Where(p => p.Listed);
+
+        return query;
     }
 
     private IReadOnlyList<string>? GetCompatibleFrameworksOrNull(string? framework)

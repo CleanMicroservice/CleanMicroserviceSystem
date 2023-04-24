@@ -1,6 +1,8 @@
 using CleanMicroserviceSystem.Astra.Contract;
 using CleanMicroserviceSystem.Astra.Contract.NuGetPackages;
 using CleanMicroserviceSystem.Astra.Infrastructure.BaGet.Core.Search;
+using CleanMicroserviceSystem.Authentication.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
@@ -10,10 +12,14 @@ namespace CleanMicroserviceSystem.Astra.WebAPI.Controllers;
 public class SearchController : ControllerBase
 {
     private readonly ISearchService _searchService;
+    private readonly IAuthorizationService authorizationService;
 
-    public SearchController(ISearchService searchService)
+    public SearchController(
+        ISearchService searchService,
+        IAuthorizationService authorizationService)
     {
         this._searchService = searchService ?? throw new ArgumentNullException(nameof(searchService));
+        this.authorizationService = authorizationService;
     }
 
     [HttpGet]
@@ -24,16 +30,17 @@ public class SearchController : ControllerBase
         [FromQuery] int? take = null,
         [FromQuery] bool prerelease = false,
         [FromQuery] string? semVerLevel = null,
-
-        // These are unofficial parameters
         [FromQuery] string? packageType = null,
         [FromQuery] string? framework = null,
         CancellationToken cancellationToken = default)
     {
+        var validatePolicyResult = await this.authorizationService.AuthorizeAsync(this.HttpContext.User, IdentityContract.AstraAPIDeletePolicy);
+        var includeUnlisted = validatePolicyResult.Succeeded;
         var request = new SearchRequest
         {
             Skip = skip,
             Take = take,
+            IncludeUnlisted = includeUnlisted,
             IncludePrerelease = prerelease,
             IncludeSemVer2 = semVerLevel == NuGetServerContract.SemVerLevel,
             PackageType = packageType,
