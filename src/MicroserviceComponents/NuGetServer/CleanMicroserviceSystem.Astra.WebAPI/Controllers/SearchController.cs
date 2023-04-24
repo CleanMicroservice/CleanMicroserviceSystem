@@ -60,8 +60,6 @@ public class SearchController : ControllerBase
         [FromQuery] string semVerLevel = null,
         [FromQuery] int skip = 0,
         [FromQuery] int take = 20,
-
-        // These are unofficial parameters
         [FromQuery] string packageType = null,
         CancellationToken cancellationToken = default)
     {
