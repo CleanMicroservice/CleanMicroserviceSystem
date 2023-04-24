@@ -62,13 +62,14 @@
                             </MRow>
                         </MCardTitle>
                         <MCardSubtitle>
-                            <AuthorizeView Policy=@IdentityContract.AstraAPIWritePolicyName>
+                            <AuthorizeView Policy=@IdentityContract.AstraAPIDeletePolicyName>
                                 <Authorized>
-                                    @foreach (var version in package.Versions?.Select(version => version.Version) ?? Enumerable.Empty<string>())
+                                    @foreach (var version in package.Versions ?? Enumerable.Empty<SearchResultVersion>())
                                     {
-                                        <MChip Class="ma-1" Color="primary" TextColor="white" Outlined Small
-                                              Close OnCloseClick="()=>this.OnDeletePackageVersion(package, version)">
-                                            @version
+                                        <MChip Class="ma-1" Color=@(version.Listed?"primary":"secondary") TextColor="white" Outlined Small Close
+                                               CloseIcon=@(version.Listed?"mdi-delete":"mdi-check-circle")
+                                               OnCloseClick="()=>version.Listed?this.OnDeletePackageVersion(package, version):this.OnRelistPackageVersion(package, version)">
+                                            @version.Version
                                         </MChip>
                                     }
                                 </Authorized>
@@ -149,7 +150,7 @@
         this.ShowUploadPackageModal = true;
     }
 
-    protected async Task OnDeletePackageVersion(SearchResult package, string version)
+    protected async Task OnDeletePackageVersion(SearchResult package, SearchResultVersion version)
     {
         try
         {
@@ -157,13 +158,29 @@
             if (!confirmed) return;
 
             var response = await this.astraNuGetPackageClient.DeleteAsync(
-                this.nuGetServerOptions.Value.ApiKey, package.PackageId, version);
+                this.nuGetServerOptions.Value.ApiKey, package.PackageId, version.Version);
             response.EnsureSuccessStatusCode();
-            package.Versions = package.Versions
-                .Where(vers => !vers.Version.Equals(version, StringComparison.OrdinalIgnoreCase))
-                .ToList()
-                .AsReadOnly();
+            version.Listed = false;
             await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} deleted.", AlertTypes.Success);
+        }
+        catch (Exception ex)
+        {
+            await this.popupService.EnqueueSnackbarAsync(ex);
+        }
+    }
+
+    protected async Task OnRelistPackageVersion(SearchResult package, SearchResultVersion version)
+    {
+        try
+        {
+            var confirmed = await this.popupService.ConfirmAsync("Confirm", $"Are you sure to relist package: {package.PackageId}, version: {version} ?", AlertTypes.Warning);
+            if (!confirmed) return;
+
+            var response = await this.astraNuGetPackageClient.RelistAsync(
+                this.nuGetServerOptions.Value.ApiKey, package.PackageId, version.Version);
+            response.EnsureSuccessStatusCode();
+            version.Listed = true;
+            await this.popupService.EnqueueSnackbarAsync($"Package {package.PackageId} version {version} relisted.", AlertTypes.Success);
         }
         catch (Exception ex)
         {
