@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20230404175224_MigrateIdentityDbContext")]
+    [Migration("20230424113414_MigrateIdentityDbContext")]
     partial class MigrateIdentityDbContext
     {
         /// <inheritdoc />
@@ -223,13 +223,20 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         new
                         {
                             Id = 4,
+                            ClaimType = "AstraAPI",
+                            ClaimValue = "Delete",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
                             ClaimType = "ThemisAPI",
                             ClaimValue = "Read",
                             RoleId = 2
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 6,
                             ClaimType = "AstraAPI",
                             ClaimValue = "Read",
                             RoleId = 3

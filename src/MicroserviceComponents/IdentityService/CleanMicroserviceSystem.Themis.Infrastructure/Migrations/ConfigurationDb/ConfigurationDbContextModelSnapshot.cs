@@ -62,7 +62,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 4, 4, 17, 52, 29, 583, DateTimeKind.Utc).AddTicks(4181),
+                            CreatedOn = new DateTime(2023, 4, 24, 11, 34, 20, 692, DateTimeKind.Utc).AddTicks(4539),
                             Description = "ThemisAPI",
                             Enabled = true,
                             Name = "ThemisAPI"
@@ -113,7 +113,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 4, 4, 17, 52, 29, 583, DateTimeKind.Utc).AddTicks(4236),
+                            CreatedOn = new DateTime(2023, 4, 24, 11, 34, 20, 692, DateTimeKind.Utc).AddTicks(4599),
                             Description = "Tethys",
                             Enabled = true,
                             Name = "Tethys",
