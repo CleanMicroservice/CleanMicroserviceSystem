@@ -1,5 +1,13 @@
 # CleanMicroserviceSystem.Astra.WebAPI
 
+## Packages
+
+### Publish
+
+```
+dotnet nuget push -s http://10.1.100.73:21003 .\automapper.12.0.1.nupkg -k ASTRA_NUGET_SERVER_API_KEY_PRODUCTION
+```
+
 ## Generate Database Migrations code file
 
 1. Select `CleanMicroserviceSystem.Astra.WebAPI` or your specified project as Startup project;
