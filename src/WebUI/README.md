@@ -1,5 +1,17 @@
 # Aphrodite
 
+## Workload
+
+```
+cd .\WebUI\CleanMicroserviceSystem.Aphrodite\
+dotnet workload /h
+dotnet workload restore
+dotnet workload list
+dotnet workload update
+dotnet workload clean
+dotnet workload repair
+```
+
 ## Icons
 
 > Home: [Material Design Icons - Icon Library - Pictogrammers](https://pictogrammers.com/library/mdi/)
