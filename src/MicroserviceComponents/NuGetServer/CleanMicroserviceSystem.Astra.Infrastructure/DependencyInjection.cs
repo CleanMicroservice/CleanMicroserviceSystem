@@ -43,6 +43,7 @@ public static class DependencyInjection
                 .UseLazyLoadingProxies())
             .Configure<BaGetOptions>(options =>
             {
+                options.PackageDeletionBehavior = PackageDeletionBehavior.HardDelete;
                 options.ApiKey = configuration.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey;
             })
             .AddBaGetApplication(bagetApplication =>
