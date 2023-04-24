@@ -91,10 +91,10 @@ public static class IdentityDatabaseInitializer
         {
             new IdentityRoleClaim<int> { Id=1, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
             new IdentityRoleClaim<int> { Id=2, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Write },
-            new IdentityRoleClaim<int> { Id=3, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Write },
-            new IdentityRoleClaim<int> { Id=4, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Delete },
-            new IdentityRoleClaim<int> { Id=5, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
-            new IdentityRoleClaim<int> { Id=6, RoleId = IdentityContract.CommonRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Read },
+            new IdentityRoleClaim<int> { Id=3, RoleId = IdentityContract.AdministratorRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Delete },
+            new IdentityRoleClaim<int> { Id=4, RoleId = IdentityContract.OperatorRoleId, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
+            new IdentityRoleClaim<int> { Id=5, RoleId = IdentityContract.CommonRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Read },
+            new IdentityRoleClaim<int> { Id=6, RoleId = IdentityContract.CommonRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Write },
         });
 
         return builder;

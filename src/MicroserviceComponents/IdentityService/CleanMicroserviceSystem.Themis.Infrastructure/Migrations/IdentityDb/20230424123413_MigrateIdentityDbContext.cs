@@ -186,10 +186,10 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                 {
                     { 1, "ThemisAPI", "Read", 1 },
                     { 2, "ThemisAPI", "Write", 1 },
-                    { 3, "AstraAPI", "Write", 1 },
-                    { 4, "AstraAPI", "Delete", 1 },
-                    { 5, "ThemisAPI", "Read", 2 },
-                    { 6, "AstraAPI", "Read", 3 }
+                    { 3, "AstraAPI", "Delete", 1 },
+                    { 4, "ThemisAPI", "Read", 2 },
+                    { 5, "AstraAPI", "Read", 3 },
+                    { 6, "AstraAPI", "Write", 3 }
                 });
 
             migrationBuilder.InsertData(

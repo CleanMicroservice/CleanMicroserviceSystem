@@ -214,28 +214,28 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.IdentityDb
                         {
                             Id = 3,
                             ClaimType = "AstraAPI",
-                            ClaimValue = "Write",
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClaimType = "AstraAPI",
                             ClaimValue = "Delete",
                             RoleId = 1
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 4,
                             ClaimType = "ThemisAPI",
                             ClaimValue = "Read",
                             RoleId = 2
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 5,
                             ClaimType = "AstraAPI",
                             ClaimValue = "Read",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ClaimType = "AstraAPI",
+                            ClaimValue = "Write",
                             RoleId = 3
                         });
                 });

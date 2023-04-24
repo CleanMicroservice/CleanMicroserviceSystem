@@ -76,12 +76,12 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
             migrationBuilder.InsertData(
                 table: "ApiResources",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name" },
-                values: new object[] { 1, 1, new DateTime(2023, 4, 24, 11, 34, 20, 692, DateTimeKind.Utc).AddTicks(4539), "ThemisAPI", true, null, null, "ThemisAPI" });
+                values: new object[] { 1, 1, new DateTime(2023, 4, 24, 12, 34, 15, 993, DateTimeKind.Utc).AddTicks(8880), "ThemisAPI", true, null, null, "ThemisAPI" });
 
             migrationBuilder.InsertData(
                 table: "Clients",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name", "Secret" },
-                values: new object[] { 1, 1, new DateTime(2023, 4, 24, 11, 34, 20, 692, DateTimeKind.Utc).AddTicks(4599), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
+                values: new object[] { 1, 1, new DateTime(2023, 4, 24, 12, 34, 15, 993, DateTimeKind.Utc).AddTicks(8952), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
 
             migrationBuilder.InsertData(
                 table: "ClientClaims",
