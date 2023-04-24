@@ -10,6 +10,9 @@ public class SearchResultVersion
     [JsonPropertyName("version")]
     public string Version { get; set; }
 
+    [JsonPropertyName("listed")]
+    public bool Listed { get; set; }
+
     [JsonPropertyName("downloads")]
     public long Downloads { get; set; }
 }

@@ -30,7 +30,6 @@ public class SearchResponseBuilder : ISearchResponseBuilder
                 Version = latest.Version.ToFullString(),
                 Description = latest.Description,
                 Authors = latest.Authors,
-                Listed = latest.Listed,
                 IconUrl = iconUrl,
                 LicenseUrl = latest.LicenseUrlString,
                 ProjectUrl = latest.ProjectUrlString,
@@ -42,6 +41,7 @@ public class SearchResponseBuilder : ISearchResponseBuilder
                 Versions = versions
                     .Select(p => new SearchResultVersion
                     {
+                        Listed = p.Listed,
                         RegistrationLeafUrl = this._url.GetRegistrationLeafUrl(p.Id, p.Version),
                         Version = p.Version.ToFullString(),
                         Downloads = p.Downloads,

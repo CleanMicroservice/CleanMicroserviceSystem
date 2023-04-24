@@ -45,9 +45,6 @@ public class SearchResult
     [JsonPropertyName("totalDownloads")]
     public long TotalDownloads { get; set; }
 
-    [JsonPropertyName("listed")]
-    public bool Listed { get; set; }
-
     [JsonPropertyName("versions")]
     public IReadOnlyList<SearchResultVersion> Versions { get; set; }
 }
