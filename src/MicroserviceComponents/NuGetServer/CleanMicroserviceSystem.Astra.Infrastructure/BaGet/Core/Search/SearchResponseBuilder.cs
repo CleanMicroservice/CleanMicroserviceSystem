@@ -30,6 +30,7 @@ public class SearchResponseBuilder : ISearchResponseBuilder
                 Version = latest.Version.ToFullString(),
                 Description = latest.Description,
                 Authors = latest.Authors,
+                Listed = latest.Listed,
                 IconUrl = iconUrl,
                 LicenseUrl = latest.LicenseUrlString,
                 ProjectUrl = latest.ProjectUrlString,
