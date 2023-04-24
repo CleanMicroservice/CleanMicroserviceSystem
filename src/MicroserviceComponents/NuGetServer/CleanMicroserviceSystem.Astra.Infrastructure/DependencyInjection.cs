@@ -29,6 +29,7 @@ public static class DependencyInjection
             {
                 options.AddPolicy(IdentityContract.AstraAPIReadPolicyName, IdentityContract.AstraAPIReadPolicy);
                 options.AddPolicy(IdentityContract.AstraAPIWritePolicyName, IdentityContract.AstraAPIWritePolicy);
+                options.AddPolicy(IdentityContract.AstraAPIDeletePolicyName, IdentityContract.AstraAPIDeletePolicy);
             })
             .AddDbContext<DbContext, AstraDbContext>(options => options
                 .UseSqlite(connectionString)

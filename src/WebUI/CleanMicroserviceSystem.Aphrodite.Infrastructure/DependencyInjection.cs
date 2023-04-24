@@ -37,6 +37,7 @@ public static class DependencyInjection
             options.AddPolicy(IdentityContract.ThemisAPIWritePolicyName, IdentityContract.ThemisAPIWritePolicy);
             options.AddPolicy(IdentityContract.AstraAPIReadPolicyName, IdentityContract.AstraAPIReadPolicy);
             options.AddPolicy(IdentityContract.AstraAPIWritePolicyName, IdentityContract.AstraAPIWritePolicy);
+            options.AddPolicy(IdentityContract.AstraAPIDeletePolicyName, IdentityContract.AstraAPIDeletePolicy);
         });
         _ = services
             .AddSingleton<CookieStorage>()
