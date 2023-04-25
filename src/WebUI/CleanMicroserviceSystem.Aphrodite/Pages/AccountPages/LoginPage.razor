@@ -15,48 +15,60 @@
     </MCol>
     <MCol Class="d-flex indigo lighten-5">
         <MCard Class="mx-auto my-auto" Rounded=@("xl") Width=360 Loading=CardLoading>
-            <ProgressContent>
-                <MProgressLinear Color="primary" Height="10" Indeterminate />
-            </ProgressContent>
-            <ChildContent>
-                <MRow Justify="@JustifyTypes.Center">
-                    <MAvatar Size="64" Color="primary" Class="mx-auto my-auto">
-                        <MImage Src="/img/Avatar.png"></MImage>
-                    </MAvatar>
-                </MRow>
-                <MCardTitle>
-                    <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Login</p>
-                </MCardTitle>
-                <MCardText>
-                    @if (!string.IsNullOrEmpty(Message))
-                    {
-                        <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
-                        @Message
-                    </MAlert>
-                    }
-                    <MTextField @bind-Value="@this.UserName" Label="UserName"
-                                Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
-                                BackgroundColor="grey lighten-4" Clearable Flat Solo Dense>
-                    </MTextField>
-                    <MTextField @bind-Value="@this.Password" Label="Password"
-                                AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
-                                Type="@(ShowPassword ? "text" : "password")"
-                                OnAppendClick="() => ShowPassword = !ShowPassword"
-                                Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
-                                BackgroundColor="grey lighten-4" Clearable Flat Solo Dense>
-                    </MTextField>
-                </MCardText>
-                <MCardActions>
-                    <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="Login">Login</MButton>
-                </MCardActions>
-            </ChildContent>
+            <MRow Justify="@JustifyTypes.Center">
+                <MAvatar Size="64" Color="primary" Class="mx-auto my-auto">
+                    <MImage Src="/img/Avatar.png"></MImage>
+                </MAvatar>
+            </MRow>
+            <MCardTitle>
+                <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Login</p>
+            </MCardTitle>
+            <MCardText Class="py-0">
+                @if (!string.IsNullOrEmpty(Message))
+                {
+                    <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
+                    @Message
+                </MAlert>
+                }
+                <MTextField @bind-Value="@this.UserName" Label="UserName"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            BackgroundColor="grey lighten-4" Clearable Filled Rounded Dense>
+                </MTextField>
+                <MTextField @bind-Value="@this.Password" Label="Password"
+                            AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
+                            Type="@(ShowPassword ? "text" : "password")"
+                            OnAppendClick="() => ShowPassword = !ShowPassword"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            BackgroundColor="grey lighten-4" Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCardText>
+            <MCardActions>
+                <MContainer>
+                    <MRow>
+                        <MCol Cols=@("auto")>
+                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.DefaultUri)">
+                                <MIcon>mdi-home</MIcon>
+                                Home
+                            </MButton>
+                        </MCol>
+                        <MSpacer />
+                        <MCol Cols=@("auto")>
+                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.RegisterUri)">
+                                <MIcon>mdi-account-plus</MIcon>
+                                Register
+                            </MButton>
+                        </MCol>
+                    </MRow>
+                    <MRow>
+                        <MCol>
+                            <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="OnLogin">Login</MButton>
+                        </MCol>
+                    </MRow>
+                </MContainer>
+            </MCardActions>
         </MCard>
     </MCol>
 </MRow>
-
-@*
-    TODO: Windows Domain Login: https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/windowsauth?view=aspnetcore-7.0&tabs=visual-studio
-*@
 
 @code {
     private StringBoolean CardLoading { get; set; } = default!;
@@ -68,16 +80,16 @@
     private string? Message { get; set; }
     private Func<string?, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "Filed shouldn't be empty.";
 
-    private async Task Login()
+    private async Task OnLogin()
     {
         if (notEmptyRule.Invoke(this.UserName) != true)
         {
-            this.Message = "User name is empty.";
+            this.Message = "User name is invalid.";
             return;
         }
         if (notEmptyRule.Invoke(this.Password) != true)
         {
-            this.Message = "Password is empty.";
+            this.Message = "Password is invalid.";
             return;
         }
 

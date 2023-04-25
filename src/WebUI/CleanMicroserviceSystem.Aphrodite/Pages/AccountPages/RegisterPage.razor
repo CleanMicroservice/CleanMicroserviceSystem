@@ -1,0 +1,168 @@
+﻿@page "/account/register"
+@layout EmptyLayout
+@attribute [AllowAnonymous]
+@inject ILogger<RegisterPage> logger
+@inject NavigationManager navigationManager
+@inject ThemisUserClient themisUserClient
+
+<PageTitle>Register</PageTitle>
+
+<MRow Class="ma-0" Style="height:100%">
+    <MCol Class="d-none d-md-flex align-center">
+        <MImage Class="mx-auto" LazySrc="/img/LoginImage.jpg" Src="/img/LoginImage.jpg">
+        </MImage>
+    </MCol>
+    <MCol Class="d-flex indigo lighten-5">
+        <MCard Class="mx-auto my-auto" Rounded=@("xl") Width=360 Loading=CardLoading>
+            <MRow Justify="@JustifyTypes.Center">
+                <MAvatar Size="64" Color="primary" Class="mx-auto my-auto">
+                    <MImage Src="/img/Avatar.png"></MImage>
+                </MAvatar>
+            </MRow>
+            <MCardTitle>
+                <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Register</p>
+            </MCardTitle>
+            <MCardText Class="py-0">
+                @if (!string.IsNullOrEmpty(Message))
+                {
+                    <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
+                    @Message
+                </MAlert>
+                }
+
+                <MTextField Label="UserName" @bind-Value="@this.UserRegisterRequest.UserName"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            Color="primary" PrependInnerIcon="mdi-account"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+                <MTextField Label="Email" @bind-Value="@this.UserRegisterRequest.Email"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            Color="primary" PrependInnerIcon="mdi-email"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+                <MTextField Label="Phone" @bind-Value="@this.UserRegisterRequest.PhoneNumber"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            Color="primary" PrependInnerIcon="mdi-phone"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+                <MTextField Label="Password" @bind-Value="@this.UserRegisterRequest.Password"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            Color="primary" PrependInnerIcon="mdi-lock-question"
+                            AppendIcon="@(ShowPassword ? "mdi-eye" : "mdi-eye-off")"
+                            Type="@(ShowPassword ? "text" : "password")"
+                            OnAppendClick="() => ShowPassword = !ShowPassword"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+                <MTextField Label="ConfirmPassword" @bind-Value="@this.UserRegisterRequest.ConfirmPassword"
+                            Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
+                            Color="primary" PrependInnerIcon="mdi-lock-question"
+                            AppendIcon="@(ShowConfirmPassword ? "mdi-eye" : "mdi-eye-off")"
+                            Type="@(ShowConfirmPassword ? "text" : "password")"
+                            OnAppendClick="() => ShowConfirmPassword = !ShowConfirmPassword"
+                            Clearable Filled Rounded Dense>
+                </MTextField>
+            </MCardText>
+            <MCardActions>
+                <MContainer>
+                    <MRow>
+                        <MCol Cols=@("auto")>
+                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.DefaultUri)">
+                                <MIcon>mdi-home</MIcon>
+                                Home
+                            </MButton>
+                        </MCol>
+                        <MSpacer />
+                        <MCol Cols=@("auto")>
+                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.LoginUri)">
+                                <MIcon>mdi-login</MIcon>
+                                Login
+                            </MButton>
+                        </MCol>
+                    </MRow>
+                    <MRow>
+                        <MCol>
+                            <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="OnRegisterUser">Register</MButton>
+                        </MCol>
+                    </MRow>
+                </MContainer>
+            </MCardActions>
+        </MCard>
+    </MCol>
+</MRow>
+
+@code {
+    private StringBoolean CardLoading { get; set; } = default!;
+    private bool ButtonLoading { get; set; }
+    private bool ButtonDisabled { get; set; }
+    private bool ShowPassword { get; set; }
+    private bool ShowConfirmPassword { get; set; }
+    public UserRegisterRequest UserRegisterRequest { get; set; } = new();
+    private string? Message { get; set; }
+    private Func<string?, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "Filed shouldn't be empty.";
+
+    private async Task OnRegisterUser()
+    {
+        if (notEmptyRule.Invoke(this.UserRegisterRequest.UserName) != true)
+        {
+            this.Message = "User name is invalid.";
+            return;
+        }
+        if (notEmptyRule.Invoke(this.UserRegisterRequest.Password) != true)
+        {
+            this.Message = "Password is invalid.";
+            return;
+        }
+        if (notEmptyRule.Invoke(this.UserRegisterRequest.Email) != true)
+        {
+            this.Message = "Email is invalid.";
+            return;
+        }
+        if (notEmptyRule.Invoke(this.UserRegisterRequest.PhoneNumber) != true)
+        {
+            this.Message = "Phone number is invalid.";
+            return;
+        }
+        if (notEmptyRule.Invoke(this.UserRegisterRequest.ConfirmPassword) != true)
+        {
+            this.Message = "Confirm password is invalid.";
+            return;
+        }
+        if (this.UserRegisterRequest.ConfirmPassword != this.UserRegisterRequest.Password)
+        {
+            this.Message = "Confirm password doesn't match with Password.";
+            return;
+        }
+
+        this.logger.LogInformation($"Registering [{this.UserRegisterRequest.UserName}]");
+        this.CardLoading = true;
+        this.ButtonLoading = true;
+        this.ButtonDisabled = true;
+        this.Message = null;
+
+        try
+        {
+            var commonResult = await this.themisUserClient.RegisterUserAsync(this.UserRegisterRequest!);
+            if (commonResult?.Succeeded ?? false)
+            {
+                this.logger.LogInformation($"Register [{this.UserRegisterRequest.UserName}] successfully.");
+                this.navigationManager.NavigateTo(RouterContract.DefaultUri);
+            }
+            else
+            {
+                this.logger.LogWarning($"Register [{this.UserRegisterRequest.UserName}] failed: \n{commonResult!.ToString()}");
+                this.Message = commonResult.ToString();
+            }
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, $"Register [{this.UserRegisterRequest.UserName}] meets error.");
+            this.Message = ex.Message;
+        }
+        finally
+        {
+            this.CardLoading = false;
+            this.ButtonLoading = false;
+            this.ButtonDisabled = false;
+        }
+    }
+}

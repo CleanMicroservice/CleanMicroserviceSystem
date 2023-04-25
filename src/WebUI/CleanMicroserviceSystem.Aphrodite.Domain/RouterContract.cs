@@ -7,6 +7,7 @@ public class RouterContract
     public const string UnauthorizedUri = "/system/unauthorized";
 
     public const string LoginUri = "/account/login";
+    public const string RegisterUri = "/account/register";
     public const string ProfileUri = "/account/profile";
     public const string SettingsUri = "/system/settings";
     public const string UsersUri = "/permission/users";
