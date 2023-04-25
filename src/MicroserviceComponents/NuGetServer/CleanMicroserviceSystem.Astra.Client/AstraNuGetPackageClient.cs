@@ -22,8 +22,8 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         this.httpClient.DefaultRequestHeaders.Add(NuGetServerContract.ApiKeyHeader, options.Value.ApiKey);
     }
 
-    public async Task<SearchResponse> SearchAsync(
-        string q = null,
+    public async Task<SearchResponse?> SearchAsync(
+        string? q = null,
         int? skip = null,
         int? take = null,
         bool? prerelease = true,
@@ -76,7 +76,7 @@ public class AstraNuGetPackageClient : OceanusServiceClientBase
         var uri = this.BuildUri($"/api/v2/package/{packageId}/{packageVersion}");
         var content = new StringContent(string.Empty);
         content.Headers.Add(NuGetServerContract.ApiKeyHeader, apiKey);
-        var responseMessage = await this.httpClient.PostAsync(uri, content);
+        var responseMessage = await this.httpClient.PostAsync(uri, content, cancellationToken);
         return responseMessage;
     }
 }

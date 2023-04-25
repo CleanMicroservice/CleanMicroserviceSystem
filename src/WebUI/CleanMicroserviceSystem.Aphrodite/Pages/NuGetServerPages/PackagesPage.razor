@@ -21,7 +21,10 @@
                             OnSave="this.OnUploadPackageModalSave"
                             OnCancel="this.OnUploadPackageModalCancel">
                         <ChildContent>
-                            <UploadPackagesComponent BrowserFiles=@this.PackageFiles />
+                            <MFileInput TValue="List<IBrowserFile>" @bind-Value=this.PackageFiles
+                                                Chips Clearable Color="primary" Multiple Counter=true ShowSize
+                                        Label="Select package files (*.nupkg) ...">
+                            </MFileInput>
                         </ChildContent>
                     </PModal>
                 </AuthorizeView>
@@ -66,7 +69,7 @@
                                 <Authorized>
                                     @foreach (var version in package.Versions ?? Enumerable.Empty<SearchResultVersion>())
                                     {
-                                        <MChip Class="ma-1" Color=@(version.Listed?"primary":"secondary") TextColor="white" Outlined Small Close
+                                        <MChip @key=@($"{package.PackageId}_{@version.Version}") Class="ma-1" Color=@(version.Listed?"primary":"secondary") TextColor="white" Outlined Small Close
                                                CloseIcon=@(version.Listed?"mdi-delete":"mdi-check-circle")
                                                OnCloseClick="()=>version.Listed?this.OnDeletePackageVersion(package, version):this.OnRelistPackageVersion(package, version)">
                                             @version.Version
@@ -120,7 +123,7 @@
     protected string? LocalSearchKeyword { get; set; }
     protected bool ShowUploadPackageModal { get; set; } = false;
     protected SearchResponse? SearchResponse { get; set; } = default!;
-    protected List<IBrowserFile> PackageFiles { get; set; } = new List<IBrowserFile>();
+    protected List<IBrowserFile> PackageFiles { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -212,6 +215,8 @@
         await this.popupService.EnqueueSnackbarAsync(
             $"Upload {successed.Count} packages successfully: {string.Join(", ", successed)}; {failedExceptions.Count} packages failed: {string.Join(", ", failedExceptions.Select(failed => $"{failed.Key}: {failed.Value?.Message}"))}",
             !failedExceptions.Any() ? AlertTypes.Success : !successed.Any() ? AlertTypes.Error : AlertTypes.Warning);
+
+        await this.LoadPackages();
     }
 
     protected async Task OnUploadPackageModalCancel()
