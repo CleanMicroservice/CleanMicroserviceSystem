@@ -6,9 +6,9 @@ public class ClientClaim : Entity<int>
 {
     public int ClientId { get; set; }
 
-    public virtual Client Client { get; set; }
+    public virtual Client Client { get; set; } = default!;
 
-    public string ClaimType { get; set; }
+    public string ClaimType { get; set; } = default!;
 
     public string? ClaimValue { get; set; }
 }

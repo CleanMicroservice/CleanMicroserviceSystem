@@ -104,6 +104,7 @@ public class ClientManager : IClientManager
     public async Task<IEnumerable<ClientClaim>> GetClaimsAsync(int clientId)
     {
         this.logger.LogDebug($"Get client claims: {clientId}");
+        await Task.CompletedTask;
         return this.clientClaimRepository.AsQueryable().Where(claim => claim.ClientId == clientId);
     }
 

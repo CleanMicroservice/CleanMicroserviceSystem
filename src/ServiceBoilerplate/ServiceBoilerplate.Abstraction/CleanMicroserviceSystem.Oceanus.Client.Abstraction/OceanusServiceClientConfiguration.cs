@@ -2,5 +2,5 @@
 
 public class OceanusServiceClientConfiguration
 {
-    public string GatewayClientName { get; set; }
+    public string GatewayClientName { get; set; } = default!;
 }

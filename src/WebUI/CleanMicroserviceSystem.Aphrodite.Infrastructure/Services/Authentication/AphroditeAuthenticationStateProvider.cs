@@ -59,6 +59,7 @@ public class AphroditeAuthenticationStateProvider : AuthenticationStateProvider
         {
             this.ClearState();
         }
+        await Task.CompletedTask;
     }
 
     private void ClearState()

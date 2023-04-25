@@ -214,7 +214,7 @@ public class ClientController : ControllerBase
         var commonResult = new CommonResult();
 
         var claimsToRemove = existingClaims
-            .Where(claim => !requestClaimSet.Contains((claim.ClaimType, claim.ClaimValue)))
+            .Where(claim => !requestClaimSet.Contains((claim.ClaimType, claim.ClaimValue!)))
             .Select(claim => claim.Id)
             .ToArray();
         if (claimsToRemove.Any())
@@ -293,7 +293,7 @@ public class ClientController : ControllerBase
         var existingClaims = await this.clientManager.GetClaimsAsync(client.Id);
         var claimsToRemoveSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
         var claimsToRemove = existingClaims
-            .Where(claim => claimsToRemoveSet.Contains((claim.ClaimType, claim.ClaimValue)))
+            .Where(claim => claimsToRemoveSet.Contains((claim.ClaimType!, claim.ClaimValue!)))
             .ToArray();
         var commonResult = new CommonResult();
         if (claimsToRemove.Any())

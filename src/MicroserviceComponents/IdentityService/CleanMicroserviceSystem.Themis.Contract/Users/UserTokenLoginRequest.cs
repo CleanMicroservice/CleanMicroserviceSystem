@@ -6,8 +6,8 @@ namespace CleanMicroserviceSystem.Themis.Contract.Users;
 public class UserTokenLoginRequest : ContractBase
 {
     [Required(ErrorMessage = "User name is required")]
-    public string UserName { get; set; }
+    public string UserName { get; set; } = default!;
 
     [Required(ErrorMessage = "Password is required")]
-    public string Password { get; set; }
+    public string Password { get; set; } = default!;
 }

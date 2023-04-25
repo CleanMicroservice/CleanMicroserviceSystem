@@ -59,7 +59,7 @@
 *@
 
 @code {
-    private StringBoolean CardLoading { get; set; }
+    private StringBoolean CardLoading { get; set; } = default!;
     private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
     private string? UserName { get; set; }
@@ -89,7 +89,7 @@
 
         try
         {
-            var commonResult = await this.themisUserTokenClient.LoginUserAsync(this.UserName, this.Password);
+            var commonResult = await this.themisUserTokenClient.LoginUserAsync(this.UserName!, this.Password!);
             if (commonResult?.Succeeded ?? false)
             {
                 this.logger.LogInformation($"Login [{this.UserName}] successfully.");

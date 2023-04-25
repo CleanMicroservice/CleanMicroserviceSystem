@@ -23,7 +23,7 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
                 return false;
             if (token.Payload.Exp.HasValue && token.ValidTo < utcNow)
                 return false;
-
+            await Task.CompletedTask;
             return true;
         }
     }

@@ -2,11 +2,11 @@
 
 public class JwtBearerConfiguration
 {
-    public string JwtSecurityKey { get; set; }
+    public string JwtSecurityKey { get; set; } = null!;
 
-    public string JwtIssuer { get; set; }
+    public string JwtIssuer { get; set; } = null!;
 
-    public string JwtAudience { get; set; }
+    public string JwtAudience { get; set; } = null!;
 
     public int JwtExpiryForUser { get; set; }
 

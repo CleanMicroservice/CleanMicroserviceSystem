@@ -6,7 +6,7 @@ namespace CleanMicroserviceSystem.Themis.Contract.ApiResources;
 public class ApiResourceCreateRequest : ContractBase
 {
     [Required(ErrorMessage = "Api resource name is required")]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     public bool Enabled { get; set; }
 

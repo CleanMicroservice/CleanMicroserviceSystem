@@ -193,7 +193,7 @@ public class UserController : ControllerBase
         newUser = await this.userManager.FindByNameAsync(request.UserName);
 
         // TODO: Split logic by intermediator
-        result = await this.userManager.AddToRoleAsync(newUser, IdentityContract.CommonRole);
+        result = await this.userManager.AddToRoleAsync(newUser!, IdentityContract.CommonRole);
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors)

@@ -165,7 +165,7 @@
     protected int CurrentPageIndex { get; set; } = 1;
     protected int TotalPageCount => (int)Math.Ceiling(this.Users.Count() / (double)CurrentPageSize);
     protected List<UserInformationResponse> Users { get; set; } = new List<UserInformationResponse>();
-    protected UserRegisterRequest UserRegisterRequest { get; set; }
+    protected UserRegisterRequest UserRegisterRequest { get; set; } = default!;
     protected const string ActionsHeaderName = "Actions";
     protected readonly List<DataTableHeader<UserInformationResponse>> UserHeaders = new()
     {
@@ -312,6 +312,7 @@
     {
         this.UserRegisterRequest = new();
         this.ShowCreateUserModal = true;
+        await Task.CompletedTask;
     }
 
     protected async Task OnCreateUserModalSave()
@@ -365,5 +366,6 @@
     protected async Task OnCreateUserModelCancel()
     {
         this.ShowCreateUserModal = false;
+        await Task.CompletedTask;
     }
 }

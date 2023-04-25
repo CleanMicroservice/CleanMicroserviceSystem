@@ -40,7 +40,7 @@ public class UranusRequestMapper : IRequestMapper
         }
     }
 
-    private async Task<HttpContent> MapContent(HttpRequest request)
+    private async Task<HttpContent?> MapContent(HttpRequest request)
     {
         if (request.Body == null)
         {

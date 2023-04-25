@@ -6,8 +6,8 @@ namespace CleanMicroserviceSystem.Themis.Contract.Clients;
 public class ClientTokenLoginRequest : ContractBase
 {
     [Required(ErrorMessage = "Client name is required")]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     [Required(ErrorMessage = "Secret is required")]
-    public string Secret { get; set; }
+    public string Secret { get; set; } = default!;
 }

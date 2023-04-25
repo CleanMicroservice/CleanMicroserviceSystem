@@ -6,7 +6,7 @@ namespace CleanMicroserviceSystem.Themis.Contract.Clients;
 public class ClientCreateRequest : ContractBase
 {
     [Required(ErrorMessage = "Client name is required")]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     public bool Enabled { get; set; }
 

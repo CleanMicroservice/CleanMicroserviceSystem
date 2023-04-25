@@ -131,7 +131,7 @@
     protected int CurrentPageIndex { get; set; } = 1;
     protected int TotalPageCount => (int)Math.Ceiling(this.Roles.Count() / (double)CurrentPageSize);
     protected List<RoleInformationResponse> Roles { get; set; } = new List<RoleInformationResponse>();
-    protected RoleCreateRequest RoleCreateRequest { get; set; }
+    protected RoleCreateRequest RoleCreateRequest { get; set; } = default!;
     protected const string ActionsHeaderName = "Actions";
     protected readonly List<DataTableHeader<RoleInformationResponse>> RoleHeaders = new()
     {
@@ -202,6 +202,7 @@
     {
         this.RoleCreateRequest = new();
         this.ShowCreateRoleModal = true;
+        await Task.CompletedTask;
     }
 
     protected async Task OnCreateRoleModalSave()
@@ -236,5 +237,6 @@
     protected async Task OnCreateRoleModelCancel()
     {
         this.ShowCreateRoleModal = false;
+        await Task.CompletedTask;
     }
 }

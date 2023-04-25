@@ -10,7 +10,7 @@
 
 <MCard Flat Rounded=@("xl")>
     <MCardText Class="pa-6">
-        <PPageHeader Title="Packages" Subtitle=@($"{this.SearchResponse.TotalHits} packages in total.") OnSearch=this.LoadPackages ShowFiltersByDefault>
+        <PPageHeader Title="Packages" Subtitle=@($"{this.SearchResponse?.TotalHits??0} packages in total.") OnSearch=this.LoadPackages ShowFiltersByDefault>
             <LeftActions>
                 <AuthorizeView Policy="@IdentityContract.AstraAPIWritePolicyName">
                     <MButton Rounded Color="primary" OnClick=@this.OnShowUploadPackageModal>
@@ -119,7 +119,7 @@
     protected string? Keyword { get; set; }
     protected string? LocalSearchKeyword { get; set; }
     protected bool ShowUploadPackageModal { get; set; } = false;
-    protected SearchResponse SearchResponse { get; set; } = SearchResponse.Empty;
+    protected SearchResponse? SearchResponse { get; set; } = default!;
     protected List<IBrowserFile> PackageFiles { get; set; } = new List<IBrowserFile>();
 
     protected override async Task OnInitializedAsync()
@@ -148,6 +148,7 @@
     protected async Task OnShowUploadPackageModal()
     {
         this.ShowUploadPackageModal = true;
+        await Task.CompletedTask;
     }
 
     protected async Task OnDeletePackageVersion(SearchResult package, SearchResultVersion version)
@@ -216,5 +217,6 @@
     protected async Task OnUploadPackageModalCancel()
     {
         this.ShowUploadPackageModal = false;
+        await Task.CompletedTask;
     }
 }

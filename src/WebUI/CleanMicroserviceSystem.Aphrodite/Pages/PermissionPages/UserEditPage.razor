@@ -127,14 +127,14 @@
 
     public class UserClaimTreeModel
     {
-        public string Type { get; set; }
+        public string Type { get; set; } = default!;
 
-        public string Value { get; set; }
+        public string Value { get; set; } = default!;
 
-        public List<UserClaimTreeModel> Children { get; set; }
+        public List<UserClaimTreeModel> Children { get; set; } = default!;
     }
 
-    protected StringBoolean CardLoading { get; set; }
+    protected StringBoolean CardLoading { get; set; } = default!;
     protected string? LocalRolesSearchKeyword { get; set; }
     protected string? LocalClaimsSearchKeyword { get; set; }
     protected UserInformationResponse CurrentUser { get; set; } = new UserInformationResponse();
@@ -186,14 +186,14 @@
                 .Select(group => new UserClaimTreeModel()
                     {
                         Type = group.Key,
-                        Children = group.Select(claim => new UserClaimTreeModel() { Type = claim.Type, Value = claim.Value }).ToList(),
+                        Children = group.Select(claim => new UserClaimTreeModel() { Type = claim.Type, Value = claim.Value! }).ToList(),
                     });
             this.AllClaims.Clear();
             this.AllClaims.AddRange(claimTreeModels);
 
             var userClaims = await this.themisUserClient.GetUserClaimsAsync(userId);
             this.UserClaims.Clear();
-            this.UserClaims.AddRange((userClaims ?? Enumerable.Empty<ClaimInformationResponse>()).Select(claim => (claim.Type, claim.Value)));
+            this.UserClaims.AddRange((userClaims ?? Enumerable.Empty<ClaimInformationResponse>()).Select(claim => (claim.Type!, claim.Value!)));
         }
         catch (Exception ex)
         {
@@ -238,7 +238,7 @@
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)

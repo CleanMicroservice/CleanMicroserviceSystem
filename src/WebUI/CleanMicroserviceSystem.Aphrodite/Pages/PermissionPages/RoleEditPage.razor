@@ -115,14 +115,14 @@
 
     public class RoleClaimTreeModel
     {
-        public string Type { get; set; }
+        public string Type { get; set; } = default!;
 
-        public string Value { get; set; }
+        public string Value { get; set; } = default!;
 
-        public List<RoleClaimTreeModel> Children { get; set; }
+        public List<RoleClaimTreeModel> Children { get; set; } = default!;
     }
 
-    protected StringBoolean CardLoading { get; set; }
+    protected StringBoolean CardLoading { get; set; } = default!;
     protected string? LocalUsersSearchKeyword { get; set; }
     protected string? LocalClaimsSearchKeyword { get; set; }
     protected RoleInformationResponse CurrentRole { get; set; } = new RoleInformationResponse();
@@ -172,14 +172,14 @@
                 .Select(group => new RoleClaimTreeModel()
                     {
                         Type = group.Key,
-                        Children = group.Select(claim => new RoleClaimTreeModel() { Type = claim.Type, Value = claim.Value }).ToList(),
+                        Children = group.Select(claim => new RoleClaimTreeModel() { Type = claim.Type, Value = claim.Value! }).ToList(),
                     });
             this.AllClaims.Clear();
             this.AllClaims.AddRange(claimTreeModels);
 
             var roleClaims = await this.themisRoleClient.GetRoleClaimsAsync(roleId);
             this.RoleClaims.Clear();
-            this.RoleClaims.AddRange((roleClaims ?? Enumerable.Empty<ClaimInformationResponse>()).Select(claim => (claim.Type, claim.Value)));
+            this.RoleClaims.AddRange((roleClaims ?? Enumerable.Empty<ClaimInformationResponse>()).Select(claim => (claim.Type, claim.Value!)));
         }
         catch (Exception ex)
         {
@@ -212,7 +212,7 @@
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"Role {this.RoleUpdateRequest.RoleName} ({this.CurrentRole.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+                await this.popupService.EnqueueSnackbarAsync($"Role {this.RoleUpdateRequest.RoleName} ({this.CurrentRole.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)

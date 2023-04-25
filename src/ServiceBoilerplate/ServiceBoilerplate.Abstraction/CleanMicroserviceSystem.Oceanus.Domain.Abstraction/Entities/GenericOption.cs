@@ -4,7 +4,7 @@ namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 
 public class GenericOption : AuditableEntity<int>
 {
-    public string OptionName { get; set; }
+    public string OptionName { get; set; } = default!;
 
     public string? OptionValue { get; set; }
 

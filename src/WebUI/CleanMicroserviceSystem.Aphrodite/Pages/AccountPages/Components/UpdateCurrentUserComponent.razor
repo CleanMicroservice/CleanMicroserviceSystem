@@ -52,8 +52,8 @@
     public bool ShowConfirmPassword { get; set; }
 
     [Parameter]
-    public UserInformationResponse CurrentUser { get; set; }
+    public UserInformationResponse CurrentUser { get; set; } = default!;
 
     [Parameter]
-    public UserUpdateRequest UserUpdateRequest { get; set; }
+    public UserUpdateRequest UserUpdateRequest { get; set; } = default!;
 }

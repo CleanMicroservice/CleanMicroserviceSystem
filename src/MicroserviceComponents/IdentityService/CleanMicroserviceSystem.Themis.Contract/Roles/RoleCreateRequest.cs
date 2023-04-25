@@ -5,5 +5,5 @@ namespace CleanMicroserviceSystem.Themis.Contract.Roles;
 public class RoleCreateRequest : ContractBase
 {
     [Required(ErrorMessage = "Role name is required")]
-    public string RoleName { get; set; }
+    public string RoleName { get; set; } = default!;
 }

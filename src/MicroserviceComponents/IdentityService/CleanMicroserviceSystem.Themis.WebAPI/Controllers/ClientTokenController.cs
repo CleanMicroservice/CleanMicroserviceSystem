@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Castle.Components.DictionaryAdapter.Xml;
 using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Themis.Application.Services;
@@ -37,7 +36,7 @@ public class ClientTokenController : ControllerBase
             new Claim(ClaimTypes.NameIdentifier, client.Id.ToString()),
             new Claim(ClaimTypes.Name, client.Name)
         };
-        claims.AddRange(clientClaims?.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue))?.ToArray() ?? Enumerable.Empty<Claim>());
+        claims.AddRange(clientClaims?.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue!))?.ToArray() ?? Enumerable.Empty<Claim>());
         return claims;
     }
 

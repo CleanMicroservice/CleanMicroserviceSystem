@@ -7,7 +7,7 @@ namespace CleanMicroserviceSystem.Themis.Domain.Entities.Configuration;
 public class ApiResource : AuditableEntity<int>
 {
     [Required]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     [DefaultValue(true)]
     public bool Enabled { get; set; }

@@ -19,10 +19,10 @@ namespace CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction;
 public class OceanusProgram
 {
     protected NLog.ILogger logger;
-    protected WebApplicationBuilder webAppBuilder;
-    protected WebApplication webApp;
-    protected ConfigurationManager configManager;
-    protected AssemblyName assemblyName;
+    protected WebApplicationBuilder webAppBuilder = default!;
+    protected WebApplication webApp = default!;
+    protected ConfigurationManager configManager = default!;
+    protected AssemblyName assemblyName = default!;
 
     public OceanusProgram(NLog.ILogger logger)
     {

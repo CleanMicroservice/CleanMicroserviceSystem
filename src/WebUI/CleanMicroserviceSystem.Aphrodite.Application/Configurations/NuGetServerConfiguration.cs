@@ -2,5 +2,5 @@
 
 public class NuGetServerConfiguration
 {
-    public string ApiKey { get; set; }
+    public string ApiKey { get; set; } = default!;
 }

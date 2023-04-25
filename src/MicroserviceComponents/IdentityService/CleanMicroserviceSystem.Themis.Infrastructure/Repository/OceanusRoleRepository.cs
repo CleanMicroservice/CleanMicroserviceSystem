@@ -26,7 +26,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         if (id.HasValue)
             roles = roles.Where(role => role.Id == id);
         if (!string.IsNullOrEmpty(roleName))
-            roles = roles.Where(role => EF.Functions.Like(role.Name, $"%{roleName}%"));
+            roles = roles.Where(role => EF.Functions.Like(role.Name!, $"%{roleName}%"));
         var originCounts = await roles.CountAsync();
         roles = roles.OrderBy(user => user.Id);
         if (start.HasValue)
@@ -48,9 +48,9 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         if (roleId.HasValue)
             roleClaims = roleClaims.Where(userClaim => userClaim.RoleId == roleId);
         if (!string.IsNullOrEmpty(type))
-            roleClaims = roleClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimType, $"%{type}%"));
+            roleClaims = roleClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimType!, $"%{type}%"));
         if (!string.IsNullOrEmpty(value))
-            roleClaims = roleClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimValue, $"%{value}%"));
+            roleClaims = roleClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimValue!, $"%{value}%"));
 
         var claims = roleClaims.Select(roleClaim => new { roleClaim.ClaimType, roleClaim.ClaimValue }).Distinct();
         var originCounts = await claims.CountAsync();
@@ -59,7 +59,7 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
             claims = claims.Skip(start.Value);
         if (count.HasValue)
             claims = claims.Take(count.Value);
-        var result = claims.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue));
+        var result = claims.Select(claim => new Claim(claim.ClaimType!, claim.ClaimValue!));
         return new PaginatedEnumerable<Claim>(result, start, count, originCounts);
     }
 
@@ -80,11 +80,11 @@ public class OceanusRoleRepository : RepositoryBase<OceanusRole>, IOceanusRoleRe
         if (id.HasValue)
             users = users.Where(user => user.Id == id);
         if (!string.IsNullOrEmpty(userName))
-            users = users.Where(user => EF.Functions.Like(user.UserName, $"%{userName}%"));
+            users = users.Where(user => EF.Functions.Like(user.UserName!, $"%{userName}%"));
         if (!string.IsNullOrEmpty(email))
-            users = users.Where(user => EF.Functions.Like(user.Email, $"%{email}%"));
+            users = users.Where(user => EF.Functions.Like(user.Email!, $"%{email}%"));
         if (!string.IsNullOrEmpty(phoneNumber))
-            users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
+            users = users.Where(user => EF.Functions.Like(user.PhoneNumber!, $"%{phoneNumber}%"));
 
         var originCounts = await users.CountAsync();
         users = users.OrderBy(user => user.Id);

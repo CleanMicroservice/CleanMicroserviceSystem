@@ -2,7 +2,7 @@
 
 public class Entity<TKey> : Entity, IEntity<TKey>
 {
-    public TKey Id { get; set; }
+    public TKey Id { get; set; } = default!;
 }
 
 public class Entity : IEntity

@@ -4,17 +4,17 @@ namespace CleanMicroserviceSystem.Oceanus.Domain.Abstraction.Entities;
 
 public class WebAPILog : AuditableEntity<int>
 {
-    public string RequestURI { get; set; }
+    public string RequestURI { get; set; } = default!;
 
-    public string QueryString { get; set; }
+    public string QueryString { get; set; } = default!;
 
-    public string Method { get; set; }
+    public string Method { get; set; } = default!;
 
-    public string SourceHost { get; set; }
+    public string SourceHost { get; set; } = default!;
 
     public string? UserAgent { get; set; }
 
-    public string TraceIdentifier { get; set; }
+    public string TraceIdentifier { get; set; } = default!;
 
     public bool IsAuthenticated { get; set; }
 

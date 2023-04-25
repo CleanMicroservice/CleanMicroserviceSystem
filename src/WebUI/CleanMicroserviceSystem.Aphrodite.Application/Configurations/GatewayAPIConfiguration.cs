@@ -2,7 +2,7 @@
 
 public class GatewayAPIConfiguration
 {
-    public string GatewayBaseAddress { get; set; }
+    public string GatewayBaseAddress { get; set; } = default!;
 
     public int TokenExpiryInMinutes { get; set; }
 

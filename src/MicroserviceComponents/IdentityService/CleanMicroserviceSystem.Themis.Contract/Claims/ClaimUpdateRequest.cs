@@ -4,7 +4,7 @@ namespace CleanMicroserviceSystem.Themis.Contract.Claims;
 
 public class ClaimUpdateRequest : ContractBase
 {
-    public string Type { get; set; }
+    public string Type { get; set; } = default!;
 
-    public string Value { get; set; }
+    public string Value { get; set; } = default!;
 }

@@ -16,13 +16,13 @@ public class IntermediaryPublisher : IIntermediaryPublisher
     public async Task SendCommand(IIntermediaryCommand command, CancellationToken cancellationToken = default)
     {
         this.logger.LogDebug($"Sending command of type {command?.GetType()?.FullName ?? "[Null]"}...");
-        _ = await this.mediator.Send(command, cancellationToken);
+        _ = await this.mediator.Send(command!, cancellationToken);
     }
 
     public async Task<TResponse> SendRequest<TResponse>(IIntermediaryRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         this.logger.LogDebug($"Sending request of type {request?.GetType()?.FullName ?? "[Null]"}...");
-        var response = await this.mediator.Send(request, cancellationToken);
+        var response = await this.mediator.Send(request!, cancellationToken);
         this.logger.LogDebug($"Received response of type {response?.GetType()?.FullName ?? "[Null]"}.");
         return response;
     }

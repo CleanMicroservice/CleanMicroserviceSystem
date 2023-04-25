@@ -8,8 +8,8 @@ public class AphroditeAuthenticationTokenStore : IAuthenticationTokenStore
     private const string AuthenticationTokenCookieName = "AphroditeAuthenticationToken";
     private readonly ILogger<AphroditeAuthenticationTokenStore> logger;
     private readonly CookieStorage cookieStorage;
-    private string token;
-    public event EventHandler<string> TokenUpdated;
+    private string token = default!;
+    public event EventHandler<string>? TokenUpdated;
 
     public AphroditeAuthenticationTokenStore(
         ILogger<AphroditeAuthenticationTokenStore> logger,

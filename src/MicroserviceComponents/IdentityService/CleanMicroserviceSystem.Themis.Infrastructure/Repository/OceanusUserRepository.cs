@@ -32,9 +32,9 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         if (userId.HasValue)
             userClaims = userClaims.Where(userClaim => userClaim.UserId == userId);
         if (!string.IsNullOrEmpty(type))
-            userClaims = userClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimType, $"%{type}%"));
+            userClaims = userClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimType!, $"%{type}%"));
         if (!string.IsNullOrEmpty(value))
-            userClaims = userClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimValue, $"%{value}%"));
+            userClaims = userClaims.Where(userClaim => EF.Functions.Like(userClaim.ClaimValue!, $"%{value}%"));
 
         var claims = userClaims.Select(userClaim => new { userClaim.ClaimType, userClaim.ClaimValue }).Distinct();
         var originCounts = await claims.CountAsync();
@@ -43,7 +43,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
             claims = claims.Skip(start.Value);
         if (count.HasValue)
             claims = claims.Take(count.Value);
-        var result = claims.Select(claim => new Claim(claim.ClaimType, claim.ClaimValue));
+        var result = claims.Select(claim => new Claim(claim.ClaimType!, claim.ClaimValue!));
         return new PaginatedEnumerable<Claim>(result, start, count, originCounts);
     }
 
@@ -59,11 +59,11 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         if (id.HasValue)
             users = users.Where(user => user.Id == id);
         if (!string.IsNullOrEmpty(userName))
-            users = users.Where(user => EF.Functions.Like(user.UserName, $"%{userName}%"));
+            users = users.Where(user => EF.Functions.Like(user.UserName!, $"%{userName}%"));
         if (!string.IsNullOrEmpty(email))
-            users = users.Where(user => EF.Functions.Like(user.Email, $"%{email}%"));
+            users = users.Where(user => EF.Functions.Like(user.Email!, $"%{email}%"));
         if (!string.IsNullOrEmpty(phoneNumber))
-            users = users.Where(user => EF.Functions.Like(user.PhoneNumber, $"%{phoneNumber}%"));
+            users = users.Where(user => EF.Functions.Like(user.PhoneNumber!, $"%{phoneNumber}%"));
 
         var originCounts = await users.CountAsync();
         users = users.OrderBy(user => user.Id);
@@ -89,7 +89,7 @@ public class OceanusUserRepository : RepositoryBase<OceanusUser>, IOceanusUserRe
         if (id.HasValue)
             roles = roles.Where(role => role.Id == id);
         if (!string.IsNullOrEmpty(roleName))
-            roles = roles.Where(role => EF.Functions.Like(role.Name, $"%{roleName}%"));
+            roles = roles.Where(role => EF.Functions.Like(role.Name!, $"%{roleName}%"));
 
         var originCounts = await roles.CountAsync();
         roles = roles.OrderBy(user => user.Id);

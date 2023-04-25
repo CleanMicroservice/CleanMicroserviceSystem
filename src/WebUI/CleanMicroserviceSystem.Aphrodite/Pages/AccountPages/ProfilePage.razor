@@ -72,7 +72,7 @@
 
 @code {
     protected bool ShowUpdateUserModal { get; set; }
-    protected StringBoolean CardLoading { get; set; }
+    protected StringBoolean CardLoading { get; set; } = default!;
     protected UserInformationResponse? CurrentUser { get; set; }
     protected UserUpdateRequest? UserUpdateRequest { get; set; }
 
@@ -116,6 +116,7 @@
                 PhoneNumber = this.CurrentUser.PhoneNumber,
             };
         this.ShowUpdateUserModal = true;
+        await Task.CompletedTask;
     }
 
     protected async Task OnUpdateUserModalSave()
@@ -150,7 +151,7 @@
             }
             else
             {
-                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser.Id}) update failed: {commonResult.ToString()}", AlertTypes.Warning);
+                await this.popupService.EnqueueSnackbarAsync($"User {this.UserUpdateRequest.UserName} ({this.CurrentUser?.Id}) update failed: {commonResult?.ToString()}", AlertTypes.Warning);
             }
         }
         catch (Exception ex)
@@ -162,5 +163,6 @@
     protected async Task OnUpdateUserModelCancel()
     {
         this.ShowUpdateUserModal = false;
+        await Task.CompletedTask;
     }
 }
