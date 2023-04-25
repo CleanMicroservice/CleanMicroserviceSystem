@@ -148,7 +148,7 @@
             if (commonResult?.Succeeded ?? false)
             {
                 this.logger.LogInformation($"Register [{this.UserRegisterRequest.UserName}] successfully.");
-                this.navigationManager.NavigateTo(RouterContract.DefaultUri);
+                this.navigationManager.NavigateTo(RouterContract.LoginUri);
             }
             else
             {
