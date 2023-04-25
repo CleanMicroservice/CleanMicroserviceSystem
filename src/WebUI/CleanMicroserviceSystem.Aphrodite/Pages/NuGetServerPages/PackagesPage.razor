@@ -212,6 +212,7 @@
             }
         }
         this.ShowUploadPackageModal = false;
+        this.PackageFiles = default;
         await this.popupService.EnqueueSnackbarAsync(
             $"Upload {successed.Count} packages successfully: {string.Join(", ", successed)}; {failedExceptions.Count} packages failed: {string.Join(", ", failedExceptions.Select(failed => $"{failed.Key}: {failed.Value?.Message}"))}",
             !failedExceptions.Any() ? AlertTypes.Success : !successed.Any() ? AlertTypes.Error : AlertTypes.Warning);
@@ -222,6 +223,7 @@
     protected async Task OnUploadPackageModalCancel()
     {
         this.ShowUploadPackageModal = false;
+        this.PackageFiles = default;
         await Task.CompletedTask;
     }
 }
