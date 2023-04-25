@@ -190,8 +190,7 @@ public class UserController : ControllerBase
             return this.BadRequest(commonResult);
         }
 
-        newUser = await this.userManager.FindByNameAsync(request.UserName);
-
+        newUser = await this.oceanusUserRepository.FindAsync(newUser!.Id);
         // TODO: Split logic by intermediator
         result = await this.userManager.AddToRoleAsync(newUser!, IdentityContract.CommonRole);
         if (!result.Succeeded)
