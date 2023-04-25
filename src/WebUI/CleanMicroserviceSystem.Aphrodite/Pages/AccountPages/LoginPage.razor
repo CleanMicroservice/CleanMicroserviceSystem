@@ -14,14 +14,18 @@
         </MImage>
     </MCol>
     <MCol Class="d-flex indigo lighten-5">
-        <MCard Class="mx-auto my-auto" Rounded=@("xl") Width=360 Loading=CardLoading>
-            <MRow Justify="@JustifyTypes.Center">
-                <MAvatar Size="64" Color="primary" Class="mx-auto my-auto">
-                    <MImage Src="/img/Avatar.png"></MImage>
-                </MAvatar>
-            </MRow>
+        <MCard Rounded=@("xl") Elevation=24 Class="mx-auto my-auto" Width=400 Loading=CardLoading>
             <MCardTitle>
-                <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Login</p>
+                <MContainer>
+                    <MRow>
+                        <MAvatar Size="64" Color="primary" Class="mx-auto my-auto">
+                            <MImage Src="/img/Avatar.png"></MImage>
+                        </MAvatar>
+                    </MRow>
+                    <MRow>
+                        <p class="text-h5 font-weight-black text-no-wrap primary--text mb-3 mx-auto">Login</p>
+                    </MRow>
+                </MContainer>
             </MCardTitle>
             <MCardText Class="py-0">
                 @if (!string.IsNullOrEmpty(Message))
@@ -45,14 +49,14 @@
             <MCardActions>
                 <MContainer>
                     <MRow>
-                        <MCol Cols=@("auto")>
+                        <MCol Cols=@("auto") Class="pa-0">
                             <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.DefaultUri)">
                                 <MIcon>mdi-home</MIcon>
                                 Home
                             </MButton>
                         </MCol>
                         <MSpacer />
-                        <MCol Cols=@("auto")>
+                        <MCol Cols=@("auto") Class="pa-0">
                             <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.RegisterUri)">
                                 <MIcon>mdi-account-plus</MIcon>
                                 Register
