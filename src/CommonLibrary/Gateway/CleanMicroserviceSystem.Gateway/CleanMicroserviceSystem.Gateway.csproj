@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Consul" Version="1.6.10.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.2.23128.3" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0-preview.5.23280.8" />
   </ItemGroup>
 
   <ItemGroup>
