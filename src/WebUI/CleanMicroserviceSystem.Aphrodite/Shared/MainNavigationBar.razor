@@ -6,36 +6,37 @@
                    ExpandOnHover="navigationExpandOnHover" MiniVariant="navigationMini"
                           Fixed App Permanent Floating>
     <MRow Justify="@JustifyTypes.Center" NoGutters Class="mt-10 mb-5">
-        <MSpacer></MSpacer>
-        <MCol Align=@("center")>
-            <MImage Src="/img/Logo.png"
-                    MinWidth=LogoMinSize MaxWidth=LogoMaxSize MinHeight=LogoMinSize MaxHeight=LogoMaxSize
-            @onclick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)" />
-        </MCol>
-        <MSpacer></MSpacer>
-    </MRow>
+         <MSpacer></MSpacer>
+         <MCol Align=@("center")>
+             <MImage Src="/img/Logo.png"
+                     MinWidth=LogoMinSize MaxWidth=LogoMaxSize MinHeight=LogoMinSize MaxHeight=LogoMaxSize
+             @onclick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)" />
+         </MCol>
+         <MSpacer></MSpacer>
+     </MRow>
 
-    @if (!navigationMini)
+     @if (!navigationMini)
     {
         <MRow Justify="@JustifyTypes.Center" NoGutters>
-        <MSpacer></MSpacer>
-        <MCol Align=@("center")>
-            <p class="text-h5 font-weight-black text-no-wrap primary--text mb-5">Aphrodite</p>
-        </MCol>
-        <MSpacer></MSpacer>
-    </MRow>
+         <MSpacer></MSpacer>
+         <MCol Align=@("center")>
+             <p class="text-h5 font-weight-black text-no-wrap primary--text mb-5">Aphrodite</p>
+         </MCol>
+         <MSpacer></MSpacer>
+     </MRow>
     }
 
     <MList Routable Nav Dense Rounded>
-        <NavigatorItem Icon="mdi-home" Title="Home" TargetUri="@RouterContract.DefaultUri"/>
+        <NavigatorItem Icon="mdi-home" Title="Home" TargetUri="@RouterContract.DefaultUri" />
         <PermissionNavigator />
         <NuGetServerNavigator />
+        <Level2VisualizationNavigator />
     </MList>
 </MNavigationDrawer>
 
 <MButton Small Fab Color="primary" Elevation="0" OnClick=@this.SwitchNavigation Style="@($"bottom:{ExpandButtonBottom}px;z-index:7;position:fixed;left:{expandButtonLeft}px;")">
-    <MIcon Class="white--text">
-        @(navigationVisible is false || navigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
+     <MIcon Class="white--text">
+         @(navigationVisible is false || navigationMini ? "mdi-chevron-right" : "mdi-chevron-left")
     </MIcon>
 </MButton>
 
