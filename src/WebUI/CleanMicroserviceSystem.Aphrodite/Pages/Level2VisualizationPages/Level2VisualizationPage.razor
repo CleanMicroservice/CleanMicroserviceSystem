@@ -17,7 +17,7 @@
                          OnSave="this.OnSelectFileModalSave"
                          OnCancel="this.OnSelectFileModalCancel">
                      <ChildContent>
-                         <MFileInput TValue="List<IBrowserFile>" @bind-Value=this.MarketFiles
+                         <MFileInput TValue="IBrowserFile" @bind-Value=this.MarketFile
                                             Chips Clearable Color="primary" Counter=true ShowSize
                                      Label="Select market file ...">
                          </MFileInput>
@@ -46,7 +46,7 @@
 @code {
     protected bool LoadingFiles { get; set; }
     protected bool ShowSelectFileModal { get; set; } = false;
-    protected List<IBrowserFile> MarketFiles { get; set; } = default!;
+    protected IBrowserFile MarketFile { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,7 +61,7 @@
 
     protected async Task OnSelectFileModalSave()
     {
-        var marketFile = this.MarketFiles?.FirstOrDefault();
+        var marketFile = this.MarketFile;
         if (marketFile is null)
         {
             await this.popupService.EnqueueSnackbarAsync($"Please select a market file", AlertTypes.Warning);
@@ -79,13 +79,13 @@
             await this.popupService.EnqueueSnackbarAsync(ex.Message, AlertTypes.Error);
         }
         this.ShowSelectFileModal = false;
-        this.MarketFiles = default;
+        this.MarketFile = default;
     }
 
     protected async Task OnSelectFileModalCancel()
     {
         this.ShowSelectFileModal = false;
-        this.MarketFiles = default;
+        this.MarketFile = default;
         await Task.CompletedTask;
     }
 }
