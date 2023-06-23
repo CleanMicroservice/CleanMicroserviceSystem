@@ -1,9 +1,9 @@
 ﻿@inject NavigationManager navigationManager
 
-<MNavigationDrawer @bind-Value="navigationVisible"
+<MNavigationDrawer Value="@this.navigationVisible"
                    Class="navigation rounded-r-xl"
                    Width=NavigationWidth MiniVariantWidth=NavigationMinWidth
-                   ExpandOnHover="navigationExpandOnHover" @bind-MiniVariant="navigationMini"
+                   ExpandOnHover="navigationExpandOnHover" MiniVariant="navigationMini"
                           Fixed App Permanent Floating>
     <MRow Justify="@JustifyTypes.Center" NoGutters Class="mt-10 mb-5">
         <MSpacer></MSpacer>
@@ -52,6 +52,7 @@
     private bool navigationExpandOnHover { get; set; } = false;
     private bool navigationMini { get; set; } = false;
     private bool navigationVisible { get; set; } = true;
+
     private void SwitchNavigation()
     {
         if (navigationVisible)
