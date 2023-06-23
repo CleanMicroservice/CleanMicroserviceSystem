@@ -1,0 +1,28 @@
+﻿@page "/k8sconsole"
+@inherits AphroditePageBase
+@inject ILogger<K8SConsolePage> logger
+@inject IPopupService popupService
+
+<PageTitle>K8S Console</PageTitle>
+
+<MCard Flat Rounded=@("xl")>
+     <MCardText Class="pa-6">
+         <PPageHeader Title="K8S Console" ShowFiltersByDefault>
+        </PPageHeader>
+    </MCardText>
+</MCard>
+
+<MContainer Fluid Class="mt-6 pa-0">
+     <MRow Dense>
+        <p class="font-weight-black">
+            TODO: Implement console.
+        </p>
+    </MRow>
+</MContainer>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}

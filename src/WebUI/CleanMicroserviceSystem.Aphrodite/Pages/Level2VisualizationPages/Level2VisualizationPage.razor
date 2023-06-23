@@ -32,13 +32,12 @@
      <MRow Dense>
         @if (this.LoadingFiles)
         {
-        <MProgressLinear Indeterminate Color="primary" Rounded></MProgressLinear>
+            <MProgressLinear Indeterminate Color="primary" Rounded></MProgressLinear>
         }
         else
         {
-        <MButton OnClick="()=>this.Counter++"></MButton>
             <p class="font-weight-black">
-                TODO: Implement charts. @this.Counter
+                TODO: Implement charts.
             </p>
         }
     </MRow>
@@ -48,7 +47,6 @@
     protected bool LoadingFiles { get; set; }
     protected bool ShowSelectFileModal { get; set; } = false;
     protected List<IBrowserFile> MarketFiles { get; set; } = default!;
-    private int Counter { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
