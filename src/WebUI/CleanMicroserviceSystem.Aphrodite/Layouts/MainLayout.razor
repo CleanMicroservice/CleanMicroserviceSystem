@@ -4,18 +4,14 @@
 @inject PageTabsService pageTabService
 
 <MApp>
-    <PPageTabsProvider>
-        <MainAppBar />
-        <MainNavigationBar />
+    <MainAppBar />
+    <MainNavigationBar />
 
-        <MMain Class="grey lighten-4">
-            <PPageContainer PageTabs="pageTabService.PageTabsComponent" SelfPatterns="pageTabService.SelfPatterns">
-                <div class="ma-5">
-                    @Body
-                </div>
-            </PPageContainer>
-        </MMain>
-    </PPageTabsProvider>
+    <MMain Class="grey lighten-4">
+        <div class="ma-5">
+            @Body
+        </div>
+    </MMain>
 </MApp>
 
 @code {
