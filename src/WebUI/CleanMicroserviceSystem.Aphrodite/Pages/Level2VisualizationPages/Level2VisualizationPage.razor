@@ -29,24 +29,25 @@
  </MCard>
 
  <MContainer Fluid Class="mt-6 pa-0">
-     <MRow Dense>
-        @if (this.LoadingFiles)
-        {
-            <MProgressLinear Indeterminate Color="primary" Rounded></MProgressLinear>
-        }
-        else
-        {
-            <p class="font-weight-black">
-                TODO: Implement charts.
-            </p>
-        }
-    </MRow>
+     @if (this.LoadingFiles)
+    {
+        <MProgressLinear Indeterminate Color="primary" Rounded></MProgressLinear>
+    }
+    else
+    {
+        <MButton OnClick="@(()=>this.TestCount++)">Test</MButton>
+        <p class="font-weight-black">
+            TODO: Implement charts. @this.TestCount
+        </p>
+    }
 </MContainer>
 
 @code {
     protected bool LoadingFiles { get; set; }
     protected bool ShowSelectFileModal { get; set; } = false;
     protected IBrowserFile MarketFile { get; set; } = default!;
+
+    private int TestCount { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

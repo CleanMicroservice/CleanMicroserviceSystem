@@ -13,14 +13,15 @@
 </MCard>
 
 <MContainer Fluid Class="mt-6 pa-0">
-     <MRow Dense>
-        <p class="font-weight-black">
-            TODO: Implement console.
-        </p>
-    </MRow>
-</MContainer>
+     <MButton OnClick="@(()=>this.TestCount++)">Test</MButton>
+     <p class="font-weight-black">
+         TODO: Implement console. @this.TestCount
+     </p>
+ </MContainer>
 
-@code {
+ @code {
+    private int TestCount { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
