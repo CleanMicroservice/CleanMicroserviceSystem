@@ -11,7 +11,7 @@ Search "Insecure"
 Enable "Allow invalid certificates for resources loaded from localhost."
 Disable "Block insecure private network requests."
 Enable "Insecure origins treated as secure"
-	Input: https://10.1.100.73:20000
+	Input: https://10.1.100.73:21000
 ```
 
 ## Workload
