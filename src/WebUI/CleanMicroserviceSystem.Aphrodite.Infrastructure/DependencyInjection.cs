@@ -6,6 +6,7 @@ using CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
 using CleanMicroserviceSystem.Astra.Client;
 using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
+using CleanMicroserviceSystem.Hermes.Client;
 using CleanMicroserviceSystem.Themis.Client;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -53,6 +54,10 @@ public static class DependencyInjection
         _ = services
             .Configure<GatewayAPIConfiguration>(options => config.GetRequiredSection(GatewayAPIConfigurationKey).Bind(options))
             .AddThemisClients(options =>
+            {
+                options.GatewayClientName = ApiContract.GatewayHttpClientName;
+            })
+            .AddHermesClients(options =>
             {
                 options.GatewayClientName = ApiContract.GatewayHttpClientName;
             })

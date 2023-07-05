@@ -1,7 +1,9 @@
 ﻿@page "/k8sconsole"
+@using CleanMicroserviceSystem.Hermes.Contract;
 @inherits AphroditePageBase
 @inject ILogger<K8SConsolePage> logger
 @inject IPopupService popupService
+@inject K8sAgentClient k8sAgentClient
 
 <PageTitle>K8S Console</PageTitle>
 
