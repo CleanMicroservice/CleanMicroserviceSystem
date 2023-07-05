@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\CommonLibrary\Gateway\CleanMicroserviceSystem.Gateway.Contract\CleanMicroserviceSystem.Gateway.Contract.csproj" />
     <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction.csproj" />
+    <ProjectReference Include="..\CleanMicroserviceSystem.Hermes.Contract\CleanMicroserviceSystem.Hermes.Contract.csproj" />
   </ItemGroup>
 
 </Project>
