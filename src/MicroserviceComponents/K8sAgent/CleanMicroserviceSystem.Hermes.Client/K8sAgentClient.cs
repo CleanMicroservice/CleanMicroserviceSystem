@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Json;
-using CleanMicroserviceSystem.DataStructure;
 using CleanMicroserviceSystem.Hermes.Contract;
 using CleanMicroserviceSystem.Oceanus.Client.Abstraction;
 using Microsoft.Extensions.Logging;
@@ -17,10 +16,10 @@ public class K8sAgentClient : OceanusServiceClientBase
     {
     }
 
-    public async Task<CommonResult<string>?> SendAsync(SendParameter parameter)
+    public async Task<string?> SendAsync(SendParameter parameter)
     {
         var uri = this.BuildUri("/home/index");
         var response = await this.httpClient.PostAsJsonAsync(uri, parameter);
-        return await this.GetCommonResult<string>(response);
+        return await response.Content.ReadAsStringAsync();
     }
 }

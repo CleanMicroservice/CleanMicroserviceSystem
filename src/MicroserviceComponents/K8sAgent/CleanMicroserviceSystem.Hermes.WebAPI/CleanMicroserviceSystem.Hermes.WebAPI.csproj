@@ -23,6 +23,7 @@
 
   <ItemGroup>
 	  <ProjectReference Include="..\..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction\CleanMicroserviceSystem.Oceanus.WebAPI.Abstraction.csproj" />
+	  <ProjectReference Include="..\CleanMicroserviceSystem.Hermes.Contract\CleanMicroserviceSystem.Hermes.Contract.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Hermes.Infrastructure\CleanMicroserviceSystem.Hermes.Infrastructure.csproj" />
   </ItemGroup>
 

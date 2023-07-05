@@ -1,9 +1,12 @@
 ﻿using System.Text;
+using CleanMicroserviceSystem.Hermes.Contract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanMicroserviceSystem.Hermes.WebAPI.Controllers;
 
 [ApiController]
+[AllowAnonymous]
 [Route("[controller]/[action]")]
 public class HomeController : Controller
 {
@@ -15,9 +18,10 @@ public class HomeController : Controller
         this.logger = logger;
     }
 
-    [HttpGet]
-    public IActionResult Index()
+    [HttpPost]
+    public ActionResult<string?> Index(SendParameter parameter)
     {
+        this.logger.LogInformation(parameter.ToString());
         var builder = new StringBuilder();
         builder.AppendLine($"Response from WebAPI.");
         builder.AppendLine(this.ControllerContext.ActionDescriptor.DisplayName);

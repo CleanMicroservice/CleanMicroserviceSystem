@@ -15,7 +15,7 @@
 </MCard>
 
 <MContainer Fluid Class="mt-6 pa-0">
-     <MButton OnClick="@(()=>this.TestCount++)">Test</MButton>
+     <MButton OnClick="@this.OnButtonClick">Test</MButton>
      <p class="font-weight-black">
          TODO: Implement console. @this.TestCount
      </p>
@@ -27,5 +27,18 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+    }
+
+    private async void OnButtonClick()
+    {
+        try
+        {
+            var response = await this.k8sAgentClient.SendAsync(new SendParameter() { Name = "TestName" });
+            this.logger.LogInformation(response);
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Error when send request.");
+        }
     }
 }

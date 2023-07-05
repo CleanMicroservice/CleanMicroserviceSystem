@@ -2,4 +2,5 @@
 
 public class SendParameter
 {
+    public string? Name { get; set; }
 }
