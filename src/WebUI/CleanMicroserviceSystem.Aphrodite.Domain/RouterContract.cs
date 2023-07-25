@@ -22,7 +22,5 @@ public class RouterContract
 
     public const string PackagesUri = "/nugetserver/packages";
 
-    public const string Level2VisualizationUri = "/level2visualization";
-
     public const string K8SConsoleUri = "/k8sconsole";
 }
