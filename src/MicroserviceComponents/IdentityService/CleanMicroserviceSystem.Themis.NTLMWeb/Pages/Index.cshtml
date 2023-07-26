@@ -16,6 +16,34 @@
             </p>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingClientInformation">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClientInformation" aria-expanded="false" aria-controls="collapseClientInformation">
+                            Client Information
+                        </button>
+                    </h2>
+                    <div id="collapseClientInformation" class="accordion-collapse collapse" aria-labelledby="headingClientInformation" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <dl class="row">
+                                <dt class="col-sm-3">@nameof(this.Model.ClientLoginResult.Succeeded)</dt>
+                                <dd class="col-sm-9">@this.Model.ClientLoginResult?.Succeeded</dd>
+                                @if (!(this.Model.ClientLoginResult?.Succeeded ?? false))
+                                {
+                                    <dt class="col-sm-3">Errors</dt>
+                                    <dd class="col-sm-9">
+                                        <dl class="row">
+                                            @foreach (var error in this.Model.ClientLoginResult?.Errors)
+                                            {
+                                                <dt class="col-sm-4">@error.Code</dt>
+                                                <dd class="col-sm-8">@error.Message</dd>
+                                            }
+                                        </dl>
+                                    </dd>
+                                }
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
                     <h2 class="accordion-header" id="headingUserInformation">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUserInformation" aria-expanded="false" aria-controls="collapseUserInformation">
                             User Information

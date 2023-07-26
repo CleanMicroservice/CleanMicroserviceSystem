@@ -30,14 +30,18 @@ try
         {
             options.GatewayClientName = ApiContract.GatewayHttpClientName;
         })
+        .AddHttpClient<HttpClient>(
+            ApiContract.GatewayHttpClientName,
+            client => client.BaseAddress = new Uri(builder.Configuration.GetRequiredSection(GatewayAPIConfigurationKey).Get<GatewayAPIConfiguration>()!.GatewayBaseAddress));
+    builder.Services
+        .AddAuthorization(options =>
+        {
+            options.FallbackPolicy = options.DefaultPolicy;
+        })
         .AddAuthentication(NegotiateDefaults.AuthenticationScheme)
         .AddNegotiate();
-
-    builder.Services.AddAuthorization(options =>
-    {
-        options.FallbackPolicy = options.DefaultPolicy;
-    });
-    builder.Services.AddRazorPages();
+    builder.Services
+        .AddRazorPages();
 
     var app = builder.Build();
     app.UseHttpsRedirection();
