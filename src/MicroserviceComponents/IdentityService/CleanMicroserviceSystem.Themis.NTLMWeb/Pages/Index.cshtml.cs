@@ -28,28 +28,28 @@ public class IndexModel : PageModel
         this.clientTokenClient = clientTokenClient;
     }
 
-    public async void OnGet([FromQuery] string returnUrl)
+    public void OnGet([FromQuery] string returnUrl)
     {
-        this.logger.LogInformation($"User [{this.User.Identity?.Name}] accessed, with {this.User.Claims.Count()} claims, from: {returnUrl}.");
+        this.logger.LogInformation($"User [{this.User.Identity?.Name}] accessed, {nameof(this.User.Identity.IsAuthenticated)}={this.User.Identity?.IsAuthenticated}, with {this.User.Claims.Count()} claims, from: {returnUrl}.");
         this.Authenticated = this.User.Identity?.IsAuthenticated ?? false;
         this.ReturnUrl = returnUrl;
 
-        try
+        if (this.Authenticated)
         {
-            this.logger.LogInformation("Client logging in ...");
-            this.ClientLoginResult = await this.clientTokenClient.LoginClientAsync(ApiContract.ThemisNTLMClientName, "ThemisNTLMSecret");
-        }
-        catch (Exception ex)
-        {
-            this.logger.LogError(ex, "Failed to login client:");
-            this.ClientLoginResult = new CommonResult<string>()
+            try
             {
-                Errors = new List<CommonResultError>()
-                {
-                    new CommonResultError() { Code="Failed", Message=ex.Message }
-                }
-            };
-            return;
+                this.logger.LogInformation("Client logging in ...");
+                this.ClientLoginResult = this.clientTokenClient.LoginClientAsync(ApiContract.ThemisNTLMClientName, "ThemisNTLMSecret").Result;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "Failed to login client:");
+                this.ClientLoginResult = new CommonResult<string>(new List<CommonResultError>() { new CommonResultError() {
+                Code = "Failed",
+                Message = ex.Message
+            }});
+                return;
+            }
         }
     }
 }
