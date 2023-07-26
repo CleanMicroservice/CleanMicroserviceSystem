@@ -13,7 +13,7 @@
         @if (this.Model.Authenticated)
         {
             if ((this.Model.ClientLoginResult?.Succeeded ?? false) &&
-            (this.Model.UserSynchronizationResult?.Succeeded ?? false))
+            (this.Model.UserSynchronizeResult?.Succeeded ?? false))
             {
                 <p>
                     <span class="spinner-border text-primary text-w" role="status"></span>
@@ -109,7 +109,7 @@
                 <h2 class="accordion-header" id="headingUserSynchronization">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUserSynchronization" aria-expanded="false" aria-controls="collapseUserSynchronization">
                         User Synchronization
-                        @if (this.Model.UserSynchronizationResult?.Succeeded ?? false)
+                        @if (this.Model.UserSynchronizeResult?.Succeeded ?? false)
                         {
                             <span class="badge bg-danger">Success</span>
                         }
@@ -122,12 +122,12 @@
                 <div id="collapseUserSynchronization" class="accordion-collapse collapse" aria-labelledby="headingUserSynchronization" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <dl class="row">
-                            <dt class="col-sm-3">@nameof(this.Model.UserSynchronizationResult.Succeeded)</dt>
-                            <dd class="col-sm-9">@this.Model.UserSynchronizationResult?.Succeeded</dd>
+                            <dt class="col-sm-3">@nameof(this.Model.UserSynchronizeResult.Succeeded)</dt>
+                            <dd class="col-sm-9">@this.Model.UserSynchronizeResult?.Succeeded</dd>
                             <dt class="col-sm-3">Errors</dt>
                             <dd class="col-sm-9">
                                 <dl class="row">
-                                    @foreach (var error in this.Model.UserSynchronizationResult?.Errors ?? Enumerable.Empty<CommonResultError>())
+                                    @foreach (var error in this.Model.UserSynchronizeResult?.Errors ?? Enumerable.Empty<CommonResultError>())
                                     {
                                         <dt class="col-sm-4">@error.Code</dt>
                                         <dd class="col-sm-8">@error.Message</dd>
