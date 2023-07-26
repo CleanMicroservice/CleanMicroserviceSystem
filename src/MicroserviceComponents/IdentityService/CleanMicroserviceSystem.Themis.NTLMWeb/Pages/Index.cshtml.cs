@@ -23,7 +23,7 @@ public class IndexModel : PageModel
     public bool Authenticated { get; protected set; }
     public CommonResult<string>? ClientLoginResult { get; protected set; }
     public CommonResult<UserInformationResponse>? UserSynchronizeResult { get; protected set; }
-    public string TemporaryPassword { get; protected set; }
+    public string TemporaryPassword { get; protected set; } = default!;
 
     public IndexModel(
         ILogger<IndexModel> logger,
@@ -92,6 +92,17 @@ public class IndexModel : PageModel
                 }
             }
             this.UserSynchronizeResult = this.userClient.SynchronizeUserAsync(request).Result;
+
+            try
+            {
+                this.ReturnUrl = string.Format(
+                    this.ReturnUrl,
+                    this.UserSynchronizeResult?.Entity?.UserName ?? userName,
+                    TemporaryPassword);
+            }
+            catch
+            {
+            }
         }
         catch (Exception ex)
         {

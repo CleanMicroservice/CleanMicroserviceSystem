@@ -4,6 +4,10 @@
 @model IndexModel
 @{
     ViewData["Title"] = "NTLM";
+    int countdownSeconds = 3;
+    var succeeded = (this.Model.ClientLoginResult?.Succeeded ?? false) &&
+        (this.Model.UserSynchronizeResult?.Succeeded ?? false);
+    var navigateBack = succeeded && !string.IsNullOrEmpty(this.Model.ReturnUrl);
 }
 
 <div class="row">
@@ -12,13 +16,15 @@
 
         @if (this.Model.Authenticated)
         {
-            if ((this.Model.ClientLoginResult?.Succeeded ?? false) &&
-            (this.Model.UserSynchronizeResult?.Succeeded ?? false))
+            if (succeeded)
             {
                 <p>
-                    <span class="spinner-border text-primary text-w" role="status"></span>
-                    <span class="h1">You are logging in as <span class="badge bg-primary">@User.Identity?.Name</span></span>
+                    <span class="h1">You are logged in as <span class="badge bg-primary">@User.Identity?.Name</span></span>
                 </p>
+                @if (navigateBack)
+                {
+                    <p><span class="spinner-border spinner-border-sm text-primary" role="status"></span>Navigating in <span class="text-primary" id="timerSpan">@countdownSeconds</span> seconds</p>
+                }
             }
             else
             {
@@ -151,7 +157,8 @@
             </div>
         </div>
 
-        <p class="text-end">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff") @this.Model.ReturnUrl</p>
+        <p class="text-end mb-0">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff")</p>
+        <p class="text-end mb-0">@this.Model.ReturnUrl</p>
     </div>
 </div>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -161,23 +168,36 @@
     <button type="button" class="btn btn-secondary" onclick="refresh()">
         <i class="bi bi-arrow-clockwise"></i> Refresh
     </button>
-    <button type="button" class="btn btn-primary" onclick="login()">
-        <i class="bi bi-box-arrow-in-right"></i> <span><strong>Login</strong></span>
-    </button>
 </div>
 
 @section Scripts {
     <script>
+        var returnUrl = "@this.Model.ReturnUrl";
+        var timerSpan = $('#timerSpan');
+        var navigateBack = @navigateBack.ToString().ToLower();
+        var countdownSeconds = @countdownSeconds;
+
         function navigate() {
-            window.location.href = "@this.Model.ReturnUrl";
+            window.location.href = returnUrl;
         }
 
         function refresh() {
             window.location.reload();
         }
 
-        function login() {
-            alert("发送登录请求");
+        function countdown() {
+            timerSpan.html(countdownSeconds);
+            if (countdownSeconds > 0) {
+                countdownSeconds--;
+                setTimeout(countdown, 1000);
+            }
+            else {
+                window.location.href = returnUrl;
+            }
+        }
+
+        if (navigateBack) {
+            countdown();
         }
     </script>
 }
