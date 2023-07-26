@@ -16,6 +16,7 @@ public class IndexModel : PageModel
 
     public void OnGet([FromQuery] string returnUrl)
     {
+        this._logger.LogInformation($"User [{this.User.Identity?.Name}] accessed, with {this.User.Claims.Count()} claims, from: {returnUrl}.");
         this.Authenticated = this.User.Identity?.IsAuthenticated ?? false;
         this.ReturnUrl = returnUrl;
     }
