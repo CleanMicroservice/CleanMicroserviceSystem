@@ -215,6 +215,81 @@ public class UserController : ControllerBase
     }
 
     /// <summary>
+    /// Synchronize user information
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost]
+    [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
+    public async Task<ActionResult<CommonResult>> Synchronize([FromBody] UserSynchronizeRequest request)
+    {
+        this.logger.LogInformation($"Synchronize User: {request.UserName}");
+        var user = await this.userManager.FindByNameAsync(request.UserName);
+        var commonResult = new CommonResult();
+        if (user is null)
+        {
+            var newUser = new OceanusUser()
+            {
+                UserName = request.UserName,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+            };
+            var result = await this.userManager.CreateAsync(newUser, request.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+                return this.BadRequest(commonResult);
+            }
+            user = await this.oceanusUserRepository.FindAsync(newUser!.Id);
+            result = await this.userManager.AddToRoleAsync(user!, IdentityContract.CommonRole);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+                return this.BadRequest(commonResult);
+            }
+        }
+        else
+        {
+            user.PhoneNumber = request.PhoneNumber;
+            user.Email = request.Email;
+
+            var result = await this.userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+                return this.BadRequest(commonResult);
+            }
+            var resetPasswordToken = await this.userManager.GeneratePasswordResetTokenAsync(user);
+            result = await this.userManager.ResetPasswordAsync(user, resetPasswordToken, request.Password!);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                }
+                return this.BadRequest(commonResult);
+            }
+        }
+
+        commonResult = await this.UpdateUserClaims(user!, request.Claims);
+        if (!commonResult.Succeeded)
+        {
+            return this.BadRequest(commonResult);
+        }
+        commonResult = await this.UpdateUserRoles(user!, request.Roles?.Select(role => role.RoleName) ?? Enumerable.Empty<string>());
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+    }
+
+    /// <summary>
     /// Update user information
     /// </summary>
     /// <param name="id"></param>
@@ -344,7 +419,12 @@ public class UserController : ControllerBase
         var user = await this.userManager.FindByIdAsync(id);
         if (user is null)
             return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
+        var commonResult = await this.UpdateUserClaims(user, requests);
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+    }
 
+    private async Task<CommonResult> UpdateUserClaims(OceanusUser user, IEnumerable<ClaimUpdateRequest> requests)
+    {
         var existingClaims = await this.userManager.GetClaimsAsync(user);
         var existingClaimSet = existingClaims.Select(claim => (claim.Type, claim.Value)).ToHashSet();
         var requestClaimSet = requests.Select(claim => (claim.Type, claim.Value)).ToHashSet();
@@ -378,8 +458,7 @@ public class UserController : ControllerBase
                 }
             }
         }
-
-        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+        return commonResult;
     }
 
     /// <summary>
@@ -492,6 +571,12 @@ public class UserController : ControllerBase
         if (user is null)
             return this.NotFound(new CommonResult(new CommonResultError($"Can not find User with id: {id}")));
 
+        var commonResult = await this.UpdateUserRoles(user, requests);
+        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+    }
+
+    private async Task<CommonResult> UpdateUserRoles(OceanusUser user, IEnumerable<string> requests)
+    {
         var existingRoles = await this.userManager.GetRolesAsync(user);
         var existingRoleSet = existingRoles.ToHashSet();
         var requestRoleSet = requests.ToHashSet();
@@ -530,8 +615,7 @@ public class UserController : ControllerBase
                 }
             }
         }
-
-        return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
+        return commonResult;
     }
 
     /// <summary>
