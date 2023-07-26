@@ -1,9 +1,12 @@
 ﻿@page "/account/login"
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 @layout EmptyLayout
 @attribute [AllowAnonymous]
 @inject ILogger<LoginPage> logger
 @inject IAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager
+@inject IWebAssemblyHostEnvironment hostEnvironment
+@inject IOptions<GatewayAPIConfiguration> gatewayAPIOption
 @inject ThemisUserTokenClient themisUserTokenClient
 
 <PageTitle>Login</PageTitle>
@@ -31,8 +34,8 @@
                 @if (!string.IsNullOrEmpty(Message))
                 {
                     <MAlert Border="Borders.Bottom" Type="AlertTypes.Error" Shaped>
-                    @Message
-                </MAlert>
+                     @Message
+                 </MAlert>
                 }
                 <MTextField @bind-Value="@this.UserName" Label="UserName"
                             Rules="new List<Func<string?, StringBoolean>>(){notEmptyRule}"
@@ -51,30 +54,36 @@
                     <MRow>
                         <MCol Cols=@("auto") Class="pa-0">
                             <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.DefaultUri)">
-                                <MIcon>mdi-home</MIcon>
-                                Home
-                            </MButton>
-                        </MCol>
-                        <MSpacer />
-                        <MCol Cols=@("auto") Class="pa-0">
-                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.RegisterUri)">
-                                <MIcon>mdi-account-plus</MIcon>
-                                Register
-                            </MButton>
-                        </MCol>
-                    </MRow>
-                    <MRow>
-                        <MCol>
-                            <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="OnLogin">Login</MButton>
-                        </MCol>
-                    </MRow>
-                </MContainer>
-            </MCardActions>
-        </MCard>
-    </MCol>
-</MRow>
+                                 <MIcon>mdi-home</MIcon>
+                                 Home
+                             </MButton>
+                         </MCol>
+                         <MSpacer />
+                         <MCol Cols=@("auto") Class="pa-0">
+                             <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.RegisterUri)">
+                                 <MIcon>mdi-account-plus</MIcon>
+                                 Register
+                             </MButton>
+                         </MCol>
+                     </MRow>
+                     <MRow>
+                         <MCol>
+                             <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="OnLogin">Login</MButton>
+                         </MCol>
+                     </MRow>
+                     <MDivider Class="my-2"></MDivider>
+                     <MRow>
+                         <MCol>
+                             <MButton Color="cyan" Rounded Block OnClick="OnNTLMLogin">Login by NTLM</MButton>
+                         </MCol>
+                     </MRow>
+                 </MContainer>
+             </MCardActions>
+         </MCard>
+     </MCol>
+ </MRow>
 
-@code {
+ @code {
     private StringBoolean CardLoading { get; set; } = default!;
     private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
@@ -129,5 +138,14 @@
             this.ButtonLoading = false;
             this.ButtonDisabled = false;
         }
+    }
+
+
+    private Task OnNTLMLogin()
+    {
+        this.logger.LogInformation($"Logging in [{this.UserName}] by NTLM");
+        var ntlmAddress = $"{this.gatewayAPIOption.Value.NTLMBaseAddress}?returnurl={this.hostEnvironment.BaseAddress}";
+        this.navigationManager.NavigateTo(ntlmAddress);
+        return Task.CompletedTask;
     }
 }
