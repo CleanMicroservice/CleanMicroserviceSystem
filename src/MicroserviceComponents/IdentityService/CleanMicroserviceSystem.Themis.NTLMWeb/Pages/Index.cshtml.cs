@@ -16,6 +16,7 @@ public class IndexModel : PageModel
     public string? ReturnUrl { get; protected set; }
     public bool Authenticated { get; protected set; }
     public CommonResult<string>? ClientLoginResult { get; protected set; }
+    public CommonResult<string>? UserSynchronizationResult { get; protected set; }
 
     public IndexModel(
         ILogger<IndexModel> logger,
@@ -45,9 +46,23 @@ public class IndexModel : PageModel
             {
                 this.logger.LogError(ex, "Failed to login client:");
                 this.ClientLoginResult = new CommonResult<string>(new List<CommonResultError>() { new CommonResultError() {
-                Code = "Failed",
-                Message = ex.Message
-            }});
+                    Code = "Failed",
+                    Message = ex.Message
+                }});
+                return;
+            }
+            try
+            {
+                this.logger.LogInformation("User synchronizing ...");
+                // this.UserSyncResult = this.userClient.RegisterUserAsync
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "Failed to login client:");
+                this.UserSynchronizationResult = new CommonResult<string>(new List<CommonResultError>() { new CommonResultError() {
+                    Code = "Failed",
+                    Message = ex.Message
+                }});
                 return;
             }
         }

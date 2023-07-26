@@ -3,7 +3,7 @@
 @using System.Security.Claims;
 @model IndexModel
 @{
-    ViewData["Title"] = "NTML";
+    ViewData["Title"] = "NTLM";
 }
 
 <div class="row">
@@ -12,10 +12,20 @@
 
         @if (this.Model.Authenticated)
         {
-            <p>
-                <span class="spinner-border text-primary text-w" role="status"></span>
-                <span class="h1">You are logging in as <span class="badge bg-primary">@User.Identity?.Name</span></span>
-            </p>
+            if ((this.Model.ClientLoginResult?.Succeeded ?? false) &&
+            (this.Model.UserSynchronizationResult?.Succeeded ?? false))
+            {
+                <p>
+                    <span class="spinner-border text-primary text-w" role="status"></span>
+                    <span class="h1">You are logging in as <span class="badge bg-primary">@User.Identity?.Name</span></span>
+                </p>
+            }
+            else
+            {
+                <p>
+                    <span class="h1">Failed to login as <span class="badge bg-primary">@User.Identity?.Name</span></span>
+                </p>
+            }
         }
         else
         {
@@ -26,12 +36,57 @@
 
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingClientInformation">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClientInformation" aria-expanded="false" aria-controls="collapseClientInformation">
-                        Client Information
+                <h2 class="accordion-header" id="headingUserInformation">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUserInformation" aria-expanded="false" aria-controls="collapseUserInformation">
+                        User Information
+                        @if (this.Model.Authenticated)
+                        {
+                            <span class="badge bg-primary">Authenticated</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Not Authenticated</span>
+                        }
                     </button>
                 </h2>
-                <div id="collapseClientInformation" class="accordion-collapse collapse" aria-labelledby="headingClientInformation" data-bs-parent="#accordionExample">
+                <div id="collapseUserInformation" class="accordion-collapse collapse" aria-labelledby="headingUserInformation" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <dl class="row">
+                            <dt class="col-sm-3">@nameof(this.User.Identity.IsAuthenticated)</dt>
+                            <dd class="col-sm-9">@this.User.Identity?.IsAuthenticated</dd>
+                            <dt class="col-sm-3">@nameof(this.User.Identity.Name)</dt>
+                            <dd class="col-sm-9">@this.User.Identity?.Name</dd>
+                            <dt class="col-sm-3">@nameof(this.User.Identity.AuthenticationType)</dt>
+                            <dd class="col-sm-9">@this.User.Identity?.AuthenticationType</dd>
+                            <dt class="col-sm-3">Claims</dt>
+                            <dd class="col-sm-9">
+                                <dl class="row">
+                                    @foreach (var claim in this.User.Claims ?? Enumerable.Empty<Claim>())
+                                    {
+                                        <dt class="col-sm-4">@(Uri.TryCreate(claim.Type, UriKind.Absolute, out var uri) ? uri.Segments.LastOrDefault() : claim.Type)</dt>
+                                        <dd class="col-sm-8">@claim.Value</dd>
+                                    }
+                                </dl>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingClientLogin">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseClientLogin" aria-expanded="false" aria-controls="collapseClientLogin">
+                        Client Login
+                        @if (this.Model.ClientLoginResult?.Succeeded ?? false)
+                        {
+                            <span class="badge bg-danger">Success</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Failed</span>
+                        }
+                    </button>
+                </h2>
+                <div id="collapseClientLogin" class="accordion-collapse collapse" aria-labelledby="headingClientLogin" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <dl class="row">
                             <dt class="col-sm-3">@nameof(this.Model.ClientLoginResult.Succeeded)</dt>
@@ -51,27 +106,31 @@
                 </div>
             </div>
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingUserInformation">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUserInformation" aria-expanded="false" aria-controls="collapseUserInformation">
-                        User Information
+                <h2 class="accordion-header" id="headingUserSynchronization">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUserSynchronization" aria-expanded="false" aria-controls="collapseUserSynchronization">
+                        User Synchronization
+                        @if (this.Model.UserSynchronizationResult?.Succeeded ?? false)
+                        {
+                            <span class="badge bg-danger">Success</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Failed</span>
+                        }
                     </button>
                 </h2>
-                <div id="collapseUserInformation" class="accordion-collapse collapse" aria-labelledby="headingUserInformation" data-bs-parent="#accordionExample">
+                <div id="collapseUserSynchronization" class="accordion-collapse collapse" aria-labelledby="headingUserSynchronization" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <dl class="row">
-                            <dt class="col-sm-3">@nameof(this.User.Identity.IsAuthenticated)</dt>
-                            <dd class="col-sm-9">@this.User.Identity?.IsAuthenticated</dd>
-                            <dt class="col-sm-3">@nameof(this.User.Identity.Name)</dt>
-                            <dd class="col-sm-9">@this.User.Identity?.Name</dd>
-                            <dt class="col-sm-3">@nameof(this.User.Identity.AuthenticationType)</dt>
-                            <dd class="col-sm-9">@this.User.Identity?.AuthenticationType</dd>
-                            <dt class="col-sm-3">Claims</dt>
+                            <dt class="col-sm-3">@nameof(this.Model.UserSynchronizationResult.Succeeded)</dt>
+                            <dd class="col-sm-9">@this.Model.UserSynchronizationResult?.Succeeded</dd>
+                            <dt class="col-sm-3">Errors</dt>
                             <dd class="col-sm-9">
                                 <dl class="row">
-                                    @foreach (var claim in this.User.Claims ?? Enumerable.Empty<Claim>())
+                                    @foreach (var error in this.Model.UserSynchronizationResult?.Errors ?? Enumerable.Empty<CommonResultError>())
                                     {
-                                        <dt class="col-sm-4">@(Uri.TryCreate(claim.Type, UriKind.Absolute, out var uri) ? uri.Segments.LastOrDefault() : claim.Type)</dt>
-                                        <dd class="col-sm-8">@claim.Value</dd>
+                                        <dt class="col-sm-4">@error.Code</dt>
+                                        <dd class="col-sm-8">@error.Message</dd>
                                     }
                                 </dl>
                             </dd>
