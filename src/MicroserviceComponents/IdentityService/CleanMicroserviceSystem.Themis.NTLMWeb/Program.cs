@@ -1,7 +1,11 @@
+using CleanMicroserviceSystem.Themis.NTLMWeb.Configurations;
+using CleanMicroserviceSystem.Themis.Client;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using NLog;
 using NLog.Web;
 using MSLoggingLevel = Microsoft.Extensions.Logging.LogLevel;
+
+const string GatewayAPIConfigurationKey = "GatewayAPIConfiguration";
 
 var assemblyName = typeof(Program).Assembly.GetName();
 var setupInformation = AppDomain.CurrentDomain.SetupInformation;
@@ -19,8 +23,15 @@ logger.Info($"{nameof(builder.Environment.EnvironmentName)}={builder.Environment
 
 try
 {
-    builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-       .AddNegotiate();
+    builder.Services
+        .Configure<GatewayAPIConfiguration>(options => builder.Configuration.GetRequiredSection(GatewayAPIConfigurationKey).Bind(options))
+        .AddHttpClient()
+        .AddThemisClients(options =>
+        {
+            options.GatewayClientName = ApiContract.GatewayHttpClientName;
+        })
+        .AddAuthentication(NegotiateDefaults.AuthenticationScheme)
+        .AddNegotiate();
 
     builder.Services.AddAuthorization(options =>
     {
