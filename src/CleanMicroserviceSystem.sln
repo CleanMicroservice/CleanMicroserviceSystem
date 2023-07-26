@@ -154,6 +154,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Her
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Hermes.WebAPI", "MicroserviceComponents\K8sAgent\CleanMicroserviceSystem.Hermes.WebAPI\CleanMicroserviceSystem.Hermes.WebAPI.csproj", "{7EFE4FCE-F63B-4FA9-A467-0B99D9A46CAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Themis.NTLMWeb", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.NTLMWeb\CleanMicroserviceSystem.Themis.NTLMWeb.csproj", "{C156834C-1DBB-4232-AC69-778473AD6D2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -546,6 +548,14 @@ Global
 		{7EFE4FCE-F63B-4FA9-A467-0B99D9A46CAB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7EFE4FCE-F63B-4FA9-A467-0B99D9A46CAB}.Release|x86.ActiveCfg = Release|Any CPU
 		{7EFE4FCE-F63B-4FA9-A467-0B99D9A46CAB}.Release|x86.Build.0 = Release|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Debug|x86.Build.0 = Debug|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Release|x86.ActiveCfg = Release|Any CPU
+		{C156834C-1DBB-4232-AC69-778473AD6D2F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -609,6 +619,7 @@ Global
 		{8B1F2DFB-E622-454D-B01E-E4209E5E6F14} = {9EA646DE-73AB-4A84-9715-4FF81A196272}
 		{02DB66F2-BFA8-455C-A56D-828855883979} = {9EA646DE-73AB-4A84-9715-4FF81A196272}
 		{7EFE4FCE-F63B-4FA9-A467-0B99D9A46CAB} = {9EA646DE-73AB-4A84-9715-4FF81A196272}
+		{C156834C-1DBB-4232-AC69-778473AD6D2F} = {65AA7E50-47CF-4AA9-82F9-C1BB5926A81A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {85A4FEC3-D669-4E54-94D9-D259A5DECB54}

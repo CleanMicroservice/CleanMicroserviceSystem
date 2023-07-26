@@ -1,0 +1,43 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "NTML";
+}
+
+<div class="h-100">
+    <div class="row">
+        <div class="alert alert-light my-5" role="alert">
+            <p><span class="display-2">Welcome</span></p>
+
+            <p>
+                <span class="spinner-border text-primary text-w" role="status"></span>
+                <span class="h1">You are logging in as <span class="badge bg-primary">@User.Identity?.Name</span></span>
+            </p>
+        </div>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn btn-light" onclick="navigate()">
+            <i class="bi bi-arrow-bar-left"></i> Go Back
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="refresh()">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+        <button type="button" class="btn btn-primary" onclick="login()">
+            <i class="bi bi-box-arrow-in-right"></i> <span><strong>Login</strong></span>
+        </button>
+    </div>
+</div>
+
+<script>
+    function navigate() {
+        window.location.href = "https://example.com";
+    }
+
+    function refresh() {
+        window.location.reload();
+    }
+
+    function login() {
+        alert("发送登录请求");
+    }
+</script>
