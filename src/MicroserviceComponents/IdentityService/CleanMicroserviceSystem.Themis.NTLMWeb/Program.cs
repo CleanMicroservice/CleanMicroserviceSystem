@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Negotiate;
 using NLog;
 using NLog.Web;
 using MSLoggingLevel = Microsoft.Extensions.Logging.LogLevel;
+using CleanMicroserviceSystem.Authentication.Application;
 
 const string GatewayAPIConfigurationKey = "GatewayAPIConfiguration";
 
@@ -25,6 +26,8 @@ try
 {
     builder.Services
         .Configure<GatewayAPIConfiguration>(options => builder.Configuration.GetRequiredSection(GatewayAPIConfigurationKey).Bind(options))
+        .AddSingleton<IAuthenticationTokenStore, DefaultAuthenticationTokenStore>()
+        .AddTransient<DefaultAuthenticationDelegatingHandler>()
         .AddHttpClient()
         .AddThemisClients(options =>
         {
@@ -32,7 +35,8 @@ try
         })
         .AddHttpClient<HttpClient>(
             ApiContract.GatewayHttpClientName,
-            client => client.BaseAddress = new Uri(builder.Configuration.GetRequiredSection(GatewayAPIConfigurationKey).Get<GatewayAPIConfiguration>()!.GatewayBaseAddress));
+            client => client.BaseAddress = new Uri(builder.Configuration.GetRequiredSection(GatewayAPIConfigurationKey).Get<GatewayAPIConfiguration>()!.GatewayBaseAddress))
+        .AddHttpMessageHandler<DefaultAuthenticationDelegatingHandler>();
     builder.Services
         .AddAuthorization(options =>
         {

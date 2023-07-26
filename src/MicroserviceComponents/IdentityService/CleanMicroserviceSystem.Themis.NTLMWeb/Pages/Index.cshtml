@@ -78,7 +78,7 @@
                         Client Login
                         @if (this.Model.ClientLoginResult?.Succeeded ?? false)
                         {
-                            <span class="badge bg-danger">Success</span>
+                            <span class="badge bg-primary">Success</span>
                         }
                         else
                         {
@@ -111,7 +111,7 @@
                         User Synchronization
                         @if (this.Model.UserSynchronizeResult?.Succeeded ?? false)
                         {
-                            <span class="badge bg-danger">Success</span>
+                            <span class="badge bg-primary">Success</span>
                         }
                         else
                         {
@@ -124,6 +124,17 @@
                         <dl class="row">
                             <dt class="col-sm-3">@nameof(this.Model.UserSynchronizeResult.Succeeded)</dt>
                             <dd class="col-sm-9">@this.Model.UserSynchronizeResult?.Succeeded</dd>
+                            <dt class="col-sm-3">@nameof(this.Model.UserSynchronizeResult.Entity)</dt>
+                            <dd class="col-sm-9">
+                                <dl class="row">
+                                    <dt class="col-sm-4">@nameof(this.Model.UserSynchronizeResult.Entity.Id)</dt>
+                                    <dd class="col-sm-8">@this.Model.UserSynchronizeResult?.Entity?.Id</dd>
+                                    <dt class="col-sm-4">@nameof(this.Model.UserSynchronizeResult.Entity.UserName)</dt>
+                                    <dd class="col-sm-8">@this.Model.UserSynchronizeResult?.Entity?.UserName</dd>
+                                    <dt class="col-sm-4">@nameof(this.Model.TemporaryPassword)</dt>
+                                    <dd class="col-sm-8">@this.Model.TemporaryPassword</dd>
+                                </dl>
+                            </dd>
                             <dt class="col-sm-3">Errors</dt>
                             <dd class="col-sm-9">
                                 <dl class="row">
@@ -140,7 +151,7 @@
             </div>
         </div>
 
-        <p class="text-end">ReturnUrl: <em>@this.Model.ReturnUrl</em></p>
+        <p class="text-end">@DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff") @this.Model.ReturnUrl</p>
     </div>
 </div>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">

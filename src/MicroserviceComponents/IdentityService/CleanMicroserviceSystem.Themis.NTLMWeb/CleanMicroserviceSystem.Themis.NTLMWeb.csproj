@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Application\CleanMicroserviceSystem.Authentication.Application.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Themis.Client\CleanMicroserviceSystem.Themis.Client.csproj" />
   </ItemGroup>
 

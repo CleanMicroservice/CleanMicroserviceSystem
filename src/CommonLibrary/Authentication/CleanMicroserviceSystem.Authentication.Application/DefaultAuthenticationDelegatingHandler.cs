@@ -1,8 +1,7 @@
 ﻿using System.Net.Http.Headers;
-using CleanMicroserviceSystem.Authentication.Application;
 using CleanMicroserviceSystem.Authentication.Domain;
 
-namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authentication;
+namespace CleanMicroserviceSystem.Authentication.Application;
 
 public class DefaultAuthenticationDelegatingHandler : DelegatingHandler
 {

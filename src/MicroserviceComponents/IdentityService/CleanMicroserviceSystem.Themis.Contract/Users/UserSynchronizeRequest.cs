@@ -29,7 +29,7 @@ public class UserSynchronizeRequest : ContractBase
 
     public string SynchronizeSource { get; set; } = default!;
 
-    public IEnumerable<ClaimUpdateRequest> Claims { get; set; } = default!;
+    public IList<ClaimUpdateRequest> Claims { get; set; } = default!;
 
-    public IEnumerable<RoleCreateRequest> Roles { get; set; } = default!;
+    public IList<RoleCreateRequest> Roles { get; set; } = default!;
 }
