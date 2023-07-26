@@ -99,17 +99,6 @@ public static class IdentityDatabaseInitializer
             new IdentityRoleClaim<int> { Id=6, RoleId = IdentityContract.CommonRoleId, ClaimType = IdentityContract.AstraAPIResource, ClaimValue = IdentityContract.Write },
         });
 
-        builder.Entity<Client>().HasData(new[]
-        {
-            new Client { Id = 1, Name = "ThemisNTLM", Secret = "689df6c9-b64a-4241-ab59-ad141c8048ba".Sha256() },
-        });
-
-        builder.Entity<ClientClaim>().HasData(new[]
-        {
-            new ClientClaim { Id = 1, ClientId = 1, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Read },
-            new ClientClaim { Id = 2, ClientId = 1, ClaimType = IdentityContract.ThemisAPIResource, ClaimValue = IdentityContract.Write },
-        });
-
         return builder;
     }
 }

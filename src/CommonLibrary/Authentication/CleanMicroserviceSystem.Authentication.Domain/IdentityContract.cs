@@ -40,6 +40,7 @@ public static class IdentityContract
     #region Clients
 
     public const string TethysClient = "Tethys";
+    public const string ThemisNTLMClient = "ThemisNTLM";
     #endregion
 
     #region Accesses

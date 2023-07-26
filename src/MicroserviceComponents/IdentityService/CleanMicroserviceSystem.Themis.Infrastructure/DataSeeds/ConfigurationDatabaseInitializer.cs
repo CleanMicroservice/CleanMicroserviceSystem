@@ -29,7 +29,17 @@ public static class ConfigurationDatabaseInitializer
                 Name = IdentityContract.TethysClient,
                 Description = IdentityContract.TethysClient,
                 Secret = "TethysSecret".Sha256(),
-            }});
+            },
+            new Client {
+                Id = 2,
+                Enabled = true,
+                CreatedOn = DateTime.UtcNow,
+                CreatedBy = IdentityContract.AdminUserId,
+                Name = IdentityContract.ThemisNTLMClient,
+                Description = IdentityContract.ThemisNTLMClient,
+                Secret = "ThemisNTLMSecret".Sha256()
+            },
+        });
         builder.Entity<ClientClaim>().HasData(new[] {
             new ClientClaim()
             {
@@ -44,7 +54,22 @@ public static class ConfigurationDatabaseInitializer
                 ClientId = 1,
                 ClaimType= IdentityContract.ThemisAPIResource,
                 ClaimValue= IdentityContract.Write,
-            }});
+            },
+            new ClientClaim
+            {
+                Id = 3,
+                ClientId = 2,
+                ClaimType = IdentityContract.ThemisAPIResource,
+                ClaimValue = IdentityContract.Read
+            },
+            new ClientClaim
+            {
+                Id = 4,
+                ClientId = 2,
+                ClaimType = IdentityContract.ThemisAPIResource,
+                ClaimValue = IdentityContract.Write
+            }
+        });
         return builder;
     }
 }

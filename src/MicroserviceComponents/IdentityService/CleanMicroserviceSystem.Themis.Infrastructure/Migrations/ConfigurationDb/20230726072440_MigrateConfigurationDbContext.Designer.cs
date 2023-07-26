@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20230424123416_MigrateConfigurationDbContext")]
+    [Migration("20230726072440_MigrateConfigurationDbContext")]
     partial class MigrateConfigurationDbContext
     {
         /// <inheritdoc />
@@ -19,7 +19,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.2.23128.3")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.6.23329.4")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true);
@@ -65,7 +65,7 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 4, 24, 12, 34, 15, 993, DateTimeKind.Utc).AddTicks(8880),
+                            CreatedOn = new DateTime(2023, 7, 26, 7, 24, 40, 601, DateTimeKind.Utc).AddTicks(3292),
                             Description = "ThemisAPI",
                             Enabled = true,
                             Name = "ThemisAPI"
@@ -116,11 +116,21 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                         {
                             Id = 1,
                             CreatedBy = 1,
-                            CreatedOn = new DateTime(2023, 4, 24, 12, 34, 15, 993, DateTimeKind.Utc).AddTicks(8952),
+                            CreatedOn = new DateTime(2023, 7, 26, 7, 24, 40, 601, DateTimeKind.Utc).AddTicks(3362),
                             Description = "Tethys",
                             Enabled = true,
                             Name = "Tethys",
                             Secret = "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8="
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = 1,
+                            CreatedOn = new DateTime(2023, 7, 26, 7, 24, 40, 601, DateTimeKind.Utc).AddTicks(3468),
+                            Description = "ThemisNTLM",
+                            Enabled = true,
+                            Name = "ThemisNTLM",
+                            Secret = "SvFQgEUNsTWoB4JUGbTUyfr9sh9bwFDf3inRqrwEDMs="
                         });
                 });
 
@@ -162,6 +172,20 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                             ClaimType = "ThemisAPI",
                             ClaimValue = "Write",
                             ClientId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Read",
+                            ClientId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClaimType = "ThemisAPI",
+                            ClaimValue = "Write",
+                            ClientId = 2
                         });
                 });
 

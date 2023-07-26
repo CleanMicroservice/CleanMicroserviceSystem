@@ -76,12 +76,16 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
             migrationBuilder.InsertData(
                 table: "ApiResources",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name" },
-                values: new object[] { 1, 1, new DateTime(2023, 4, 24, 12, 34, 15, 993, DateTimeKind.Utc).AddTicks(8880), "ThemisAPI", true, null, null, "ThemisAPI" });
+                values: new object[] { 1, 1, new DateTime(2023, 7, 26, 7, 24, 40, 601, DateTimeKind.Utc).AddTicks(3292), "ThemisAPI", true, null, null, "ThemisAPI" });
 
             migrationBuilder.InsertData(
                 table: "Clients",
                 columns: new[] { "Id", "CreatedBy", "CreatedOn", "Description", "Enabled", "LastModifiedBy", "LastModifiedOn", "Name", "Secret" },
-                values: new object[] { 1, 1, new DateTime(2023, 4, 24, 12, 34, 15, 993, DateTimeKind.Utc).AddTicks(8952), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" });
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2023, 7, 26, 7, 24, 40, 601, DateTimeKind.Utc).AddTicks(3362), "Tethys", true, null, null, "Tethys", "dZ4LIKrWTu4W+XlkYYEamdddV4MrXnxZpjPUQClKn+8=" },
+                    { 2, 1, new DateTime(2023, 7, 26, 7, 24, 40, 601, DateTimeKind.Utc).AddTicks(3468), "ThemisNTLM", true, null, null, "ThemisNTLM", "SvFQgEUNsTWoB4JUGbTUyfr9sh9bwFDf3inRqrwEDMs=" }
+                });
 
             migrationBuilder.InsertData(
                 table: "ClientClaims",
@@ -89,7 +93,9 @@ namespace CleanMicroserviceSystem.Themis.Infrastructure.Migrations.Configuration
                 values: new object[,]
                 {
                     { 1, "ThemisAPI", "Read", 1 },
-                    { 2, "ThemisAPI", "Write", 1 }
+                    { 2, "ThemisAPI", "Write", 1 },
+                    { 3, "ThemisAPI", "Read", 2 },
+                    { 4, "ThemisAPI", "Write", 2 }
                 });
 
             migrationBuilder.CreateIndex(
