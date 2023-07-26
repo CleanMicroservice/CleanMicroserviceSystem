@@ -85,10 +85,10 @@ public static class CleanMicroserviceSystemAuthenticationExtension
         IEnumerable<AuthenticationSchemeConfiguration> configurations)
     {
         services.AddSingleton<IAuthenticationSchemeProvider, HybridAuthenticationSchemeProvider>();
-        services.Configure<AuthenticationSchemeConfigurations>(options =>
+        foreach (var configuration in configurations)
         {
-            options.SchemeConfigurations = configurations;
-        });
+            services.AddSingleton(configuration);
+        }
         return services;
     }
 }

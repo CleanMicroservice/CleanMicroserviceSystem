@@ -6,18 +6,17 @@ namespace CleanMicroserviceSystem.Authentication.Services
 {
     public class HybridAuthenticationSchemeProvider : AuthenticationSchemeProvider
     {
-        private readonly AuthenticationSchemeConfigurations schemeConfigurations;
+        private readonly IEnumerable<AuthenticationSchemeConfiguration> schemeConfigurations;
         private readonly IHttpContextAccessor httpContextAccessor;
 
         public HybridAuthenticationSchemeProvider(
             IOptions<AuthenticationOptions> options,
-            IConfigureOptions<AuthenticationSchemeConfigurations> schemeConfigurations,
+            IEnumerable<AuthenticationSchemeConfiguration> schemeConfigurations,
             IHttpContextAccessor httpContextAccessor) :
             base(options)
         {
             this.httpContextAccessor = httpContextAccessor;
-            this.schemeConfigurations = new AuthenticationSchemeConfigurations();
-            schemeConfigurations.Configure(this.schemeConfigurations);
+            this.schemeConfigurations = schemeConfigurations;
         }
 
         public override async Task<AuthenticationScheme?> GetDefaultAuthenticateSchemeAsync()
@@ -26,11 +25,12 @@ namespace CleanMicroserviceSystem.Authentication.Services
             if (httpContext is null)
                 return await base.GetDefaultAuthenticateSchemeAsync();
 
-            var primarySchemeConfig = this.schemeConfigurations.SchemeConfigurations.FirstOrDefault(scheme => scheme.Predicate.Invoke(httpContext));
+            var primarySchemeConfig = this.schemeConfigurations.FirstOrDefault(scheme => scheme.Predicate.Invoke(httpContext));
             if (primarySchemeConfig is null)
                 return await base.GetDefaultAuthenticateSchemeAsync();
 
-            return await this.GetSchemeAsync(primarySchemeConfig.SchemeName);
+            var result = await this.GetSchemeAsync(primarySchemeConfig.SchemeName);
+            return result;
         }
     }
 }

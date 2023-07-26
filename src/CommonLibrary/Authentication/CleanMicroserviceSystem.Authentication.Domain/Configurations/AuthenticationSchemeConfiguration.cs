@@ -2,11 +2,6 @@
 
 namespace CleanMicroserviceSystem.Authentication.Configurations;
 
-public class AuthenticationSchemeConfigurations
-{
-    public IEnumerable<AuthenticationSchemeConfiguration> SchemeConfigurations { get; set; } = null!;
-}
-
 public class AuthenticationSchemeConfiguration
 {
     public AuthenticationSchemeConfiguration(
