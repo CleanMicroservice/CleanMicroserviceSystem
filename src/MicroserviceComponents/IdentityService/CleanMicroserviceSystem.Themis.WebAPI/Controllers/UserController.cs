@@ -219,13 +219,13 @@ public class UserController : ControllerBase
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost(nameof(Synchronize))]
     [Authorize(Policy = IdentityContract.ThemisAPIWritePolicyName)]
-    public async Task<ActionResult<CommonResult>> Synchronize([FromBody] UserSynchronizeRequest request)
+    public async Task<ActionResult<CommonResult<UserInformationResponse>>> Synchronize([FromBody] UserSynchronizeRequest request)
     {
         this.logger.LogInformation($"Synchronize User: {request.UserName}");
         var user = await this.userManager.FindByNameAsync(request.UserName);
-        var commonResult = new CommonResult();
+        var commonResult = new CommonResult<UserInformationResponse>();
         if (user is null)
         {
             var newUser = new OceanusUser()
@@ -280,12 +280,33 @@ public class UserController : ControllerBase
             }
         }
 
-        commonResult = await this.UpdateUserClaims(user!, request.Claims);
-        if (!commonResult.Succeeded)
+        commonResult.Entity = new UserInformationResponse()
         {
+            Id = user!.Id,
+            UserName = user!.UserName,
+            Email = user!.Email,
+            PhoneNumber = user!.PhoneNumber,
+            Enabled = !(user.LockoutEnabled && user.LockoutEnd.HasValue && user.LockoutEnd.Value >= DateTime.UtcNow),
+        };
+
+        var updateResult = await this.UpdateUserClaims(user!, request.Claims);
+        if (!updateResult.Succeeded)
+        {
+            foreach (var error in updateResult.Errors)
+            {
+                commonResult.Errors.Add(error);
+            }
             return this.BadRequest(commonResult);
         }
-        commonResult = await this.UpdateUserRoles(user!, request.Roles?.Select(role => role.RoleName) ?? Enumerable.Empty<string>());
+        updateResult = await this.UpdateUserRoles(user!, request.Roles?.Select(role => role.RoleName) ?? Enumerable.Empty<string>());
+        if (!updateResult.Succeeded)
+        {
+            foreach (var error in updateResult.Errors)
+            {
+                commonResult.Errors.Add(error);
+            }
+            return this.BadRequest(commonResult);
+        }
         return commonResult.Succeeded ? this.Ok(commonResult) : this.BadRequest(commonResult);
     }
 

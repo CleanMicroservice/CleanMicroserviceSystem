@@ -41,6 +41,13 @@ public class ThemisUserClient : OceanusServiceClientBase
         return await this.GetCommonResult<UserInformationResponse>(response);
     }
 
+    public async Task<CommonResult<UserInformationResponse>?> SynchronizeUserAsync(UserSynchronizeRequest request)
+    {
+        var uri = this.BuildUri("/api/User/Synchronize");
+        var response = await this.httpClient.PostAsJsonAsync(uri, request);
+        return await this.GetCommonResult<UserInformationResponse>(response);
+    }
+
     public async Task<UserInformationResponse?> GetUserAsync(int id)
     {
         var uri = this.BuildUri($"/api/User/{id}");
