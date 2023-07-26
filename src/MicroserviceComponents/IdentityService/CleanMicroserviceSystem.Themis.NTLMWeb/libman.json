@@ -23,6 +23,13 @@
         "font/fonts/bootstrap-icons.woff2",
         "font/bootstrap-icons.min.css"
       ]
+    },
+    {
+      "library": "jquery@3.7.0",
+      "destination": "wwwroot/jquery/",
+      "files": [
+        "jquery.min.js"
+      ]
     }
   ]
 }
