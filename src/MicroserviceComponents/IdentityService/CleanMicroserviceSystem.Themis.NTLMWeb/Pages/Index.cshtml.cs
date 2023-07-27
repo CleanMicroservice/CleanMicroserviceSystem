@@ -63,10 +63,15 @@ public class IndexModel : PageModel
                 }});
             return;
         }
+        if (!(ClientLoginResult?.Succeeded ?? false))
+        {
+            return;
+        }
+
         try
         {
             this.logger.LogInformation("User synchronizing ...");
-            this.TemporaryPassword = Guid.NewGuid().ToString("n");
+            var temporaryPassword = Guid.NewGuid().ToString("n");
             var userName = Regex.Replace(this.User.Identity?.Name ?? string.Empty, "[^0-9A-Za-z]", string.Empty);
             var request = new UserSynchronizeRequest()
             {
@@ -74,8 +79,8 @@ public class IndexModel : PageModel
                 Email = $"{userName}@ICANN.COM",
                 PhoneNumber = "1234567890",
                 SynchronizeSource = ApiContract.ThemisNTLMClientName,
-                Password = this.TemporaryPassword,
-                ConfirmPassword = this.TemporaryPassword,
+                Password = temporaryPassword,
+                ConfirmPassword = temporaryPassword,
                 Roles = new List<RoleCreateRequest>(),
                 Claims = new List<ClaimUpdateRequest>()
             };
@@ -92,13 +97,14 @@ public class IndexModel : PageModel
                 }
             }
             this.UserSynchronizeResult = this.userClient.SynchronizeUserAsync(request).Result;
+            this.TemporaryPassword = temporaryPassword;
 
             try
             {
                 this.ReturnUrl = string.Format(
                     this.ReturnUrl,
                     this.UserSynchronizeResult?.Entity?.UserName ?? userName,
-                    TemporaryPassword);
+                    temporaryPassword);
             }
             catch
             {

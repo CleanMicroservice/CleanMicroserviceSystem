@@ -50,8 +50,16 @@ public abstract class OceanusServiceClientBase
         }
         else
         {
-            var result = await response.Content.ReadFromJsonAsync<CommonResult<TEntity>>();
-            return result;
+            try
+            {
+                var result = await response.Content.ReadFromJsonAsync<CommonResult<TEntity>>();
+                return result;
+            }
+            catch
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"[{response.StatusCode}] {content}");
+            }
         }
     }
 }
