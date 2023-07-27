@@ -154,7 +154,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Her
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Hermes.WebAPI", "MicroserviceComponents\K8sAgent\CleanMicroserviceSystem.Hermes.WebAPI\CleanMicroserviceSystem.Hermes.WebAPI.csproj", "{7EFE4FCE-F63B-4FA9-A467-0B99D9A46CAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanMicroserviceSystem.Themis.NTLMWeb", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.NTLMWeb\CleanMicroserviceSystem.Themis.NTLMWeb.csproj", "{C156834C-1DBB-4232-AC69-778473AD6D2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanMicroserviceSystem.Themis.NTLMWeb", "MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.NTLMWeb\CleanMicroserviceSystem.Themis.NTLMWeb.csproj", "{C156834C-1DBB-4232-AC69-778473AD6D2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

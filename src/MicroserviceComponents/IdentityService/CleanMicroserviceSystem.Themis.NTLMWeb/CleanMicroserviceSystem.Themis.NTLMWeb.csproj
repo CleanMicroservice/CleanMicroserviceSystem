@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="8.0.0-preview.6.23329.11" />
     <PackageReference Include="NLog" Version="5.2.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.2" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="8.0.0-preview.6.23329.7" />
   </ItemGroup>
 
   <ItemGroup>

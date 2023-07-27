@@ -1,3 +1,5 @@
+using System.Data;
+using System.DirectoryServices.AccountManagement;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using CleanMicroserviceSystem.Authentication.Application;
@@ -21,6 +23,7 @@ public class IndexModel : PageModel
 
     public string? ReturnUrl { get; protected set; }
     public bool Authenticated { get; protected set; }
+    public IEnumerable<string> GroupNames { get; protected set; } = default!;
     public CommonResult<string>? ClientLoginResult { get; protected set; }
     public CommonResult<UserInformationResponse>? UserSynchronizeResult { get; protected set; }
     public string TemporaryPassword { get; protected set; } = default!;
@@ -46,6 +49,36 @@ public class IndexModel : PageModel
         if (!this.Authenticated)
         {
             return;
+        }
+
+        this.GroupNames = this.User.Claims?
+            .Where(claim => claim.Type == ClaimTypes.GroupSid)?
+            .Select(group => group.Value)?
+            .Order()?
+            .ToArray() ?? Array.Empty<string>();
+        try
+        {
+            var context = new PrincipalContext(ContextType.Domain);
+            this.GroupNames = this.GroupNames
+                .Select(groupName =>
+                {
+                    try
+                    {
+                        var group = GroupPrincipal.FindByIdentity(context, IdentityType.Sid, groupName);
+                        return group.SamAccountName ?? group.Name;
+                    }
+                    catch (Exception ex)
+                    {
+                        this.logger.LogWarning(ex, $"Failed to translate group sid: {groupName}");
+                        return groupName;
+                    }
+                })
+                .Order()
+                .ToArray();
+        }
+        catch (Exception ex)
+        {
+            this.logger.LogError(ex, "Failed to translate domain role from group sid:");
         }
 
         try
@@ -84,17 +117,13 @@ public class IndexModel : PageModel
                 Roles = new List<RoleCreateRequest>(),
                 Claims = new List<ClaimUpdateRequest>()
             };
-            foreach (var claim in this.User.Claims)
+            foreach (var claim in this.User.Claims?.Where(claim => claim.Type != ClaimTypes.PrimaryGroupSid && claim.Type != ClaimTypes.GroupSid) ?? Enumerable.Empty<Claim>())
             {
-                if (claim.Type == ClaimTypes.PrimaryGroupSid ||
-                    claim.Type == ClaimTypes.GroupSid)
-                {
-                    request.Roles.Add(new RoleCreateRequest() { RoleName = claim.Value });
-                }
-                else
-                {
-                    request.Claims.Add(new ClaimUpdateRequest() { Type = claim.Type, Value = claim.Value });
-                }
+                request.Claims.Add(new ClaimUpdateRequest() { Type = claim.Type, Value = claim.Value });
+            }
+            foreach (var groupName in this.GroupNames)
+            {
+                request.Roles.Add(new RoleCreateRequest() { RoleName = groupName });
             }
             this.UserSynchronizeResult = this.userClient.SynchronizeUserAsync(request).Result;
             this.TemporaryPassword = temporaryPassword;

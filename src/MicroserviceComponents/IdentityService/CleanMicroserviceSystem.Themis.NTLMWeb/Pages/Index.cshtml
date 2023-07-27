@@ -64,13 +64,25 @@
                             <dd class="col-sm-9">@this.User.Identity?.Name</dd>
                             <dt class="col-sm-3">@nameof(this.User.Identity.AuthenticationType)</dt>
                             <dd class="col-sm-9">@this.User.Identity?.AuthenticationType</dd>
+                            <dt class="col-sm-3">@nameof(this.Model.GroupNames)</dt>
+                            <dd class="col-sm-9">
+                                @foreach (var groupName in this.Model.GroupNames ?? Enumerable.Empty<string>())
+                                {
+                                    <span class="badge bg-primary">@groupName</span>
+                                }
+                            </dd>
                             <dt class="col-sm-3">Claims</dt>
                             <dd class="col-sm-9">
                                 <dl class="row">
-                                    @foreach (var claim in this.User.Claims ?? Enumerable.Empty<Claim>())
+                                    @foreach (var claimGroup in (this.User.Claims ?? Enumerable.Empty<Claim>()).GroupBy(claim => claim.Type))
                                     {
-                                        <dt class="col-sm-4">@(Uri.TryCreate(claim.Type, UriKind.Absolute, out var uri) ? uri.Segments.LastOrDefault() : claim.Type)</dt>
-                                        <dd class="col-sm-8">@claim.Value</dd>
+                                        <dt class="col-sm-4">@(Uri.TryCreate(claimGroup.Key, UriKind.Absolute, out var uri) ? uri.Segments.LastOrDefault() : claimGroup.Key)</dt>
+                                        <dd class="col-sm-8">
+                                            @foreach (var claim in claimGroup)
+                                            {
+                                                <span class="badge bg-primary">@claim.Value</span>
+                                            }
+                                        </dd>
                                     }
                                 </dl>
                             </dd>
