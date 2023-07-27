@@ -622,9 +622,22 @@ public class UserController : ControllerBase
         var rolesToAdd = requestRoleSet
             .Except(existingRoleSet)
             .Where(role =>
-                this.roleManager.RoleExistsAsync(role).Result &&
                 !this.userManager.IsInRoleAsync(user, role).Result)
             .ToArray();
+        foreach (var roleToAdd in rolesToAdd)
+        {
+            if (!(await this.roleManager.RoleExistsAsync(roleToAdd)))
+            {
+                var result = await this.roleManager.CreateAsync(new OceanusRole() { Name = roleToAdd });
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        commonResult.Errors.Add(new CommonResultError(error.Code, error.Description));
+                    }
+                }
+            }
+        }
         if (rolesToAdd.Any())
         {
             var result = await this.userManager.AddToRolesAsync(user, rolesToAdd);
