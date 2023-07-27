@@ -1,5 +1,7 @@
 ﻿@page "/account/login"
+@page "/account/login/{UserName}/{Password}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+@using Microsoft.AspNetCore.Http;
 @layout EmptyLayout
 @attribute [AllowAnonymous]
 @inject ILogger<LoginPage> logger
@@ -84,11 +86,15 @@
  </MRow>
 
  @code {
+    [Parameter]
+    public string? UserName { get; set; }
+
+    [Parameter]
+    public string? Password { get; set; }
+
     private StringBoolean CardLoading { get; set; } = default!;
     private bool ButtonLoading { get; set; }
     private bool ButtonDisabled { get; set; }
-    private string? UserName { get; set; }
-    private string? Password { get; set; }
     private bool ShowPassword { get; set; }
     private string? Message { get; set; }
     private Func<string?, StringBoolean> notEmptyRule = value => !string.IsNullOrWhiteSpace(value) ? true : "Filed shouldn't be empty.";
@@ -140,12 +146,22 @@
         }
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        if (!string.IsNullOrEmpty(this.UserName) &&
+            !string.IsNullOrEmpty(this.Password))
+        {
+            await this.OnLogin();
+        }
+    }
 
     private Task OnNTLMLogin()
     {
         this.logger.LogInformation($"Logging in [{this.UserName}] by NTLM");
-        var ntlmAddress = $"{this.gatewayAPIOption.Value.NTLMBaseAddress}?returnurl={this.hostEnvironment.BaseAddress}";
-        this.navigationManager.NavigateTo(ntlmAddress);
+        var returnUrl = new Uri(new Uri(this.hostEnvironment.BaseAddress), $"account/login/{{0}}/{{1}}");
+        var loginAddress = $"{this.gatewayAPIOption.Value.NTLMBaseAddress}?returnUrl={returnUrl}";
+        this.navigationManager.NavigateTo(loginAddress);
         return Task.CompletedTask;
     }
 }
