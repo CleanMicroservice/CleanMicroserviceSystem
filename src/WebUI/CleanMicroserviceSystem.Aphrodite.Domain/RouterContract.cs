@@ -21,6 +21,4 @@ public class RouterContract
     public const string ClientsEditUriPattern = $"{ClientsEditUri}/{{id}}";
 
     public const string PackagesUri = "/nugetserver/packages";
-
-    public const string K8SConsoleUri = "/k8sconsole";
 }

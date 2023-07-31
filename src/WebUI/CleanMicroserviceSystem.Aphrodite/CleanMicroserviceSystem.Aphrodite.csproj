@@ -15,7 +15,6 @@
     <ProjectReference Include="..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\DataStructure\CleanMicroserviceSystem.DataStructure\CleanMicroserviceSystem.DataStructure.csproj" />
     <ProjectReference Include="..\..\MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Contract\CleanMicroserviceSystem.Themis.Contract.csproj" />
-    <ProjectReference Include="..\..\MicroserviceComponents\K8sAgent\CleanMicroserviceSystem.Hermes.Client\CleanMicroserviceSystem.Hermes.Client.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Aphrodite.Domain\CleanMicroserviceSystem.Aphrodite.Domain.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Aphrodite.Infrastructure\CleanMicroserviceSystem.Aphrodite.Infrastructure.csproj" />
   </ItemGroup>

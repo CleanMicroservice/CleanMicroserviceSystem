@@ -19,7 +19,6 @@
     <ProjectReference Include="..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Application\CleanMicroserviceSystem.Authentication.Application.csproj" />
     <ProjectReference Include="..\..\CommonLibrary\Authentication\CleanMicroserviceSystem.Authentication.Domain\CleanMicroserviceSystem.Authentication.Domain.csproj" />
     <ProjectReference Include="..\..\MicroserviceComponents\IdentityService\CleanMicroserviceSystem.Themis.Client\CleanMicroserviceSystem.Themis.Client.csproj" />
-    <ProjectReference Include="..\..\MicroserviceComponents\K8sAgent\CleanMicroserviceSystem.Hermes.Client\CleanMicroserviceSystem.Hermes.Client.csproj" />
     <ProjectReference Include="..\..\MicroserviceComponents\NuGetServer\CleanMicroserviceSystem.Astra.Client\CleanMicroserviceSystem.Astra.Client.csproj" />
     <ProjectReference Include="..\..\ServiceBoilerplate\ServiceBoilerplate.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction\CleanMicroserviceSystem.Oceanus.Client.Abstraction.csproj" />
     <ProjectReference Include="..\CleanMicroserviceSystem.Aphrodite.Application\CleanMicroserviceSystem.Aphrodite.Application.csproj" />
