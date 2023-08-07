@@ -46,7 +46,7 @@ public static class CleanMicroserviceSystemAuthenticationExtension
                 {
                     ClockSkew = TimeSpan.Zero,
                     ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     RequireAudience = true,
