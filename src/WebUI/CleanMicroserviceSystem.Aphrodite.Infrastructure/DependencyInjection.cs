@@ -16,9 +16,6 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure;
 
 public static class DependencyInjection
 {
-    private const string NuGetServerConfigurationKey = "NuGetServerConfiguration";
-    private const string GatewayAPIConfigurationKey = "GatewayAPIConfiguration";
-
     public static IServiceCollection ConfigureServices(this WebAssemblyHostBuilder builder)
     {
         var config = builder.Configuration;
@@ -51,7 +48,8 @@ public static class DependencyInjection
             ApiContract.AphroditeHttpClientName,
             client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
         _ = services
-            .Configure<GatewayAPIConfiguration>(options => config.GetRequiredSection(GatewayAPIConfigurationKey).Bind(options))
+            .Configure<GatewayAPIConfiguration>(options => config.GetRequiredSection(GatewayAPIConfiguration.ConfigurationKey).Bind(options))
+            .Configure<AppearanceConfiguration>(options => config.GetRequiredSection(AppearanceConfiguration.ConfigurationKey).Bind(options))
             .AddThemisClients(options =>
             {
                 options.GatewayClientName = ApiContract.GatewayHttpClientName;
@@ -59,12 +57,12 @@ public static class DependencyInjection
             .AddAstraClients(options =>
             {
                 options.GatewayClientName = ApiContract.GatewayHttpClientName;
-                options.ApiKey = config.GetRequiredSection(NuGetServerConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey;
+                options.ApiKey = config.GetRequiredSection(NuGetServerConfiguration.ConfigurationKey)!.Get<NuGetServerConfiguration>()!.ApiKey;
             })
             .AddTransient<DefaultAuthenticationDelegatingHandler>()
             .AddHttpClient<HttpClient>(
                 ApiContract.GatewayHttpClientName,
-                client => client.BaseAddress = new Uri(config.GetRequiredSection(GatewayAPIConfigurationKey).Get<GatewayAPIConfiguration>()!.GatewayBaseAddress))
+                client => client.BaseAddress = new Uri(config.GetRequiredSection(GatewayAPIConfiguration.ConfigurationKey).Get<GatewayAPIConfiguration>()!.GatewayBaseAddress))
             .AddHttpMessageHandler<DefaultAuthenticationDelegatingHandler>();
         return services;
     }
