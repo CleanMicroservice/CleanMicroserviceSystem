@@ -8,6 +8,7 @@
 @inject IAuthenticationTokenStore tokenStore
 @inject NavigationManager navigationManager
 @inject IWebAssemblyHostEnvironment hostEnvironment
+@inject IOptions<AppearanceConfiguration> appearanceOption
 @inject IOptions<GatewayAPIConfiguration> gatewayAPIOption
 @inject ThemisUserTokenClient themisUserTokenClient
 
@@ -55,7 +56,7 @@
                 <MContainer>
                     <MRow>
                         <MCol Cols=@("auto") Class="pa-0">
-                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.DefaultUri)">
+                            <MButton Color="primary" Text XSmall OnClick="()=>this.navigationManager.NavigateTo(RouterContract.StartUri)">
                                  <MIcon>mdi-home</MIcon>
                                  Home
                              </MButton>
@@ -73,19 +74,22 @@
                              <MButton Color="primary" Loading="ButtonLoading" Disabled=ButtonDisabled Rounded Block OnClick="OnLogin">Login</MButton>
                          </MCol>
                      </MRow>
-                     <MDivider Class="my-2"></MDivider>
-                     <MRow>
-                         <MCol>
-                             <MButton Color="cyan" Rounded Block OnClick="OnNTLMLogin">Login by NTLM</MButton>
-                         </MCol>
-                     </MRow>
-                 </MContainer>
-             </MCardActions>
-         </MCard>
-     </MCol>
- </MRow>
+                     @if (this.appearanceOption.Value?.SupportNTLM ?? false)
+                    {
+                        <MDivider Class="my-2"></MDivider>
+                        <MRow>
+                            <MCol>
+                                <MButton Color="cyan" Rounded Block OnClick="OnNTLMLogin">Login by NTLM</MButton>
+                             </MCol>
+                         </MRow>
+                    }
+                </MContainer>
+            </MCardActions>
+        </MCard>
+    </MCol>
+</MRow>
 
- @code {
+@code {
     [Parameter]
     public string? UserName { get; set; }
 
@@ -125,7 +129,7 @@
             {
                 this.logger.LogInformation($"Login [{this.UserName}] successfully.");
                 await tokenStore.UpdateTokenAsync(commonResult!.Entity!);
-                this.navigationManager.NavigateTo(RouterContract.DefaultUri);
+                this.navigationManager.NavigateTo(this.appearanceOption.Value.DefaultUriAfterLogin ?? RouterContract.StartUri);
             }
             else
             {

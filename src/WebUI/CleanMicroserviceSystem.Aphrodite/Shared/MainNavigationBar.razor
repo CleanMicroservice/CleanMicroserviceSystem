@@ -10,7 +10,7 @@
          <MCol Align=@("center")>
              <MImage Src="/img/Logo.png"
                      MinWidth=LogoMinSize MaxWidth=LogoMaxSize MinHeight=LogoMinSize MaxHeight=LogoMaxSize
-             @onclick="()=>navigationManager.NavigateTo(RouterContract.DefaultUri)" />
+             @onclick="()=>navigationManager.NavigateTo(RouterContract.StartUri)" />
          </MCol>
          <MSpacer></MSpacer>
      </MRow>
@@ -27,7 +27,7 @@
     }
 
     <MList Routable Nav Dense Rounded>
-        <NavigatorItem Icon="mdi-home" Title="Home" TargetUri="@RouterContract.DefaultUri" />
+        <NavigatorItem Icon="mdi-home" Title="Home" TargetUri="@RouterContract.StartUri" />
         <PermissionNavigator />
         <NuGetServerNavigator />
     </MList>

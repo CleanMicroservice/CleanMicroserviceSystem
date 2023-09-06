@@ -2,7 +2,7 @@
 
 public class RouterContract
 {
-    public const string DefaultUri = "/";
+    public const string StartUri = "/";
     public const string NotFoundUri = "/system/notfound";
     public const string UnauthorizedUri = "/system/unauthorized";
 

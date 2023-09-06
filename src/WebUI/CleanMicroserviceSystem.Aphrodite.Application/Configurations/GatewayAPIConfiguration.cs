@@ -2,6 +2,8 @@
 
 public class GatewayAPIConfiguration
 {
+    public const string ConfigurationKey = "GatewayAPIConfiguration";
+
     public string GatewayBaseAddress { get; set; } = default!;
 
     public string NTLMBaseAddress { get; set; } = default!;

@@ -99,6 +99,6 @@
             this.logger.LogError(ex, $"Exception when logout.");
         }
         await this.tokenStore.UpdateTokenAsync(string.Empty);
-        this.navigationManager.NavigateTo(RouterContract.DefaultUri);
+        this.navigationManager.NavigateTo(RouterContract.StartUri);
     }
 }
