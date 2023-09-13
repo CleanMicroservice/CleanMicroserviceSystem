@@ -21,7 +21,8 @@ public static class CleanMicroserviceSystemGatewayExtension
                 Interval = TimeSpan.FromSeconds(60),
                 Timeout = TimeSpan.FromSeconds(30),
                 DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(30),
-                HTTP = configuration.HealthCheckUrl
+                HTTP = configuration.HealthCheckUrl,
+                Status = HealthStatus.Passing,
             }
         };
         var consulClient = new ConsulClient();
