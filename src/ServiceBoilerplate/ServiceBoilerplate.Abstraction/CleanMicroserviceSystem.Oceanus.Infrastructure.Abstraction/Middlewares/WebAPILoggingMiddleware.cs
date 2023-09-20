@@ -114,7 +114,10 @@ public class WebAPILoggingMiddleware
 
             try
             {
-                await this.webAPILogRepository.AddAsync(webAPILog);
+                lock (this.webAPILogRepository)
+                {
+                    this.webAPILogRepository.Add(webAPILog);
+                }
             }
             catch (Exception logEx)
             {

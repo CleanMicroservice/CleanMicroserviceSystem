@@ -27,6 +27,18 @@ where TEntity : class
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
+    public virtual TEntity Add(TEntity entity)
+    {
+        var result = this.dbContext.Set<TEntity>().Add(entity);
+        this.dbContext.SaveChanges();
+        return result.Entity;
+    }
+
+    /// <summary>
+    /// Add entity
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
     public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
         var result = await this.dbContext.Set<TEntity>().AddAsync(entity);

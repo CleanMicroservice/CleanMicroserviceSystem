@@ -11,6 +11,13 @@ public interface IRepositoryBase<TEntity> where TEntity : class
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
+    TEntity Add(TEntity entity);
+
+    /// <summary>
+    /// Add entity
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
     Task<TEntity> AddAsync(TEntity entity);
 
     /// <summary>
