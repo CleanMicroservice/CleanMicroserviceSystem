@@ -1,4 +1,4 @@
-﻿namespace CleanMicroserviceSystem.Authentication.Configurations;
+﻿namespace CleanMicroserviceSystem.Authentication.Domain.Configurations;
 
 public class JwtBearerConfiguration
 {

@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using CleanMicroserviceSystem.Authentication.Application;
-using CleanMicroserviceSystem.Authentication.Configurations;
+using CleanMicroserviceSystem.Authentication.Domain.Configurations;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanMicroserviceSystem.Authentication.Services;
