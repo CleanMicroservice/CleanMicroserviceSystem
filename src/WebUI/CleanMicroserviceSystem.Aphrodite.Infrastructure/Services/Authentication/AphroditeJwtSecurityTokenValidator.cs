@@ -19,8 +19,8 @@ namespace CleanMicroserviceSystem.Aphrodite.Infrastructure.Services.Authenticati
             if (token is null) return false;
 
             DateTime utcNow = DateTime.UtcNow;
-            if (token.Payload.Nbf.HasValue && utcNow < token.ValidFrom)
-                return false;
+            //if (token.Payload.Nbf.HasValue && utcNow < token.ValidFrom)
+            //    return false;
             if (token.Payload.Exp.HasValue && token.ValidTo < utcNow)
                 return false;
             await Task.CompletedTask;
